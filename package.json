@@ -8,8 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "lint:style": "stylelint \"**/*.css\"",
+    "format": "prettier --write \"**/*.{ts,tsx,css,md,json}\"",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
