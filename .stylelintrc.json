@@ -20,6 +20,7 @@
         ]
       }
     ],
+    "import-notation": "string",
     "function-no-unknown": [
       true,
       {

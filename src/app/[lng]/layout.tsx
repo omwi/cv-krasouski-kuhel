@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Roboto } from "next/font/google"
 import {
   initServerI18next,
   getT,
@@ -12,11 +12,10 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import i18nConfig from "@root/i18n.config"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+const roboto = Roboto({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "700"],
+  variable: "--font-sans",
 })
 
 initServerI18next(i18nConfig)
@@ -40,12 +39,7 @@ export default async function RootLayout({
     <html
       lang={lng}
       suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        fontMono.variable,
-        "font-sans",
-        geist.variable
-      )}
+      className={cn("antialiased", roboto.variable, "font-sans")}
     >
       <body>
         <I18nProvider language={lng} resources={resources}>
