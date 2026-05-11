@@ -12,7 +12,11 @@
           "screen",
           "layer",
           "theme",
-          "config"
+          "config",
+          "custom-variant",
+          "utility",
+          "source",
+          "plugin"
         ]
       }
     ],

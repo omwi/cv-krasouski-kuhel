@@ -11,12 +11,15 @@ const i18nConfig: I18nConfig = {
           const fs = await import("fs/promises")
           const path = await import("path")
           const content = await fs.readFile(
-            path.resolve(process.cwd(), `app/i18n/locales/${lng}/${ns}.json`),
+            path.resolve(
+              process.cwd(),
+              `src/app/i18n/locales/${lng}/${ns}.json`
+            ),
             "utf-8"
           )
           return JSON.parse(content)
         }
-      : (lng, ns) => import(`./app/i18n/locales/${lng}/${ns}.json`),
+      : (lng, ns) => import(`./src/app/i18n/locales/${lng}/${ns}.json`),
   reloadOnPrerender: process.env.NODE_ENV === "development",
 }
 

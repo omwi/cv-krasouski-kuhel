@@ -6,11 +6,11 @@ import {
   generateI18nStaticParams,
 } from "next-i18next/server"
 import { I18nProvider } from "next-i18next/client"
-import i18nConfig from "../../i18n.config"
 
-import "../globals.css"
+import "@/styles/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
+import i18nConfig from "@root/i18n.config"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 

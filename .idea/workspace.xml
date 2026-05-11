@@ -4,26 +4,51 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="425cf2a7-0b4f-44bd-ad6c-994243b881df" name="Changes" comment="feat: add shadcn components">
-      <change afterPath="$PROJECT_DIR$/components/ui/avatar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/badge.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/breadcrumb.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/calendar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/combobox.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/field.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/input-group.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/label.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/popover.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/progress.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/select.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/separator.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/table.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/tabs.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/textarea.tsx" afterDir="false" />
+    <list default="true" id="425cf2a7-0b4f-44bd-ad6c-994243b881df" name="Changes" comment="refactor: move app files to /src&#10;feat: implement base bulletproof-react project structure">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/testing/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/.gitkeep" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/[lng]/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[lng]/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/[lng]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[lng]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/i18n/locales/en/common.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/i18n/locales/en/common.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/i18n/locales/ru/common.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/i18n/locales/ru/common.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components.json" beforeDir="false" afterPath="$PROJECT_DIR$/components.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/theme-provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/theme-provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/avatar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/avatar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/badge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/badge.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/breadcrumb.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/breadcrumb.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/calendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/combobox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/combobox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/field.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/field.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/input-group.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/input-group.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/label.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/label.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/popover.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/popover.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/progress.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/progress.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/select.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/separator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/separator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/table.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/tabs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/textarea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/textarea.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/i18n.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy.ts" beforeDir="false" afterPath="$PROJECT_DIR$/proxy.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,25 +86,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feat/init-project",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.build.executor": "Run",
-    "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "ts.external.directory.path": "C:\\Users\\Admin\\WebstormProjects\\cv-krasouski-kuhel\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/init-project&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/WebstormProjects/cv-krasouski-kuhel/hooks&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;C:\\Users\\Admin\\WebstormProjects\\cv-krasouski-kuhel\\node_modules\\stylelint&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Admin\\WebstormProjects\\cv-krasouski-kuhel\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Admin\\WebstormProjects\\cv-krasouski-kuhel\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\hooks" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\public" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\utils" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\config" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\types" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\src\styles" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\src\app\[lng]" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\src\app\[lng]\app" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\src\app\app" />
+      <recent name="C:\Users\Admin\WebstormProjects\cv-krasouski-kuhel\src" />
+    </key>
+  </component>
   <component name="RunManager" selected="npm.dev">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -122,7 +171,8 @@
       <option name="presentableId" value="Default" />
       <updated>1778523713958</updated>
       <workItem from="1778523715160" duration="65000" />
-      <workItem from="1778523825876" duration="3820000" />
+      <workItem from="1778523825876" duration="4414000" />
+      <workItem from="1778528316534" duration="1534000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup pre-commit git hooks&#10;&#10;Configured Husky and lint-staged to automatically run ESLint, Stylelint, Prettier, and Typecheck before every commit.">
       <option name="closed" value="true" />
@@ -156,17 +206,38 @@
       <option name="project" value="LOCAL" />
       <updated>1778526060528</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: add shadcn components&#10;fix: change 'table' to 'month_grid' calendar.tsx r.90">
+      <option name="closed" value="true" />
+      <created>1778527723545</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1778527723545</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chore: setup pre-commit git hooks&#10;&#10;Configured Husky and lint-staged to automatically run ESLint, Stylelint, Prettier, and Typecheck before every commit." />
     <MESSAGE value="chore: install tanstack table" />
     <MESSAGE value="feat: integrate next-i18next&#10;- Setup next-i18next (v16) with Next.js App Router support&#10;- Add proxy middleware for automatic language detection and routing&#10;- Create EN and RU translation dictionaries for the home page&#10;- Update RootLayout to initialize i18n server and client providers&#10;&#10;ref: refactor app structure to use dynamic `[lng]` routing" />
     <MESSAGE value="feat: add shadcn components" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add shadcn components" />
+    <MESSAGE value="feat: add shadcn components&#10;fix: change 'table' to 'month_grid' calendar.tsx r.90" />
+    <MESSAGE value="refactor: move app files to /src&#10;feat: implement base bulletproof-react project structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: move app files to /src&#10;feat: implement base bulletproof-react project structure" />
   </component>
 </project>
