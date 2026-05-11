@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="425cf2a7-0b4f-44bd-ad6c-994243b881df" name="Changes" comment="refactor: move proxy.ts to /src&#10;feat: change font to Roboto&#10;fix: fix css imports">
+    <list default="true" id="425cf2a7-0b4f-44bd-ad6c-994243b881df" name="Changes" comment="refactor: remove theme toggle">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/theme-provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/theme-provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +144,7 @@
       <updated>1778523713958</updated>
       <workItem from="1778523715160" duration="65000" />
       <workItem from="1778523825876" duration="4414000" />
-      <workItem from="1778528316534" duration="6101000" />
+      <workItem from="1778528316534" duration="7250000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup pre-commit git hooks&#10;&#10;Configured Husky and lint-staged to automatically run ESLint, Stylelint, Prettier, and Typecheck before every commit.">
       <option name="closed" value="true" />
@@ -200,7 +202,15 @@
       <option name="project" value="LOCAL" />
       <updated>1778534972908</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="refactor: remove theme toggle">
+      <option name="closed" value="true" />
+      <created>1778536548627</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1778536548627</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,7 +235,8 @@
     <MESSAGE value="feat: add shadcn components&#10;fix: change 'table' to 'month_grid' calendar.tsx r.90" />
     <MESSAGE value="refactor: move app files to /src&#10;feat: implement base bulletproof-react project structure" />
     <MESSAGE value="refactor: move proxy.ts to /src&#10;feat: change font to Roboto&#10;fix: fix css imports" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: move proxy.ts to /src&#10;feat: change font to Roboto&#10;fix: fix css imports" />
+    <MESSAGE value="refactor: remove theme toggle" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: remove theme toggle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
