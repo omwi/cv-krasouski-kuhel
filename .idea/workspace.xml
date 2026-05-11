@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="425cf2a7-0b4f-44bd-ad6c-994243b881df" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/eslint.config.mjs" afterDir="false" />
+    <list default="true" id="425cf2a7-0b4f-44bd-ad6c-994243b881df" name="Changes" comment="chore: setup pre-commit git hooks&#10;&#10;Configured Husky and lint-staged to automatically run ESLint, Stylelint, Prettier, and Typecheck before every commit.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -71,11 +71,24 @@
       <option name="presentableId" value="Default" />
       <updated>1778523713958</updated>
       <workItem from="1778523715160" duration="65000" />
-      <workItem from="1778523825876" duration="752000" />
+      <workItem from="1778523825876" duration="1642000" />
     </task>
+    <task id="LOCAL-00001" summary="chore: setup pre-commit git hooks&#10;&#10;Configured Husky and lint-staged to automatically run ESLint, Stylelint, Prettier, and Typecheck before every commit.">
+      <option name="closed" value="true" />
+      <created>1778524758220</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1778524758220</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="chore: setup pre-commit git hooks&#10;&#10;Configured Husky and lint-staged to automatically run ESLint, Stylelint, Prettier, and Typecheck before every commit." />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: setup pre-commit git hooks&#10;&#10;Configured Husky and lint-staged to automatically run ESLint, Stylelint, Prettier, and Typecheck before every commit." />
   </component>
 </project>
