@@ -7,9 +7,13 @@ import {
   InMemoryCache,
 } from "@apollo/client-integration-nextjs"
 
+const url = process.env.VITE_GRAPHQL_URL
+  ? process.env.VITE_GRAPHQL_URL
+  : "http://localhost:3001/api/graphql"
+
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: "https://your-api.com/graphql",
+    uri: url,
     fetchOptions: {},
   })
 
