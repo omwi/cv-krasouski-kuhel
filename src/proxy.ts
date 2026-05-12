@@ -6,7 +6,6 @@ export const proxy = createProxy(i18nConfig)
 
 export const config = {
   matcher: [
-    "/",
     "/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js|site.webmanifest).*)",
   ],
 }
