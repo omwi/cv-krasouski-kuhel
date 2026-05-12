@@ -1,4 +1,5 @@
 import { getT } from "next-i18next/server"
+
 import { Button } from "@/components/ui/button"
 
 export default async function Page() {

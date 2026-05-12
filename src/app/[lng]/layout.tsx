@@ -1,17 +1,18 @@
 import { Roboto } from "next/font/google"
-import {
-  initServerI18next,
-  getT,
-  getResources,
-  generateI18nStaticParams,
-} from "next-i18next/server"
 import { I18nProvider } from "next-i18next/client"
+import {
+  generateI18nStaticParams,
+  getResources,
+  getT,
+  initServerI18next,
+} from "next-i18next/server"
 
 import "@/app/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils"
+
 import i18nConfig from "@root/i18n.config"
 import { ApolloWrapper } from "@/app/ApolloWrapper"
+import { ThemeProvider } from "@/components/theme-provider"
+import { cn } from "@/lib/utils"
 
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],

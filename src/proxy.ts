@@ -1,4 +1,5 @@
 import { createProxy } from "next-i18next/proxy"
+
 import i18nConfig from "@root/i18n.config"
 
 export const proxy = createProxy(i18nConfig)
