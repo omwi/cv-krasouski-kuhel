@@ -7,7 +7,7 @@ import {
 } from "next-i18next/server"
 import { I18nProvider } from "next-i18next/client"
 
-import "@/styles/globals.css"
+import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import i18nConfig from "@root/i18n.config"
