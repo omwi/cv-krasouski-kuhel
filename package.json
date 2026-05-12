@@ -12,8 +12,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,css,md,json}\"",
     "typecheck": "tsc --noEmit",
     "prepare": "husky",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@apollo/client": "^4.1.9",
@@ -49,6 +51,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/ui": "^4.1.6",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.1.7",
     "eslint-config-prettier": "^10.1.8",
