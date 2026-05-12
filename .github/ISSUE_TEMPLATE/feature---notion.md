@@ -1,10 +1,9 @@
 ---
 name: Feature & Notion
 about: Describe this issue template's purpose here.
-title: 'Add '
+title: "Add "
 labels: feature
-assignees: ''
-
+assignees: ""
 ---
 
 [notion](url_here)

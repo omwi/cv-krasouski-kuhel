@@ -1,10 +1,7 @@
 ---
 name: Feature
 about: Add feature
-title: 'Add '
+title: "Add "
 labels: feature
-assignees: ''
-
+assignees: ""
 ---
-
-

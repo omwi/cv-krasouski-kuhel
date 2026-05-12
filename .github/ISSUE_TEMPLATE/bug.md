@@ -1,10 +1,7 @@
 ---
 name: Bug
 about: Describe this issue template's purpose here.
-title: 'Bug: '
+title: "Bug: "
 labels: bug
-assignees: ''
-
+assignees: ""
 ---
-
-
