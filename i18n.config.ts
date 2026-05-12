@@ -5,6 +5,7 @@ const i18nConfig: I18nConfig = {
   fallbackLng: "en",
   defaultNS: "common",
   ns: ["common"],
+  hideDefaultLocale: true,
   resourceLoader:
     process.env.NODE_ENV === "development"
       ? async (lng, ns) => {
