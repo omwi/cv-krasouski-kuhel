@@ -11,6 +11,7 @@ import "@/styles/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import i18nConfig from "@root/i18n.config"
+import { ApolloWrapper } from "@/app/ApolloWrapper"
 
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],
@@ -43,7 +44,9 @@ export default async function RootLayout({
     >
       <body>
         <I18nProvider language={lng} resources={resources}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ApolloWrapper>
+            <ThemeProvider>{children}</ThemeProvider>
+          </ApolloWrapper>
         </I18nProvider>
       </body>
     </html>
