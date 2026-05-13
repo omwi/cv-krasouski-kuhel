@@ -5,15 +5,13 @@ import {
   registerApolloClient,
 } from "@apollo/client-integration-nextjs"
 
-const url = process.env.VITE_GRAPHQL_URL
-  ? process.env.VITE_GRAPHQL_URL
-  : "http://localhost:3001/api/graphql"
+import { env } from "./config/env"
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
-      uri: url,
+      uri: env.API_URL,
       fetchOptions: {},
     }),
   })

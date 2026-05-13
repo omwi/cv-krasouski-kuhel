@@ -1,21 +1,37 @@
-# Next.js template
+# CV app
 
-This is a Next.js template with shadcn/ui.
+## Local Setup
 
-## Adding components
+### Requirements
 
-To add components to your app, run the following command:
+- node.js
+- npm, yarn, or pnpm
 
-```bash
-npx shadcn@latest add button
-```
+### Local Setup Steps:
 
-This will place the ui components in the `components` directory.
+1. **Clone the repository:**
 
-## Using components
+   ```bash
+   git clone git@github.com:omwi/cv-krasouski-kuhel.git
+   cd cv-krasouski-kuhel
+   ```
 
-To use the components in your app, import them as follows:
+2. **Install dependencies:**
 
-```tsx
-import { Button } from "@/components/ui/button"
-```
+   ```bash
+   pnpm install
+   ```
+
+3. **Create a `.env` file in the root of the project:**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Note: Variables accessible on the client must start with the `NEXT_PUBLIC_` prefix
+
+4. **Start the development server:**
+   ```bash
+   pnpm dev
+   ```
+   Once built, the application will be available in your browser at `http://localhost:3000/`.
