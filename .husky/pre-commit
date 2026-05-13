@@ -1,2 +1,2 @@
-pnpm run typecheck
+pnpm typecheck
 pnpm exec lint-staged
