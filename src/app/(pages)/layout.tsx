@@ -1,3 +1,5 @@
+import "@/app/globals.css"
+
 import { Roboto } from "next/font/google"
 import { I18nProvider } from "next-i18next/client"
 import {
@@ -6,8 +8,6 @@ import {
   getT,
   initServerI18next,
 } from "next-i18next/server"
-
-import "@/app/globals.css"
 
 import i18nConfig from "@root/i18n.config"
 import { ApolloWrapper } from "@/app/ApolloWrapper"
@@ -28,13 +28,8 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-  params,
-}: Readonly<{
-  children: React.ReactNode
-  params: Promise<{ lng: string }>
-}>) {
-  const { lng } = await params
-  const { i18n } = await getT()
+}: Readonly<{ children: React.ReactNode }>) {
+  const { i18n, lng } = await getT()
   const resources = getResources(i18n)
 
   return (
