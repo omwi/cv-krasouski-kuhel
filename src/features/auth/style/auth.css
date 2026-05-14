@@ -1,0 +1,23 @@
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.auth-container form h4 {
+  margin-bottom: 24px;
+}
+
+.auth-container form .sub-title {
+  margin-bottom: 40px;
+}
+
+.auth-container .button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 40px;
+}
