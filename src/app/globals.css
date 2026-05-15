@@ -33,6 +33,7 @@
   --color-avatar: var(--avatar);
   --color-avatar-nav: var(--avatar-nav);
   --color-avatar-actions-hover: var(--avatar-actions-hover);
+  --color-avatar-foreground: var(--avatar-foreground);
   --color-nav-hover: var(--nav-hover);
   --color-skill-proficient: var(--skill-proficient);
   --color-skill-proficient-track: var(--skill-proficient-track);
@@ -81,6 +82,7 @@
   --ring: rgb(0 0 0 / 23%);
   --avatar: #bdbdbd;
   --avatar-nav: var(--primary);
+  --avatar-foreground: #f5f5f7;
   --avatar-actions-hover: rgb(118 118 118 / 4%);
   --nav-hover: rgb(0 0 0 / 4%);
   --skill-proficient: #ffb800;
@@ -123,6 +125,7 @@
   --avatar: #757575;
   --avatar-nav: var(--primary);
   --avatar-actions-hover: rgb(118 118 118 / 8%);
+  --avatar-foreground: #353535;
   --nav-hover: rgb(255 255 255 / 8%);
   --skill-proficient: #ffb800;
   --skill-proficient-track: #7f5c00;
