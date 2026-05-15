@@ -7,17 +7,17 @@ import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 
-import { useLoginForm } from "../hooks/useLoginForm"
+import { useForgotPasswordForm } from "../hooks/UseForgotPasswordForm"
 
-export default function LoginForm() {
+export default function ForgotPasswordForm() {
   const { t } = useT("auth")
   const { register, handleSubmit, errors, isSubmitting, loading } =
-    useLoginForm()
+    useForgotPasswordForm()
 
   return (
     <form onSubmit={handleSubmit}>
-      <h4>{t("login-form.title")}</h4>
-      <p className="sub-title">{t("login-form.text")}</p>
+      <h4>{t("forgot-password-form.title")}</h4>
+      <p className="sub-title">{t("forgot-password-form.text")}</p>
 
       <FieldGroup>
         <Field>
@@ -31,22 +31,17 @@ export default function LoginForm() {
           />
           {errors.email && <FieldError errors={[errors.email]} />}
         </Field>
-        <Field>
-          <FloatingInput
-            autoComplete="current-password"
-            type="password"
-            label={t("label.password")}
-            disabled={isSubmitting || loading}
-            {...register("password")}
-          />
-          {errors.password && <FieldError errors={[errors.password]} />}
-        </Field>
       </FieldGroup>
       <div className="button-group mt-4">
         <Button disabled={isSubmitting || loading} type="submit">
-          {loading ? t("login-form.button-loading") : t("login-form.button")}
+          {loading
+            ? t("forgot-password-form.button-loading")
+            : t("forgot-password-form.button")}
         </Button>
-        <Link href="/forgot-password">{t("login-form.button-secondary")}</Link>
+
+        <Link href="/auth/login">
+          {t("forgot-password-form.button-secondary")}
+        </Link>
       </div>
     </form>
   )

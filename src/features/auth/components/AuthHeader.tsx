@@ -15,13 +15,13 @@ export default function AuthHeader() {
           href="/auth/login"
           className={`relative block min-w-35 px-4 py-3 text-center uppercase ${pathname === "/auth/login" ? "active text-primary" : ""}`}
         >
-          {t("header_login")}
+          {t("header.login")}
         </Link>
         <Link
           href="/auth/signup"
           className={`relative block min-w-35 px-4 py-3 text-center uppercase ${pathname === "/auth/signup" ? "active text-primary" : ""}`}
         >
-          {t("header_signup")}
+          {t("header.signup")}
         </Link>
       </nav>
     </header>

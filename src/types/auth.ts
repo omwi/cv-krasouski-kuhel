@@ -35,3 +35,13 @@ export interface SignupResponse {
     user: User
   }
 }
+
+export const ForgotPasswordSchema = z.object({
+  email: z.email("Invalid email address"),
+})
+
+export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>
+
+export interface ForgotPasswordResponse {
+  forgotPassword: boolean | string | null
+}
