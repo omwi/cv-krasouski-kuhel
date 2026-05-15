@@ -12,6 +12,8 @@ import {
 import i18nConfig from "@root/i18n.config"
 import { ApolloWrapper } from "@/app/ApolloWrapper"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
+import { AuthInitializer } from "@/features/auth/components/AuthInitializer"
 import { cn } from "@/lib/utils"
 
 const roboto = Roboto({
@@ -41,7 +43,11 @@ export default async function RootLayout({
       <body>
         <I18nProvider language={lng} resources={resources}>
           <ApolloWrapper>
-            <ThemeProvider>{children}</ThemeProvider>
+            <AuthInitializer />
+            <ThemeProvider>
+              {children}
+              <Toaster closeButton duration={3000} position={"top-right"} />
+            </ThemeProvider>
           </ApolloWrapper>
         </I18nProvider>
       </body>
