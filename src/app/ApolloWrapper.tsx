@@ -1,6 +1,11 @@
 "use client"
 
-import { ApolloLink, CombinedGraphQLErrors, HttpLink } from "@apollo/client"
+import {
+  ApolloLink,
+  CombinedGraphQLErrors,
+  HttpLink,
+  Observable,
+} from "@apollo/client"
 import {
   ApolloClient,
   ApolloNextAppProvider,
@@ -8,9 +13,6 @@ import {
 } from "@apollo/client-integration-nextjs"
 import { SetContextLink } from "@apollo/client/link/context"
 import { ErrorLink } from "@apollo/client/link/error"
-import { Observable } from "rxjs"
-
-import { env } from "@/config/env"
 
 function getCookie(name: string): string | undefined {
   if (typeof document === "undefined") return undefined
@@ -38,7 +40,8 @@ const resolvePendingRequests = () => {
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: env.API_URL,
+    uri: "/api/graphql",
+    credentials: "same-origin",
   })
 
   const authLink = new SetContextLink((prevContext) => {
@@ -78,7 +81,7 @@ function makeClient() {
     if (!isRefreshing) {
       isRefreshing = true
 
-      const refreshPromise = fetch(env.API_URL, {
+      const refreshPromise = fetch("/api/auth/refresh", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

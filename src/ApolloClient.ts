@@ -8,11 +8,11 @@ import {
 import { SetContextLink } from "@apollo/client/link/context"
 import { ErrorLink } from "@apollo/client/link/error"
 
-import { env } from "./config/env"
+import { serverEnv } from "./config/env.server"
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   const httpLink = new HttpLink({
-    uri: env.API_URL,
+    uri: serverEnv.API_URL,
   })
 
   const authLink = new SetContextLink(async (prevContext) => {
