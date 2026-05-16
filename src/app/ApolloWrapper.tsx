@@ -14,7 +14,9 @@ import {
 import { ErrorLink } from "@apollo/client/link/error"
 
 function clearAuthAndRedirect() {
-  window.location.href = "/auth/login"
+  fetch("/api/auth/logout", { method: "POST" }).finally(() => {
+    window.location.href = "/auth/login"
+  })
 }
 
 let isRefreshing = false
