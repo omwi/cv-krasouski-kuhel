@@ -13,6 +13,8 @@ import {
 } from "@apollo/client-integration-nextjs"
 import { ErrorLink } from "@apollo/client/link/error"
 
+import { broadcastAuthEvent } from "@/lib/auth/authChannel"
+
 function clearAuthAndRedirect() {
   fetch("/api/auth/logout", { method: "POST" }).finally(() => {
     window.location.href = "/auth/login"
@@ -61,6 +63,7 @@ function makeClient() {
           if (!response.ok) {
             throw new Error("Refresh failed")
           }
+          broadcastAuthEvent({ type: "TOKEN_REFRESHED" })
           resolvePendingRequests()
           return true
         })
