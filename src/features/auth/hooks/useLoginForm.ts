@@ -41,7 +41,10 @@ export function useLoginForm() {
         body: JSON.stringify(formData),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.message || "Login failed")
+      if (!res.ok) {
+        toast.error(data.message || "Login failed")
+        return
+      }
 
       authUserVar(data.user)
       router.push(callbackUrl)

@@ -28,7 +28,10 @@ export function useSignupForm() {
         body: JSON.stringify(formData),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.message || "Signup failed")
+      if (!res.ok) {
+        toast.error(data.message || "Signup failed")
+        return
+      }
 
       authUserVar(data.user)
       router.push(`/users/${data.user.id}`)

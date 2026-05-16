@@ -30,7 +30,10 @@ export function useForgotPasswordForm() {
         body: JSON.stringify(formData),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.message || "Failed")
+      if (!res.ok) {
+        toast.error(data.message || "Failed")
+        return
+      }
 
       toast.success(t("toast.forgot-password"))
       router.push("/auth/login")
