@@ -7,10 +7,20 @@ import { toast } from "sonner"
 import { authUserVar } from "@/lib/apollo/authVar"
 import { LoginInput, LoginSchema } from "@/types/auth"
 
+function sanitizeCallbackUrl(url: string | null): string {
+  if (!url || !url.startsWith("/") || url.startsWith("//")) return "/users"
+  try {
+    new URL(url, "http://x")
+    return url
+  } catch {
+    return "/users"
+  }
+}
+
 export function useLoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl") || "/users"
+  const callbackUrl = sanitizeCallbackUrl(searchParams.get("callbackUrl"))
 
   const {
     register,

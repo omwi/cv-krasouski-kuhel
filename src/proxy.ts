@@ -5,27 +5,37 @@ import i18nConfig from "@root/i18n.config"
 import { serverEnv } from "@/config/env.server"
 
 const AUTH_ROUTES = ["/auth/login", "/auth/signup", "/forgot-password"]
+const ADMIN_ROUTES = ["/projects"]
 
 const STATIC_PATTERN =
   /^\/(api|_next\/static|_next\/image|assets|favicon\.ico|sw\.js|site\.webmanifest)/
 
-function decodeJwtExp(token: string): number | null {
+interface JwtPayload {
+  exp?: number
+  role?: string
+}
+
+function decodeJwtPayload(token: string): JwtPayload | null {
   try {
     const [, payload] = token.split(".")
-    const { exp } = JSON.parse(atob(payload))
-    return typeof exp === "number" ? exp : null
+    return JSON.parse(atob(payload)) as JwtPayload
   } catch {
     return null
   }
 }
 
-function checkAccessToken(request: NextRequest): boolean {
+function checkAccessToken(request: NextRequest): {
+  isValid: boolean
+  role?: string
+} {
   const token = request.cookies.get("access_token")?.value
   if (token) {
-    const exp = decodeJwtExp(token)
-    if (exp && exp * 1000 > Date.now()) return true
+    const payload = decodeJwtPayload(token)
+    if (payload?.exp && payload.exp * 1000 > Date.now()) {
+      return { isValid: true, role: payload.role }
+    }
   }
-  return false
+  return { isValid: false }
 }
 
 function isAuthRoute(pathname: string): boolean {
@@ -52,7 +62,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  let isAuthenticated = checkAccessToken(request)
+  const authStatus = checkAccessToken(request)
+  let isAuthenticated = authStatus.isValid
+  let userRole = authStatus.role
+
   let newAccessToken: string | null = null
   let newRefreshToken: string | null = null
 
@@ -76,15 +89,36 @@ export async function proxy(request: NextRequest) {
           newAccessToken = data.updateToken.access_token
           newRefreshToken = data.updateToken.refresh_token
 
+          const newPayload = decodeJwtPayload(newAccessToken!)
+          userRole = newPayload?.role
+
           request.cookies.set("access_token", newAccessToken!)
           request.cookies.set("refresh_token", newRefreshToken!)
         }
-      } catch (e) {}
+      } catch {
+        // Refresh failed, ignore
+      }
     }
   }
 
   if (isAuthenticated && isAuthRoute(pathname)) {
     return NextResponse.redirect(new URL("/users", request.url))
+  }
+
+  // Role-based protection for Admin routes
+  if (isAuthenticated && userRole !== "Admin" && userRole !== "admin") {
+    const pathWithoutLocale = pathname.replace(
+      /^\/[a-zA-Z]{2}(-[a-zA-Z]{2})?(\/|$)/,
+      "/"
+    )
+    const isAdminRoute = ADMIN_ROUTES.some(
+      (route) =>
+        pathWithoutLocale === route || pathWithoutLocale.startsWith(route + "/")
+    )
+
+    if (isAdminRoute) {
+      return NextResponse.redirect(new URL("/users", request.url))
+    }
   }
 
   if (!isAuthenticated && !isAuthRoute(pathname)) {
