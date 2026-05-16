@@ -1,17 +1,16 @@
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useLazyQuery } from "@apollo/client/react"
+import { useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 import { authUserVar } from "@/lib/apollo/authVar"
-import { LoginInput, LoginResponse, LoginSchema } from "@/types/auth"
-
-import { LOGIN_QUERY } from "../api/login"
+import { LoginInput, LoginSchema } from "@/types/auth"
 
 export function useLoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/users"
 
   const {
     register,
@@ -21,28 +20,30 @@ export function useLoginForm() {
     resolver: standardSchemaResolver(LoginSchema),
   })
 
-  const [loginQuery, { loading, data, error }] = useLazyQuery<
-    LoginResponse,
-    { auth: LoginInput }
-  >(LOGIN_QUERY)
-
-  useEffect(() => {
-    if (error) toast.error(error.message)
-  }, [error])
-
-  useEffect(() => {
-    if (!data) return
-
-    document.cookie = `access_token=${data.login.access_token}; path=/;`
-    document.cookie = `refresh_token=${data.login.refresh_token}; path=/;`
-
-    authUserVar(data.login.user)
-
-    router.push("/users")
-  }, [data, router])
+  const [loading, setLoading] = useState(false)
 
   const onSubmit = async (formData: LoginInput) => {
-    await loginQuery({ variables: { auth: formData } })
+    setLoading(true)
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || "Login failed")
+
+      authUserVar(data.user)
+      router.push(callbackUrl)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message)
+      } else {
+        toast.error("An unexpected error occurred")
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return {

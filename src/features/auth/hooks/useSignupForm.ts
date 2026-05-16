@@ -1,14 +1,11 @@
-import { useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useMutation } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 import { authUserVar } from "@/lib/apollo/authVar"
-import { SignupInput, SignupResponse, SignupSchema } from "@/types/auth"
-
-import { SIGNUP_MUTATION } from "../api/signup"
+import { SignupInput, SignupSchema } from "@/types/auth"
 
 export function useSignupForm() {
   const router = useRouter()
@@ -20,27 +17,30 @@ export function useSignupForm() {
     resolver: standardSchemaResolver(SignupSchema),
   })
 
-  const [signupMutation, { loading, data, error }] = useMutation<
-    SignupResponse,
-    { auth: SignupInput }
-  >(SIGNUP_MUTATION)
-
-  useEffect(() => {
-    if (error) toast.error(error.message)
-  }, [error])
-
-  useEffect(() => {
-    if (!data) return
-
-    document.cookie = `access_token=${data.signup.access_token}; path=/;`
-    document.cookie = `refresh_token=${data.signup.refresh_token}; path=/;`
-
-    authUserVar(data.signup.user)
-    router.push(`/users/${data.signup.user.id}`)
-  }, [data, router])
+  const [loading, setLoading] = useState(false)
 
   const onSubmit = async (formData: SignupInput) => {
-    await signupMutation({ variables: { auth: formData } })
+    setLoading(true)
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || "Signup failed")
+
+      authUserVar(data.user)
+      router.push(`/users/${data.user.id}`)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message)
+      } else {
+        toast.error("An unexpected error occurred")
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return {

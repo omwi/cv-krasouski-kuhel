@@ -1,18 +1,11 @@
-import { useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useMutation } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import {
-  ForgotPasswordInput,
-  ForgotPasswordResponse,
-  ForgotPasswordSchema,
-} from "@/types/auth"
-
-import { FORGOT_PASSWORD_MUTATION } from "../api/forgotPassword"
+import { ForgotPasswordInput, ForgotPasswordSchema } from "@/types/auth"
 
 export function useForgotPasswordForm() {
   const router = useRouter()
@@ -26,24 +19,30 @@ export function useForgotPasswordForm() {
     resolver: standardSchemaResolver(ForgotPasswordSchema),
   })
 
-  const [forgotPasswordMutation, { loading, data, error }] = useMutation<
-    ForgotPasswordResponse,
-    { auth: ForgotPasswordInput }
-  >(FORGOT_PASSWORD_MUTATION)
-
-  useEffect(() => {
-    if (error) toast.error(error.message)
-  }, [error])
-
-  useEffect(() => {
-    if (data === undefined) return
-
-    toast.success(t("toast.forgot-password"))
-    router.push("/auth/login")
-  }, [data, router])
+  const [loading, setLoading] = useState(false)
 
   const onSubmit = async (formData: ForgotPasswordInput) => {
-    await forgotPasswordMutation({ variables: { auth: formData } })
+    setLoading(true)
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || "Failed")
+
+      toast.success(t("toast.forgot-password"))
+      router.push("/auth/login")
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message)
+      } else {
+        toast.error("An unexpected error occurred")
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return {
