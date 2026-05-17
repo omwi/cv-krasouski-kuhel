@@ -1,6 +1,13 @@
-import AuthHeader from "@/features/auth/components/AuthHeader"
+import TabHeader from "@/components/layout/TabHeader"
 
 import "@/features/auth/style/auth.css"
+
+import { HeaderLink } from "@/types/tab-header"
+
+const LINKS: HeaderLink[] = [
+  { href: "/auth/login", labelKey: "header.login" },
+  { href: "/auth/signup", labelKey: "header.signup" },
+]
 
 export default function AuthLayout({
   children,
@@ -9,7 +16,7 @@ export default function AuthLayout({
 }) {
   return (
     <>
-      <AuthHeader />
+      <TabHeader i18nNamespace="auth" links={LINKS} />
       <section className="auth-container flex h-dvh w-full items-center justify-center">
         {children}
       </section>
