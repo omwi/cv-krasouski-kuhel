@@ -15,7 +15,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run --passWithNoTests",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "anal": "next experimental-analyze"
   },
   "dependencies": {
     "@apollo/client": "^4.1.9",
