@@ -16,10 +16,10 @@ const TabHeader = memo(function TabHeader({
   const navRef = useRef<HTMLElement>(null)
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([])
   return (
-    <header>
+    <header className="fixed top-0 left-0 w-full">
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 flex w-full flex-row items-center justify-center"
+        className="flex flex-row items-center justify-center"
         style={{ position: "relative" }}
       >
         {links.map((link, index) => (

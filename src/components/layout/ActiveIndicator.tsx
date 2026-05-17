@@ -12,12 +12,14 @@ export default function ActiveIndicator({
 }: SliderProps) {
   const pathname = usePathname()
   const indicatorRef = useRef<HTMLSpanElement>(null)
+  const isResizingRef = useRef(false)
+
   useEffect(() => {
-    const activeIndex = links.findIndex((link) => link.href === pathname)
     const indicator = indicatorRef.current
     const navEl = navRef.current
-
     if (!indicator || !navEl) return
+
+    const activeIndex = links.findIndex((link) => link.href === pathname)
 
     linkRefs.current.forEach((el, i) => {
       if (!el) return
@@ -28,20 +30,51 @@ export default function ActiveIndicator({
       }
     })
 
-    if (activeIndex === -1) {
-      indicator.style.opacity = "0"
-      return
+    function updatePosition() {
+      if (!indicator || !navEl) return
+
+      if (activeIndex === -1) {
+        indicator.style.opacity = "0"
+        return
+      }
+
+      const activeEl = linkRefs.current[activeIndex]
+      if (!activeEl) return
+
+      const navRect = navEl.getBoundingClientRect()
+      const activeRect = activeEl.getBoundingClientRect()
+
+      indicator.style.transition = isResizingRef.current
+        ? "none"
+        : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+
+      indicator.style.opacity = "1"
+      indicator.style.width = `${activeRect.width}px`
+      indicator.style.transform = `translateX(${activeRect.left - navRect.left}px)`
     }
 
-    const activeEl = linkRefs.current[activeIndex]
-    if (!activeEl) return
+    updatePosition()
 
-    const navRect = navEl.getBoundingClientRect()
-    const activeRect = activeEl.getBoundingClientRect()
+    let resizeTimer: ReturnType<typeof setTimeout>
+    let firstCall = true
+    const observer = new ResizeObserver(() => {
+      if (firstCall) {
+        firstCall = false
+        return
+      }
+      isResizingRef.current = true
+      updatePosition()
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        isResizingRef.current = false
+      }, 150)
+    })
+    observer.observe(navEl)
 
-    indicator.style.opacity = "1"
-    indicator.style.width = `${activeRect.width}px`
-    indicator.style.transform = `translateX(${activeRect.left - navRect.left}px)`
+    return () => {
+      observer.disconnect()
+      clearTimeout(resizeTimer)
+    }
   }, [pathname, links, linkRefs, navRef])
 
   return (
