@@ -13,11 +13,12 @@ import {
 } from "@apollo/client-integration-nextjs"
 import { ErrorLink } from "@apollo/client/link/error"
 
+import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
-import { broadcastAuthEvent } from "@/lib/auth/authChannel"
+import { broadcastAuthEvent } from "@/features/auth/lib/auth-channel"
 
 function clearAuthAndRedirect() {
-  fetch("/api/auth/logout", { method: "POST" }).finally(() => {
+  fetch(API_ENDPOINTS.auth.logout, { method: "POST" }).finally(() => {
     window.location.href = paths.auth.login.get()
   })
 }
@@ -32,7 +33,7 @@ const resolvePendingRequests = () => {
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: "/api/graphql",
+    uri: API_ENDPOINTS.graphql,
     credentials: "same-origin",
   })
 
@@ -56,7 +57,7 @@ function makeClient() {
     if (!isRefreshing) {
       isRefreshing = true
 
-      const refreshPromise = fetch("/api/auth/refresh", {
+      const refreshPromise = fetch(API_ENDPOINTS.auth.refresh, {
         method: "POST",
       })
         .then((res) => res.json())

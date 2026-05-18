@@ -10,10 +10,10 @@ import {
 } from "next-i18next/server"
 
 import i18nConfig from "@root/i18n.config"
-import { ApolloWrapper } from "@/app/ApolloWrapper"
+import { ApolloWrapper } from "@/app/apollo-wrapper"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import { AuthInitializer } from "@/features/auth/components/AuthInitializer"
+import { AuthInitializer } from "@/features/auth/components/auth-initializer"
 import { cn } from "@/lib/utils"
 
 const roboto = Roboto({

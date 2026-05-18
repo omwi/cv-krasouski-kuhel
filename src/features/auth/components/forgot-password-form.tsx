@@ -8,7 +8,7 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import { paths } from "@/config/paths"
 
-import { useForgotPasswordForm } from "../hooks/UseForgotPasswordForm"
+import { useForgotPasswordForm } from "../hooks/use-forgot-password-form"
 
 export default function ForgotPasswordForm() {
   const { t } = useT("auth")

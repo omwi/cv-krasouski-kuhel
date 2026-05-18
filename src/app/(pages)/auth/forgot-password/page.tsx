@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { getT } from "next-i18next/server"
 
-import ForgotPasswordForm from "@/features/auth/components/ForgotPasswordForm"
+import ForgotPasswordForm from "@/features/auth/components/forgot-password-form"
 
 import "@/features/auth/style/auth.css"
 

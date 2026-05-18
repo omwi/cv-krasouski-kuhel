@@ -1,19 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { COOKIES } from "@/config/const"
 import { serverEnv } from "@/config/env.server"
-
-function decodeJwtPayload(token: string) {
-  try {
-    const base64Payload = token.split(".")[1]
-    const decoded = atob(base64Payload.replace(/-/g, "+").replace(/_/g, "/"))
-    return JSON.parse(decoded)
-  } catch {
-    return null
-  }
-}
+import { decodeJwtPayload } from "@/features/auth/utils/jwt"
 
 export async function GET(req: NextRequest) {
-  const token = req.cookies.get("access_token")?.value
+  const token = req.cookies.get(COOKIES.ACCESS_TOKEN)?.value
 
   if (!token) {
     return NextResponse.json({ user: null }, { status: 401 })

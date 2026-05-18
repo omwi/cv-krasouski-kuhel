@@ -1,11 +1,21 @@
 import { startTransition, useActionState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
+import { z } from "zod"
 
-import { authUserVar } from "@/lib/apollo/authVar"
-import { SignupInput, SignupSchema } from "@/types/auth"
+import { API_ENDPOINTS } from "@/config/api-endpoints"
+import { paths } from "@/config/paths"
+import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
+import { authUserVar } from "@/lib/apollo/auth-var"
+
+export const SignupSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+})
+
+export type SignupInput = z.infer<typeof SignupSchema>
 
 type ActionState = {
   error: string | null
@@ -19,6 +29,7 @@ const initialState: ActionState = {
 
 export function useSignupForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const {
     register,
@@ -33,7 +44,7 @@ export function useSignupForm() {
     formData: SignupInput
   ): Promise<ActionState> => {
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch(API_ENDPOINTS.auth.signup, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -48,7 +59,11 @@ export function useSignupForm() {
       }
 
       authUserVar(data.user)
-      router.push(`/users/${data.user.id}`)
+      const callbackUrl = sanitizeCallbackUrl(
+        searchParams.get("callbackUrl"),
+        paths.users.details.get(data.user.id)
+      )
+      router.replace(callbackUrl)
 
       return { error: null, success: true }
     } catch (err: unknown) {

@@ -2,44 +2,18 @@ import { NextRequest, NextResponse } from "next/server"
 import { createProxy } from "next-i18next/proxy"
 
 import i18nConfig from "@root/i18n.config"
+import { COOKIES } from "@/config/const"
 import { serverEnv } from "@/config/env.server"
 import { paths } from "@/config/paths"
-import { setAuthCookies } from "@/utils/auth/cookies"
-import { isAuthRoute } from "@/utils/is-auth-route"
+import { setAuthCookies } from "@/features/auth/utils/cookies"
+import { isAuthRoute } from "@/features/auth/utils/is-auth-route"
+import { checkAccessToken, decodeJwtPayload } from "@/features/auth/utils/jwt"
 import { pathWithoutLocale } from "@/utils/path-without-locale"
 
 const ADMIN_ROUTES = [paths.projects.get()]
 
 const STATIC_PATTERN =
   /^\/(api|_next\/static|_next\/image|assets|favicon\.ico|sw\.js|site\.webmanifest)/
-
-type JwtPayload = {
-  exp?: number
-  role?: string
-}
-
-function decodeJwtPayload(token: string): JwtPayload | null {
-  try {
-    const [, payload] = token.split(".")
-    return JSON.parse(atob(payload)) as JwtPayload
-  } catch {
-    return null
-  }
-}
-
-function checkAccessToken(request: NextRequest): {
-  isValid: boolean
-  role?: string
-} {
-  const token = request.cookies.get("access_token")?.value
-  if (token) {
-    const payload = decodeJwtPayload(token)
-    if (payload?.exp && payload.exp * 1000 > Date.now()) {
-      return { isValid: true, role: payload.role }
-    }
-  }
-  return { isValid: false }
-}
 
 function isStaticAsset(pathname: string): boolean {
   return STATIC_PATTERN.test(pathname)
@@ -62,7 +36,7 @@ export async function proxy(request: NextRequest) {
   let newRefreshToken: string | null = null
 
   if (!isAuthenticated) {
-    const refreshToken = request.cookies.get("refresh_token")?.value
+    const refreshToken = request.cookies.get(COOKIES.REFRESH_TOKEN)?.value
     if (refreshToken) {
       try {
         const gqlRes = await fetch(serverEnv.API_URL, {
@@ -84,8 +58,8 @@ export async function proxy(request: NextRequest) {
           const newPayload = decodeJwtPayload(newAccessToken!)
           userRole = newPayload?.role
 
-          request.cookies.set("access_token", newAccessToken!)
-          request.cookies.set("refresh_token", newRefreshToken!)
+          request.cookies.set(COOKIES.ACCESS_TOKEN, newAccessToken!)
+          request.cookies.set(COOKIES.REFRESH_TOKEN, newRefreshToken!)
         }
       } catch {}
     }

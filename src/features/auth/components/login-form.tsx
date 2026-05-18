@@ -10,17 +10,17 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import { paths } from "@/config/paths"
 
-import { useSignupForm } from "../hooks/useSignupForm"
+import { useLoginForm } from "../hooks/use-login-form"
 
-export default function SignupForm() {
+export default function LoginForm() {
   const { t } = useT("auth")
-  const { register, handleSubmit, errors, isPending } = useSignupForm()
+  const { register, handleSubmit, errors, isPending } = useLoginForm()
   const [showPassword, setShowPassword] = useState(false)
 
   return (
     <form onSubmit={handleSubmit}>
-      <h4>{t("signup-form.title")}</h4>
-      <p className="sub-title">{t("signup-form.text")}</p>
+      <h4>{t("login-form.title")}</h4>
+      <p className="sub-title">{t("login-form.text")}</p>
 
       <FieldGroup>
         <Field>
@@ -37,7 +37,7 @@ export default function SignupForm() {
         <Field>
           <div className="relative">
             <FloatingInput
-              autoComplete="new-password"
+              autoComplete="current-password"
               type={showPassword ? "text" : "password"}
               label={t("label.password")}
               disabled={isPending}
@@ -58,12 +58,10 @@ export default function SignupForm() {
       </FieldGroup>
       <div className="button-group mt-4">
         <Button disabled={isPending} type="submit">
-          {isPending
-            ? t("signup-form.button-loading")
-            : t("signup-form.button")}
+          {isPending ? t("login-form.button-loading") : t("login-form.button")}
         </Button>
-        <Link href={paths.auth.login.get()}>
-          {t("signup-form.button-secondary")}
+        <Link href={paths.auth.forgotPassword.get()}>
+          {t("login-form.button-secondary")}
         </Link>
       </div>
     </form>

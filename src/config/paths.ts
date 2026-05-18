@@ -27,6 +27,11 @@ export const paths = {
     get() {
       return "/users"
     },
+    details: {
+      get(userId: string) {
+        return `/users/${userId}`
+      },
+    },
     profile: {
       get(userId: string) {
         return `/users/${userId}/profile`

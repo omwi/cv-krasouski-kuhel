@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { COOKIES } from "@/config/const"
 import { serverEnv } from "@/config/env.server"
-import { createAuthJsonResponse } from "@/utils/auth/cookies"
+import { createAuthJsonResponse } from "@/features/auth/utils/cookies"
 
 export async function POST(req: NextRequest) {
-  const refreshToken = req.cookies.get("refresh_token")?.value
+  const refreshToken = req.cookies.get(COOKIES.REFRESH_TOKEN)?.value
   if (!refreshToken) {
     return NextResponse.json({ message: "No refresh token" }, { status: 401 })
   }
@@ -27,8 +28,8 @@ export async function POST(req: NextRequest) {
       { message: "Refresh failed" },
       { status: 401 }
     )
-    res.cookies.delete("access_token")
-    res.cookies.delete("refresh_token")
+    res.cookies.delete(COOKIES.ACCESS_TOKEN)
+    res.cookies.delete(COOKIES.REFRESH_TOKEN)
     return res
   }
 

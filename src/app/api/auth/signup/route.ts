@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import { serverEnv } from "@/config/env.server"
-import { createAuthJsonResponse } from "@/utils/auth/cookies"
+import { createAuthJsonResponse } from "@/features/auth/utils/cookies"
 
 export async function POST(req: NextRequest) {
   const body = await req.json()

@@ -4,9 +4,16 @@ import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
+import { z } from "zod"
 
+import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
-import { ForgotPasswordInput, ForgotPasswordSchema } from "@/types/auth"
+
+export const ForgotPasswordSchema = z.object({
+  email: z.email("Invalid email address"),
+})
+
+export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>
 
 type ActionState = {
   error: string | null
@@ -35,7 +42,7 @@ export function useForgotPasswordForm() {
     formData: ForgotPasswordInput
   ): Promise<ActionState> => {
     try {
-      const res = await fetch("/api/auth/forgot-password", {
+      const res = await fetch(API_ENDPOINTS.auth["forgot-password"], {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

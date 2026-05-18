@@ -1,4 +1,4 @@
-import { createAuthJsonResponse } from "@/utils/auth/cookies"
+import { createAuthJsonResponse } from "@/features/auth/utils/cookies"
 
 export async function POST() {
   return createAuthJsonResponse(

@@ -8,6 +8,8 @@ import {
 import { SetContextLink } from "@apollo/client/link/context"
 import { ErrorLink } from "@apollo/client/link/error"
 
+import { COOKIES } from "@/config/const"
+
 import { serverEnv } from "./config/env.server"
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
@@ -17,7 +19,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
 
   const authLink = new SetContextLink(async (prevContext) => {
     const cookieStore = await cookies()
-    const token = cookieStore.get("access_token")?.value
+    const token = cookieStore.get(COOKIES.ACCESS_TOKEN)?.value
 
     return {
       headers: {

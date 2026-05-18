@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server"
 
-const IS_PROD = process.env.NODE_ENV === "production"
+import { COOKIES } from "@/config/const"
+import { env } from "@/config/env"
 
 const ACCESS_MAX_AGE = 15 * 60
 const REFRESH_MAX_AGE = 7 * 24 * 60 * 60
 
-interface Tokens {
+type Tokens = {
   accessToken?: string | null
   refreshToken?: string | null
 }
 
-interface CookieOptions {
+type CookieOptions = {
   destroy?: boolean
 }
 
@@ -23,9 +24,9 @@ export function setAuthCookies(
   const { destroy = false } = options
 
   if (accessToken !== undefined) {
-    res.cookies.set("access_token", accessToken || "", {
+    res.cookies.set(COOKIES.ACCESS_TOKEN, accessToken || "", {
       httpOnly: true,
-      secure: IS_PROD,
+      secure: env.IS_PROD,
       sameSite: "strict",
       path: "/",
       maxAge: destroy ? 0 : ACCESS_MAX_AGE,
@@ -33,9 +34,9 @@ export function setAuthCookies(
   }
 
   if (refreshToken !== undefined) {
-    res.cookies.set("refresh_token", refreshToken || "", {
+    res.cookies.set(COOKIES.REFRESH_TOKEN, refreshToken || "", {
       httpOnly: true,
-      secure: IS_PROD,
+      secure: env.IS_PROD,
       sameSite: "strict",
       path: "/",
       maxAge: destroy ? 0 : REFRESH_MAX_AGE,

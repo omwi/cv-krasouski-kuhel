@@ -1,9 +1,10 @@
 import { useRouter } from "next/navigation"
 import { useApolloClient } from "@apollo/client/react"
 
+import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
-import { authUserVar } from "@/lib/apollo/authVar"
-import { broadcastAuthEvent } from "@/lib/auth/authChannel"
+import { broadcastAuthEvent } from "@/features/auth/lib/auth-channel"
+import { authUserVar } from "@/lib/apollo/auth-var"
 
 export function useLogout() {
   const client = useApolloClient()
@@ -11,7 +12,7 @@ export function useLogout() {
 
   const logout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" })
+      await fetch(API_ENDPOINTS.auth.logout, { method: "POST" })
     } catch (error) {
       console.error("Logout request failed", error)
     } finally {
@@ -21,7 +22,7 @@ export function useLogout() {
 
       broadcastAuthEvent({ type: "LOGOUT" })
 
-      router.push(paths.auth.login.get())
+      router.replace(paths.auth.login.get())
     }
   }
 
