@@ -1,6 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { Eye, EyeOff } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { Button } from "@/components/ui/button"
@@ -13,6 +15,7 @@ export default function LoginForm() {
   const { t } = useT("auth")
   const { register, handleSubmit, errors, isSubmitting, loading } =
     useLoginForm()
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <form onSubmit={handleSubmit}>
@@ -32,13 +35,24 @@ export default function LoginForm() {
           {errors.email && <FieldError errors={[errors.email]} />}
         </Field>
         <Field>
-          <FloatingInput
-            autoComplete="current-password"
-            type="password"
-            label={t("label.password")}
-            disabled={isSubmitting || loading}
-            {...register("password")}
-          />
+          <div className="relative">
+            <FloatingInput
+              autoComplete="current-password"
+              type={showPassword ? "text" : "password"}
+              label={t("label.password")}
+              disabled={isSubmitting || loading}
+              className="pr-10"
+              {...register("password")}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-muted-foreground hover:text-foreground focus:outline-hidden"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {errors.password && <FieldError errors={[errors.password]} />}
         </Field>
       </FieldGroup>
