@@ -59,10 +59,7 @@ export default function SideNav() {
         "h-14 gap-3.5 px-4",
         "md:h-full md:flex-col md:justify-between md:overflow-y-auto md:px-0 md:pt-11 md:pb-4",
         "transition-discrete duration-300",
-        {
-          "md:w-48": !isCollapsed,
-          "md:w-14": isCollapsed,
-        }
+        isCollapsed ? "w-14" : "w-50"
       )}
     >
       <nav className={cn("flex w-3/4 flex-row gap-3.5 md:w-full md:flex-col")}>
