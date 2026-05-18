@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { startTransition, useActionState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useForm } from "react-hook-form"
@@ -6,6 +6,16 @@ import { toast } from "sonner"
 
 import { authUserVar } from "@/lib/apollo/authVar"
 import { LoginInput, LoginSchema } from "@/types/auth"
+
+type ActionState = {
+  error: string | null
+  success: boolean
+}
+
+const initialState: ActionState = {
+  error: null,
+  success: false,
+}
 
 function sanitizeCallbackUrl(url: string | null): string {
   if (!url || !url.startsWith("/") || url.startsWith("//")) return "/users"
@@ -25,15 +35,15 @@ export function useLoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginInput>({
     resolver: standardSchemaResolver(LoginSchema),
   })
 
-  const [loading, setLoading] = useState(false)
-
-  const onSubmit = async (formData: LoginInput) => {
-    setLoading(true)
+  const loginAction = async (
+    prevState: ActionState,
+    formData: LoginInput
+  ): Promise<ActionState> => {
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -41,29 +51,41 @@ export function useLoginForm() {
         body: JSON.stringify(formData),
       })
       const data = await res.json()
+
       if (!res.ok) {
-        toast.error(data.message || "Login failed")
-        return
+        const errorMessage = data.message || "Login failed"
+        toast.error(errorMessage)
+        return { error: errorMessage, success: false }
       }
 
       authUserVar(data.user)
       router.push(callbackUrl)
+
+      return { error: null, success: true }
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(err.message)
-      } else {
-        toast.error("An unexpected error occurred")
-      }
-    } finally {
-      setLoading(false)
+      const errorMessage =
+        err instanceof Error ? err.message : "An unexpected error occurred"
+      toast.error(errorMessage)
+      return { error: errorMessage, success: false }
     }
+  }
+
+  const [state, formAction, isPending] = useActionState(
+    loginAction,
+    initialState
+  )
+
+  const onSubmitAction = (data: LoginInput) => {
+    startTransition(() => {
+      formAction(data)
+    })
   }
 
   return {
     register,
-    handleSubmit: handleSubmit(onSubmit),
+    handleSubmit: handleSubmit(onSubmitAction),
     errors,
-    isSubmitting,
-    loading,
+    isPending,
+    state,
   }
 }

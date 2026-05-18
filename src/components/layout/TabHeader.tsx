@@ -1,26 +1,28 @@
 "use client"
 
-import { memo, useRef } from "react"
+import { useRef } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useT } from "next-i18next/client"
 
 import ActiveIndicator from "@/components/layout/ActiveIndicator"
+import { paths } from "@/config/paths"
 import { TabHeaderProps } from "@/types/tab-header"
 
-const TabHeader = memo(function TabHeader({
-  i18nNamespace,
-  links,
-}: TabHeaderProps) {
+export default function TabHeader({ i18nNamespace, links }: TabHeaderProps) {
   const { t } = useT(i18nNamespace)
-
+  const pathname = usePathname()
   const navRef = useRef<HTMLElement>(null)
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([])
+
+  if (pathname === paths.auth.forgotPassword.get().split("?")[0]) {
+    return null
+  }
   return (
     <header className="fixed top-0 left-0 w-full">
       <nav
         ref={navRef}
-        className="flex flex-row items-center justify-center"
-        style={{ position: "relative" }}
+        className="relative flex flex-row items-center justify-center"
       >
         {links.map((link, index) => (
           <Link
@@ -39,6 +41,4 @@ const TabHeader = memo(function TabHeader({
       </nav>
     </header>
   )
-})
-
-export default TabHeader
+}

@@ -81,20 +81,7 @@ export default function ActiveIndicator({
     <span
       ref={indicatorRef}
       aria-hidden="true"
-      style={{
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        height: "2px",
-        opacity: 0,
-        backgroundColor: "currentColor",
-        transform: "translateX(0px)",
-        transition:
-          "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-        willChange: "transform, width",
-        pointerEvents: "none",
-      }}
-      className="text-primary"
+      className="pointer-events-none absolute bottom-0 left-0 h-0.5 translate-x-0 bg-primary opacity-0 transition-[transform,width] duration-300 ease-in-out will-change-transform"
     />
   )
 }

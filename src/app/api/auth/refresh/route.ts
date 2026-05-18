@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import { serverEnv } from "@/config/env.server"
-
-const IS_PROD = process.env.NODE_ENV === "production"
+import { createAuthJsonResponse } from "@/utils/auth/cookies"
 
 export async function POST(req: NextRequest) {
   const refreshToken = req.cookies.get("refresh_token")?.value
@@ -33,20 +32,11 @@ export async function POST(req: NextRequest) {
     return res
   }
 
-  const res = NextResponse.json({ ok: true })
-  res.cookies.set("access_token", data.updateToken.access_token, {
-    httpOnly: true,
-    secure: IS_PROD,
-    sameSite: "strict",
-    path: "/",
-    maxAge: 15 * 60,
-  })
-  res.cookies.set("refresh_token", data.updateToken.refresh_token, {
-    httpOnly: true,
-    secure: IS_PROD,
-    sameSite: "strict",
-    path: "/",
-    maxAge: 7 * 24 * 60 * 60,
-  })
-  return res
+  return createAuthJsonResponse(
+    { ok: true },
+    {
+      accessToken: data.updateToken.access_token,
+      refreshToken: data.updateToken.refresh_token,
+    }
+  )
 }

@@ -8,13 +8,13 @@ import { useT } from "next-i18next/client"
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
+import { paths } from "@/config/paths"
 
 import { useSignupForm } from "../hooks/useSignupForm"
 
 export default function SignupForm() {
   const { t } = useT("auth")
-  const { register, handleSubmit, errors, isSubmitting, loading } =
-    useSignupForm()
+  const { register, handleSubmit, errors, isPending } = useSignupForm()
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -29,7 +29,7 @@ export default function SignupForm() {
             autoComplete="email"
             type="email"
             label={t("label.email")}
-            disabled={isSubmitting || loading}
+            disabled={isPending}
             {...register("email")}
           />
           {errors.email && <FieldError errors={[errors.email]} />}
@@ -40,7 +40,7 @@ export default function SignupForm() {
               autoComplete="new-password"
               type={showPassword ? "text" : "password"}
               label={t("label.password")}
-              disabled={isSubmitting || loading}
+              disabled={isPending}
               className="pr-10"
               {...register("password")}
             />
@@ -57,10 +57,14 @@ export default function SignupForm() {
         </Field>
       </FieldGroup>
       <div className="button-group mt-4">
-        <Button disabled={isSubmitting || loading} type="submit">
-          {loading ? t("signup-form.button-loading") : t("signup-form.button")}
+        <Button disabled={isPending} type="submit">
+          {isPending
+            ? t("signup-form.button-loading")
+            : t("signup-form.button")}
         </Button>
-        <Link href="/auth/login">{t("signup-form.button-secondary")}</Link>
+        <Link href={paths.auth.login.get()}>
+          {t("signup-form.button-secondary")}
+        </Link>
       </div>
     </form>
   )

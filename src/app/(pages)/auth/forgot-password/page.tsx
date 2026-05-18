@@ -14,9 +14,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function ForgotPassword() {
-  return (
-    <section className="auth-container flex h-dvh w-full items-center justify-center">
-      <ForgotPasswordForm />
-    </section>
-  )
+  return <ForgotPasswordForm />
 }

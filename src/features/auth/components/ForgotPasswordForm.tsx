@@ -6,13 +6,13 @@ import { useT } from "next-i18next/client"
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
+import { paths } from "@/config/paths"
 
 import { useForgotPasswordForm } from "../hooks/UseForgotPasswordForm"
 
 export default function ForgotPasswordForm() {
   const { t } = useT("auth")
-  const { register, handleSubmit, errors, isSubmitting, loading } =
-    useForgotPasswordForm()
+  const { register, handleSubmit, errors, isPending } = useForgotPasswordForm()
 
   return (
     <form onSubmit={handleSubmit}>
@@ -26,20 +26,20 @@ export default function ForgotPasswordForm() {
             autoComplete="email"
             type="email"
             label={t("label.email")}
-            disabled={isSubmitting || loading}
+            disabled={isPending}
             {...register("email")}
           />
           {errors.email && <FieldError errors={[errors.email]} />}
         </Field>
       </FieldGroup>
       <div className="button-group mt-4">
-        <Button disabled={isSubmitting || loading} type="submit">
-          {loading
+        <Button disabled={isPending} type="submit">
+          {isPending
             ? t("forgot-password-form.button-loading")
             : t("forgot-password-form.button")}
         </Button>
 
-        <Link href="/auth/login">
+        <Link href={paths.auth.login.get()}>
           {t("forgot-password-form.button-secondary")}
         </Link>
       </div>

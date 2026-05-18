@@ -8,13 +8,13 @@ import { useT } from "next-i18next/client"
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
+import { paths } from "@/config/paths"
 
 import { useLoginForm } from "../hooks/useLoginForm"
 
 export default function LoginForm() {
   const { t } = useT("auth")
-  const { register, handleSubmit, errors, isSubmitting, loading } =
-    useLoginForm()
+  const { register, handleSubmit, errors, isPending } = useLoginForm()
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -29,7 +29,7 @@ export default function LoginForm() {
             autoComplete="email"
             type="email"
             label={t("label.email")}
-            disabled={isSubmitting || loading}
+            disabled={isPending}
             {...register("email")}
           />
           {errors.email && <FieldError errors={[errors.email]} />}
@@ -40,7 +40,7 @@ export default function LoginForm() {
               autoComplete="current-password"
               type={showPassword ? "text" : "password"}
               label={t("label.password")}
-              disabled={isSubmitting || loading}
+              disabled={isPending}
               className="pr-10"
               {...register("password")}
             />
@@ -57,10 +57,12 @@ export default function LoginForm() {
         </Field>
       </FieldGroup>
       <div className="button-group mt-4">
-        <Button disabled={isSubmitting || loading} type="submit">
-          {loading ? t("login-form.button-loading") : t("login-form.button")}
+        <Button disabled={isPending} type="submit">
+          {isPending ? t("login-form.button-loading") : t("login-form.button")}
         </Button>
-        <Link href="/forgot-password">{t("login-form.button-secondary")}</Link>
+        <Link href={paths.auth.forgotPassword.get()}>
+          {t("login-form.button-secondary")}
+        </Link>
       </div>
     </form>
   )

@@ -2,13 +2,13 @@ import TabHeader from "@/components/layout/TabHeader"
 
 import "@/features/auth/style/auth.css"
 
+import { paths } from "@/config/paths"
 import { HeaderLink } from "@/types/tab-header"
 
 const LINKS: HeaderLink[] = [
-  { href: "/auth/login", labelKey: "header.login" },
-  { href: "/auth/signup", labelKey: "header.signup" },
+  { href: paths.auth.login.get(), labelKey: "header.login" },
+  { href: paths.auth.signup.get(), labelKey: "header.signup" },
 ]
-
 export default function AuthLayout({
   children,
 }: {

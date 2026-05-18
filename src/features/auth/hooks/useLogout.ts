@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation"
 import { useApolloClient } from "@apollo/client/react"
 
+import { paths } from "@/config/paths"
 import { authUserVar } from "@/lib/apollo/authVar"
 import { broadcastAuthEvent } from "@/lib/auth/authChannel"
 
@@ -20,7 +21,7 @@ export function useLogout() {
 
       broadcastAuthEvent({ type: "LOGOUT" })
 
-      router.push("/auth/login")
+      router.push(paths.auth.login.get())
     }
   }
 

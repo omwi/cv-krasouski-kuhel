@@ -13,11 +13,12 @@ import {
 } from "@apollo/client-integration-nextjs"
 import { ErrorLink } from "@apollo/client/link/error"
 
+import { paths } from "@/config/paths"
 import { broadcastAuthEvent } from "@/lib/auth/authChannel"
 
 function clearAuthAndRedirect() {
   fetch("/api/auth/logout", { method: "POST" }).finally(() => {
-    window.location.href = "/auth/login"
+    window.location.href = paths.auth.login.get()
   })
 }
 

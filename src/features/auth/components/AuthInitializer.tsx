@@ -3,11 +3,12 @@
 import { useEffect } from "react"
 import { usePathname, useRouter } from "next/navigation"
 
+import { paths } from "@/config/paths"
 import { authUserVar } from "@/lib/apollo/authVar"
 import { onAuthEvent } from "@/lib/auth/authChannel"
 import { User } from "@/types/auth"
-
-const AUTH_ROUTES = ["/auth/login", "/auth/signup", "/forgot-password"]
+import { isAuthRoute } from "@/utils/is-auth-route"
+import { pathWithoutLocale } from "@/utils/path-without-locale"
 
 export function AuthInitializer() {
   const pathname = usePathname()
@@ -24,18 +25,8 @@ export function AuthInitializer() {
           if (isMounted && user) {
             authUserVar(user as User)
 
-            const pathWithoutLocale = pathname.replace(
-              /^\/[a-zA-Z]{2}(-[a-zA-Z]{2})?(\/|$)/,
-              "/"
-            )
-            const isAuthRoute = AUTH_ROUTES.some(
-              (route) =>
-                pathWithoutLocale === route ||
-                pathWithoutLocale.startsWith(route + "/")
-            )
-
-            if (isAuthRoute) {
-              router.push("/users")
+            if (isAuthRoute(pathWithoutLocale(pathname))) {
+              router.push(paths.users.get())
             }
           }
         } else {
@@ -53,18 +44,8 @@ export function AuthInitializer() {
       if (event.type === "LOGOUT") {
         if (isMounted) authUserVar(null)
 
-        const pathWithoutLocale = pathname.replace(
-          /^\/[a-zA-Z]{2}(-[a-zA-Z]{2})?(\/|$)/,
-          "/"
-        )
-        const isAuthRoute = AUTH_ROUTES.some(
-          (route) =>
-            pathWithoutLocale === route ||
-            pathWithoutLocale.startsWith(route + "/")
-        )
-
-        if (!isAuthRoute) {
-          router.push("/auth/login")
+        if (!isAuthRoute(pathWithoutLocale(pathname))) {
+          router.push(paths.auth.login.get())
         }
       } else if (event.type === "TOKEN_REFRESHED") {
         void initAuth()

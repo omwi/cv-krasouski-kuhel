@@ -3,14 +3,17 @@ import { createProxy } from "next-i18next/proxy"
 
 import i18nConfig from "@root/i18n.config"
 import { serverEnv } from "@/config/env.server"
+import { paths } from "@/config/paths"
+import { setAuthCookies } from "@/utils/auth/cookies"
+import { isAuthRoute } from "@/utils/is-auth-route"
+import { pathWithoutLocale } from "@/utils/path-without-locale"
 
-const AUTH_ROUTES = ["/auth/login", "/auth/signup", "/forgot-password"]
-const ADMIN_ROUTES = ["/projects"]
+const ADMIN_ROUTES = [paths.projects.get()]
 
 const STATIC_PATTERN =
   /^\/(api|_next\/static|_next\/image|assets|favicon\.ico|sw\.js|site\.webmanifest)/
 
-interface JwtPayload {
+type JwtPayload = {
   exp?: number
   role?: string
 }
@@ -36,17 +39,6 @@ function checkAccessToken(request: NextRequest): {
     }
   }
   return { isValid: false }
-}
-
-function isAuthRoute(pathname: string): boolean {
-  const pathWithoutLocale = pathname.replace(
-    /^\/[a-zA-Z]{2}(-[a-zA-Z]{2})?(\/|$)/,
-    "/"
-  )
-  return AUTH_ROUTES.some(
-    (route) =>
-      pathWithoutLocale === route || pathWithoutLocale.startsWith(route + "/")
-  )
 }
 
 function isStaticAsset(pathname: string): boolean {
@@ -95,34 +87,27 @@ export async function proxy(request: NextRequest) {
           request.cookies.set("access_token", newAccessToken!)
           request.cookies.set("refresh_token", newRefreshToken!)
         }
-      } catch {
-        // Refresh failed, ignore
-      }
+      } catch {}
     }
   }
 
   if (isAuthenticated && isAuthRoute(pathname)) {
-    return NextResponse.redirect(new URL("/users", request.url))
+    return NextResponse.redirect(new URL(paths.users.get(), request.url))
   }
 
-  // Role-based protection for Admin routes
-  if (isAuthenticated && userRole !== "Admin" && userRole !== "admin") {
-    const pathWithoutLocale = pathname.replace(
-      /^\/[a-zA-Z]{2}(-[a-zA-Z]{2})?(\/|$)/,
-      "/"
-    )
+  if (isAuthenticated && userRole?.toLowerCase() !== "admin") {
+    const path = pathWithoutLocale(pathname)
     const isAdminRoute = ADMIN_ROUTES.some(
-      (route) =>
-        pathWithoutLocale === route || pathWithoutLocale.startsWith(route + "/")
+      (route) => path === route || path.startsWith(route + "/")
     )
 
     if (isAdminRoute) {
-      return NextResponse.redirect(new URL("/users", request.url))
+      return NextResponse.redirect(new URL(paths.users.get(), request.url))
     }
   }
 
   if (!isAuthenticated && !isAuthRoute(pathname)) {
-    const loginUrl = new URL("/auth/login", request.url)
+    const loginUrl = new URL(paths.auth.login.get(), request.url)
     loginUrl.searchParams.set("callbackUrl", pathname)
     return NextResponse.redirect(loginUrl)
   }
@@ -130,23 +115,11 @@ export async function proxy(request: NextRequest) {
   const response = i18nProxy(request)
 
   if (newAccessToken && newRefreshToken) {
-    const IS_PROD = process.env.NODE_ENV === "production"
-    response.cookies.set("access_token", newAccessToken, {
-      httpOnly: true,
-      secure: IS_PROD,
-      sameSite: "strict",
-      path: "/",
-      maxAge: 15 * 60,
-    })
-    response.cookies.set("refresh_token", newRefreshToken, {
-      httpOnly: true,
-      secure: IS_PROD,
-      sameSite: "strict",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60,
+    setAuthCookies(response, {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
     })
   }
-
   if (isAuthRoute(pathname)) {
     response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate")
     response.headers.set("Pragma", "no-cache")
