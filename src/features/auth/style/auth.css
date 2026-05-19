@@ -8,14 +8,15 @@
     inline-size: 100%;
     max-width: 560px;
     margin-inline: auto;
-    text-align: center;
 
     & h4 {
       margin-block-end: 24px;
+      text-align: center;
     }
 
     & .sub-title {
       margin-block-end: 40px;
+      text-align: center;
     }
   }
 
