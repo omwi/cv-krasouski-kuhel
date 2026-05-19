@@ -27,23 +27,28 @@ export const paths = {
     get() {
       return "/users"
     },
+    details: {
+      get(userId: number) {
+        return `/users/${userId}`
+      },
+    },
     profile: {
-      get(userId: string) {
+      get(userId: number) {
         return `/users/${userId}/profile`
       },
     },
     skills: {
-      get(userId: string) {
+      get(userId: number) {
         return `/users/${userId}/skills`
       },
     },
     languages: {
-      get(userId: string) {
+      get(userId: number) {
         return `/users/${userId}/languages`
       },
     },
     cvs: {
-      get(userId: string) {
+      get(userId: number) {
         return `/users/${userId}/cvs`
       },
     },
@@ -54,7 +59,7 @@ export const paths = {
       return "/projects"
     },
     details: {
-      get(projectId: string) {
+      get(projectId: number) {
         return `/projects/${projectId}`
       },
     },
@@ -65,22 +70,22 @@ export const paths = {
       return "/cvs"
     },
     details: {
-      get(cvId: string) {
+      get(cvId: number) {
         return `/cvs/${cvId}/details`
       },
     },
     skills: {
-      get(cvId: string) {
+      get(cvId: number) {
         return `/cvs/${cvId}/skills`
       },
     },
     projects: {
-      get(cvId: string) {
+      get(cvId: number) {
         return `/cvs/${cvId}/projects`
       },
     },
     preview: {
-      get(cvId: string) {
+      get(cvId: number) {
         return `/cvs/${cvId}/preview`
       },
     },

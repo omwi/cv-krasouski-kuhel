@@ -1,0 +1,46 @@
+import { cookies } from "next/headers"
+import { ApolloLink, CombinedGraphQLErrors, HttpLink } from "@apollo/client"
+import {
+  ApolloClient,
+  InMemoryCache,
+  registerApolloClient,
+} from "@apollo/client-integration-nextjs"
+import { SetContextLink } from "@apollo/client/link/context"
+import { ErrorLink } from "@apollo/client/link/error"
+
+import { COOKIES } from "@/config/const"
+
+import { serverEnv } from "./config/env.server"
+
+export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
+  const httpLink = new HttpLink({
+    uri: serverEnv.API_URL,
+  })
+
+  const authLink = new SetContextLink(async (prevContext) => {
+    const cookieStore = await cookies()
+    const token = cookieStore.get(COOKIES.ACCESS_TOKEN)?.value
+
+    return {
+      headers: {
+        ...(prevContext.headers as Record<string, string> | undefined),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    }
+  })
+
+  const errorLink = new ErrorLink(({ error }) => {
+    if (CombinedGraphQLErrors.is(error)) {
+      error.errors.forEach(({ message }) => {
+        console.error("[Server Apollo] GraphQL Error:", message)
+      })
+    } else {
+      console.error("[Server Apollo] Network Error:", error)
+    }
+  })
+
+  return new ApolloClient({
+    cache: new InMemoryCache(),
+    link: ApolloLink.from([authLink, errorLink, httpLink]),
+  })
+})

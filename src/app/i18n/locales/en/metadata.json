@@ -1,0 +1,14 @@
+{
+  "signup": {
+    "title": "Sign Up",
+    "description": "Create an account to get started."
+  },
+  "login": {
+    "title": "Log In",
+    "description": "Log in to your account to continue."
+  },
+  "forgot-password": {
+    "title": "Forgot Password",
+    "description": "Reset your account password."
+  }
+}
