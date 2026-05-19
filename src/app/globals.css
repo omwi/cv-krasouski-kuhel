@@ -161,6 +161,9 @@
   }
 
   body {
+    min-height: 100dvh;
+    width: 100%;
+
     @apply bg-background text-foreground;
   }
 
