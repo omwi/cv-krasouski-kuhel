@@ -6,11 +6,6 @@ import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Button } from "../ui/button"
 
-const user = {
-  email: "bsuiromwi@gmail.com",
-  avatarSrc: "",
-}
-
 type Props = React.ComponentPropsWithRef<typeof Button> & {
   isCollapsed?: boolean
 }
@@ -19,6 +14,8 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
   const user = useReactiveVar(authUserVar)
 
   if (!user) return null
+
+  const displayName = user.fullName || user.email
 
   return (
     <Button
@@ -34,7 +31,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
       <Avatar>
         <AvatarImage src={user.avatarSrc ?? ""} />
         <AvatarFallback className="bg-avatar-nav">
-          {user.email[0].toUpperCase()}
+          {displayName[0].toUpperCase()}
         </AvatarFallback>
       </Avatar>
       <span
@@ -42,7 +39,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
           "min-w-0 overflow-hidden text-base font-normal text-ellipsis"
         )}
       >
-        {user.email}
+        {displayName}
       </span>
     </Button>
   )

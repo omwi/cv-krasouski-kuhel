@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { COOKIES } from "@/config/const"
 import { serverEnv } from "@/config/env.server"
 import { decodeJwtPayload } from "@/features/auth/utils/jwt"
+import { User } from "@/types/user"
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get(COOKIES.ACCESS_TOKEN)?.value
@@ -31,8 +32,11 @@ export async function GET(req: NextRequest) {
             id
             email
             role
+            department_name
+            position_name
             profile {
               avatar
+              full_name
             }
           }
         }
@@ -47,11 +51,14 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ user: null }, { status: 401 })
   }
 
-  const user = {
+  const user: User = {
     id: data.user.id,
     email: data.user.email,
     role: data.user.role,
     avatarSrc: data.user.profile.avatar,
+    fullName: data.user.profile.full_name,
+    departmentName: data.user.department_name,
+    positionName: data.user.position_name,
   }
 
   return NextResponse.json({ user })
