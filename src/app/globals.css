@@ -33,6 +33,7 @@
   --color-avatar: var(--avatar);
   --color-avatar-nav: var(--avatar-nav);
   --color-avatar-actions-hover: var(--avatar-actions-hover);
+  --color-avatar-foreground: var(--avatar-foreground);
   --color-nav-hover: var(--nav-hover);
   --color-skill-proficient: var(--skill-proficient);
   --color-skill-proficient-track: var(--skill-proficient-track);
@@ -81,6 +82,7 @@
   --ring: rgb(0 0 0 / 23%);
   --avatar: #bdbdbd;
   --avatar-nav: var(--primary);
+  --avatar-foreground: var(--background);
   --avatar-actions-hover: rgb(118 118 118 / 4%);
   --nav-hover: rgb(0 0 0 / 4%);
   --skill-proficient: #ffb800;
@@ -123,6 +125,7 @@
   --avatar: #757575;
   --avatar-nav: var(--primary);
   --avatar-actions-hover: rgb(118 118 118 / 8%);
+  --avatar-foreground: var(--background);
   --nav-hover: rgb(255 255 255 / 8%);
   --skill-proficient: #ffb800;
   --skill-proficient-track: #7f5c00;
@@ -171,5 +174,18 @@
 
   html {
     @apply font-sans;
+  }
+
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(189 189 189);
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 }
