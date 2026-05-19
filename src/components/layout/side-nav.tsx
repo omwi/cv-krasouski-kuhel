@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined"
-import GroupIcon from "@mui/icons-material/Group"
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
-import TranslateIcon from "@mui/icons-material/Translate"
-import TrendingUpIcon from "@mui/icons-material/TrendingUp"
+import {
+  ChevronLeft,
+  FileUser,
+  Languages,
+  TrendingUp,
+  Users,
+} from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { paths } from "@/config/paths"
@@ -26,22 +28,22 @@ const navLinks: readonly NavLink[] = [
   {
     i18: "employees",
     to: paths.users.get(),
-    icon: <GroupIcon />,
+    icon: <Users className="shrink-0" />,
   },
   {
     i18: "skills",
     to: paths.skills.get(),
-    icon: <TrendingUpIcon />,
+    icon: <TrendingUp className="shrink-0" />,
   },
   {
     i18: "languages",
     to: paths.languages.get(),
-    icon: <TranslateIcon />,
+    icon: <Languages className="shrink-0" />,
   },
   {
     i18: "cvs",
     to: paths.cvs.get(),
-    icon: <ContactPageOutlinedIcon />,
+    icon: <FileUser className="shrink-0" />,
     isDesktopOnly: true,
   },
 ] as const
@@ -81,12 +83,17 @@ export default function SideNav() {
           onClick={toggleSidebar}
           className="mt-3 ml-2 hidden size-10 self-start p-2 md:flex md:justify-center"
         >
-          <KeyboardArrowLeftIcon
-            sx={{
+          <ChevronLeft
+            className={cn(
+              "transition duration-200 ease-in-out",
+              isCollapsed ? "rotate-180" : "rotate-0"
+            )}
+          />
+          {/* sx={{
               transition: "transform 0.2s ease-in-out",
               transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)",
             }}
-          />
+          /> */}
         </IconButton>
       </div>
     </aside>
