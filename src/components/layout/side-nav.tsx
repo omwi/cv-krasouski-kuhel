@@ -47,7 +47,7 @@ const navLinks: readonly NavLink[] = [
 ] as const
 
 export default function SideNav() {
-  const { t } = useT("common")
+  const { t } = useT("nav")
 
   const [isCollapsed, setIsCollapsed] = useState(false)
   const toggleSidebar = () => setIsCollapsed((prev) => !prev)
