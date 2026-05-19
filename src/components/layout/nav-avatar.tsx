@@ -1,3 +1,6 @@
+import { useReactiveVar } from "@apollo/client/react"
+
+import { authUserVar } from "@/lib/apollo/auth-var"
 import { cn } from "@/lib/utils"
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -13,7 +16,9 @@ type Props = React.ComponentPropsWithRef<typeof Button> & {
 }
 
 export default function NavAvatar({ className, variant, ...props }: Props) {
-  const { email, avatarSrc } = user
+  const user = useReactiveVar(authUserVar)
+
+  if (!user) return null
 
   return (
     <Button
@@ -27,9 +32,9 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
       )}
     >
       <Avatar>
-        <AvatarImage src={avatarSrc} />
+        <AvatarImage src={user.avatarSrc ?? ""} />
         <AvatarFallback className="bg-avatar-nav">
-          {email[0].toUpperCase()}
+          {user.email[0].toUpperCase()}
         </AvatarFallback>
       </Avatar>
       <span
@@ -37,7 +42,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
           "min-w-0 overflow-hidden text-base font-normal text-ellipsis"
         )}
       >
-        {email}
+        {user.email}
       </span>
     </Button>
   )

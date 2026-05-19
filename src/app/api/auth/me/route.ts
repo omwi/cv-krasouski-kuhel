@@ -31,6 +31,9 @@ export async function GET(req: NextRequest) {
             id
             email
             role
+            profile {
+              avatar
+            }
           }
         }
       `,
@@ -44,5 +47,12 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ user: null }, { status: 401 })
   }
 
-  return NextResponse.json({ user: data.user })
+  const user = {
+    id: data.user.id,
+    email: data.user.email,
+    role: data.user.role,
+    avatarSrc: data.user.profile.avatar,
+  }
+
+  return NextResponse.json({ user })
 }

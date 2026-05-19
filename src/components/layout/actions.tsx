@@ -14,12 +14,12 @@ export default function Actions() {
   const { t } = useT("nav")
   const user = useReactiveVar(authUserVar)
 
-  const userId = parseInt(user?.id ?? "0")
+  if (!user) return null
 
   return (
     <div className="flex flex-col gap-2 py-2">
       <nav className="flex flex-col">
-        <ActionLink to={paths.users.profile.get(userId)}>
+        <ActionLink to={paths.users.profile.get(parseInt(user.id))}>
           <AccountCircleIcon />
           {t("profile")}
         </ActionLink>
