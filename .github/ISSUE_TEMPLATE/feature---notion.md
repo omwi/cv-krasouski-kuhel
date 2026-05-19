@@ -1,6 +1,6 @@
 ---
 name: Feature & Notion
-about: Describe this issue template's purpose here.
+about: Add feature with notion link
 title: "Add "
 labels: feature
 assignees: ""
