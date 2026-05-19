@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils"
 
 import { Button } from "../ui/button"
 
-type Props = React.PropsWithChildren & React.ComponentProps<typeof Button>
+type Props = React.ComponentProps<typeof Button> & {
+  children: React.ReactNode
+}
 
 export default function IconButton({
   children,

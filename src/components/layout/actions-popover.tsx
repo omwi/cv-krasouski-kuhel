@@ -1,7 +1,9 @@
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import Actions from "./actions"
 
-type Props = React.PropsWithChildren
+type Props = {
+  children: React.ReactNode
+}
 
 export default function ActionsPopover({ children }: Props) {
   return (

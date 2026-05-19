@@ -1,6 +1,8 @@
 import SideNav from "@/components/layout/side-nav"
 
-type Props = React.PropsWithChildren
+type Props = {
+  children: React.ReactNode
+}
 
 export default function MainLayout({ children }: Props) {
   return (
