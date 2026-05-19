@@ -1,6 +1,5 @@
 import { useReactiveVar } from "@apollo/client/react"
-import AccountCircleIcon from "@mui/icons-material/AccountCircle"
-import SettingsIcon from "@mui/icons-material/Settings"
+import { CircleUser, Settings } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { paths } from "@/config/paths"
@@ -20,11 +19,11 @@ export default function Actions() {
     <div className="flex flex-col gap-2 py-2">
       <nav className="flex flex-col">
         <ActionLink to={paths.users.profile.get(parseInt(user.id))}>
-          <AccountCircleIcon />
+          <CircleUser />
           {t("profile")}
         </ActionLink>
         <ActionLink to={paths.settings.get()}>
-          <SettingsIcon />
+          <Settings />
           {t("settings")}
         </ActionLink>
       </nav>

@@ -1,4 +1,4 @@
-import LogoutIcon from "@mui/icons-material/Logout"
+import { LogOut } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { useLogout } from "@/features/auth/hooks/use-logout"
@@ -16,7 +16,7 @@ export default function LogoutButton() {
       variant={"ghost"}
       className="h-fit min-w-0 justify-start gap-2 rounded-none border-none px-4 py-1.5 font-normal text-foreground"
     >
-      <LogoutIcon />
+      <LogOut className="size-6" />
       {t("logout")}
     </Button>
   )
