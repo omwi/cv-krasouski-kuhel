@@ -82,7 +82,7 @@
   --ring: rgb(0 0 0 / 23%);
   --avatar: #bdbdbd;
   --avatar-nav: var(--primary);
-  --avatar-foreground: #f5f5f7;
+  --avatar-foreground: var(--background);
   --avatar-actions-hover: rgb(118 118 118 / 4%);
   --nav-hover: rgb(0 0 0 / 4%);
   --skill-proficient: #ffb800;
@@ -125,7 +125,7 @@
   --avatar: #757575;
   --avatar-nav: var(--primary);
   --avatar-actions-hover: rgb(118 118 118 / 8%);
-  --avatar-foreground: #353535;
+  --avatar-foreground: var(--background);
   --nav-hover: rgb(255 255 255 / 8%);
   --skill-proficient: #ffb800;
   --skill-proficient-track: #7f5c00;
