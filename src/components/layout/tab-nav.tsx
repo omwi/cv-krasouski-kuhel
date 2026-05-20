@@ -18,9 +18,14 @@ export type HeaderLink = {
 type TabHeaderProps = {
   i18nNamespace: string
   links: HeaderLink[]
+  className?: string
 }
 
-export default function TabHeader({ i18nNamespace, links }: TabHeaderProps) {
+export default function TabNav({
+  i18nNamespace,
+  links,
+  className,
+}: TabHeaderProps) {
   const { t } = useT(i18nNamespace)
   const pathname = usePathname()
   const navRef = useRef<HTMLElement>(null)
@@ -37,32 +42,30 @@ export default function TabHeader({ i18nNamespace, links }: TabHeaderProps) {
   }
 
   return (
-    <header className="fixed top-0 left-0 w-full">
-      <nav
-        ref={navRef}
-        className="relative flex flex-row items-center justify-center"
-      >
-        {links.map((link, index) => {
-          const isActive = activeIndex === index
-          return (
-            <Link
-              key={link.href}
-              href={link.href}
-              ref={(el) => {
-                linkRefs.current[index] = el
-              }}
-              className={cn(
-                "relative block min-w-35 px-4 py-3 text-center uppercase transition-colors",
-                isActive && "active text-primary"
-              )}
-            >
-              {t(link.i18nKey)}
-            </Link>
-          )
-        })}
+    <nav
+      ref={navRef}
+      className={cn("relative flex flex-row items-center", className)}
+    >
+      {links.map((link, index) => {
+        const isActive = activeIndex === index
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            ref={(el) => {
+              linkRefs.current[index] = el
+            }}
+            className={cn(
+              "relative block min-w-35 px-4 py-3 text-center uppercase transition-colors",
+              isActive && "active text-primary"
+            )}
+          >
+            {t(link.i18nKey)}
+          </Link>
+        )
+      })}
 
-        <ActiveIndicator style={indicatorStyle} />
-      </nav>
-    </header>
+      <ActiveIndicator style={indicatorStyle} />
+    </nav>
   )
 }
