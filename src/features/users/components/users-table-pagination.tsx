@@ -19,7 +19,7 @@ export function UsersTablePagination({ totalCount }: { totalCount: number }) {
   const currentPage = params.page
 
   return (
-    <div className="flex items-center justify-between py-4">
+    <div className="flex shrink-0 items-center justify-between py-4">
       <p className="flex-1 text-sm text-muted-foreground">
         {t("total-users", { total: totalCount })}
       </p>

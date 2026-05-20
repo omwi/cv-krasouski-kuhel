@@ -54,15 +54,15 @@ export default function UsersTable() {
   })
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-4">
+    <div className="flex h-full min-h-0 flex-1 flex-col gap-4 overflow-hidden">
       <SearchPanel
         value={params.search}
         onChangeAction={(value) => updateParams({ search: value })}
-        className="w-[250px] py-4 lg:w-[350px]"
+        className="w-62.5 shrink-0 py-4 lg:w-87.5"
         debounceMs={300}
       />
-      <div className="min-h-0 w-full flex-1 overflow-auto">
-        <Table className="relative">
+      <div className="flex-1 overflow-auto">
+        <Table className="red relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
