@@ -1,4 +1,4 @@
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover"
 import Actions from "./actions"
 
 type Props = {

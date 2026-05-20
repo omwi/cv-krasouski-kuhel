@@ -1,5 +1,5 @@
 import CrumbsNav from "@/components/layout/crumbs/crumbs-nav"
-import SideNav from "@/components/layout/side-nav"
+import SideNav from "@/components/layout/sidebar/side-nav"
 
 type Props = {
   children: React.ReactNode

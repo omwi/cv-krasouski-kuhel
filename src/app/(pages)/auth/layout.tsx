@@ -1,7 +1,6 @@
-import TabNav, { TabLink } from "@/components/layout/tab-nav"
-
 import "@/features/auth/style/auth.css"
 
+import TabNav, { TabLink } from "@/components/layout/tab-nav/tab-nav"
 import { paths } from "@/config/paths"
 
 const LINKS: TabLink[] = [

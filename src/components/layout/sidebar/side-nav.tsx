@@ -13,7 +13,7 @@ import { useT } from "next-i18next/client"
 import { paths } from "@/config/paths"
 import { cn } from "@/lib/utils"
 
-import IconButton from "../shared/icon-button"
+import IconButton from "../../shared/icon-button"
 import ActionsPopover from "./actions-popover"
 import NavAvatar from "./nav-avatar"
 import NavLink from "./nav-link"

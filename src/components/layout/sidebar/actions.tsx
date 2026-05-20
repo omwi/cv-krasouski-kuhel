@@ -5,7 +5,7 @@ import { useT } from "next-i18next/client"
 import { paths } from "@/config/paths"
 import { authUserVar } from "@/lib/apollo/auth-var"
 
-import { Separator } from "../ui/separator"
+import { Separator } from "../../ui/separator"
 import ActionLink from "./action-link"
 import LogoutButton from "./logout-button"
 
