@@ -34,7 +34,7 @@ export const paths = {
     },
     profile: {
       get(userId: number) {
-        return `/users/${userId}/profile`
+        return `/users/${userId}`
       },
     },
     skills: {
