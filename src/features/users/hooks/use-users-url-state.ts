@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react"
+import { useMemo } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 export type SortOrder = "asc" | "desc"
@@ -27,32 +27,29 @@ export function useUsersUrlState() {
     }
   }, [searchParams])
 
-  const updateParams = useCallback(
-    (newParams: Partial<UsersUrlParams>) => {
-      const current = new URLSearchParams(Array.from(searchParams.entries()))
+  const updateParams = (newParams: Partial<UsersUrlParams>) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()))
 
-      Object.entries(newParams).forEach(([key, value]) => {
-        if (value === undefined || value === null || value === "") {
-          current.delete(key)
-        } else {
-          current.set(key, String(value))
-        }
-      })
-
-      if (
-        (newParams.search !== undefined || newParams.perPage !== undefined) &&
-        newParams.page === undefined
-      ) {
-        current.set("page", "1")
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value === undefined || value === null || value === "") {
+        current.delete(key)
+      } else {
+        current.set(key, String(value))
       }
+    })
 
-      const search = current.toString()
-      const query = search ? `?${search}` : ""
+    if (
+      (newParams.search !== undefined || newParams.perPage !== undefined) &&
+      newParams.page === undefined
+    ) {
+      current.set("page", "1")
+    }
 
-      router.replace(`${pathname}${query}`, { scroll: false })
-    },
-    [pathname, router, searchParams]
-  )
+    const search = current.toString()
+    const query = search ? `?${search}` : ""
+
+    router.replace(`${pathname}${query}`, { scroll: false })
+  }
 
   return { params, updateParams }
 }
