@@ -1,15 +1,22 @@
-"use client"
+import type { Metadata } from "next"
+import { getT } from "next-i18next/server"
 
-import { useReactiveVar } from "@apollo/client/react"
-
+import { PreloadQuery } from "@/apollo-client"
 import UsersTable from "@/features/users/components/users-table"
-import { columns } from "@/features/users/config/columns"
-import { useFetchUsers } from "@/features/users/hooks/useFetshUsers"
-import { authUserVar } from "@/lib/apollo/auth-var"
+import { GET_USERS_LIST } from "@/features/users/graphql/queries"
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getT("metadata")
+  return {
+    title: t("users.title"),
+    description: t("users.description"),
+  }
+}
 
 export default function Users() {
-  const loggedUser = useReactiveVar(authUserVar)
-  const { data, loading } = useFetchUsers()
-  console.log(data)
-  return <>{/*<UsersTable />*/}</>
+  return (
+    <PreloadQuery query={GET_USERS_LIST}>
+      <UsersTable />
+    </PreloadQuery>
+  )
 }
