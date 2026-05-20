@@ -1,4 +1,4 @@
-import { Crumb } from "@/components/layout/crumbs/crumb"
+import Crumb from "@/components/layout/crumbs/crumb"
 
 type Props = {
   cvId: number

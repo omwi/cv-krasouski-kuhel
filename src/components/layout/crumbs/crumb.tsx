@@ -13,7 +13,7 @@ type Props = {
   isPrimary?: boolean
 }
 
-export function Crumb({
+export default function Crumb({
   children,
   href,
   isPage = false,
