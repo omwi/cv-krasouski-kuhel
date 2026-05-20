@@ -62,7 +62,7 @@ export default function UsersTable() {
         debounceMs={300}
       />
       <div className="flex-1 overflow-auto">
-        <Table className="red relative">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
