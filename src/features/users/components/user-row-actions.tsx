@@ -38,26 +38,29 @@ export function UserRowActions({ rowUser }: { rowUser: TableUser }) {
         </PopoverTrigger>
         <PopoverContent
           align="end"
+          hideWhenDetached
           className="mx-4 w-50 rounded-xs p-0 shadow-lg"
         >
           <div className="flex flex-col">
             <Button
               variant="ghost"
-              className="min-w-0 justify-start rounded-[0] text-foreground"
-              onClick={() => console.log("Edit user", rowUser.id)}
+              className="min-w-0 justify-start rounded-none text-foreground"
+              onClick={() => {
+                router.push(paths.users.details.get(Number(rowUser.id)))
+              }}
             >
               {t("control-actions.profile")}
             </Button>
             <Button
               variant="ghost"
-              className="min-w-0 justify-start rounded-[0] text-foreground"
-              onClick={() => console.log("Settings", rowUser.id)}
+              className="min-w-0 justify-start rounded-none text-foreground"
+              onClick={() => console.log("Edit user", rowUser.id)}
             >
               {t("control-actions.update-user")}
             </Button>
             <Button
               variant="ghost"
-              className="min-w-0 justify-start rounded-[0] text-foreground"
+              className="min-w-0 justify-start rounded-none text-foreground"
               onClick={() => console.log("Delete", rowUser.id)}
               disabled={isMe}
             >

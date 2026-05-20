@@ -1,6 +1,8 @@
 {
+  "profile": "Фото профиля",
   "first-name": "Имя",
   "last-name": "Фамилия",
+  "email": "Почта",
   "department": "Департамент",
   "position": "Позиция",
   "pagination": "Страница {{current}} из {{total}}",
@@ -10,6 +12,12 @@
     "profile": "Профиль",
     "update-user": "Редактировать профиль",
     "delete-user": "Удалить пользователя"
+  },
+  "control-pagination": {
+    "first-page": "Перейти на первую страницу",
+    "prev-page": "Перейти на предыдущую страницу",
+    "next-page": "Перейти на следующую страницу",
+    "last-page": "Перейти на последнюю страницу"
   },
   "open-profile-aria-label": "Открыть профиль пользователя {{name}}",
   "search-placeholder": "Поиск...",

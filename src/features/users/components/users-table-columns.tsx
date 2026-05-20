@@ -47,7 +47,7 @@ const SortableHeader = ({
       variant="ghost"
       size="sm"
       onClick={toggleSort}
-      className="h-full min-w-0 justify-start p-4 text-foreground hover:bg-transparent"
+      className="h-full w-full min-w-0 justify-start p-4 text-foreground hover:bg-transparent"
     >
       <span>{t(titleKey)}</span>
       {isSorted && isAsc && <MoveUp className="ml-2 h-4 w-4" />}
@@ -59,12 +59,14 @@ const SortableHeader = ({
 export const columns: ColumnDef<TableUser>[] = [
   {
     id: "avatar",
-    header: () => <SRHeader titleKey="control-actions.profile" />,
+    header: () => <SRHeader titleKey="profile" />,
     cell: ({ row }) => {
       const user = row.original
       const initials =
         (user.profile?.first_name?.[0] || "") +
-          (user.profile?.last_name?.[0] || "") || "U"
+          (user.profile?.last_name?.[0] || "") ||
+        user.email?.[0] ||
+        "U"
 
       return (
         <Avatar className="h-9 w-9">
@@ -86,6 +88,11 @@ export const columns: ColumnDef<TableUser>[] = [
     id: "lastName",
     accessorFn: (row) => row.profile?.last_name || "",
     header: () => <SortableHeader titleKey="last-name" sortKey="lastName" />,
+  },
+  {
+    id: "email",
+    accessorFn: (row) => row.email || "",
+    header: () => <SortableHeader titleKey="email" sortKey="email" />,
   },
   {
     id: "departmentName",

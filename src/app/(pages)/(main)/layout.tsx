@@ -1,3 +1,4 @@
+import CrumbsNav from "@/components/layout/crumbs/crumbs-nav"
 import SideNav from "@/components/layout/side-nav"
 
 type Props = {
@@ -8,7 +9,12 @@ export default function MainLayout({ children }: Props) {
   return (
     <div className="flex h-dvh flex-col-reverse md:flex-row">
       <SideNav />
-      <main className="flex-1 px-6 md:overflow-y-auto">{children}</main>
+      <div className="flex flex-1 flex-col overflow-hidden px-6 pt-4">
+        <header>
+          <CrumbsNav />
+        </header>
+        <main className="flex flex-1 overflow-hidden">{children}</main>
+      </div>
     </div>
   )
 }
