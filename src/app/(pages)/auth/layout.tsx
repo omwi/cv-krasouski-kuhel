@@ -1,13 +1,8 @@
-import TabHeader from "@/components/layout/tab-header"
+import TabHeader, { HeaderLink } from "@/components/layout/tab-header"
 
 import "@/features/auth/style/auth.css"
 
 import { paths } from "@/config/paths"
-
-export type HeaderLink = {
-  href: string
-  i18nKey: string
-}
 
 const LINKS: HeaderLink[] = [
   { href: paths.auth.login.get(), i18nKey: "header.login" },

@@ -5,11 +5,15 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useT } from "next-i18next/client"
 
-import { HeaderLink } from "@/app/(pages)/auth/layout"
 import ActiveIndicator from "@/components/layout/active-indicator"
 import { paths } from "@/config/paths"
 import { useActiveIndicator } from "@/hooks/use-active-indicator"
 import { cn } from "@/lib/utils"
+
+export type HeaderLink = {
+  href: string
+  i18nKey: string
+}
 
 type TabHeaderProps = {
   i18nNamespace: string
