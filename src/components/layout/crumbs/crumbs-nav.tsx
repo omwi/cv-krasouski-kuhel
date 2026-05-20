@@ -4,9 +4,9 @@ import { Fragment } from "react/jsx-runtime"
 import { usePathname } from "next/navigation"
 import { useT } from "next-i18next/client"
 
-import { Crumb } from "@/components/layout/crumb"
-import CrumbCv from "@/components/layout/crumb-cv"
-import CrumbUser from "@/components/layout/crumb-user"
+import { Crumb } from "@/components/layout/crumbs/crumb"
+import CrumbCv from "@/components/layout/crumbs/crumb-cv"
+import CrumbUser from "@/components/layout/crumbs/crumb-user"
 import { getCrumbI18Key } from "@/config/crumb-i18-keys"
 import { getPathParts, joinPathParts } from "@/utils/url"
 
@@ -14,7 +14,7 @@ import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "../ui/breadcrumb"
+} from "../../ui/breadcrumb"
 
 export default function BreadcrumbNav() {
   const { t } = useT("nav")

@@ -1,6 +1,6 @@
 import { Users } from "lucide-react"
 
-import { Crumb } from "@/components/layout/crumb"
+import { Crumb } from "@/components/layout/crumbs/crumb"
 
 type Props = {
   userId: number
