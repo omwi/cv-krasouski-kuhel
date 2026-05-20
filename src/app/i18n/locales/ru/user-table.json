@@ -1,0 +1,17 @@
+{
+  "first-name": "Имя",
+  "last-name": "Фамилия",
+  "department": "Департамент",
+  "position": "Позиция",
+  "pagination": "Страница {{current}} из {{total}}",
+  "total-users": "Всего: {{total}} пользователей",
+  "control-actions": {
+    "aria-label": "Действия управления",
+    "profile": "Профиль",
+    "update-user": "Редактировать профиль",
+    "delete-user": "Удалить пользователя"
+  },
+  "open-profile-aria-label": "Открыть профиль пользователя {{name}}",
+  "search-placeholder": "Поиск...",
+  "not-found": "Ничего не найдено"
+}

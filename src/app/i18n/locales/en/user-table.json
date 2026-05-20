@@ -1,0 +1,17 @@
+{
+  "first-name": "First name",
+  "last-name": "Last name",
+  "department": "Department",
+  "position": "Position",
+  "pagination": "Page {{current}} of {{total}}",
+  "total-users": "Total: {{total}} users",
+  "control-actions": {
+    "aria-label": "Control actions",
+    "profile": "Profile",
+    "update-user": "Edit user",
+    "delete-user": "Delete user"
+  },
+  "open-profile-aria-label": "Open {{name}}'s profile",
+  "search-placeholder": "Search...",
+  "not-found": "No results found"
+}
