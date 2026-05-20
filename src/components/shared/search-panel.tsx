@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import { Search } from "lucide-react"
 import { useT } from "next-i18next/client"
 
@@ -9,6 +8,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group"
+import { useDebouncedInput } from "@/hooks/use-debounce-input"
 import { cn } from "@/lib/utils"
 
 type SearchPanelProps = {
@@ -24,34 +24,13 @@ export default function SearchPanel({
   debounceMs = 300,
   className,
 }: SearchPanelProps) {
-  const [prevValue, setPrevValue] = useState(value)
-  const [localValue, setLocalValue] = useState(value)
   const { t } = useT("user-table")
 
-  if (value !== prevValue) {
-    setPrevValue(value)
-    setLocalValue(value)
-  }
-
-  const onChangeRef = useRef(onChangeAction)
-  useEffect(() => {
-    onChangeRef.current = onChangeAction
+  const [localValue, setLocalValue] = useDebouncedInput({
+    externalValue: value,
+    onChangeAction,
+    debounceMs,
   })
-
-  const valueRef = useRef(value)
-  useEffect(() => {
-    valueRef.current = value
-  })
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (localValue !== valueRef.current) {
-        onChangeRef.current(localValue)
-      }
-    }, debounceMs)
-
-    return () => clearTimeout(timer)
-  }, [localValue, debounceMs])
 
   return (
     <div className={cn(className)}>
