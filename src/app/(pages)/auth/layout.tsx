@@ -1,10 +1,10 @@
-import TabNav, { HeaderLink } from "@/components/layout/tab-nav"
+import TabNav, { TabLink } from "@/components/layout/tab-nav"
 
 import "@/features/auth/style/auth.css"
 
 import { paths } from "@/config/paths"
 
-const LINKS: HeaderLink[] = [
+const LINKS: TabLink[] = [
   { href: paths.auth.login.get(), i18nKey: "header.login" },
   { href: paths.auth.signup.get(), i18nKey: "header.signup" },
 ]

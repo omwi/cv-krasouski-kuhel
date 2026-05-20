@@ -10,14 +10,14 @@ import { paths } from "@/config/paths"
 import { useActiveIndicator } from "@/hooks/use-active-indicator"
 import { cn } from "@/lib/utils"
 
-export type HeaderLink = {
+export type TabLink = {
   href: string
   i18nKey: string
 }
 
 type TabHeaderProps = {
   i18nNamespace: string
-  links: HeaderLink[]
+  links: TabLink[]
   className?: string
 }
 
