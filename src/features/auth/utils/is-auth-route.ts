@@ -1,5 +1,5 @@
 import { paths } from "@/config/paths"
-import { pathWithoutLocale } from "@/utils/path-without-locale"
+import { pathWithoutLocale } from "@/utils/url"
 
 const AUTH_ROUTES = [
   paths.auth.login.get(),
