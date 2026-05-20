@@ -47,7 +47,7 @@ const SortableHeader = ({
       variant="ghost"
       size="sm"
       onClick={toggleSort}
-      className="h-full min-w-0 justify-start p-4 text-foreground hover:bg-transparent"
+      className="h-full w-full min-w-0 justify-start p-4 text-foreground hover:bg-transparent"
     >
       <span>{t(titleKey)}</span>
       {isSorted && isAsc && <MoveUp className="ml-2 h-4 w-4" />}
@@ -66,8 +66,7 @@ export const columns: ColumnDef<TableUser>[] = [
         (user.profile?.first_name?.[0] || "") +
           (user.profile?.last_name?.[0] || "") ||
         user.email?.[0] ||
-        ""
-      ;("U")
+        "U"
 
       return (
         <Avatar className="h-9 w-9">
