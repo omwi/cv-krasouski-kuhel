@@ -8,7 +8,7 @@ import { paths } from "@/config/paths"
 import { setAuthCookies } from "@/features/auth/utils/cookies"
 import { isAuthRoute } from "@/features/auth/utils/is-auth-route"
 import { checkAccessToken, decodeJwtPayload } from "@/features/auth/utils/jwt"
-import { pathWithoutLocale } from "@/utils/path-without-locale"
+import { pathWithoutLocale } from "@/utils/url"
 
 const ADMIN_ROUTES = [paths.projects.get()]
 

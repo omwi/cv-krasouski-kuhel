@@ -20,7 +20,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "flex flex-wrap items-center gap-1.5 text-sm wrap-break-word text-muted-foreground",
+        "flex flex-wrap items-center gap-1.5 text-base wrap-break-word text-foreground/70",
         className
       )}
       {...props}
@@ -40,30 +40,44 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
 
 function BreadcrumbLink({
   asChild,
+  variant = "default",
   className,
   ...props
 }: React.ComponentProps<"a"> & {
   asChild?: boolean
+  variant?: "default" | "primary"
 }) {
   const Comp = asChild ? Slot.Root : "a"
 
   return (
     <Comp
       data-slot="breadcrumb-link"
-      className={cn("transition-colors hover:text-foreground", className)}
+      className={cn(
+        "hover:underline",
+        variant === "primary" && "text-primary",
+        className
+      )}
       {...props}
     />
   )
 }
 
-function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
+function BreadcrumbPage({
+  className,
+  variant = "default",
+  ...props
+}: React.ComponentProps<"span"> & { variant?: "default" | "primary" }) {
   return (
     <span
       data-slot="breadcrumb-page"
       role="link"
       aria-disabled="true"
       aria-current="page"
-      className={cn("font-normal text-foreground", className)}
+      className={cn(
+        "font-normal opacity-60",
+        variant === "primary" && "text-primary",
+        className
+      )}
       {...props}
     />
   )
