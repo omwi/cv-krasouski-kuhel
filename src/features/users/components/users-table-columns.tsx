@@ -59,7 +59,7 @@ const SortableHeader = ({
 export const columns: ColumnDef<TableUser>[] = [
   {
     id: "avatar",
-    header: () => <SRHeader titleKey="control-actions.profile" />,
+    header: () => <SRHeader titleKey="profile" />,
     cell: ({ row }) => {
       const user = row.original
       const initials =
