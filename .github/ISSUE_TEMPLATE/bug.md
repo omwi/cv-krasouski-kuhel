@@ -1,6 +1,6 @@
 ---
 name: Bug
-about: Describe this issue template's purpose here.
+about: Describe a bug
 title: "Bug: "
 labels: bug
 assignees: ""
