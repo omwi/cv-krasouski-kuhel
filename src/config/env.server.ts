@@ -1,5 +1,7 @@
 import * as z from "zod"
 
+import "dotenv/config"
+
 const createServerEnv = () => {
   const schema = z.object({
     API_URL: z.url(),
