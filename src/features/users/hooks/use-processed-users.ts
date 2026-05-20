@@ -17,6 +17,7 @@ export function useProcessedUsers(users: TableUser[], params: UsersUrlParams) {
       const term = params.search.toLowerCase()
       return (
         u.profile?.full_name?.toLowerCase().includes(term) ||
+        u.email?.toLowerCase().includes(term) ||
         u.position_name?.toLowerCase().includes(term) ||
         u.department_name?.toLowerCase().includes(term)
       )
@@ -34,6 +35,10 @@ export function useProcessedUsers(users: TableUser[], params: UsersUrlParams) {
         case "lastName":
           fieldA = a.profile?.last_name || ""
           fieldB = b.profile?.last_name || ""
+          break
+        case "email":
+          fieldA = a.email || ""
+          fieldB = b.email || ""
           break
         case "departmentName":
           fieldA = a.department_name || ""

@@ -2,6 +2,7 @@
   "profile": "Фото профиля",
   "first-name": "Имя",
   "last-name": "Фамилия",
+  "email": "Почта",
   "department": "Департамент",
   "position": "Позиция",
   "pagination": "Страница {{current}} из {{total}}",

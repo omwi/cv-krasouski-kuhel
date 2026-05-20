@@ -64,7 +64,10 @@ export const columns: ColumnDef<TableUser>[] = [
       const user = row.original
       const initials =
         (user.profile?.first_name?.[0] || "") +
-          (user.profile?.last_name?.[0] || "") || "U"
+          (user.profile?.last_name?.[0] || "") ||
+        user.email?.[0] ||
+        ""
+      ;("U")
 
       return (
         <Avatar className="h-9 w-9">
@@ -86,6 +89,11 @@ export const columns: ColumnDef<TableUser>[] = [
     id: "lastName",
     accessorFn: (row) => row.profile?.last_name || "",
     header: () => <SortableHeader titleKey="last-name" sortKey="lastName" />,
+  },
+  {
+    id: "email",
+    accessorFn: (row) => row.email || "",
+    header: () => <SortableHeader titleKey="email" sortKey="email" />,
   },
   {
     id: "departmentName",

@@ -2,6 +2,7 @@
   "profile": "Profile image",
   "first-name": "First name",
   "last-name": "Last name",
+  "email": "Email",
   "department": "Department",
   "position": "Position",
   "pagination": "Page {{current}} of {{total}}",
