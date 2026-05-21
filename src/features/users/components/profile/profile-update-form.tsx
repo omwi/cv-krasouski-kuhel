@@ -12,7 +12,7 @@ import PositionsSelect from "@/features/positions/components/positions-select"
 import { useProfileUpdateForm } from "../../hooks/use-profile-update-form"
 
 export default function ProfileUpdateForm({ userId }: { userId: string }) {
-  const { t } = useT(["user-profile", "user", "common"])
+  const { t } = useT(["user", "buttons"])
 
   const { onSubmit, register, control, errors, isDirty, isPending } =
     useProfileUpdateForm(userId)
@@ -68,7 +68,7 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
         </Field>
       </div>
       <Button disabled={!isReadyForUpdate} className="md:w-1/2 md:self-end">
-        {t("update", { ns: "common" })}
+        {t("update", { ns: "buttons" })}
       </Button>
     </form>
   )

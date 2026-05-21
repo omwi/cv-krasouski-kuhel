@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/popover"
 import { paths } from "@/config/paths"
 import { TableUser } from "@/features/users/components/user-table/users-table"
-import type { CurrentUser } from "@/utils/get-auth-user"
+import type { CurrentUser } from "@/utils/permissions"
 
 export function UserRowActions({
   rowUser,
