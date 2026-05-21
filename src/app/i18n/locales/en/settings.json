@@ -1,0 +1,14 @@
+{
+  "theme": {
+    "label": "Theme",
+    "system": "System (Device)",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "label": "Language",
+    "system": "System (Device)",
+    "ru": "Russian",
+    "en": "English"
+  }
+}

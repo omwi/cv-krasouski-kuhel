@@ -14,5 +14,9 @@
   "users": {
     "title": "Employee List",
     "description": "Manage organization employee accounts."
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage your application settings, language, and theme preferences."
   }
 }
