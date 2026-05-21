@@ -20,58 +20,32 @@ import {
 } from "@/components/ui/dialog"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
-import { TableUser } from "@/features/users/components/user-table/users-table"
-import { useUpdateUserForm } from "@/features/users/hooks/use-update-user-form"
+import { useCreateUserForm } from "@/features/users/hooks/use-create-user-form"
 import type { CurrentUser } from "@/utils/get-auth-user"
 
-export type UpdateUserProps = {
-  user: TableUser
+export type CreateUserProps = {
   currentUser: CurrentUser
-  children?: ReactNode
-  open?: boolean
-  onOpenChangeAction?: (open: boolean) => void
+  children: ReactNode
 }
 
-export default function UpdateUser({
-  user,
-  currentUser,
-  children,
-  open: controlledOpen,
-  onOpenChangeAction: controlledOnOpenChange,
-}: UpdateUserProps) {
-  const { t } = useT(["update-user", "input", "buttons"])
-  const [internalOpen, setInternalOpen] = useState(false)
-
-  const open = controlledOpen !== undefined ? controlledOpen : internalOpen
-  const setOpen =
-    controlledOnOpenChange !== undefined
-      ? controlledOnOpenChange
-      : setInternalOpen
-
+export default function CreateUser({ currentUser, children }: CreateUserProps) {
+  const { t } = useT(["create-user", "input", "buttons"])
+  const [open, setOpen] = useState(false)
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
 
   const {
     register,
     control,
     onSubmit,
-    formState: { errors, isSubmitting },
-  } = useUpdateUserForm(user, open, setOpen)
+    formState: { errors, isSubmitting, isValid },
+  } = useCreateUserForm(open, setOpen)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {children && (
-        <DialogTrigger asChild>
-          <Button
-            variant="ghost"
-            className="w-full min-w-0 justify-start rounded-none text-foreground"
-          >
-            {children}
-          </Button>
-        </DialogTrigger>
-      )}
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="w-full max-w-[920px] gap-8">
         <DialogHeader>
-          <DialogTitle>{t("update-user:title")}</DialogTitle>
+          <DialogTitle>{t("create-user:title")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -80,24 +54,33 @@ export default function UpdateUser({
               <FloatingInput
                 id="email"
                 label={t("input:email")}
-                disabled
+                disabled={isSubmitting}
                 {...register("email")}
               />
+              {errors.email && (
+                <FieldError className="mt-1">{errors.email.message}</FieldError>
+              )}
             </Field>
 
             <Field className="w-full md:min-w-[410px]">
               <FloatingPasswordInput
                 id="password"
                 label={t("input:password")}
-                disabled
-                value="*********"
+                disabled={isSubmitting}
+                {...register("password")}
               />
+              {errors.password && (
+                <FieldError className="mt-1">
+                  {errors.password.message}
+                </FieldError>
+              )}
             </Field>
 
             <Field className="w-full md:min-w-[410px]">
               <FloatingInput
                 id="firstName"
                 label={t("input:first-name")}
+                disabled={isSubmitting}
                 {...register("firstName")}
               />
               {errors.firstName && (
@@ -111,6 +94,7 @@ export default function UpdateUser({
               <FloatingInput
                 id="lastName"
                 label={t("input:last-name")}
+                disabled={isSubmitting}
                 {...register("lastName")}
               />
               {errors.lastName && (
@@ -128,6 +112,7 @@ export default function UpdateUser({
                   <DepartmentSelect
                     value={field.value || ""}
                     onValueChangeAction={(val) => field.onChange(val)}
+                    disabled={isSubmitting}
                   />
                 )}
               />
@@ -141,6 +126,7 @@ export default function UpdateUser({
                   <PositionSelect
                     value={field.value || ""}
                     onValueChangeAction={(val) => field.onChange(val)}
+                    disabled={isSubmitting}
                   />
                 )}
               />
@@ -154,21 +140,24 @@ export default function UpdateUser({
                   <RoleSelect
                     value={field.value || ""}
                     onValueChangeAction={(val) => field.onChange(val)}
-                    disabled={!isAdmin}
+                    disabled={!isAdmin || isSubmitting}
                   />
                 )}
               />
+              {errors.role && (
+                <FieldError className="mt-1">{errors.role.message}</FieldError>
+              )}
             </Field>
           </FieldGroup>
 
           <DialogFooter className="m-0 mt-8 p-0">
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" disabled={isSubmitting}>
                 {t("buttons:cancel")}
               </Button>
             </DialogClose>
-            <Button type="submit" disabled={isSubmitting}>
-              {t("buttons:update")}
+            <Button type="submit" disabled={!isValid || isSubmitting}>
+              {t("buttons:create") || "Create"}
             </Button>
           </DialogFooter>
         </form>

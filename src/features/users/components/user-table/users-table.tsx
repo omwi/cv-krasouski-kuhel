@@ -14,6 +14,7 @@ import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
 import type { CurrentUser } from "@/utils/get-auth-user"
 
+import CreateUser from "../actions/create-user"
 import { getColumns } from "./users-table-columns"
 
 export type TableUser = GetUsersListQuery["users"][0]
@@ -31,7 +32,6 @@ export default function UsersTable({
   const { t } = useT("user-table")
 
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
-
   const { paginatedData, totalCount } = useProcessedUsers(
     data?.users || [],
     params,
@@ -48,10 +48,12 @@ export default function UsersTable({
           debounceMs={300}
         />
         {isAdmin && (
-          <Button variant="outline-primary">
-            <Plus />
-            {t("create-user")}
-          </Button>
+          <CreateUser currentUser={currentUser}>
+            <Button variant="outline-primary">
+              <Plus />
+              {t("create-user")}
+            </Button>
+          </CreateUser>
         )}
       </div>
       <DataTable
