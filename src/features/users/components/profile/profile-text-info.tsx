@@ -14,7 +14,7 @@ export default function ProfileTextInfo({ userId }: { userId: string }) {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <p>{user.profile.full_name}</p>
+      <p className="mb-2 text-lg">{user.profile.full_name}</p>
       <p className="text-secondary-foreground">{user.email}</p>
       <p>
         {t("member-since", {
