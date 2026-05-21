@@ -1,3 +1,9 @@
+import EditUser from "@/features/users/components/edit-user"
+
 export default function Users() {
-  return <div>Users</div>
+  return (
+    <div>
+      <EditUser />
+    </div>
+  )
 }

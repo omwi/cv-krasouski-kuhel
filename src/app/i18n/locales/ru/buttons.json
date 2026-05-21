@@ -1,0 +1,19 @@
+{
+  "cancel": "Отмена",
+  "update": "Обновить",
+  "confirm": "Подтвердить",
+  "add": "Добавить",
+  "create": "Создать",
+
+  "export-pdf": "Экспорт в PDF",
+  "create-user": "Создать пользователя",
+  "create-cv": "Создать резюме",
+  "add-project": "Добавить проект",
+
+  "remove-skills": "Удалить навыки",
+  "add-skill": "Добавить навык",
+  "create-skill": "Создать навык",
+  "remove-language": "Удалить язык",
+  "add-language": "Добавить язык",
+  "close-aria": "Закрыть модальное окно"
+}
