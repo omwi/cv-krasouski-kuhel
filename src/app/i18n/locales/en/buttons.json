@@ -15,5 +15,5 @@
   "create-skill": "CREATE SKILL",
   "remove-language": "REMOVE LANGUAGE",
   "add-language": "ADD LANGUAGE",
-  "close-aria": "CLOSE MODAL"
+  "close-aria": "Close modal"
 }
