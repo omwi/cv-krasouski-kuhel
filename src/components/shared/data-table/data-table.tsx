@@ -19,7 +19,7 @@ import {
 
 import { DataTablePagination } from "./data-table-pagination"
 
-export interface DataTableProps<TData, TValue> {
+export type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   totalCount: number
