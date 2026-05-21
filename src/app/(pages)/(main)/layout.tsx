@@ -13,7 +13,7 @@ export default function MainLayout({ children }: Props) {
         <header>
           <CrumbsNav />
         </header>
-        <main className="flex flex-1 overflow-hidden">{children}</main>
+        <main className="flex flex-1 flex-col overflow-hidden">{children}</main>
       </div>
     </div>
   )
