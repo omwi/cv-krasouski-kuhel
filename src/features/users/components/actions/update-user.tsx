@@ -59,24 +59,15 @@ export default function UpdateUser({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {children && (
-        <DialogTrigger asChild>
-          <Button
-            variant="ghost"
-            className="w-full min-w-0 justify-start rounded-none text-foreground"
-          >
-            {children}
-          </Button>
-        </DialogTrigger>
-      )}
-      <DialogContent className="w-full max-w-[920px] gap-8">
+      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("update-user:title")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
-          <FieldGroup className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
-            <Field className="w-full md:min-w-[410px]">
+          <FieldGroup className="grid grid-cols-1 md:grid-cols-2">
+            <Field>
               <FloatingInput
                 id="email"
                 label={t("input:email")}
@@ -85,7 +76,7 @@ export default function UpdateUser({
               />
             </Field>
 
-            <Field className="w-full md:min-w-[410px]">
+            <Field>
               <FloatingPasswordInput
                 id="password"
                 label={t("input:password")}
@@ -94,7 +85,7 @@ export default function UpdateUser({
               />
             </Field>
 
-            <Field className="w-full md:min-w-[410px]">
+            <Field>
               <FloatingInput
                 id="firstName"
                 label={t("input:first-name")}
@@ -107,7 +98,7 @@ export default function UpdateUser({
               )}
             </Field>
 
-            <Field className="w-full md:min-w-[410px]">
+            <Field>
               <FloatingInput
                 id="lastName"
                 label={t("input:last-name")}
@@ -120,7 +111,7 @@ export default function UpdateUser({
               )}
             </Field>
 
-            <Field className="w-full md:min-w-[410px]">
+            <Field>
               <Controller
                 control={control}
                 name="departmentId"
@@ -133,7 +124,7 @@ export default function UpdateUser({
               />
             </Field>
 
-            <Field className="w-full md:min-w-[410px]">
+            <Field>
               <Controller
                 control={control}
                 name="positionId"
@@ -146,7 +137,7 @@ export default function UpdateUser({
               />
             </Field>
 
-            <Field className="w-full md:min-w-[410px]">
+            <Field>
               <Controller
                 control={control}
                 name="role"
@@ -161,7 +152,7 @@ export default function UpdateUser({
             </Field>
           </FieldGroup>
 
-          <DialogFooter className="m-0 mt-8 p-0">
+          <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
                 {t("buttons:cancel")}

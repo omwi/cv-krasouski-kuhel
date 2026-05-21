@@ -70,8 +70,8 @@ export default function DeleteUser({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent className="w-full max-w-[480px] gap-6">
-        <DialogHeader className="gap-2">
+      <DialogContent className="max-w-[480px]">
+        <DialogHeader>
           <DialogTitle>{t("delete:user.title")}</DialogTitle>
         </DialogHeader>
 
