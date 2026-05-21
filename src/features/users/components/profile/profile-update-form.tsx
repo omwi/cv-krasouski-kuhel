@@ -68,7 +68,7 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
         </Field>
       </div>
       <Button disabled={!isReadyForUpdate} className="md:w-1/2 md:self-end">
-        {t("update-profile.update")}
+        {t("update", { ns: "common" })}
       </Button>
     </form>
   )

@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils"
 import { useAvatarUpload } from "../../hooks/use-avatar-upload"
 
 export default function AvatarUpload({ userId }: { userId: string }) {
-  const { t } = useT(["user-profile", "user", "common"])
+  const { t } = useT("user-profile")
 
   const { data, refetch } = useSuspenseQuery(GET_USER, {
     variables: { userId },
@@ -59,8 +59,8 @@ export default function AvatarUpload({ userId }: { userId: string }) {
         onFileReject={onAvatarReject}
         onAccept={onAvatarAccept}
         messages={{
-          fileTooLarge: t("upload-avatar.too-large"),
-          fileTypeNotAccepted: t("upload-avatar.type-not-accepted"),
+          fileTooLarge: t("upload-avatar.status.too-large"),
+          fileTypeNotAccepted: t("upload-avatar.status.type-not-accepted"),
         }}
         className="flex cursor-pointer flex-col items-center gap-2"
       >

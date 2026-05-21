@@ -73,13 +73,13 @@ export function useProfileUpdateForm(userId: string) {
       ])
 
       if (nameRes.status === "fulfilled" && jobRes.status === "fulfilled") {
-        toast.success(t("update-profile.status.success"))
+        toast.success(t("update-profile.success"))
         return
       }
-      toast.error(t("update-profile.status.error"))
+      toast.error(t("update-profile.error"))
     } catch (e) {
       console.error(e)
-      toast.error(t("update-profile.status.error"))
+      toast.error(t("update-profile.error"))
     }
   }
 

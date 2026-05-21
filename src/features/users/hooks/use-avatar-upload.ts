@@ -17,7 +17,7 @@ export function useAvatarUpload(userId: string) {
 
   const onAvatarReject = (file: File, message: string) => {
     toast(message, {
-      description: t("upload-avatar.rejected"),
+      description: t("upload-avatar.status.rejected"),
     })
   }
 
@@ -36,11 +36,11 @@ export function useAvatarUpload(userId: string) {
       await uploadAvatar({ variables: { avatar } })
     } catch (error) {
       console.error(error)
-      toast.error(t("upload-avatar.error"))
+      toast.error(t("upload-avatar.status.error"))
       return
     }
 
-    toast.success(t("upload-avatar.success"))
+    toast.success(t("upload-avatar.status.success"))
   }
 
   const onAvatarDelete = async () => {

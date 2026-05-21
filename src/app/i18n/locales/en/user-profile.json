@@ -2,11 +2,13 @@
   "upload-avatar": {
     "text": "Upload avatar image",
     "description": "png, jpg or gif no more than 0.5MB",
-    "rejected": "Image rejected",
-    "success": "Avatar uploaded successfully",
-    "error": "Upload failed",
-    "too-large": "Image too large",
-    "type-not-accepted": "Image type not supported"
+    "status": {
+      "rejected": "Image rejected",
+      "success": "Avatar uploaded successfully",
+      "error": "Upload failed",
+      "too-large": "Image too large",
+      "type-not-accepted": "Image type not supported"
+    }
   },
   "delete-avatar": {
     "success": "Avatar deleted",
@@ -15,10 +17,7 @@
   "member-since": "A member since {{date}}",
 
   "update-profile": {
-    "update": "UPDATE",
-    "status": {
-      "success": "Profile updated successfully",
-      "error": "Failed to update profile"
-    }
+    "success": "Profile updated successfully",
+    "error": "Failed to update profile"
   }
 }
