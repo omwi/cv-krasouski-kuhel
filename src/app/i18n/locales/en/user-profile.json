@@ -1,0 +1,7 @@
+{
+  "upload-avatar": {
+    "text": "Upload avatar image",
+    "description:": "png, jpg or gif no more than 0.5MB"
+  },
+  "member-since": "A member since {{date}}"
+}

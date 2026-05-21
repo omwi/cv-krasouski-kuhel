@@ -14,5 +14,9 @@
   "users": {
     "title": "Employee List",
     "description": "Manage organization employee accounts."
+  },
+  "user-profile": {
+    "title": "User Profile",
+    "description": "Manage your user profile."
   }
 }
