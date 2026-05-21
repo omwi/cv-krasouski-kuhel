@@ -19,7 +19,7 @@ export default async function Users() {
 
   return (
     <PreloadQuery query={GET_USERS_LIST}>
-      <UsersTable CurrentUser={currentUser} />
+      <UsersTable currentUser={currentUser} />
     </PreloadQuery>
   )
 }

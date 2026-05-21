@@ -19,23 +19,23 @@ import { getColumns } from "./users-table-columns"
 export type TableUser = GetUsersListQuery["users"][0]
 
 export default function UsersTable({
-  CurrentUser,
+  currentUser,
 }: {
-  CurrentUser: CurrentUser
+  currentUser: CurrentUser
 }) {
   const { data } = useSuspenseQuery(GET_USERS_LIST)
-  const columns = useMemo(() => getColumns(CurrentUser), [CurrentUser])
+  const columns = useMemo(() => getColumns(currentUser), [currentUser])
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "firstName",
   })
   const { t } = useT("user-table")
 
-  const isAdmin = CurrentUser?.role?.toLowerCase() === "admin"
+  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
 
   const { paginatedData, totalCount } = useProcessedUsers(
     data?.users || [],
     params,
-    CurrentUser
+    currentUser
   )
 
   return (
