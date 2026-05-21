@@ -1,6 +1,7 @@
 import { startTransition, useActionState } from "react"
 import { useRouter } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
+import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -9,11 +10,14 @@ import { z } from "zod"
 import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
 
-export const ForgotPasswordSchema = z.object({
-  email: z.email("Invalid email address"),
-})
+export const getForgotPasswordSchema = (t: TFunction) =>
+  z.object({
+    email: z.email(t("input:errors.email")),
+  })
 
-export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>
+export type ForgotPasswordInput = z.infer<
+  ReturnType<typeof getForgotPasswordSchema>
+>
 
 type ActionState = {
   error: string | null
@@ -27,14 +31,14 @@ const initialState: ActionState = {
 
 export function useForgotPasswordForm() {
   const router = useRouter()
-  const { t } = useT("auth")
+  const { t } = useT("input")
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ForgotPasswordInput>({
-    resolver: standardSchemaResolver(ForgotPasswordSchema),
+    resolver: standardSchemaResolver(getForgotPasswordSchema(t)),
   })
 
   const forgotPasswordAction = async (

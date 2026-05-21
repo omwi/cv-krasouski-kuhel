@@ -5,5 +5,13 @@
   "last-name": "Last Name",
   "department": "Department",
   "position": "Position",
-  "role": "Role"
+  "role": "Role",
+  "errors": {
+    "first-name": "First name is required",
+    "last-name": "Last name is required",
+    "email": "Invalid email address",
+    "password": "Password must be at least 8 characters",
+    "role": "Role is required",
+    "invalid-credentials": "User not found or invalid password"
+  }
 }

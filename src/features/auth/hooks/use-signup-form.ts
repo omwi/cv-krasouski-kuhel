@@ -1,6 +1,8 @@
 import { startTransition, useActionState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
+import type { TFunction } from "i18next"
+import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -10,12 +12,13 @@ import { paths } from "@/config/paths"
 import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
 import { authUserVar } from "@/lib/apollo/auth-var"
 
-export const SignupSchema = z.object({
-  email: z.email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-})
+export const getSignupSchema = (t: TFunction) =>
+  z.object({
+    email: z.email(t("errors.email")),
+    password: z.string().min(8, t("errors.password")),
+  })
 
-export type SignupInput = z.infer<typeof SignupSchema>
+export type SignupInput = z.infer<ReturnType<typeof getSignupSchema>>
 
 type ActionState = {
   error: string | null
@@ -30,13 +33,14 @@ const initialState: ActionState = {
 export function useSignupForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { t } = useT("input")
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignupInput>({
-    resolver: standardSchemaResolver(SignupSchema),
+    resolver: standardSchemaResolver(getSignupSchema(t)),
   })
 
   const signupAction = async (

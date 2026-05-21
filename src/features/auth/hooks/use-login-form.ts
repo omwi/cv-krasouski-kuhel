@@ -1,6 +1,8 @@
 import { startTransition, useActionState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
+import type { TFunction } from "i18next"
+import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -9,12 +11,13 @@ import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
 import { authUserVar } from "@/lib/apollo/auth-var"
 
-export const LoginSchema = z.object({
-  email: z.email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-})
+export const getLoginSchema = (t: TFunction) =>
+  z.object({
+    email: z.email(t("errors.email")),
+    password: z.string().min(8, t("errors.password")),
+  })
 
-export type LoginInput = z.infer<typeof LoginSchema>
+export type LoginInput = z.infer<ReturnType<typeof getLoginSchema>>
 
 type ActionState = {
   error: string | null
@@ -30,13 +33,14 @@ export function useLoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = sanitizeCallbackUrl(searchParams.get("callbackUrl"))
+  const { t } = useT("input")
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInput>({
-    resolver: standardSchemaResolver(LoginSchema),
+    resolver: standardSchemaResolver(getLoginSchema(t)),
   })
 
   const loginAction = async (
@@ -52,7 +56,10 @@ export function useLoginForm() {
       const data = await res.json()
 
       if (!res.ok) {
-        const errorMessage = data.message || "Login failed"
+        const errorMessage =
+          res.status === 401 || data.message === "Invalid credentials"
+            ? t("input:errors.invalid-credentials")
+            : data.message || "Login failed"
         toast.error(errorMessage)
         return { error: errorMessage, success: false }
       }
