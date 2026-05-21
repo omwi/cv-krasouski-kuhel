@@ -9,6 +9,7 @@
   "create-user": "CREATE USER",
   "create-cv": "CREATE CV",
   "add-project": "ADD PROJECT",
+  "update-user": "Update user",
 
   "remove-skills": "REMOVE SKILLS",
   "add-skill": "ADD SKILL",

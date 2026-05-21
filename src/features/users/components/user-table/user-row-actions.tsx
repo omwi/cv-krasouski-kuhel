@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { paths } from "@/config/paths"
+import UpdateUser from "@/features/users/components/actions/update-user"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import type { CurrentUser } from "@/utils/get-auth-user"
 
@@ -55,13 +56,7 @@ export function UserRowActions({
             >
               {t("control-actions.profile")}
             </Button>
-            <Button
-              variant="ghost"
-              className="min-w-0 justify-start rounded-none text-foreground"
-              onClick={() => console.log("Edit user", rowUser.id)}
-            >
-              {t("control-actions.update-user")}
-            </Button>
+            <UpdateUser>{t("control-actions.update-user")}</UpdateUser>
             <Button
               variant="ghost"
               className="min-w-0 justify-start rounded-none text-foreground"
