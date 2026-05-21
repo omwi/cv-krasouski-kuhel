@@ -1,0 +1,11 @@
+{
+  "total-users": "Total: {{total}} users",
+  "create-user": "CREATE USER",
+  "control-actions": {
+    "aria-label": "Control Actions",
+    "profile": "Profile",
+    "update-user": "Edit User",
+    "delete-user": "Delete User"
+  },
+  "open-profile-aria-label": "Open {{name}}'s profile"
+}

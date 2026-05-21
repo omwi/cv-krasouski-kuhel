@@ -10,5 +10,9 @@
   "forgot-password": {
     "title": "Forgot Password",
     "description": "Reset your account password."
+  },
+  "users": {
+    "title": "Employee List",
+    "description": "Manage organization employee accounts."
   }
 }

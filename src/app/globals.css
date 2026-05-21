@@ -161,8 +161,9 @@
   }
 
   body {
-    min-height: 100dvh;
+    height: 100dvh;
     width: 100%;
+    overflow: hidden;
 
     @apply bg-background text-foreground;
   }
@@ -173,6 +174,9 @@
   }
 
   html {
+    height: 100dvh;
+    overflow: hidden;
+
     @apply font-sans;
   }
 

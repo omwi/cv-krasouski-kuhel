@@ -1,19 +1,18 @@
 {
-  "cancel": "Отмена",
-  "update": "Обновить",
-  "confirm": "Подтвердить",
-  "add": "Добавить",
-  "create": "Создать",
+  "cancel": "ОТМЕНА",
+  "update": "ОБНОВИТЬ",
+  "confirm": "ПОДТВЕРДИТЬ",
+  "add": "ДОБАВИТЬ",
+  "create": "СОЗДАТЬ",
 
-  "export-pdf": "Экспорт в PDF",
-  "create-user": "Создать пользователя",
-  "create-cv": "Создать резюме",
-  "add-project": "Добавить проект",
+  "export-pdf": "ЭКСПОРТ В PDF",
+  "create-cv": "СОЗДАТЬ РЕЗЮМЕ",
+  "add-project": "ДОБАВИТЬ ПРОЕКТ",
 
-  "remove-skills": "Удалить навыки",
-  "add-skill": "Добавить навык",
-  "create-skill": "Создать навык",
-  "remove-language": "Удалить язык",
-  "add-language": "Добавить язык",
-  "close-aria": "Закрыть модальное окно"
+  "remove-skills": "УДАЛИТЬ НАВЫКИ",
+  "add-skill": "ДОБАВИТЬ НАВЫК",
+  "create-skill": "СОЗДАТЬ НАВЫК",
+  "remove-language": "УДАЛИТЬ ЯЗЫК",
+  "add-language": "ДОБАВИТЬ ЯЗЫК",
+  "close-aria": "Звкрыть модальное окно"
 }
