@@ -89,11 +89,6 @@ export default function SideNav() {
               isCollapsed ? "rotate-180" : "rotate-0"
             )}
           />
-          {/* sx={{
-              transition: "transform 0.2s ease-in-out",
-              transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)",
-            }}
-          /> */}
         </IconButton>
       </div>
     </aside>
