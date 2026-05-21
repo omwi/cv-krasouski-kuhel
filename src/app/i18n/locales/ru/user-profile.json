@@ -1,7 +1,7 @@
 {
   "upload-avatar": {
     "text": "Загрузить изображение аватара",
-    "description:": "png, jpg или gif не более 0.5MB"
+    "description": "png, jpg или gif не более 0.5MB"
   },
   "member-since": "Член с {{date}}"
 }
