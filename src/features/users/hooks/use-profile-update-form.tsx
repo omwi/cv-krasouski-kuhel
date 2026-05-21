@@ -31,7 +31,7 @@ export function useProfileUpdateForm(userId: string) {
     register,
     control,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { isDirty },
   } = useForm<ProfileUpdateInput>({
     resolver: standardSchemaResolver(ProfileUpdateSchema),
     defaultValues: {
@@ -87,7 +87,6 @@ export function useProfileUpdateForm(userId: string) {
     onSubmit: handleSubmit(onSubmit),
     register,
     control,
-    errors,
     isDirty,
     isPending: isUpdatingProfile || isUpdatingUser,
   }

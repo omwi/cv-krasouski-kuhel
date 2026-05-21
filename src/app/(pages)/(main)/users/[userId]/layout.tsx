@@ -7,7 +7,7 @@ type Props = {
 }
 
 export default async function ProfileLayout({ children, params }: Props) {
-  const userId = parseInt((await params).userId)
+  const { userId } = await params
 
   const links: TabLink[] = [
     { href: paths.users.details.get(userId), i18nKey: "profile" },
