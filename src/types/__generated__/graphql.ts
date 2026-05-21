@@ -6,7 +6,6 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never
     }
-export type GetUsersListQueryVariables = Exact<{ [key: string]: never }>
 export type DeleteAvatarInput = {
   userId: string | number
 }
@@ -36,8 +35,6 @@ export type UserRole = "Admin" | "Employee"
 
 export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never }>
 
-export type GetUsersListQuery = {
-  users: Array<{
 export type GetDepartmentsQuery = {
   departments: Array<{ __typename: "Department"; id: string; name: string }>
 }
@@ -94,6 +91,29 @@ export type GetUserQuery = {
   user: {
     __typename: "User"
     id: string
+    created_at: string
+    email: string
+    is_verified: boolean
+    role: UserRole
+    profile: {
+      __typename: "Profile"
+      id: string
+      first_name: string | null
+      last_name: string | null
+      full_name: string | null
+      avatar: string | null
+    }
+    department: { __typename: "Department"; id: string; name: string } | null
+    position: { __typename: "Position"; id: string; name: string } | null
+  }
+}
+
+export type GetUsersListQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetUsersListQuery = {
+  users: Array<{
+    __typename: "User"
+    id: string
     email: string
     department_name: string | null
     position_name: string | null
@@ -105,4 +125,29 @@ export type GetUserQuery = {
       full_name: string | null
     }
   }>
+}
+
+export type UserQueryVariables = Exact<{
+  userId: string | number
+}>
+
+export type UserQuery = {
+  user: {
+    __typename: "User"
+    id: string
+    created_at: string
+    email: string
+    is_verified: boolean
+    role: UserRole
+    profile: {
+      __typename: "Profile"
+      id: string
+      first_name: string | null
+      last_name: string | null
+      full_name: string | null
+      avatar: string | null
+    }
+    department: { __typename: "Department"; id: string; name: string } | null
+    position: { __typename: "Position"; id: string; name: string } | null
+  }
 }
