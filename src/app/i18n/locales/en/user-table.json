@@ -1,10 +1,4 @@
 {
-  "profile": "Profile image",
-  "first-name": "First name",
-  "last-name": "Last name",
-  "email": "Email",
-  "department": "Department",
-  "position": "Position",
   "total-users": "Total: {{total}} users",
   "control-actions": {
     "aria-label": "Control actions",
@@ -12,7 +6,5 @@
     "update-user": "Edit user",
     "delete-user": "Delete user"
   },
-  "open-profile-aria-label": "Open {{name}}'s profile",
-  "search-placeholder": "Search...",
-  "not-found": "No results found"
+  "open-profile-aria-label": "Open {{name}}'s profile"
 }

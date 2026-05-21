@@ -1,10 +1,4 @@
 {
-  "profile": "Фото профиля",
-  "first-name": "Имя",
-  "last-name": "Фамилия",
-  "email": "Почта",
-  "department": "Департамент",
-  "position": "Позиция",
   "total-users": "Всего: {{total}} пользователей",
   "control-actions": {
     "aria-label": "Действия управления",
@@ -12,7 +6,5 @@
     "update-user": "Редактировать профиль",
     "delete-user": "Удалить пользователя"
   },
-  "open-profile-aria-label": "Открыть профиль пользователя {{name}}",
-  "search-placeholder": "Поиск...",
-  "not-found": "Ничего не найдено"
+  "open-profile-aria-label": "Открыть профиль пользователя {{name}}"
 }

@@ -24,7 +24,7 @@ export default function SearchPanel({
   debounceMs = 300,
   className,
 }: SearchPanelProps) {
-  const { t } = useT("user-table")
+  const { t } = useT("common")
 
   const [localValue, setLocalValue] = useDebouncedInput({
     externalValue: value,

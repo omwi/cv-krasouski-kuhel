@@ -17,7 +17,7 @@ type UseTableUrlStateOptions = {
   defaultPerPage?: number
 }
 
-export function useTableUrlState(options?: UseTableUrlStateOptions) {
+export function useTableUrlState(options: UseTableUrlStateOptions = {}) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -26,7 +26,7 @@ export function useTableUrlState(options?: UseTableUrlStateOptions) {
     defaultSortBy = "id",
     defaultSortOrder = "desc",
     defaultPerPage = 20,
-  } = options || {}
+  } = options
 
   const params: TableUrlParams = useMemo(() => {
     const querySortOrder = searchParams.get("sortOrder")
@@ -43,7 +43,7 @@ export function useTableUrlState(options?: UseTableUrlStateOptions) {
   }, [searchParams, defaultSortBy, defaultSortOrder, defaultPerPage])
 
   const updateParams = (newParams: Partial<TableUrlParams>) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()))
+    const current = new URLSearchParams(searchParams.toString())
 
     Object.entries(newParams).forEach(([key, value]) => {
       if (value === undefined || value === null || value === "") {

@@ -1,8 +1,8 @@
 import { useMemo } from "react"
 
-import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
-import { TableUser } from "@/features/users/components/users-table"
+import { TableUser } from "@/features/users/components/user-table/users-table"
 import { TableUrlParams } from "@/hooks/use-table-url-state"
+import type { CurrentUser } from "@/utils/get-auth-user"
 
 export function useProcessedUsers(
   users: TableUser[],

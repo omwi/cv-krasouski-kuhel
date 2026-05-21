@@ -2,7 +2,6 @@ import { useRouter } from "next/navigation"
 import { ChevronRight, MoreVertical } from "lucide-react"
 import { useT } from "next-i18next/client"
 
-import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
 import { Button } from "@/components/ui/button"
 import {
   Popover,
@@ -10,7 +9,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { paths } from "@/config/paths"
-import { TableUser } from "@/features/users/components/users-table"
+import { TableUser } from "@/features/users/components/user-table/users-table"
+import type { CurrentUser } from "@/utils/get-auth-user"
 
 export function UserRowActions({
   rowUser,

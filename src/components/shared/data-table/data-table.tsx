@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import { useT } from "next-i18next/client"
 
 import {
   Table,
@@ -22,7 +23,7 @@ export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   totalCount: number
-  noResultsText?: string
+  noResultsI18Key?: string
   defaultSortBy?: string
   defaultPerPage?: number
   totalText: string
@@ -32,7 +33,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   totalCount,
-  noResultsText = "No results.",
+  noResultsI18Key = "common",
   defaultPerPage = 20,
   totalText,
 }: DataTableProps<TData, TValue>) {
@@ -41,6 +42,8 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
+  const { t } = useT(noResultsI18Key)
+  const noResultsText = t("not-found")
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col gap-4 overflow-hidden">

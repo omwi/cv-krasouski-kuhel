@@ -3,14 +3,14 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { useT } from "next-i18next/client"
 
-import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { UserRowActions } from "@/features/users/components/user-row-actions"
-import { TableUser } from "@/features/users/components/users-table"
+import { UserRowActions } from "@/features/users/components/user-table/user-row-actions"
+import { TableUser } from "@/features/users/components/user-table/users-table"
+import type { CurrentUser } from "@/utils/get-auth-user"
 
 const SRHeader = ({ titleKey }: { titleKey: string }) => {
-  const { t } = useT("user-table")
+  const { t } = useT("users")
   return <span className="sr-only">{t(titleKey)}</span>
 }
 
@@ -21,7 +21,7 @@ const SortableHeader = ({
   titleKey: string
   sortKey: string
 }) => {
-  const { t } = useT("user-table")
+  const { t } = useT("users")
 
   return (
     <DataTableColumnHeader

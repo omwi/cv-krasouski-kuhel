@@ -5,14 +5,14 @@ import { useSuspenseQuery } from "@apollo/client/react"
 import { Plus } from "lucide-react"
 import { useT } from "next-i18next/client"
 
-import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
 import { DataTable } from "@/components/shared/data-table/data-table"
 import SearchPanel from "@/components/shared/search-panel"
 import { Button } from "@/components/ui/button"
-import { GET_USERS_LIST } from "@/features/users/graphql/queries"
 import { useProcessedUsers } from "@/features/users/hooks/use-processed-users"
+import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
+import type { CurrentUser } from "@/utils/get-auth-user"
 
 import { getColumns } from "./users-table-columns"
 
@@ -58,7 +58,6 @@ export default function UsersTable({
         columns={columns}
         data={paginatedData}
         totalCount={totalCount}
-        noResultsText={t("not-found")}
         defaultSortBy="firstName"
         totalText={t("total-users", { total: totalCount })}
       />
