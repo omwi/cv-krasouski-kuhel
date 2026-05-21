@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { useT } from "next-i18next/client"
 
+import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserRowActions } from "@/features/users/components/user-row-actions"
@@ -31,7 +32,9 @@ const SortableHeader = ({
   )
 }
 
-export const columns: ColumnDef<TableUser>[] = [
+export const getColumns = (
+  currentUser: CurrentUser
+): ColumnDef<TableUser>[] => [
   {
     id: "avatar",
     header: () => <SRHeader titleKey="profile" />,
@@ -90,6 +93,8 @@ export const columns: ColumnDef<TableUser>[] = [
   {
     id: "actions",
     header: () => <SRHeader titleKey="control-actions.aria-label" />,
-    cell: ({ row }) => <UserRowActions rowUser={row.original} />,
+    cell: ({ row }) => (
+      <UserRowActions rowUser={row.original} currentUser={currentUser} />
+    ),
   },
 ]

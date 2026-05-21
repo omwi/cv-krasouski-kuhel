@@ -1,8 +1,8 @@
 import { useRouter } from "next/navigation"
-import { useReactiveVar } from "@apollo/client/react"
 import { ChevronRight, MoreVertical } from "lucide-react"
 import { useT } from "next-i18next/client"
 
+import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
 import { Button } from "@/components/ui/button"
 import {
   Popover,
@@ -11,10 +11,14 @@ import {
 } from "@/components/ui/popover"
 import { paths } from "@/config/paths"
 import { TableUser } from "@/features/users/components/users-table"
-import { authUserVar } from "@/lib/apollo/auth-var"
 
-export function UserRowActions({ rowUser }: { rowUser: TableUser }) {
-  const currentUser = useReactiveVar(authUserVar)
+export function UserRowActions({
+  rowUser,
+  currentUser,
+}: {
+  rowUser: TableUser
+  currentUser: CurrentUser
+}) {
   const router = useRouter()
   const { t } = useT("user-table")
 

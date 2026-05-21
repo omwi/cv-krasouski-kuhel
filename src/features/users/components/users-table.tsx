@@ -1,35 +1,41 @@
 "use client"
 
-import { useReactiveVar, useSuspenseQuery } from "@apollo/client/react"
+import { useMemo } from "react"
+import { useSuspenseQuery } from "@apollo/client/react"
 import { Plus } from "lucide-react"
 import { useT } from "next-i18next/client"
 
+import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
 import { DataTable } from "@/components/shared/data-table/data-table"
 import SearchPanel from "@/components/shared/search-panel"
 import { Button } from "@/components/ui/button"
 import { GET_USERS_LIST } from "@/features/users/graphql/queries"
 import { useProcessedUsers } from "@/features/users/hooks/use-processed-users"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import { authUserVar } from "@/lib/apollo/auth-var"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
 
-import { columns } from "./users-table-columns"
+import { getColumns } from "./users-table-columns"
 
 export type TableUser = GetUsersListQuery["users"][0]
 
-export default function UsersTable() {
+export default function UsersTable({
+  CurrentUser,
+}: {
+  CurrentUser: CurrentUser
+}) {
   const { data } = useSuspenseQuery(GET_USERS_LIST)
+  const columns = useMemo(() => getColumns(CurrentUser), [CurrentUser])
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "firstName",
   })
   const { t } = useT("user-table")
-  const currentUser = useReactiveVar(authUserVar)
 
-  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
+  const isAdmin = CurrentUser?.role?.toLowerCase() === "admin"
 
   const { paginatedData, totalCount } = useProcessedUsers(
     data?.users || [],
-    params
+    params,
+    CurrentUser
   )
 
   return (

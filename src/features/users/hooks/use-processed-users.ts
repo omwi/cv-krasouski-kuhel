@@ -1,13 +1,14 @@
 import { useMemo } from "react"
-import { useReactiveVar } from "@apollo/client/react"
 
+import type { CurrentUser } from "@/app/(pages)/(main)/users/page"
 import { TableUser } from "@/features/users/components/users-table"
 import { TableUrlParams } from "@/hooks/use-table-url-state"
-import { authUserVar } from "@/lib/apollo/auth-var"
 
-export function useProcessedUsers(users: TableUser[], params: TableUrlParams) {
-  const currentUser = useReactiveVar(authUserVar)
-
+export function useProcessedUsers(
+  users: TableUser[],
+  params: TableUrlParams,
+  currentUser: CurrentUser
+) {
   return useMemo(() => {
     if (!users || !users.length) return { paginatedData: [], totalCount: 0 }
 
