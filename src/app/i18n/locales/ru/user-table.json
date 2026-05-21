@@ -5,19 +5,12 @@
   "email": "Почта",
   "department": "Департамент",
   "position": "Позиция",
-  "pagination": "Страница {{current}} из {{total}}",
   "total-users": "Всего: {{total}} пользователей",
   "control-actions": {
     "aria-label": "Действия управления",
     "profile": "Профиль",
     "update-user": "Редактировать профиль",
     "delete-user": "Удалить пользователя"
-  },
-  "control-pagination": {
-    "first-page": "Перейти на первую страницу",
-    "prev-page": "Перейти на предыдущую страницу",
-    "next-page": "Перейти на следующую страницу",
-    "last-page": "Перейти на последнюю страницу"
   },
   "open-profile-aria-label": "Открыть профиль пользователя {{name}}",
   "search-placeholder": "Поиск...",

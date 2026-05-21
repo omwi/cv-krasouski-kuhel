@@ -5,19 +5,12 @@
   "email": "Email",
   "department": "Department",
   "position": "Position",
-  "pagination": "Page {{current}} of {{total}}",
   "total-users": "Total: {{total}} users",
   "control-actions": {
     "aria-label": "Control actions",
     "profile": "Profile",
     "update-user": "Edit user",
     "delete-user": "Delete user"
-  },
-  "control-pagination": {
-    "first-page": "Go to first page",
-    "prev-page": "Go to previous page",
-    "next-page": "Go to next page",
-    "last-page": "Go to last page"
   },
   "open-profile-aria-label": "Open {{name}}'s profile",
   "search-placeholder": "Search...",

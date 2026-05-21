@@ -3,7 +3,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 export type SortOrder = "asc" | "desc"
 
-export type UsersUrlParams = {
+export type TableUrlParams = {
   page: number
   perPage: number
   search: string
@@ -11,23 +11,38 @@ export type UsersUrlParams = {
   sortOrder: SortOrder
 }
 
-export function useUsersUrlState() {
+type UseTableUrlStateOptions = {
+  defaultSortBy?: string
+  defaultSortOrder?: SortOrder
+  defaultPerPage?: number
+}
+
+export function useTableUrlState(options?: UseTableUrlStateOptions) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const params: UsersUrlParams = useMemo(() => {
+  const {
+    defaultSortBy = "id",
+    defaultSortOrder = "desc",
+    defaultPerPage = 20,
+  } = options || {}
+
+  const params: TableUrlParams = useMemo(() => {
+    const querySortOrder = searchParams.get("sortOrder")
     return {
       page: Number(searchParams.get("page")) || 1,
-      perPage: Number(searchParams.get("perPage")) || 20,
+      perPage: Number(searchParams.get("perPage")) || defaultPerPage,
       search: searchParams.get("search") || "",
-      sortBy: searchParams.get("sortBy") || "firstName",
+      sortBy: searchParams.get("sortBy") || defaultSortBy,
       sortOrder:
-        (searchParams.get("sortOrder") as SortOrder) === "asc" ? "asc" : "desc",
+        querySortOrder === "asc" || querySortOrder === "desc"
+          ? querySortOrder
+          : defaultSortOrder,
     }
-  }, [searchParams])
+  }, [searchParams, defaultSortBy, defaultSortOrder, defaultPerPage])
 
-  const updateParams = (newParams: Partial<UsersUrlParams>) => {
+  const updateParams = (newParams: Partial<TableUrlParams>) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()))
 
     Object.entries(newParams).forEach(([key, value]) => {

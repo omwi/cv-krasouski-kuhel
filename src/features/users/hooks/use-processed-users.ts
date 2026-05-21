@@ -2,11 +2,10 @@ import { useMemo } from "react"
 import { useReactiveVar } from "@apollo/client/react"
 
 import { TableUser } from "@/features/users/components/users-table"
+import { TableUrlParams } from "@/hooks/use-table-url-state"
 import { authUserVar } from "@/lib/apollo/auth-var"
 
-import { UsersUrlParams } from "./use-users-url-state"
-
-export function useProcessedUsers(users: TableUser[], params: UsersUrlParams) {
+export function useProcessedUsers(users: TableUser[], params: TableUrlParams) {
   const currentUser = useReactiveVar(authUserVar)
 
   return useMemo(() => {

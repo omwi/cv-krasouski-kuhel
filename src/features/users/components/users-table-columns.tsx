@@ -1,14 +1,12 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MoveDown, MoveUp } from "lucide-react"
 import { useT } from "next-i18next/client"
 
+import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { UserRowActions } from "@/features/users/components/user-row-actions"
 import { TableUser } from "@/features/users/components/users-table"
-import { useUsersUrlState } from "@/features/users/hooks/use-users-url-state"
 
 const SRHeader = ({ titleKey }: { titleKey: string }) => {
   const { t } = useT("user-table")
@@ -22,37 +20,14 @@ const SortableHeader = ({
   titleKey: string
   sortKey: string
 }) => {
-  const { params, updateParams } = useUsersUrlState()
   const { t } = useT("user-table")
 
-  const isSorted = params.sortBy === sortKey
-  const isAsc = isSorted && params.sortOrder === "asc"
-
-  const toggleSort = () => {
-    if (!isSorted) {
-      updateParams({ sortBy: sortKey, sortOrder: "asc", page: 1 })
-    } else if (isAsc) {
-      updateParams({ sortOrder: "desc", page: 1 })
-    } else {
-      if (sortKey === "firstName") {
-        updateParams({ sortOrder: "asc", page: 1 })
-      } else {
-        updateParams({ sortBy: "firstName", sortOrder: "asc", page: 1 })
-      }
-    }
-  }
-
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={toggleSort}
-      className="h-full w-full min-w-0 justify-start p-4 text-foreground hover:bg-transparent"
-    >
-      <span>{t(titleKey)}</span>
-      {isSorted && isAsc && <MoveUp className="ml-2 h-4 w-4" />}
-      {isSorted && !isAsc && <MoveDown className="ml-2 h-4 w-4" />}
-    </Button>
+    <DataTableColumnHeader
+      title={t(titleKey)}
+      sortKey={sortKey}
+      defaultSortBy="firstName"
+    />
   )
 }
 

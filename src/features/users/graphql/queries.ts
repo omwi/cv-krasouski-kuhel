@@ -1,6 +1,14 @@
-import { gql } from "@apollo/client"
+import { gql, TypedDocumentNode } from "@apollo/client"
 
-export const GET_USERS_LIST = gql`
+import {
+  GetUsersListQuery,
+  GetUsersListQueryVariables,
+} from "@/types/__generated__/graphql"
+
+export const GET_USERS_LIST: TypedDocumentNode<
+  GetUsersListQuery,
+  GetUsersListQueryVariables
+> = gql`
   query GetUsersList {
     users {
       id
