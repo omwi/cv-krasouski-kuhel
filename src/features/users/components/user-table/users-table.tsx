@@ -47,7 +47,7 @@ export default function UsersTable({
           className="w-62.5 shrink-0 py-4 lg:w-87.5"
           debounceMs={300}
         />
-        {!isAdmin && (
+        {isAdmin && (
           <Button variant="outline-primary">
             <Plus />
             {t("create-user")}
