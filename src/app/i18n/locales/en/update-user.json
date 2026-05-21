@@ -1,3 +1,6 @@
 {
-  "title": "Update user"
+  "title": "Update user",
+  "success": "User updated successfully!",
+  "no-changes": "No changes detected.",
+  "error": "Failed to update user. Please try again."
 }

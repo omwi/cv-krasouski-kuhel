@@ -4,6 +4,7 @@
   "confirm": "CONFIRM",
   "add": "ADD",
   "create": "CREATE",
+  "delete": "DELETE",
 
   "export-pdf": "EXPORT PDF",
   "create-user": "CREATE USER",

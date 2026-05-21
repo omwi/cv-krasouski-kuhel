@@ -1,0 +1,9 @@
+{
+  "email": "Электронная почта",
+  "password": "Пароль",
+  "first-name": "Имя",
+  "last-name": "Фамилия",
+  "department": "Департамент",
+  "position": "Позиция",
+  "role": "Роль"
+}
