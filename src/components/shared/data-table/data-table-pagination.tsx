@@ -29,10 +29,10 @@ export function DataTablePagination({
   const currentPage = params.page
 
   return (
-    <div className="flex shrink-0 items-center justify-between py-4">
+    <div className="flex shrink-0 items-center justify-between py-4 max-sm:flex-col max-sm:items-start">
       <p className="flex-1 text-sm text-muted-foreground">{totalText}</p>
       {totalPages > 1 && (
-        <div className="flex items-center gap-6 lg:gap-8">
+        <div className="flex items-center gap-6 max-sm:w-full max-sm:justify-between lg:gap-8">
           <p className="text-sm font-medium">
             {t("pagination.page-info", {
               current: currentPage,

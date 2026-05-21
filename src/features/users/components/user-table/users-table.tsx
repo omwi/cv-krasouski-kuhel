@@ -40,7 +40,7 @@ export default function UsersTable({
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col gap-4 overflow-hidden">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between max-sm:flex-col max-sm:items-start">
         <SearchPanel
           value={params.search}
           onChangeAction={(value) => updateParams({ search: value })}
