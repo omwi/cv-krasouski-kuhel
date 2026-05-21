@@ -1,7 +1,7 @@
 {
-  "profile": "Profile image",
-  "first-name": "First name",
-  "last-name": "Last name",
+  "profile-image": "Profile Image",
+  "first-name": "First Name",
+  "last-name": "Last Name",
   "email": "Email",
   "department": "Department",
   "position": "Position"

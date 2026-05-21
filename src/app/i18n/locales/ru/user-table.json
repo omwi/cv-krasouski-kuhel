@@ -1,10 +1,12 @@
 {
   "total-users": "Всего: {{total}} пользователей",
+  "create-user": "СОЗДАТЬ ПОЛЬЗЕВАТЕЛЯ",
+
   "control-actions": {
-    "aria-label": "Действия управления",
+    "aria-label": "Действия Управления",
     "profile": "Профиль",
-    "update-user": "Редактировать профиль",
-    "delete-user": "Удалить пользователя"
+    "update-user": "Редактировать Профиль",
+    "delete-user": "Удалить Пользователя"
   },
   "open-profile-aria-label": "Открыть профиль пользователя {{name}}"
 }

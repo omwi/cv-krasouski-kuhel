@@ -37,7 +37,7 @@ export const getColumns = (
 ): ColumnDef<TableUser>[] => [
   {
     id: "avatar",
-    header: () => <SRHeader titleKey="profile" />,
+    header: () => <SRHeader titleKey="profile-image" />,
     cell: ({ row }) => {
       const user = row.original
       const initials =

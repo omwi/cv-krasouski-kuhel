@@ -1,0 +1,19 @@
+{
+  "cancel": "CANCEL",
+  "update": "UPDATE",
+  "confirm": "CONFIRM",
+  "add": "ADD",
+  "create": "CREATE",
+
+  "export-pdf": "EXPORT PDF",
+  "create-user": "CREATE USER",
+  "create-cv": "CREATE CV",
+  "add-project": "ADD PROJECT",
+
+  "remove-skills": "REMOVE SKILLS",
+  "add-skill": "ADD SKILL",
+  "create-skill": "CREATE SKILL",
+  "remove-language": "REMOVE LANGUAGE",
+  "add-language": "ADD LANGUAGE",
+  "close-aria": "CLOSE MODAL"
+}

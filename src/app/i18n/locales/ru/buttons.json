@@ -1,0 +1,18 @@
+{
+  "cancel": "ОТМЕНА",
+  "update": "ОБНОВИТЬ",
+  "confirm": "ПОДТВЕРДИТЬ",
+  "add": "ДОБАВИТЬ",
+  "create": "СОЗДАТЬ",
+
+  "export-pdf": "ЭКСПОРТ В PDF",
+  "create-cv": "СОЗДАТЬ РЕЗЮМЕ",
+  "add-project": "ДОБАВИТЬ ПРОЕКТ",
+
+  "remove-skills": "УДАЛИТЬ НАВЫКИ",
+  "add-skill": "ДОБАВИТЬ НАВЫК",
+  "create-skill": "СОЗДАТЬ НАВЫК",
+  "remove-language": "УДАЛИТЬ ЯЗЫК",
+  "add-language": "ДОБАВИТЬ ЯЗЫК",
+  "close-aria": "ЗАКРЫТЬ МОДАЛЬНОЕ ОКНО"
+}
