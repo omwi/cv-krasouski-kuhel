@@ -1,1 +1,11 @@
-{}
+{
+  "pagination": {
+    "page-info": "Page {{current}} of {{total}}",
+    "first-page": "Go to first page",
+    "prev-page": "Go to previous page",
+    "next-page": "Go to next page",
+    "last-page": "Go to last page"
+  },
+  "search-placeholder": "Search...",
+  "not-found": "No results found"
+}

@@ -1,4 +1,4 @@
-import { serverEnv } from "./src/config/env.server"
+import { serverEnv } from "./src/config/env.server.ts"
 
 const config = {
   schema: serverEnv.API_URL,

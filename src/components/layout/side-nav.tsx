@@ -57,7 +57,7 @@ export default function SideNav() {
   return (
     <aside
       className={cn(
-        "flex flex-row overflow-x-hidden",
+        "flex flex-shrink-0 flex-row overflow-x-hidden",
         "h-14 gap-3.5 px-4",
         "md:h-full md:flex-col md:justify-between md:overflow-y-auto md:px-0 md:pt-11 md:pb-4",
         "transition-discrete duration-300",
