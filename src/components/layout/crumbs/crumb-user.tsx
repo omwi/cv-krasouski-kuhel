@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client/react"
 import { Users } from "lucide-react"
 
 import Crumb from "@/components/layout/crumbs/crumb"
-import { GET_USER } from "@/features/users/graphql/users/queries"
+import { GET_USER } from "@/graphql/users/queries"
 
 type Props = {
   userId: number

@@ -10,8 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
-import { GET_POSITIONS } from "../graphql/queries"
+import { GET_POSITIONS } from "@/graphql/positions/queries"
 
 type Props = React.ComponentProps<typeof Select>
 

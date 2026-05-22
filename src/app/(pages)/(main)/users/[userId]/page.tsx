@@ -4,7 +4,7 @@ import { PreloadQuery } from "@/apollo-client"
 import AvatarUpload from "@/features/users/components/profile/avatar-upload"
 import ProfileTextInfo from "@/features/users/components/profile/profile-text-info"
 import ProfileUpdateForm from "@/features/users/components/profile/profile-update-form"
-import { GET_USER } from "@/features/users/graphql/users/queries"
+import { GET_USER } from "@/graphql/users/queries"
 import { canUpdateUser } from "@/utils/permissions"
 
 export async function generateMetadata() {

@@ -3,7 +3,7 @@
 import { useSuspenseQuery } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 
-import { GET_USER } from "@/features/users/graphql/users/queries"
+import { GET_USER } from "@/graphql/users/queries"
 import { toHumanDate } from "@/utils/date"
 
 export default function ProfileTextInfo({ userId }: { userId: string }) {

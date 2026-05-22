@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { UPDATE_PROFILE, UPDATE_USER } from "../graphql/users/mutations"
-import { GET_USER } from "../graphql/users/queries"
+import { UPDATE_PROFILE, UPDATE_USER } from "@/graphql/users/mutations"
+import { GET_USER } from "@/graphql/users/queries"
 
 const ProfileUpdateSchema = z.object({
   firstName: z.string(),

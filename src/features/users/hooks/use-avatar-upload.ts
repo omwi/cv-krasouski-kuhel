@@ -3,11 +3,10 @@ import { useMutation } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 import { toast } from "sonner"
 
+import { DELETE_AVATAR, UPLOAD_AVATAR } from "@/graphql/users/mutations"
+import { GET_USER } from "@/graphql/users/queries"
 import { UploadAvatarInput } from "@/types/__generated__/graphql"
 import { fileToBase64 } from "@/utils/file"
-
-import { DELETE_AVATAR, UPLOAD_AVATAR } from "../graphql/users/mutations"
-import { GET_USER } from "../graphql/users/queries"
 
 export function useAvatarUpload(userId: string) {
   const { t } = useT(["user-profile"])
