@@ -29,7 +29,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
       )}
     >
       <Avatar>
-        <AvatarImage src={user.avatarSrc ?? ""} />
+        <AvatarImage src={user.avatarSrc ?? undefined} />
         <AvatarFallback className="bg-avatar-nav">
           {displayName[0].toUpperCase()}
         </AvatarFallback>

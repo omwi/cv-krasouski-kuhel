@@ -26,8 +26,14 @@ export default function AvatarUpload({
   })
   const { user } = data
 
-  const { isLoading, onAvatarReject, onAvatarAccept, onAvatarDelete } =
-    useAvatarUpload(userId)
+  const {
+    isLoading,
+    onAvatarReject,
+    onAvatarAccept,
+    onAvatarDelete,
+    files,
+    clearFiles,
+  } = useAvatarUpload(userId)
 
   const displayName = user.profile.full_name || user.email
 
@@ -53,6 +59,8 @@ export default function AvatarUpload({
       </div>
 
       <FileUpload
+        value={files}
+        onValueChange={clearFiles}
         disabled={isLoading || !hasUpdatePermission}
         accept=".png, .jpg, .jpeg, .gif"
         maxSize={0.5 * 1024 * 1024}

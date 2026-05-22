@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useMutation } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 import { toast } from "sonner"
@@ -10,6 +11,9 @@ import { GET_USER } from "../graphql/users/queries"
 
 export function useAvatarUpload(userId: string) {
   const { t } = useT(["user-profile"])
+
+  const [files, setFiles] = useState([])
+  const clearFiles = () => setFiles([])
 
   const [uploadAvatar, { loading: isUploading }] = useMutation(UPLOAD_AVATAR, {
     refetchQueries: [{ query: GET_USER, variables: { userId } }],
@@ -64,5 +68,12 @@ export function useAvatarUpload(userId: string) {
     toast.success(t("delete-avatar.success"))
   }
 
-  return { onAvatarReject, onAvatarAccept, onAvatarDelete, isLoading }
+  return {
+    onAvatarReject,
+    onAvatarAccept,
+    onAvatarDelete,
+    isLoading,
+    files,
+    clearFiles,
+  }
 }
