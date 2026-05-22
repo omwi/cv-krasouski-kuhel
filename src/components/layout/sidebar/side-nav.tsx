@@ -10,9 +10,9 @@ import {
 } from "lucide-react"
 import { useT } from "next-i18next/client"
 
-import ActionsPopover from "@/components/layout/actions-popover"
-import NavAvatar from "@/components/layout/nav-avatar"
-import NavLink from "@/components/layout/nav-link"
+import ActionsPopover from "@/components/layout/sidebar/actions-popover"
+import NavAvatar from "@/components/layout/sidebar/nav-avatar"
+import NavLink from "@/components/layout/sidebar/nav-link"
 import IconButton from "@/components/shared/icon-button"
 import { paths } from "@/config/paths"
 import { cn } from "@/lib/utils"

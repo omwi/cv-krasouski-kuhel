@@ -1,10 +1,18 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  CreateUserMutation,
+  CreateUserMutationVariables,
+  DeleteAvatarMutation,
+  DeleteAvatarMutationVariables,
+  DeleteUserMutation,
+  DeleteUserMutationVariables,
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
   UpdateUserMutation,
   UpdateUserMutationVariables,
+  UploadAvatarMutation,
+  UploadAvatarMutationVariables,
 } from "@/types/__generated__/graphql"
 
 export const UPLOAD_AVATAR: TypedDocumentNode<
@@ -63,7 +71,9 @@ export const DELETE_USER: TypedDocumentNode<
   mutation DeleteUser($userId: ID!) {
     deleteUser(userId: $userId) {
       affected
-     `
+    }
+  }
+`
 
 export const UPDATE_USER: TypedDocumentNode<
   UpdateUserMutation,
