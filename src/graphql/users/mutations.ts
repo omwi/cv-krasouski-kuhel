@@ -1,8 +1,12 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  CreateUserMutation,
+  CreateUserMutationVariables,
   DeleteAvatarMutation,
   DeleteAvatarMutationVariables,
+  DeleteUserMutation,
+  DeleteUserMutationVariables,
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
   UpdateUserMutation,
@@ -28,7 +32,6 @@ export const DELETE_AVATAR: TypedDocumentNode<
     deleteAvatar(avatar: $avatar)
   }
 `
-
 export const UPDATE_PROFILE: TypedDocumentNode<
   UpdateProfileMutation,
   UpdateProfileMutationVariables
@@ -38,6 +41,36 @@ export const UPDATE_PROFILE: TypedDocumentNode<
       id
       first_name
       last_name
+    }
+  }
+`
+
+export const CREATE_USER: TypedDocumentNode<
+  CreateUserMutation,
+  CreateUserMutationVariables
+> = gql`
+  mutation CreateUser($user: CreateUserInput!) {
+    createUser(user: $user) {
+      id
+      email
+      role
+      department_name
+      position_name
+      profile {
+        first_name
+        last_name
+      }
+    }
+  }
+`
+
+export const DELETE_USER: TypedDocumentNode<
+  DeleteUserMutation,
+  DeleteUserMutationVariables
+> = gql`
+  mutation DeleteUser($userId: ID!) {
+    deleteUser(userId: $userId) {
+      affected
     }
   }
 `

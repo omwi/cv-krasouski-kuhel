@@ -1,10 +1,9 @@
 import { useReactiveVar } from "@apollo/client/react"
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { authUserVar } from "@/lib/apollo/auth-var"
 import { cn } from "@/lib/utils"
-
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar"
-import { Button } from "../../ui/button"
 
 type Props = React.ComponentPropsWithRef<typeof Button> & {
   isCollapsed?: boolean
@@ -29,7 +28,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
       )}
     >
       <Avatar>
-        <AvatarImage src={user.avatarSrc ?? undefined} />
+        <AvatarImage src={user.avatarSrc ?? ""} />
         <AvatarFallback className="bg-avatar-nav">
           {displayName[0].toUpperCase()}
         </AvatarFallback>

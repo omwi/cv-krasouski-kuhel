@@ -14,6 +14,10 @@ const i18nConfig: I18nConfig = {
     "buttons",
     "settings",
     "user-profile",
+    "update-user",
+    "create-user",
+    "input",
+    "delete",
   ],
   localeInPath: false,
   resourceLoader:

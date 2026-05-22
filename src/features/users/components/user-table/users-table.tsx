@@ -8,13 +8,13 @@ import { useT } from "next-i18next/client"
 import { DataTable } from "@/components/shared/data-table/data-table"
 import SearchPanel from "@/components/shared/search-panel"
 import { Button } from "@/components/ui/button"
+import CreateUser from "@/features/users/components/actions/create-user"
+import { getColumns } from "@/features/users/components/user-table/users-table-columns"
 import { useProcessedUsers } from "@/features/users/hooks/use-processed-users"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
 import type { CurrentUser } from "@/utils/permissions"
-
-import { getColumns } from "./users-table-columns"
 
 export type TableUser = GetUsersListQuery["users"][0]
 
@@ -31,7 +31,6 @@ export default function UsersTable({
   const { t } = useT("user-table")
 
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
-
   const { paginatedData, totalCount } = useProcessedUsers(
     data?.users || [],
     params,
@@ -40,7 +39,7 @@ export default function UsersTable({
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col gap-4 overflow-hidden">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between max-sm:flex-col max-sm:items-start">
         <SearchPanel
           value={params.search}
           onChangeAction={(value) => updateParams({ search: value })}
@@ -48,10 +47,12 @@ export default function UsersTable({
           debounceMs={300}
         />
         {isAdmin && (
-          <Button variant="outline-primary">
-            <Plus />
-            {t("create-user")}
-          </Button>
+          <CreateUser currentUser={currentUser}>
+            <Button variant="outline-primary">
+              <Plus />
+              {t("create-user")}
+            </Button>
+          </CreateUser>
         )}
       </div>
       <DataTable

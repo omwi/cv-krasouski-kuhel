@@ -2,12 +2,11 @@ import { useReactiveVar } from "@apollo/client/react"
 import { CircleUser, Settings } from "lucide-react"
 import { useT } from "next-i18next/client"
 
+import ActionLink from "@/components/layout/sidebar/action-link"
+import LogoutButton from "@/components/layout/sidebar/logout-button"
+import { Separator } from "@/components/ui/separator"
 import { paths } from "@/config/paths"
 import { authUserVar } from "@/lib/apollo/auth-var"
-
-import { Separator } from "../../ui/separator"
-import ActionLink from "./action-link"
-import LogoutButton from "./logout-button"
 
 export default function Actions() {
   const { t } = useT("nav")

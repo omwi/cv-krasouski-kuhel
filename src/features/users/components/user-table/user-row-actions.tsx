@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ChevronRight, MoreVertical } from "lucide-react"
 import { useT } from "next-i18next/client"
@@ -9,6 +10,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { paths } from "@/config/paths"
+import DeleteUser from "@/features/users/components/actions/delete-user"
+import UpdateUser from "@/features/users/components/actions/update-user"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import type { CurrentUser } from "@/utils/permissions"
 
@@ -22,6 +25,10 @@ export function UserRowActions({
   const router = useRouter()
   const { t } = useT("user-table")
 
+  const [popoverOpen, setPopoverOpen] = useState(false)
+  const [editOpen, setEditOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+
   if (!currentUser) return null
 
   const isMe = currentUser.id === rowUser.id
@@ -30,49 +37,75 @@ export function UserRowActions({
 
   if (isAdmin || isMe) {
     return (
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant="ghost"
-            className="h-9 w-9 min-w-0 p-0"
-            aria-label={t("control-actions.aria-label")}
+      <>
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              className="h-9 w-9 min-w-0 p-0"
+              aria-label={t("control-actions.aria-label")}
+            >
+              <MoreVertical className="h-4 w-4 text-foreground" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            align="end"
+            hideWhenDetached
+            className="mx-4 w-50 rounded-xs p-0 shadow-lg"
           >
-            <MoreVertical className="h-4 w-4 text-foreground" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          align="end"
-          hideWhenDetached
-          className="mx-4 w-50 rounded-xs p-0 shadow-lg"
-        >
-          <div className="flex flex-col">
-            <Button
-              variant="ghost"
-              className="min-w-0 justify-start rounded-none text-foreground"
-              onClick={() => {
-                router.push(paths.users.details.get(Number(rowUser.id)))
-              }}
-            >
-              {t("control-actions.profile")}
-            </Button>
-            <Button
-              variant="ghost"
-              className="min-w-0 justify-start rounded-none text-foreground"
-              onClick={() => console.log("Edit user", rowUser.id)}
-            >
-              {t("control-actions.update-user")}
-            </Button>
-            <Button
-              variant="ghost"
-              className="min-w-0 justify-start rounded-none text-foreground"
-              onClick={() => console.log("Delete", rowUser.id)}
-              disabled={isMe}
-            >
-              {t("control-actions.delete-user")}
-            </Button>
-          </div>
-        </PopoverContent>
-      </Popover>
+            <div className="flex flex-col">
+              <Button
+                variant="ghost"
+                className="min-w-0 justify-start rounded-none text-foreground"
+                onClick={() => {
+                  setPopoverOpen(false)
+                  router.push(paths.users.details.get(Number(rowUser.id)))
+                }}
+              >
+                {t("control-actions.profile")}
+              </Button>
+              <Button
+                variant="ghost"
+                className="min-w-0 justify-start rounded-none text-foreground"
+                onClick={() => {
+                  setPopoverOpen(false)
+                  setEditOpen(true)
+                }}
+              >
+                {t("control-actions.update-user")}
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full min-w-0 justify-start rounded-none text-foreground"
+                disabled={isMe}
+                onClick={() => {
+                  setPopoverOpen(false)
+                  setDeleteOpen(true)
+                }}
+              >
+                {t("control-actions.delete-user")}
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        {editOpen && (
+          <UpdateUser
+            user={rowUser}
+            currentUser={currentUser}
+            open={editOpen}
+            onOpenChangeAction={setEditOpen}
+          />
+        )}
+
+        {deleteOpen && (
+          <DeleteUser
+            user={rowUser}
+            open={deleteOpen}
+            onOpenChangeAction={setDeleteOpen}
+          />
+        )}
+      </>
     )
   }
 

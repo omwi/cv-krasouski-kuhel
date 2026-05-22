@@ -2,13 +2,12 @@
 
 import { Fragment } from "react/jsx-runtime"
 
-import { useCrumbs } from "@/hooks/use-crumbs"
-
 import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "../../ui/breadcrumb"
+} from "@/components/ui/breadcrumb"
+import { useCrumbs } from "@/hooks/use-crumbs"
 
 export default function BreadcrumbNav() {
   const crumbs = useCrumbs()

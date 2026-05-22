@@ -1,9 +1,8 @@
 import { LogOut } from "lucide-react"
 import { useT } from "next-i18next/client"
 
+import { Button } from "@/components/ui/button"
 import { useLogout } from "@/features/auth/hooks/use-logout"
-
-import { Button } from "../../ui/button"
 
 export default function LogoutButton() {
   const { t } = useT("nav")

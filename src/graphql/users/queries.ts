@@ -17,8 +17,17 @@ export const GET_USERS_LIST: TypedDocumentNode<
     users {
       id
       email
+      role
       department_name
       position_name
+      department {
+        id
+        name
+      }
+      position {
+        id
+        name
+      }
       profile {
         avatar
         first_name
