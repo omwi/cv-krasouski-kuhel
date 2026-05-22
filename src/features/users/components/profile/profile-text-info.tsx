@@ -7,7 +7,7 @@ import { GET_USER } from "@/features/users/graphql/users/queries"
 import { toHumanDate } from "@/utils/date"
 
 export default function ProfileTextInfo({ userId }: { userId: string }) {
-  const { t, i18n } = useT(["user-profile", "user", "common"])
+  const { t, i18n } = useT("user-profile")
 
   const { data } = useSuspenseQuery(GET_USER, { variables: { userId } })
   const { user } = data
