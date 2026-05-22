@@ -40,7 +40,8 @@ export default function AvatarUpload({
     <div className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
       <div className="relative">
         <Avatar size="lg">
-          <AvatarImage src={user.profile.avatar ?? ""} />
+          <AvatarImage src={user.profile.avatar ?? "null"} />
+
           <AvatarFallback className="text-5xl text-avatar-foreground">
             {displayName[0].toUpperCase()}
           </AvatarFallback>

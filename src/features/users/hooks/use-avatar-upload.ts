@@ -6,12 +6,17 @@ import { UploadAvatarInput } from "@/types/__generated__/graphql"
 import { fileToBase64 } from "@/utils/file"
 
 import { DELETE_AVATAR, UPLOAD_AVATAR } from "../graphql/users/mutations"
+import { GET_USER } from "../graphql/users/queries"
 
 export function useAvatarUpload(userId: string) {
   const { t } = useT(["user-profile"])
 
-  const [uploadAvatar, { loading: isUploading }] = useMutation(UPLOAD_AVATAR)
-  const [deleteAvatar, { loading: isDeleting }] = useMutation(DELETE_AVATAR)
+  const [uploadAvatar, { loading: isUploading }] = useMutation(UPLOAD_AVATAR, {
+    refetchQueries: [{ query: GET_USER, variables: { userId } }],
+  })
+  const [deleteAvatar, { loading: isDeleting }] = useMutation(DELETE_AVATAR, {
+    refetchQueries: [{ query: GET_USER, variables: { userId } }],
+  })
 
   const isLoading = isUploading || isDeleting
 
@@ -33,7 +38,9 @@ export function useAvatarUpload(userId: string) {
     const avatar: UploadAvatarInput = { base64, size, type, userId }
 
     try {
-      await uploadAvatar({ variables: { avatar } })
+      await uploadAvatar({
+        variables: { avatar },
+      })
     } catch (error) {
       console.error(error)
       toast.error(t("upload-avatar.status.error"))
@@ -45,7 +52,9 @@ export function useAvatarUpload(userId: string) {
 
   const onAvatarDelete = async () => {
     try {
-      await deleteAvatar({ variables: { avatar: { userId } } })
+      await deleteAvatar({
+        variables: { avatar: { userId } },
+      })
     } catch (error) {
       console.error(error)
       toast.error(t("delete-avatar.error"))
