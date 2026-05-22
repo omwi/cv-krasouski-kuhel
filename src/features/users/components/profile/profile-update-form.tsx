@@ -8,17 +8,21 @@ import { Field } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import DepartmentsSelect from "@/features/departments/components/departments-select"
 import PositionsSelect from "@/features/positions/components/positions-select"
-import { usePermission } from "@/hooks/use-permissions"
+import { cn } from "@/lib/utils"
 
 import { useProfileUpdateForm } from "../../hooks/use-profile-update-form"
 
-export default function ProfileUpdateForm({ userId }: { userId: string }) {
+export default function ProfileUpdateForm({
+  userId,
+  hasUpdatePermission,
+}: {
+  userId: string
+  hasUpdatePermission: boolean
+}) {
   const { t } = useT(["user", "buttons"])
 
   const { onSubmit, register, control, isDirty, isPending } =
     useProfileUpdateForm(userId)
-
-  const { canUpdateUser } = usePermission()
 
   const isReadyForUpdate = isDirty && !isPending
 
@@ -30,7 +34,7 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
       <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
         <Field>
           <FloatingInput
-            readOnly={!canUpdateUser(userId)}
+            readOnly={!hasUpdatePermission}
             autoFocus
             label={t("first-name", { ns: "user" })}
             {...register("firstName")}
@@ -38,7 +42,7 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
         </Field>
         <Field>
           <FloatingInput
-            readOnly={!canUpdateUser(userId)}
+            readOnly={!hasUpdatePermission}
             label={t("last-name", { ns: "user" })}
             {...register("lastName")}
           />
@@ -49,7 +53,7 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
             name="departmentId"
             render={({ field }) => (
               <DepartmentsSelect
-                disabled={!canUpdateUser(userId)}
+                disabled={!hasUpdatePermission}
                 value={field.value}
                 onValueChange={(v) =>
                   v === "none" ? field.onChange("") : field.onChange(v)
@@ -64,7 +68,7 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
             name="positionId"
             render={({ field }) => (
               <PositionsSelect
-                disabled={!canUpdateUser(userId)}
+                disabled={!hasUpdatePermission}
                 value={field.value}
                 onValueChange={(v) =>
                   v === "none" ? field.onChange("") : field.onChange(v)
@@ -74,7 +78,10 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
           />
         </Field>
       </div>
-      <Button disabled={!isReadyForUpdate} className="md:w-1/2 md:self-end">
+      <Button
+        disabled={!isReadyForUpdate || !hasUpdatePermission}
+        className={cn("md:w-1/2 md:self-end", !hasUpdatePermission && "hidden")}
+      >
         {t("update", { ns: "buttons" })}
       </Button>
     </form>

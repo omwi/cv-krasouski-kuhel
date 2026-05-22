@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { usePermission } from "@/hooks/use-permissions"
-
 import { UPDATE_PROFILE, UPDATE_USER } from "../graphql/users/mutations"
 import { GET_USER } from "../graphql/users/queries"
 
@@ -22,8 +20,6 @@ type ProfileUpdateInput = z.infer<typeof ProfileUpdateSchema>
 export function useProfileUpdateForm(userId: string) {
   const { t } = useT("user-profile")
 
-  const { canUpdateUser } = usePermission()
-
   const { data } = useSuspenseQuery(GET_USER, { variables: { userId } })
   const { user } = data
 
@@ -35,6 +31,7 @@ export function useProfileUpdateForm(userId: string) {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { isDirty },
   } = useForm<ProfileUpdateInput>({
     resolver: standardSchemaResolver(ProfileUpdateSchema),
@@ -69,10 +66,10 @@ export function useProfileUpdateForm(userId: string) {
     })
   }
   const onSubmit = async (values: ProfileUpdateInput) => {
-    if (!canUpdateUser(userId)) {
-      console.error("Don't have permissions to update this user")
-      return
-    }
+    // if (!canUpdateUser(userId)) {
+    //   console.error("Don't have permissions to update this user")
+    //   return
+    // }
 
     try {
       const [nameRes, jobRes] = await Promise.allSettled([
@@ -82,9 +79,10 @@ export function useProfileUpdateForm(userId: string) {
 
       if (nameRes.status === "fulfilled" && jobRes.status === "fulfilled") {
         toast.success(t("update-profile.success"))
-        return
+        reset(values)
+      } else {
+        toast.error(t("update-profile.error"))
       }
-      toast.error(t("update-profile.error"))
     } catch (e) {
       console.error(e)
       toast.error(t("update-profile.error"))

@@ -12,7 +12,13 @@ import { cn } from "@/lib/utils"
 
 import { useAvatarUpload } from "../../hooks/use-avatar-upload"
 
-export default function AvatarUpload({ userId }: { userId: string }) {
+export default function AvatarUpload({
+  userId,
+  hasUpdatePermission,
+}: {
+  userId: string
+  hasUpdatePermission: boolean
+}) {
   const { t } = useT("user-profile")
 
   const { data, refetch } = useSuspenseQuery(GET_USER, {
@@ -39,10 +45,10 @@ export default function AvatarUpload({ userId }: { userId: string }) {
             {displayName[0].toUpperCase()}
           </AvatarFallback>
           <IconButton
-            disabled={isLoading}
+            disabled={isLoading || !hasUpdatePermission}
             className={cn(
               "absolute -top-6 -right-6",
-              user.profile.avatar === null && "hidden"
+              (user.profile.avatar === null || !hasUpdatePermission) && "hidden"
             )}
             onClick={handleAvatarDelete}
           >
@@ -52,7 +58,7 @@ export default function AvatarUpload({ userId }: { userId: string }) {
       </div>
 
       <FileUpload
-        disabled={isLoading}
+        disabled={isLoading || !hasUpdatePermission}
         accept=".png, .jpg, .jpeg, .gif"
         maxSize={0.5 * 1024 * 1024}
         maxFiles={1}
@@ -62,7 +68,9 @@ export default function AvatarUpload({ userId }: { userId: string }) {
           fileTooLarge: t("upload-avatar.status.too-large"),
           fileTypeNotAccepted: t("upload-avatar.status.type-not-accepted"),
         }}
-        className="flex cursor-pointer flex-col items-center gap-2"
+        className={cn("flex cursor-pointer flex-col items-center gap-2", {
+          hidden: !hasUpdatePermission,
+        })}
       >
         <FileUploadDropzone>
           <span className="flex flex-row gap-4">
