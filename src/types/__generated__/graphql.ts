@@ -126,28 +126,3 @@ export type GetUsersListQuery = {
     }
   }>
 }
-
-export type UserQueryVariables = Exact<{
-  userId: string | number
-}>
-
-export type UserQuery = {
-  user: {
-    __typename: "User"
-    id: string
-    created_at: string
-    email: string
-    is_verified: boolean
-    role: UserRole
-    profile: {
-      __typename: "Profile"
-      id: string
-      first_name: string | null
-      last_name: string | null
-      full_name: string | null
-      avatar: string | null
-    }
-    department: { __typename: "Department"; id: string; name: string } | null
-    position: { __typename: "Position"; id: string; name: string } | null
-  }
-}
