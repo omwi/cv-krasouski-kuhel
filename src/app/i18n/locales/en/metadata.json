@@ -22,5 +22,9 @@
   "user-profile": {
     "title": "User Profile",
     "description": "Manage your user profile."
+  },
+  "positions": {
+    "title": "Positions List",
+    "description": "Manage organization employee positions."
   }
 }

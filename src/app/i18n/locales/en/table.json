@@ -1,6 +1,4 @@
 {
-  "search-placeholder": "Search...",
-  "not-found": "No results found",
   "total": "Total: {{count}}",
   "pagination": {
     "page-info": "Page {{current}} of {{total}}",
@@ -21,8 +19,8 @@
   },
   "columns": {
     "avatar": "Avatar",
-    "firstName": "First Name",
-    "lastName": "Last Name",
+    "first-name": "First Name",
+    "last-name": "Last Name",
     "email": "Email",
     "department": "Department",
     "position": "Position",

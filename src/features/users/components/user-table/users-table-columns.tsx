@@ -1,6 +1,6 @@
 "use client"
 
-import { TableColumnConfig } from "@/components/shared/data-table/types"
+import { TableColumnConfig } from "@/components/shared/data-table/data-table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserRowActions } from "@/features/users/components/user-table/user-row-actions"
 import { TableUser } from "@/features/users/components/user-table/users-table"
@@ -35,14 +35,14 @@ export const getColumns = (
   },
   {
     id: "firstName",
-    titleKey: "columns.firstName",
+    titleKey: "columns.first-name",
     sortable: true,
     searchable: true,
     accessorFn: (row) => row.profile?.first_name || "",
   },
   {
     id: "lastName",
-    titleKey: "columns.lastName",
+    titleKey: "columns.last-name",
     sortable: true,
     searchable: true,
     accessorFn: (row) => row.profile?.last_name || "",

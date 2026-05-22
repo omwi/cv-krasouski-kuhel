@@ -1,11 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { useT } from "next-i18next/client"
 
-import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import {
   TableCellValue,
   TableColumnConfig,
-} from "@/components/shared/data-table/types"
+} from "@/components/shared/data-table/data-table"
+import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 
 const SRHeader = ({ titleKey, ns }: { titleKey: string; ns?: string }) => {
   const { t } = useT(ns || "table")

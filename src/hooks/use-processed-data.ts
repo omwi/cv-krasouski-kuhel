@@ -3,7 +3,7 @@ import { useMemo } from "react"
 import {
   TableCellValue,
   TableColumnConfig,
-} from "@/components/shared/data-table/types"
+} from "@/components/shared/data-table/data-table"
 import { TableUrlParams } from "@/hooks/use-table-url-state"
 
 interface UseProcessedDataOptions<TData> {

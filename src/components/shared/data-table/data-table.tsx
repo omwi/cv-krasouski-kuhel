@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { ReactNode, useMemo } from "react"
 import {
   ColumnDef,
   flexRender,
@@ -9,12 +9,8 @@ import {
 } from "@tanstack/react-table"
 import { useT } from "next-i18next/client"
 
+import { mapColumnsToColumnDefs } from "@/components/shared/data-table/data-table-helper"
 import { DataTablePagination } from "@/components/shared/data-table/data-table-pagination"
-import {
-  TableCellValue,
-  TableColumnConfig,
-} from "@/components/shared/data-table/types"
-import { mapColumnsToColumnDefs } from "@/components/shared/data-table/utils"
 import SearchPanel from "@/components/shared/search-panel"
 import {
   Table,
@@ -24,6 +20,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+export type TableCellValue = string | number | boolean | null | undefined
+
+export interface TableColumnConfig<TData, TValue = TableCellValue> {
+  id: string
+  titleKey: string
+  ns?: string
+  sortable?: boolean
+  searchable?: boolean
+  accessorFn?: (row: TData) => TValue
+  cell?: (info: { row: TData; value: TValue }) => ReactNode
+  isSrOnly?: boolean
+}
 
 export type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[] | TableColumnConfig<TData>[]
@@ -42,7 +51,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   totalCount,
-  noResultsI18Key = "table",
+  noResultsI18Key = "common",
   defaultSortBy,
   defaultPerPage = 20,
   totalText,
