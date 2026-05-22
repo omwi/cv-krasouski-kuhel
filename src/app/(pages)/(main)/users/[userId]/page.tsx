@@ -26,7 +26,7 @@ export default async function ProfilePage({
 
   return (
     <PreloadQuery query={GET_USER} variables={{ userId }}>
-      <section className="flex flex-col items-center gap-8 pt-8 md:gap-16">
+      <section className="flex flex-col items-center gap-6 pt-8 md:gap-12">
         <AvatarUpload
           userId={userId}
           hasUpdatePermission={hasUpdatePermission}
