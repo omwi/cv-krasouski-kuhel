@@ -1,0 +1,32 @@
+{
+  "search-placeholder": "Search...",
+  "not-found": "No results found",
+  "total": "Total: {{count}}",
+  "pagination": {
+    "page-info": "Page {{current}} of {{total}}",
+    "first-page": "Go to first page",
+    "prev-page": "Go to previous page",
+    "next-page": "Go to next page",
+    "last-page": "Go to last page"
+  },
+  "user-table": {
+    "create-user": "CREATE USER",
+    "control-actions": {
+      "aria-label": "Control Actions",
+      "profile": "Profile",
+      "update-user": "Edit User",
+      "delete-user": "Delete User"
+    },
+    "open-profile-aria-label": "Open {{name}}'s profile"
+  },
+  "columns": {
+    "avatar": "Avatar",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "department": "Department",
+    "position": "Position",
+    "name": "Name",
+    "actions": "Actions"
+  }
+}

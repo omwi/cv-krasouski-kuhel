@@ -9,7 +9,6 @@ const i18nConfig: I18nConfig = {
     "auth",
     "metadata",
     "nav",
-    "user-table",
     "users",
     "buttons",
     "settings",
@@ -18,6 +17,7 @@ const i18nConfig: I18nConfig = {
     "create-user",
     "input",
     "delete",
+    "table",
   ],
   localeInPath: false,
   resourceLoader:
