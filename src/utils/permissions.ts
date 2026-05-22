@@ -29,3 +29,17 @@ export async function getCurrentUser(): Promise<CurrentUser> {
     return null
   }
 }
+
+export function isAdmin(user: CurrentUser) {
+  return user?.role?.toLowerCase() === "admin"
+}
+
+export async function canCreateUser() {
+  const currentUser = await getCurrentUser()
+  return isAdmin(currentUser)
+}
+
+export async function canUpdateUser(userId: string) {
+  const currentUser = await getCurrentUser()
+  return isAdmin(currentUser) || currentUser?.id === userId
+}

@@ -7,7 +7,7 @@ import { DataTableColumnHeader } from "@/components/shared/data-table/data-table
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserRowActions } from "@/features/users/components/user-table/user-row-actions"
 import { TableUser } from "@/features/users/components/user-table/users-table"
-import type { CurrentUser } from "@/utils/get-auth-user"
+import type { CurrentUser } from "@/utils/permissions"
 
 const SRHeader = ({ titleKey }: { titleKey: string }) => {
   const { t } = useT("users")

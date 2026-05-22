@@ -13,7 +13,7 @@ import { useT } from "next-i18next/client"
 import { paths } from "@/config/paths"
 import { cn } from "@/lib/utils"
 
-import IconButton from "../shared/icon-button"
+import IconButton from "../../shared/icon-button"
 import ActionsPopover from "./actions-popover"
 import NavAvatar from "./nav-avatar"
 import NavLink from "./nav-link"
@@ -89,11 +89,6 @@ export default function SideNav() {
               isCollapsed ? "rotate-180" : "rotate-0"
             )}
           />
-          {/* sx={{
-              transition: "transform 0.2s ease-in-out",
-              transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)",
-            }}
-          /> */}
         </IconButton>
       </div>
     </aside>
