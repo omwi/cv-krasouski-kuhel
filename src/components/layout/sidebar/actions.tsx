@@ -5,7 +5,7 @@ import { useT } from "next-i18next/client"
 import { paths } from "@/config/paths"
 import { authUserVar } from "@/lib/apollo/auth-var"
 
-import { Separator } from "../ui/separator"
+import { Separator } from "../../ui/separator"
 import ActionLink from "./action-link"
 import LogoutButton from "./logout-button"
 
@@ -18,7 +18,7 @@ export default function Actions() {
   return (
     <div className="flex flex-col gap-2 py-2">
       <nav className="flex flex-col">
-        <ActionLink to={paths.users.profile.get(parseInt(user.id))}>
+        <ActionLink to={paths.users.details.get(parseInt(user.id))}>
           <CircleUser />
           {t("profile")}
         </ActionLink>

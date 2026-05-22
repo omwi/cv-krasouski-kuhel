@@ -7,5 +7,7 @@
     "last-page": "Go to last page"
   },
   "search-placeholder": "Search...",
-  "not-found": "No results found"
+  "not-found": "No results found",
+  "no-position": "No position",
+  "no-department": "No department"
 }

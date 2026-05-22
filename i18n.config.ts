@@ -4,7 +4,16 @@ const i18nConfig: I18nConfig = {
   supportedLngs: ["en", "ru"],
   fallbackLng: "en",
   defaultNS: "common",
-  ns: ["common", "auth", "metadata", "nav", "user-table", "users", "buttons"],
+  ns: [
+    "common",
+    "auth",
+    "metadata",
+    "nav",
+    "user-table",
+    "users",
+    "buttons",
+    "user-profile",
+  ],
   localeInPath: false,
   resourceLoader:
     process.env.NODE_ENV === "development"
