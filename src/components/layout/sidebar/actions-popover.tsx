@@ -2,13 +2,12 @@
 
 import { usePathname } from "next/navigation"
 
+import Actions from "@/components/layout/sidebar/actions"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
-import Actions from "./actions"
 
 type Props = {
   children: React.ReactNode
