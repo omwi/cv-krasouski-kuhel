@@ -21,7 +21,7 @@
   },
   "user-profile": {
     "title": "User Profile",
-    "description": "Manage your user profile."
+    "description": "Manage user profile."
   },
   "positions": {
     "title": "Positions List",
@@ -38,5 +38,9 @@
   "languages": {
     "title": "Languages List",
     "description": "View and assess employees' language proficiency levels."
+  },
+  "user-skills": {
+    "title": "User Skills",
+    "description": "Manage user skills."
   }
 }
