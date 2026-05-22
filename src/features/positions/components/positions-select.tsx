@@ -15,7 +15,7 @@ import { GET_POSITIONS } from "@/graphql/positions/queries"
 type Props = React.ComponentProps<typeof Select>
 
 export default function PositionsSelect({ ...props }: Props) {
-  const { t } = useT("position")
+  const { t } = useT("common")
   const { data } = useQuery(GET_POSITIONS)
   const positions = data?.positions ?? []
 

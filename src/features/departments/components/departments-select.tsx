@@ -15,7 +15,7 @@ import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
 type Props = React.ComponentProps<typeof Select>
 
 export default function DepartmentsSelect({ ...props }: Props) {
-  const { t } = useT("department")
+  const { t } = useT("common")
   const { data } = useQuery(GET_DEPARTMENTS)
   const departments = data?.departments ?? []
 

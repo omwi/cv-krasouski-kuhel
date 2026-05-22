@@ -13,8 +13,6 @@ const i18nConfig: I18nConfig = {
     "users",
     "buttons",
     "user-profile",
-    "department",
-    "position",
   ],
   localeInPath: false,
   resourceLoader:
