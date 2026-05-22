@@ -55,7 +55,7 @@ export default function DeleteUser({
   const handleDelete = async () => {
     try {
       await mutateDelete({
-        variables: { userId: String(convertId(user.id)) },
+        variables: { userId: String(user.id) },
       })
       toast.success(t("delete:user.success"))
       setOpen(false)
@@ -70,7 +70,7 @@ export default function DeleteUser({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent className="max-w-[600px]">
+      <DialogContent className="max-w-150">
         <DialogHeader>
           <DialogTitle>{t("delete:user.title")}</DialogTitle>
         </DialogHeader>

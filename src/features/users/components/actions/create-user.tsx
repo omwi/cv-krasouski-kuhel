@@ -45,7 +45,7 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("create-user:title")}</DialogTitle>
+          <DialogTitle>{t("title", { ns: "create-user" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -93,7 +93,7 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
             <Field>
               <FloatingInput
                 id="lastName"
-                label={t("input:last-name")}
+                label={t("last-name", { ns: "input" })}
                 disabled={isSubmitting}
                 {...register("lastName")}
               />
@@ -153,11 +153,11 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline" disabled={isSubmitting}>
-                {t("buttons:cancel")}
+                {t("cancel", { ns: "buttons" })}
               </Button>
             </DialogClose>
             <Button type="submit" disabled={!isValid || isSubmitting}>
-              {t("buttons:create") || "Create"}
+              {t("create", { ns: "buttons" })}
             </Button>
           </DialogFooter>
         </form>

@@ -14,7 +14,6 @@ import {
 import { CREATE_USER } from "@/graphql/users/mutations"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { UserRole } from "@/types/__generated__/graphql"
-import { convertId } from "@/utils/convert-id"
 
 export function useCreateUserForm(
   open: boolean,
@@ -64,8 +63,8 @@ export function useCreateUserForm(
           password: data.password,
         },
         cvsIds: [],
-        departmentId: data.departmentId ? convertId(data.departmentId) : null,
-        positionId: data.positionId ? convertId(data.positionId) : null,
+        departmentId: data.departmentId ?? null,
+        positionId: data.positionId ?? null,
         profile: {
           first_name: data.firstName,
           last_name: data.lastName,

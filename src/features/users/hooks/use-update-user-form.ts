@@ -15,7 +15,6 @@ import {
 import { UPDATE_PROFILE, UPDATE_USER } from "@/graphql/users/mutations"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { UserRole } from "@/types/__generated__/graphql"
-import { convertId } from "@/utils/convert-id"
 
 export function useUpdateUserForm(
   user: TableUser,
@@ -27,53 +26,50 @@ export function useUpdateUserForm(
   const [mutateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [{ query: GET_USERS_LIST }],
   })
+
   const [mutateProfile] = useMutation(UPDATE_PROFILE, {
     refetchQueries: [{ query: GET_USERS_LIST }],
   })
 
+  const defaultValues = {
+    firstName: user.profile?.first_name || "",
+    lastName: user.profile?.last_name || "",
+    email: user.email || "",
+    departmentId: user.department?.id || "",
+    positionId: user.position?.id || "",
+    role: user.role || "",
+  }
+
   const form = useForm<UpdateUserFormValues>({
     resolver: zodResolver(getUpdateUserSchema(t)),
-    defaultValues: {
-      firstName: user.profile?.first_name || "",
-      lastName: user.profile?.last_name || "",
-      email: user.email || "",
-      departmentId: user.department?.id || "",
-      positionId: user.position?.id || "",
-      role: user.role || "",
-    },
+    defaultValues,
   })
 
-  const { reset, handleSubmit } = form
+  const {
+    handleSubmit,
+    formState: { dirtyFields },
+    reset,
+  } = form
 
   useEffect(() => {
     if (open) {
-      reset({
-        firstName: user.profile?.first_name || "",
-        lastName: user.profile?.last_name || "",
-        email: user.email || "",
-        departmentId: user.department?.id || "",
-        positionId: user.position?.id || "",
-        role: user.role || "",
-      })
+      reset(defaultValues)
     }
   }, [open, user, reset])
 
   const onSubmit = handleSubmit(async (data) => {
-    const isFirstNameChanged =
-      data.firstName !== (user.profile?.first_name || "")
-    const isLastNameChanged = data.lastName !== (user.profile?.last_name || "")
-    const isDepartmentChanged =
-      data.departmentId !== (user.department?.id || "")
-    const isPositionChanged = data.positionId !== (user.position?.id || "")
-    const isRoleChanged = data.role !== (user.role || "")
+    const isFirstNameChanged = !!dirtyFields.firstName
+    const isLastNameChanged = !!dirtyFields.lastName
+    const isDepartmentChanged = !!dirtyFields.departmentId
+    const isPositionChanged = !!dirtyFields.positionId
+    const isRoleChanged = !!dirtyFields.role
 
     try {
       let changed = false
 
-      // Profile changes
       if (isFirstNameChanged || isLastNameChanged) {
         const profileInput = {
-          userId: convertId(user.id) as string | number,
+          userId: user.id,
           first_name: data.firstName,
           last_name: data.lastName,
         }
@@ -84,12 +80,11 @@ export function useUpdateUserForm(
         changed = true
       }
 
-      // User changes
       if (isDepartmentChanged || isPositionChanged || isRoleChanged) {
         const userInput = {
-          userId: convertId(user.id) as string | number,
-          departmentId: data.departmentId ? convertId(data.departmentId) : null,
-          positionId: data.positionId ? convertId(data.positionId) : null,
+          userId: user.id,
+          departmentId: data.departmentId ?? null,
+          positionId: data.positionId ?? null,
           role: data.role as UserRole,
         }
 

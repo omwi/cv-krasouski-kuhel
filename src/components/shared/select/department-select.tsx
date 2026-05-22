@@ -6,7 +6,6 @@ import { useT } from "next-i18next/client"
 import { FloatingSelect } from "@/components/ui/floating-select"
 import { SelectItem } from "@/components/ui/select"
 import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
-import { GetDepartmentsQuery } from "@/types/__generated__/graphql"
 
 export type DepartmentSelectProps = {
   id?: string
@@ -20,7 +19,7 @@ export function DepartmentSelect({
   onValueChangeAction,
   ...props
 }: DepartmentSelectProps) {
-  const { data, loading } = useQuery<GetDepartmentsQuery>(GET_DEPARTMENTS)
+  const { data, loading } = useQuery(GET_DEPARTMENTS)
   const departments = data?.departments || []
   const { t } = useT("input")
 

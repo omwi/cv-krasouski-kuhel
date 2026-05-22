@@ -6,7 +6,6 @@ import { useT } from "next-i18next/client"
 import { FloatingSelect } from "@/components/ui/floating-select"
 import { SelectItem } from "@/components/ui/select"
 import { GET_POSITIONS } from "@/graphql/positions/queries"
-import { GetPositionsQuery } from "@/types/__generated__/graphql"
 
 export type PositionSelectProps = {
   id?: string
@@ -20,7 +19,7 @@ export function PositionSelect({
   onValueChangeAction,
   ...props
 }: PositionSelectProps) {
-  const { data, loading } = useQuery<GetPositionsQuery>(GET_POSITIONS)
+  const { data, loading } = useQuery(GET_POSITIONS)
   const positions = data?.positions || []
   const { t } = useT("input")
 
