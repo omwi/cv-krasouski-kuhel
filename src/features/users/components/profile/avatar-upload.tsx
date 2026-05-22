@@ -21,7 +21,7 @@ export default function AvatarUpload({
 }) {
   const { t } = useT("user-profile")
 
-  const { data, refetch } = useSuspenseQuery(GET_USER, {
+  const { data } = useSuspenseQuery(GET_USER, {
     variables: { userId },
   })
   const { user } = data
@@ -29,19 +29,13 @@ export default function AvatarUpload({
   const { isLoading, onAvatarReject, onAvatarAccept, onAvatarDelete } =
     useAvatarUpload(userId)
 
-  const handleAvatarDelete = async () => {
-    await onAvatarDelete()
-    await refetch()
-  }
-
   const displayName = user.profile.full_name || user.email
 
   return (
     <div className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
       <div className="relative">
         <Avatar size="lg">
-          <AvatarImage src={user.profile.avatar ?? "null"} />
-
+          <AvatarImage src={user.profile.avatar ?? undefined} />
           <AvatarFallback className="text-5xl text-avatar-foreground">
             {displayName[0].toUpperCase()}
           </AvatarFallback>
@@ -51,7 +45,7 @@ export default function AvatarUpload({
               "absolute -top-6 -right-6",
               (user.profile.avatar === null || !hasUpdatePermission) && "hidden"
             )}
-            onClick={handleAvatarDelete}
+            onClick={onAvatarDelete}
           >
             <X />
           </IconButton>
