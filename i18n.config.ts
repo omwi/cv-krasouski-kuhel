@@ -12,7 +12,6 @@ const i18nConfig: I18nConfig = {
     "user-table",
     "users",
     "buttons",
-    "user",
     "user-profile",
     "department",
     "position",

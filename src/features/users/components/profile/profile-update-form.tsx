@@ -19,7 +19,7 @@ export default function ProfileUpdateForm({
   userId: string
   hasUpdatePermission: boolean
 }) {
-  const { t } = useT(["user", "buttons"])
+  const { t } = useT(["users", "buttons"])
 
   const { onSubmit, register, control, isDirty, isPending } =
     useProfileUpdateForm(userId)
@@ -36,14 +36,14 @@ export default function ProfileUpdateForm({
           <FloatingInput
             readOnly={!hasUpdatePermission}
             autoFocus
-            label={t("first-name", { ns: "user" })}
+            label={t("first-name", { ns: "users" })}
             {...register("firstName")}
           />
         </Field>
         <Field>
           <FloatingInput
             readOnly={!hasUpdatePermission}
-            label={t("last-name", { ns: "user" })}
+            label={t("last-name", { ns: "users" })}
             {...register("lastName")}
           />
         </Field>
