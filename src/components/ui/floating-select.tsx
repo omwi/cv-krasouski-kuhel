@@ -52,7 +52,7 @@ export function FloatingSelect({
       <label
         htmlFor={id}
         className={cn(
-          "pointer-events-none absolute start-2 z-10 origin-[0] transform cursor-text bg-background px-2 text-sm transition-all duration-300",
+          "pointer-events-none absolute z-10 inset-s-2 origin-left transform cursor-text bg-background px-2 text-sm transition-all duration-300",
           isFloating
             ? "top-2 -translate-y-4 scale-75"
             : "top-1/2 -translate-y-1/2 scale-100",
