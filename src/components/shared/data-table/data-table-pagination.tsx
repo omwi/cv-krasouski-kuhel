@@ -23,7 +23,7 @@ export function DataTablePagination({
   defaultPerPage = 20,
 }: DataTablePaginationProps) {
   const { params, updateParams } = useTableUrlState({ defaultPerPage })
-  const { t } = useT("common")
+  const { t } = useT("table")
 
   const totalPages = Math.max(1, Math.ceil(totalCount / params.perPage))
   const currentPage = params.page

@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import {
   ColumnDef,
   flexRender,
@@ -10,6 +11,11 @@ import { useT } from "next-i18next/client"
 
 import { DataTablePagination } from "@/components/shared/data-table/data-table-pagination"
 import {
+  TableCellValue,
+  TableColumnConfig,
+} from "@/components/shared/data-table/types"
+import { mapColumnsToColumnDefs } from "@/components/shared/data-table/utils"
+import {
   Table,
   TableBody,
   TableCell,
@@ -19,7 +25,7 @@ import {
 } from "@/components/ui/table"
 
 export type DataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[]
+  columns: ColumnDef<TData, TValue>[] | TableColumnConfig<TData>[]
   data: TData[]
   totalCount: number
   noResultsI18Key?: string
@@ -32,13 +38,26 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   totalCount,
-  noResultsI18Key = "common",
+  noResultsI18Key = "table",
+  defaultSortBy,
   defaultPerPage = 20,
   totalText,
 }: DataTableProps<TData, TValue>) {
+  const mappedColumns = useMemo(() => {
+    if (!columns || columns.length === 0) return []
+    const isCustomConfig = "titleKey" in columns[0]
+    if (isCustomConfig) {
+      return mapColumnsToColumnDefs(
+        columns as TableColumnConfig<TData, TableCellValue>[],
+        defaultSortBy
+      )
+    }
+    return columns as ColumnDef<TData, TValue>[]
+  }, [columns, defaultSortBy])
+
   const table = useReactTable({
     data,
-    columns,
+    columns: mappedColumns,
     getCoreRowModel: getCoreRowModel(),
   })
   const { t } = useT(noResultsI18Key)
