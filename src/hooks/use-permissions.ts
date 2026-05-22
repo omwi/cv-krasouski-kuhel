@@ -1,26 +1,24 @@
-import { useReactiveVar } from "@apollo/client/react"
-
-import { authUserVar } from "@/lib/apollo/auth-var"
+import { useAuth } from "@/app/auth-provider"
 
 export function usePermission() {
-  const authUser = useReactiveVar(authUserVar)
+  const { user: currentUser } = useAuth()
 
-  const isAdmin = authUser?.role?.toLowerCase() === "admin"
+  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
 
   const canCreateUser = () => {
     return isAdmin
   }
 
   const canUpdateUser = (userId: string) => {
-    return isAdmin || authUser?.id === userId
+    return isAdmin || currentUser?.id === userId
   }
 
   const canDeleteUser = (userId: string) => {
-    return isAdmin && authUser?.id !== userId
+    return isAdmin && currentUser?.id !== userId
   }
 
   const canUpdateCv = (cvUserId: string) => {
-    return isAdmin || authUser?.id === cvUserId
+    return isAdmin || currentUser?.id === cvUserId
   }
 
   return {

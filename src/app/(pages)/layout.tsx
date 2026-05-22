@@ -15,6 +15,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { AuthInitializer } from "@/features/auth/components/auth-initializer"
 import { cn } from "@/lib/utils"
+import { getCurrentUser } from "@/utils/permissions"
+
+import { AuthProvider } from "../auth-provider"
 
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],
@@ -34,6 +37,8 @@ export default async function RootLayout({
   const { i18n, lng } = await getT()
   const resources = getResources(i18n)
 
+  const currentUser = await getCurrentUser()
+
   return (
     <html
       lang={lng}
@@ -43,11 +48,13 @@ export default async function RootLayout({
       <body>
         <I18nProvider language={lng} resources={resources}>
           <ApolloWrapper>
-            <AuthInitializer />
-            <ThemeProvider>
-              {children}
-              <Toaster closeButton duration={3000} position={"top-right"} />
-            </ThemeProvider>
+            <AuthProvider initialUser={currentUser}>
+              <AuthInitializer />
+              <ThemeProvider>
+                {children}
+                <Toaster closeButton duration={3000} position={"top-right"} />
+              </ThemeProvider>
+            </AuthProvider>
           </ApolloWrapper>
         </I18nProvider>
       </body>
