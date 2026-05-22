@@ -36,14 +36,14 @@ export default function ProfileUpdateForm({
           <FloatingInput
             readOnly={!hasUpdatePermission}
             autoFocus
-            label={t("first-name", { ns: "users" })}
+            label={t("first-name")}
             {...register("firstName")}
           />
         </Field>
         <Field>
           <FloatingInput
             readOnly={!hasUpdatePermission}
-            label={t("last-name", { ns: "users" })}
+            label={t("last-name")}
             {...register("lastName")}
           />
         </Field>
