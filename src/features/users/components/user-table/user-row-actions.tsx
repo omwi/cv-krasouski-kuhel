@@ -13,7 +13,7 @@ import { paths } from "@/config/paths"
 import DeleteUser from "@/features/users/components/actions/delete-user"
 import UpdateUser from "@/features/users/components/actions/update-user"
 import { TableUser } from "@/features/users/components/user-table/users-table"
-import type { CurrentUser } from "@/utils/get-auth-user"
+import type { CurrentUser } from "@/utils/permissions"
 
 export function UserRowActions({
   rowUser,

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useT } from "next-i18next/client"
 
-import ActiveIndicator from "@/components/layout/active-indicator"
+import ActiveIndicator from "@/components/layout/tab-nav/active-indicator"
 import { paths } from "@/config/paths"
 import { useActiveIndicator } from "@/hooks/use-active-indicator"
 import { cn } from "@/lib/utils"

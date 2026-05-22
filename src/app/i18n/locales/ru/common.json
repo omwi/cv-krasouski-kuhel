@@ -7,5 +7,7 @@
     "last-page": "Перейти на последнюю страницу"
   },
   "search-placeholder": "Поиск...",
-  "not-found": "Ничего не найдено"
+  "not-found": "Ничего не найдено",
+  "no-department": "Нет отдела",
+  "no-position": "Нет должности"
 }

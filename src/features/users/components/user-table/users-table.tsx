@@ -14,7 +14,7 @@ import { useProcessedUsers } from "@/features/users/hooks/use-processed-users"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
-import type { CurrentUser } from "@/utils/get-auth-user"
+import type { CurrentUser } from "@/utils/permissions"
 
 export type TableUser = GetUsersListQuery["users"][0]
 
