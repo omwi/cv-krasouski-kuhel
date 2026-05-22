@@ -15,6 +15,7 @@ import {
   TableColumnConfig,
 } from "@/components/shared/data-table/types"
 import { mapColumnsToColumnDefs } from "@/components/shared/data-table/utils"
+import SearchPanel from "@/components/shared/search-panel"
 import {
   Table,
   TableBody,
@@ -32,6 +33,9 @@ export type DataTableProps<TData, TValue> = {
   defaultSortBy?: string
   defaultPerPage?: number
   totalText: string
+  searchValue?: string
+  onSearchChangeAction?: (value: string) => void
+  actions?: React.ReactNode
 }
 
 export function DataTable<TData, TValue>({
@@ -42,6 +46,9 @@ export function DataTable<TData, TValue>({
   defaultSortBy,
   defaultPerPage = 20,
   totalText,
+  searchValue,
+  onSearchChangeAction,
+  actions,
 }: DataTableProps<TData, TValue>) {
   const mappedColumns = useMemo(() => {
     if (!columns || columns.length === 0) return []
@@ -63,8 +70,25 @@ export function DataTable<TData, TValue>({
   const { t } = useT(noResultsI18Key)
   const noResultsText = t("not-found")
 
+  const showToolbar = searchValue !== undefined || actions !== undefined
+
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col gap-4 overflow-hidden">
+      {showToolbar && (
+        <div className="flex items-center justify-between gap-4 max-sm:flex-col max-sm:items-start">
+          {onSearchChangeAction && searchValue !== undefined ? (
+            <SearchPanel
+              value={searchValue}
+              onChangeAction={onSearchChangeAction}
+              className="w-62.5 shrink-0 py-4 lg:w-87.5"
+              debounceMs={300}
+            />
+          ) : (
+            <div />
+          )}
+          {actions && <div className="flex items-center gap-2">{actions}</div>}
+        </div>
+      )}
       <div className="flex-1 overflow-auto">
         <Table>
           <TableHeader>

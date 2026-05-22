@@ -11,7 +11,7 @@
   },
   "user-table": {
     "total-users": "Всего: {{total}} пользователей",
-    "create-user": "СОЗДАТЬ ПОЛЬЗЕВАТЕЛЯ",
+    "create": "СОЗДАТЬ ПОЛЬЗЕВАТЕЛЯ",
     "control-actions": {
       "aria-label": "Действия Управления",
       "profile": "Профиль",

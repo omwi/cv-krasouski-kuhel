@@ -10,7 +10,7 @@
     "last-page": "Go to last page"
   },
   "user-table": {
-    "create-user": "CREATE USER",
+    "create": "CREATE USER",
     "control-actions": {
       "aria-label": "Control Actions",
       "profile": "Profile",
