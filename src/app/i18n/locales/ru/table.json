@@ -1,0 +1,31 @@
+{
+  "total": "Всего: {{count}}",
+  "pagination": {
+    "page-info": "Страница {{current}} из {{total}}",
+    "first-page": "Перейти на первую страницу",
+    "prev-page": "Перейти на предыдущую страницу",
+    "next-page": "Перейти на следующую страницу",
+    "last-page": "Перейти на последнюю страницу"
+  },
+  "user-table": {
+    "total-users": "Всего: {{total}} пользователей",
+    "create": "СОЗДАТЬ ПОЛЬЗЕВАТЕЛЯ",
+    "control-actions": {
+      "aria-label": "Действия Управления",
+      "profile": "Профиль",
+      "update-user": "Редактировать Профиль",
+      "delete-user": "Удалить Пользователя"
+    },
+    "open-profile-aria-label": "Открыть профиль пользователя {{name}}"
+  },
+  "columns": {
+    "avatar": "Аватар",
+    "first-name": "Имя",
+    "last-name": "Фамилия",
+    "email": "Email",
+    "department": "Отдел",
+    "position": "Должность",
+    "name": "Название",
+    "actions": "Действия"
+  }
+}
