@@ -17,7 +17,7 @@ export default function SettingsForm({ initialLang }: { initialLang: string }) {
   const { theme, setTheme } = useTheme()
   const changeLanguage = useChangeLanguage()
 
-  const [activeLang, setActiveLang] = useState<string>(initialLang)
+  const [activeLang, setActiveLang] = useState(initialLang)
   const [isChanging, setIsChanging] = useState(false)
 
   const handleLanguageChange = async (value: string) => {
