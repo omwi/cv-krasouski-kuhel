@@ -23,7 +23,7 @@ export function UserRowActions({
   currentUser: CurrentUser
 }) {
   const router = useRouter()
-  const { t } = useT("user-table")
+  const { t } = useT("table")
 
   const [popoverOpen, setPopoverOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
@@ -43,7 +43,7 @@ export function UserRowActions({
             <Button
               variant="ghost"
               className="h-9 w-9 min-w-0 p-0"
-              aria-label={t("control-actions.aria-label")}
+              aria-label={t("user-table.control-actions.aria-label")}
             >
               <MoreVertical className="h-4 w-4 text-foreground" />
             </Button>
@@ -62,7 +62,7 @@ export function UserRowActions({
                   router.push(paths.users.details.get(Number(rowUser.id)))
                 }}
               >
-                {t("control-actions.profile")}
+                {t("user-table.control-actions.profile")}
               </Button>
               <Button
                 variant="ghost"
@@ -72,7 +72,7 @@ export function UserRowActions({
                   setEditOpen(true)
                 }}
               >
-                {t("control-actions.update-user")}
+                {t("user-table.control-actions.update-user")}
               </Button>
               <Button
                 variant="ghost"
@@ -83,7 +83,7 @@ export function UserRowActions({
                   setDeleteOpen(true)
                 }}
               >
-                {t("control-actions.delete-user")}
+                {t("user-table.control-actions.delete-user")}
               </Button>
             </div>
           </PopoverContent>
@@ -117,7 +117,7 @@ export function UserRowActions({
         onClick={() => {
           router.push(paths.users.details.get(Number(rowUser.id)))
         }}
-        aria-label={t("open-profile-aria-label", {
+        aria-label={t("user-table.open-profile-aria-label", {
           name: rowUser.profile?.full_name || "user",
         })}
       >

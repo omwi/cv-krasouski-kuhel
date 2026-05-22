@@ -10,8 +10,8 @@ import SearchPanel from "@/components/shared/search-panel"
 import { Button } from "@/components/ui/button"
 import CreateUser from "@/features/users/components/actions/create-user"
 import { getColumns } from "@/features/users/components/user-table/users-table-columns"
-import { useProcessedUsers } from "@/features/users/hooks/use-processed-users"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
+import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
 import type { CurrentUser } from "@/utils/permissions"
@@ -28,14 +28,15 @@ export default function UsersTable({
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "firstName",
   })
-  const { t } = useT("user-table")
+  const { t } = useT("table")
 
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
-  const { paginatedData, totalCount } = useProcessedUsers(
-    data?.users || [],
+  const { paginatedData, totalCount } = useProcessedData({
+    data: data?.users || [],
     params,
-    currentUser
-  )
+    columns,
+    hoistPredicate: (u) => u.id === currentUser?.id,
+  })
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col gap-4 overflow-hidden">
@@ -60,7 +61,7 @@ export default function UsersTable({
         data={paginatedData}
         totalCount={totalCount}
         defaultSortBy="firstName"
-        totalText={t("total-users", { total: totalCount })}
+        totalText={t("total", { count: totalCount })}
       />
     </div>
   )
