@@ -1,8 +1,7 @@
 import React from "react"
 
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-
-import { Button } from "../ui/button"
 
 type Props = React.ComponentProps<typeof Button> & {
   children: React.ReactNode

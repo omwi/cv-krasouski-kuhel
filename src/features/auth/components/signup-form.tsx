@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import { paths } from "@/config/paths"
-
-import { useSignupForm } from "../hooks/use-signup-form"
+import { useSignupForm } from "@/features/auth/hooks/use-signup-form"
 
 export default function SignupForm() {
   const { t } = useT(["auth", "input"])

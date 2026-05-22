@@ -8,14 +8,13 @@ import { useT } from "next-i18next/client"
 import { DataTable } from "@/components/shared/data-table/data-table"
 import SearchPanel from "@/components/shared/search-panel"
 import { Button } from "@/components/ui/button"
+import CreateUser from "@/features/users/components/actions/create-user"
+import { getColumns } from "@/features/users/components/user-table/users-table-columns"
 import { useProcessedUsers } from "@/features/users/hooks/use-processed-users"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
 import type { CurrentUser } from "@/utils/get-auth-user"
-
-import CreateUser from "../actions/create-user"
-import { getColumns } from "./users-table-columns"
 
 export type TableUser = GetUsersListQuery["users"][0]
 

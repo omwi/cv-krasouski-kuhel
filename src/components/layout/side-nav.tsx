@@ -10,13 +10,12 @@ import {
 } from "lucide-react"
 import { useT } from "next-i18next/client"
 
+import ActionsPopover from "@/components/layout/actions-popover"
+import NavAvatar from "@/components/layout/nav-avatar"
+import NavLink from "@/components/layout/nav-link"
+import IconButton from "@/components/shared/icon-button"
 import { paths } from "@/config/paths"
 import { cn } from "@/lib/utils"
-
-import IconButton from "../shared/icon-button"
-import ActionsPopover from "./actions-popover"
-import NavAvatar from "./nav-avatar"
-import NavLink from "./nav-link"
 
 type NavLink = {
   i18: string
@@ -57,7 +56,7 @@ export default function SideNav() {
   return (
     <aside
       className={cn(
-        "flex flex-shrink-0 flex-row overflow-x-hidden",
+        "flex shrink-0 flex-row overflow-x-hidden",
         "h-14 gap-3.5 px-4",
         "md:h-full md:flex-col md:justify-between md:overflow-y-auto md:px-0 md:pt-11 md:pb-4",
         "transition-discrete duration-300",

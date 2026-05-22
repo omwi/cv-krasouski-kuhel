@@ -1,5 +1,9 @@
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import Actions from "./actions"
+import Actions from "@/components/layout/actions"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 type Props = {
   children: React.ReactNode

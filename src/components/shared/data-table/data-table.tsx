@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-table"
 import { useT } from "next-i18next/client"
 
+import { DataTablePagination } from "@/components/shared/data-table/data-table-pagination"
 import {
   Table,
   TableBody,
@@ -16,8 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-import { DataTablePagination } from "./data-table-pagination"
 
 export type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]

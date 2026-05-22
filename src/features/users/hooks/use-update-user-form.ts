@@ -8,12 +8,14 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 import { TableUser } from "@/features/users/components/user-table/users-table"
+import {
+  getUpdateUserSchema,
+  UpdateUserFormValues,
+} from "@/features/users/utils/validation"
 import { UPDATE_PROFILE, UPDATE_USER } from "@/graphql/users/mutations"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { UserRole } from "@/types/__generated__/graphql"
 import { convertId } from "@/utils/convert-id"
-
-import { getUpdateUserSchema, UpdateUserFormValues } from "../utils/validation"
 
 export function useUpdateUserForm(
   user: TableUser,

@@ -9,8 +9,7 @@ import { SetContextLink } from "@apollo/client/link/context"
 import { ErrorLink } from "@apollo/client/link/error"
 
 import { COOKIES } from "@/config/const"
-
-import { serverEnv } from "./config/env.server"
+import { serverEnv } from "@/config/env.server"
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   const httpLink = new HttpLink({

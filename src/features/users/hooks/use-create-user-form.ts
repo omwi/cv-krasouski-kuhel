@@ -7,12 +7,14 @@ import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
+import {
+  CreateUserFormValues,
+  getCreateUserSchema,
+} from "@/features/users/utils/validation"
 import { CREATE_USER } from "@/graphql/users/mutations"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { UserRole } from "@/types/__generated__/graphql"
 import { convertId } from "@/utils/convert-id"
-
-import { CreateUserFormValues, getCreateUserSchema } from "../utils/validation"
 
 export function useCreateUserForm(
   open: boolean,
