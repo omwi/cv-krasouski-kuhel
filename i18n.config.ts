@@ -20,6 +20,7 @@ const i18nConfig: I18nConfig = {
     "input",
     "delete",
     "table",
+    "department",
   ],
   localeInPath: false,
   resourceLoader:

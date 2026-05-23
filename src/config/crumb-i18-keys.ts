@@ -4,6 +4,7 @@ const crumbI18Keys: Record<string, string | undefined> = {
   languages: "languages",
   cvs: "cvs",
   projects: "projects",
+  departments: "departments",
   positions: "positions",
   settings: "settings",
   profile: "profile",
