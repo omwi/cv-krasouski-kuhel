@@ -1,0 +1,19 @@
+{
+  "create": {
+    "title": "Create Position",
+    "success": "Position created successfully!",
+    "error": "Failed to create position. Please try again."
+  },
+  "update": {
+    "title": "Update Position",
+    "success": "Position updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update position. Please try again."
+  },
+  "delete": {
+    "title": "Delete Position",
+    "description": "Are you sure you want to delete position {{name}}? This action cannot be undone.",
+    "success": "Position deleted successfully!",
+    "error": "Failed to delete position. Please try again."
+  }
+}

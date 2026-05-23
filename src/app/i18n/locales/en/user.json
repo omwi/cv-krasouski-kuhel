@@ -1,0 +1,19 @@
+{
+  "create": {
+    "title": "Create User",
+    "success": "User created successfully!",
+    "error": "Failed to create user. Please try again."
+  },
+  "update": {
+    "title": "Update user",
+    "success": "User updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update user. Please try again."
+  },
+  "delete": {
+    "title": "Delete User",
+    "description": "Are you sure you want to delete user {{name}}? This action cannot be undone.",
+    "success": "User deleted successfully!",
+    "error": "Failed to delete user. Please try again."
+  }
+}

@@ -29,7 +29,7 @@ export type CreateUserProps = {
 }
 
 export default function CreateUser({ currentUser, children }: CreateUserProps) {
-  const { t } = useT(["create-user", "input", "buttons"])
+  const { t } = useT(["user", "input", "buttons"])
   const [open, setOpen] = useState(false)
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
 
@@ -45,7 +45,7 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("title", { ns: "create-user" })}</DialogTitle>
+          <DialogTitle>{t("user:create.title")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">

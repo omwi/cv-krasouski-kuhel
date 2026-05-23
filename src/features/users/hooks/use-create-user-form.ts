@@ -19,7 +19,7 @@ export function useCreateUserForm(
   open: boolean,
   setOpen: (open: boolean) => void
 ) {
-  const { t } = useT(["update-user", "input", "buttons"])
+  const { t } = useT(["user", "input", "buttons"])
 
   const [mutateUser] = useMutation(CREATE_USER, {
     refetchQueries: [{ query: GET_USERS_LIST }],
@@ -76,7 +76,7 @@ export function useCreateUserForm(
         variables: { user: userInput },
       })
 
-      toast.success(t("update-user:success") || "User created successfully")
+      toast.success(t("user:create.success"))
       setOpen(false)
     } catch (error) {
       console.error(error)

@@ -13,6 +13,8 @@ const i18nConfig: I18nConfig = {
     "buttons",
     "settings",
     "user-profile",
+    "user",
+    "position",
     "update-user",
     "create-user",
     "input",

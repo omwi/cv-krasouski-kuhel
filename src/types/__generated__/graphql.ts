@@ -11,6 +11,10 @@ export type AuthInput = {
   password: string
 }
 
+export type CreatePositionInput = {
+  name: string
+}
+
 export type CreateProfileInput = {
   first_name?: string | null | undefined
   last_name?: string | null | undefined
@@ -27,6 +31,15 @@ export type CreateUserInput = {
 
 export type DeleteAvatarInput = {
   userId: string | number
+}
+
+export type DeletePositionInput = {
+  positionId: string | number
+}
+
+export type UpdatePositionInput = {
+  name: string
+  positionId: string | number
 }
 
 export type UpdateProfileInput = {
@@ -56,6 +69,30 @@ export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetDepartmentsQuery = {
   departments: Array<{ __typename: "Department"; id: string; name: string }>
+}
+
+export type CreatePositionMutationVariables = Exact<{
+  position: CreatePositionInput
+}>
+
+export type CreatePositionMutation = {
+  createPosition: { __typename: "Position"; name: string }
+}
+
+export type UpdatePositionMutationVariables = Exact<{
+  position: UpdatePositionInput
+}>
+
+export type UpdatePositionMutation = {
+  updatePosition: { __typename: "Position"; name: string; id: string }
+}
+
+export type DeletePositionMutationVariables = Exact<{
+  position: DeletePositionInput
+}>
+
+export type DeletePositionMutation = {
+  deletePosition: { __typename: "DeleteResult"; affected: number }
 }
 
 export type GetPositionsQueryVariables = Exact<{ [key: string]: never }>

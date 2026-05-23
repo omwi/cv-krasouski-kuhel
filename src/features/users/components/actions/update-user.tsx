@@ -29,7 +29,7 @@ export type UpdateUserProps = {
   currentUser: CurrentUser
   children?: ReactNode
   open?: boolean
-  onOpenChangeAction?: (open: boolean) => void
+  onOpenChange?: (open: boolean) => void
 }
 
 export default function UpdateUser({
@@ -37,9 +37,9 @@ export default function UpdateUser({
   currentUser,
   children,
   open: controlledOpen,
-  onOpenChangeAction: controlledOnOpenChange,
+  onOpenChange: controlledOnOpenChange,
 }: UpdateUserProps) {
-  const { t } = useT(["update-user", "input", "buttons"])
+  const { t } = useT(["user", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -62,7 +62,7 @@ export default function UpdateUser({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("update-user:title")}</DialogTitle>
+          <DialogTitle>{t("user:update.title")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
