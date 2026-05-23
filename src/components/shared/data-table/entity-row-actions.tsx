@@ -14,7 +14,7 @@ import type { CurrentUser } from "@/utils/permissions"
 
 export interface EntityRowActionsProps<T> {
   entity: T
-  entityType: "user" | "project" | "cv" | "positions"
+  entityType: "user" | "project" | "cv" | "positions" | "departments"
   entityId: string
   currentUser: CurrentUser
   isOwner?: boolean
@@ -135,7 +135,7 @@ export function EntityRowActions<T>({
         <PopoverContent
           align="end"
           hideWhenDetached
-          className="mx-4 w-50 rounded-xs p-0 shadow-lg"
+          className="mx-4 w-fit min-w-50 rounded-xs p-0 shadow-lg"
         >
           <div className="flex flex-col">
             {showViewAction && (
