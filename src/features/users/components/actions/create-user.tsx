@@ -21,7 +21,7 @@ import {
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import { useCreateUserForm } from "@/features/users/hooks/use-create-user-form"
-import type { CurrentUser } from "@/utils/get-auth-user"
+import type { CurrentUser } from "@/utils/permissions"
 
 export type CreateUserProps = {
   currentUser: CurrentUser

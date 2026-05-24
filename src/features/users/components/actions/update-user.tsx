@@ -22,7 +22,7 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import { useUpdateUserForm } from "@/features/users/hooks/use-update-user-form"
-import type { CurrentUser } from "@/utils/get-auth-user"
+import type { CurrentUser } from "@/utils/permissions"
 
 export type UpdateUserProps = {
   user: TableUser
