@@ -13,7 +13,7 @@ import { paths } from "@/config/paths"
 import DeleteUser from "@/features/users/components/actions/delete-user"
 import UpdateUser from "@/features/users/components/actions/update-user"
 import { TableUser } from "@/features/users/components/user-table/users-table"
-import type { CurrentUser } from "@/utils/permissions"
+import { canDeleteUser, canUpdateUser, CurrentUser } from "@/utils/permissions"
 
 export function UserRowActions({
   rowUser,
@@ -32,10 +32,12 @@ export function UserRowActions({
   if (!currentUser) return null
 
   const isMe = currentUser.id === rowUser.id
-  const isAdmin = currentUser.role?.toLowerCase() === "admin"
   const isEmployee = currentUser.role?.toLowerCase() === "employee"
 
-  if (isAdmin || isMe) {
+  const hasDeletePermission = canDeleteUser(currentUser, rowUser.id)
+  const hasUpdatePermission = canUpdateUser(currentUser, rowUser.id)
+
+  if (hasUpdatePermission) {
     return (
       <>
         <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -77,7 +79,7 @@ export function UserRowActions({
               <Button
                 variant="ghost"
                 className="w-full min-w-0 justify-start rounded-none text-foreground"
-                disabled={isMe}
+                disabled={!hasDeletePermission}
                 onClick={() => {
                   setPopoverOpen(false)
                   setDeleteOpen(true)
