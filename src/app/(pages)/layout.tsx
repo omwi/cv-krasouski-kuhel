@@ -1,6 +1,7 @@
 import "@/app/globals.css"
 
 import { Roboto } from "next/font/google"
+import { cookies } from "next/headers"
 import { I18nProvider } from "next-i18next/client"
 import {
   generateI18nStaticParams,
@@ -13,7 +14,9 @@ import i18nConfig from "@root/i18n.config"
 import { ApolloWrapper } from "@/app/apollo-wrapper"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import { AuthInitializer } from "@/features/auth/components/auth-initializer"
+import { COOKIES } from "@/config/const"
+import { AuthProvider } from "@/features/auth/components/auth-provider"
+import { decodeJwtPayload } from "@/features/auth/utils/jwt"
 import { cn } from "@/lib/utils"
 
 const roboto = Roboto({
@@ -34,6 +37,20 @@ export default async function RootLayout({
   const { i18n, lng } = await getT()
   const resources = getResources(i18n)
 
+  const cookieStore = await cookies()
+  const token = cookieStore.get(COOKIES.ACCESS_TOKEN)?.value
+
+  let userId: string | null = null
+  let role: string | null = null
+
+  if (token) {
+    const payload = decodeJwtPayload(token)
+    if (payload) {
+      userId = String(payload.sub) || null
+      role = payload.role || null
+    }
+  }
+
   return (
     <html
       lang={lng}
@@ -42,13 +59,14 @@ export default async function RootLayout({
     >
       <body>
         <I18nProvider language={lng} resources={resources}>
-          <ApolloWrapper>
-            <AuthInitializer />
-            <ThemeProvider>
-              {children}
-              <Toaster closeButton duration={3000} position={"top-right"} />
-            </ThemeProvider>
-          </ApolloWrapper>
+          <AuthProvider userId={userId} role={role}>
+            <ApolloWrapper>
+              <ThemeProvider>
+                {children}
+                <Toaster closeButton duration={3000} position={"top-right"} />
+              </ThemeProvider>
+            </ApolloWrapper>
+          </AuthProvider>
         </I18nProvider>
       </body>
     </html>
