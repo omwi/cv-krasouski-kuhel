@@ -319,6 +319,17 @@ export type SkillCategoriesQuery = {
   }>
 }
 
+export type GetSkillsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetSkillsQuery = {
+  skills: Array<{
+    __typename: "Skill"
+    id: string
+    name: string
+    category: { __typename: "SkillCategory"; id: string; name: string } | null
+  }>
+}
+
 export type UploadAvatarMutationVariables = Exact<{
   avatar: UploadAvatarInput
 }>
