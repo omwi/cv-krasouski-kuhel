@@ -1,13 +1,7 @@
 "use client"
 
 import { ReactNode, useState } from "react"
-import { useMutation } from "@apollo/client/react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -21,24 +15,12 @@ import {
 } from "@/components/ui/dialog"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
-import { CREATE_DEPARTMENT } from "@/graphql/departments/mutations"
-import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
+import { useCreateDepartmentForm } from "@/features/departments/hooks/use-create-department-form"
 
 export type CreateDepartmentProps = {
   children?: ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
-}
-
-const getCreateDepartmentSchema = (t: TFunction) =>
-  z.object({
-    name: z.string().min(1, {
-      message: t("input:errors.name"),
-    }),
-  })
-
-type CreateDepartmentFormValues = {
-  name: string
 }
 
 export default function CreateDepartment({
@@ -55,45 +37,15 @@ export default function CreateDepartment({
       ? controlledOnOpenChange
       : setInternalOpen
 
-  const [mutateCreate, { loading }] = useMutation(CREATE_DEPARTMENT, {
-    refetchQueries: [{ query: GET_DEPARTMENTS }],
-  })
-
-  const form = useForm<CreateDepartmentFormValues>({
-    resolver: zodResolver(getCreateDepartmentSchema(t)),
-    defaultValues: {
-      name: "",
-    },
-  })
+  const { form, onSubmit, loading } = useCreateDepartmentForm(t, () =>
+    setOpen(false)
+  )
 
   const {
     register,
-    handleSubmit,
     reset,
     formState: { errors, isSubmitting, isValid },
   } = form
-
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      await mutateCreate({
-        variables: {
-          department: {
-            name: data.name,
-          },
-        },
-      })
-      toast.success(t("department-actions:create.success"))
-      reset()
-      setOpen(false)
-    } catch (error) {
-      console.error(error)
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : t("department-actions:create.error")
-      toast.error(errorMessage)
-    }
-  })
 
   return (
     <Dialog
@@ -108,7 +60,9 @@ export default function CreateDepartment({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("department-actions:create.title")}</DialogTitle>
+          <DialogTitle>
+            {t("create.title", { ns: "department-actions" })}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -116,7 +70,7 @@ export default function CreateDepartment({
             <Field>
               <FloatingInput
                 id="name"
-                label={t("input:name")}
+                label={t("name", { ns: "input" })}
                 disabled={loading || isSubmitting}
                 {...register("name")}
               />
@@ -133,14 +87,14 @@ export default function CreateDepartment({
                 variant="outline"
                 disabled={loading || isSubmitting}
               >
-                {t("buttons:cancel")}
+                {t("cancel", { ns: "buttons" })}
               </Button>
             </DialogClose>
             <Button
               type="submit"
               disabled={!isValid || loading || isSubmitting}
             >
-              {t("buttons:create")}
+              {t("create", { ns: "buttons" })}
             </Button>
           </DialogFooter>
         </form>
