@@ -12,7 +12,7 @@ import { getColumns } from "@/features/departments/components/table/departments-
 import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import type { CurrentUser } from "@/utils/permissions"
+import { adminOnlyPermissions, type CurrentUser } from "@/utils/permissions"
 
 export default function DepartmentsTable({
   currentUser,
@@ -24,7 +24,7 @@ export default function DepartmentsTable({
     defaultSortBy: "name",
   })
   const { t } = useT("table")
-  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
+  const canCreate = adminOnlyPermissions.canCreate(currentUser)
 
   const departments = data?.departments || []
   const columns = useMemo(() => getColumns(currentUser), [currentUser])
@@ -44,7 +44,7 @@ export default function DepartmentsTable({
       searchValue={params.search}
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
-        isAdmin && (
+        canCreate && (
           <CreateDepartment>
             <Button variant="outline-primary">
               <Plus />

@@ -26,7 +26,7 @@ export default function DeleteDepartment({
     <DeleteDialog
       open={open}
       onOpenChange={onOpenChange}
-      i18nKey="department"
+      i18nKey="department-actions"
       entityName={department.name}
       onConfirm={async () => {
         await mutateDelete({

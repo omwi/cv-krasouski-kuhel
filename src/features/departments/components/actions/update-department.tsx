@@ -49,7 +49,7 @@ export default function UpdateDepartment({
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: Props) {
-  const { t } = useT(["department", "input", "buttons"])
+  const { t } = useT(["department-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -73,7 +73,7 @@ export default function UpdateDepartment({
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = form
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function UpdateDepartment({
 
   const onSubmit = handleSubmit(async (data) => {
     if (!isDirty) {
-      toast.info(t("department:update.no-changes"))
+      toast.info(t("department-actions:update.no-changes"))
       setOpen(false)
       return
     }
@@ -98,12 +98,14 @@ export default function UpdateDepartment({
           },
         },
       })
-      toast.success(t("department:update.success"))
+      toast.success(t("department-actions:update.success"))
       setOpen(false)
     } catch (error) {
       console.error(error)
       const errorMessage =
-        error instanceof Error ? error.message : t("department:update.error")
+        error instanceof Error
+          ? error.message
+          : t("department-actions:update.error")
       toast.error(errorMessage)
     }
   })
@@ -111,9 +113,9 @@ export default function UpdateDepartment({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("department:update.title")}</DialogTitle>
+          <DialogTitle>{t("department-actions:update.title")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -122,6 +124,7 @@ export default function UpdateDepartment({
               <FloatingInput
                 id="name"
                 label={t("input:name")}
+                disabled={loading || isSubmitting}
                 {...register("name")}
               />
               {errors.name && (
@@ -142,7 +145,7 @@ export default function UpdateDepartment({
             </DialogClose>
             <Button
               type="submit"
-              disabled={!isDirty || loading || isSubmitting}
+              disabled={!isValid || !isDirty || loading || isSubmitting}
             >
               {t("buttons:update")}
             </Button>

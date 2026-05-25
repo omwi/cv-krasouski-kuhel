@@ -46,7 +46,7 @@ export default function CreateDepartment({
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: CreateDepartmentProps) {
-  const { t } = useT(["department", "input", "buttons"])
+  const { t } = useT(["department-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -82,13 +82,15 @@ export default function CreateDepartment({
           },
         },
       })
-      toast.success(t("department:create.success"))
+      toast.success(t("department-actions:create.success"))
       reset()
       setOpen(false)
     } catch (error) {
       console.error(error)
       const errorMessage =
-        error instanceof Error ? error.message : t("department:create.error")
+        error instanceof Error
+          ? error.message
+          : t("department-actions:create.error")
       toast.error(errorMessage)
     }
   })
@@ -104,9 +106,9 @@ export default function CreateDepartment({
       }}
     >
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("department:create.title")}</DialogTitle>
+          <DialogTitle>{t("department-actions:create.title")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
