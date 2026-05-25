@@ -43,7 +43,7 @@ export default function CreateUser({ currentUser, children }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>{t("user:create.title")}</DialogTitle>
         </DialogHeader>

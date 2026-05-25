@@ -60,7 +60,7 @@ export default function UpdateUser({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>{t("user:update.title")}</DialogTitle>
         </DialogHeader>

@@ -56,7 +56,7 @@ export default function CreatePosition({
       }}
     >
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>{t("position:create.title")}</DialogTitle>
         </DialogHeader>

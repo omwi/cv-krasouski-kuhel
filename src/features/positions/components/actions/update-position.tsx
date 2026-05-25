@@ -50,7 +50,7 @@ export default function UpdatePosition({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>{t("position:update.title")}</DialogTitle>
         </DialogHeader>
