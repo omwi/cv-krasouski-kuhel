@@ -2,23 +2,20 @@ import { ReactNode, useState } from "react"
 import { useT } from "next-i18next/client"
 
 import { EntityNameFormDialog } from "@/components/shared/form/entity-name-form-dialog"
-import { TablePosition } from "@/features/positions/components/table/positions-table-columns"
-import { useUpdatePositionForm } from "@/features/positions/hooks/use-update-position-form"
+import { useCreateDepartmentForm } from "@/features/departments/hooks/use-create-department-form"
 
-type Props = {
-  position: TablePosition
+export type CreateDepartmentProps = {
   children?: ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
 
-export default function UpdatePosition({
-  position,
+export default function CreateDepartment({
   children,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
-}: Props) {
-  const { t } = useT(["position-actions", "buttons"])
+}: CreateDepartmentProps) {
+  const { t } = useT(["department-actions", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -27,26 +24,24 @@ export default function UpdatePosition({
       ? controlledOnOpenChange
       : setInternalOpen
 
-  const { form, onSubmit, loading } = useUpdatePositionForm(
-    position,
-    open,
-    setOpen
+  const { form, onSubmit, loading } = useCreateDepartmentForm(t, () =>
+    setOpen(false)
   )
 
   const {
-    formState: { isSubmitting, isDirty, isValid },
+    formState: { isSubmitting, isValid },
   } = form
 
   return (
     <EntityNameFormDialog
       open={open}
       onOpenChange={setOpen}
-      title={t("update.title", { ns: "position-actions" })}
-      submitLabel={t("update", { ns: "buttons" })}
+      title={t("create.title", { ns: "department-actions" })}
+      submitLabel={t("create", { ns: "buttons" })}
       trigger={children}
       onSubmit={onSubmit}
       isSubmitting={loading || isSubmitting}
-      submitDisabled={!isValid || !isDirty}
+      submitDisabled={!isValid}
       form={form}
     />
   )

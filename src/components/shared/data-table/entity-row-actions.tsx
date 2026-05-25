@@ -24,7 +24,7 @@ export type EntityType =
   | "project"
   | "cv"
   | "positions"
-  | "department"
+  | "departments"
   | "skill"
   | "language"
 
@@ -91,7 +91,7 @@ export function EntityRowActions<T>({
       canDelete = projectPermissions.canDelete(currentUser)
       break
     case "positions":
-    case "department":
+    case "departments":
     case "skill":
     case "language":
       canView = false

@@ -1,0 +1,19 @@
+{
+  "create": {
+    "title": "Create Department",
+    "success": "Department created successfully!",
+    "error": "Failed to create department. Please try again."
+  },
+  "update": {
+    "title": "Update Department",
+    "success": "Department updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update department. Please try again."
+  },
+  "delete": {
+    "title": "Delete Department",
+    "description": "Are you sure you want to delete department {{name}}? This action cannot be undone.",
+    "success": "Department deleted successfully!",
+    "error": "Failed to delete department. Please try again."
+  }
+}

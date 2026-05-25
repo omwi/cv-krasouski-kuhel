@@ -26,5 +26,9 @@
   "positions": {
     "title": "Positions List",
     "description": "Manage organization employee positions."
+  },
+  "departments": {
+    "title": "Departments List",
+    "description": "Manage organization employee departments."
   }
 }

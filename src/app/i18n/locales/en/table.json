@@ -37,5 +37,16 @@
     "columns": {
       "name": "Position Name"
     }
+  },
+  "departments-table": {
+    "create": "CREATE DEPARTMENT",
+    "control-actions": {
+      "aria-label": "Control Actions",
+      "update": "Edit Department",
+      "delete": "Delete Department"
+    },
+    "columns": {
+      "name": "Department Name"
+    }
   }
 }
