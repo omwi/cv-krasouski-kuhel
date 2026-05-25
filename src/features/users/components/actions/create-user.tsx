@@ -29,7 +29,7 @@ type Props = {
 }
 
 export default function CreateUser({ currentUser, children }: Props) {
-  const { t } = useT(["user", "input", "buttons"])
+  const { t } = useT(["user-actions", "input", "buttons"])
   const [open, setOpen] = useState(false)
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
 
@@ -45,7 +45,7 @@ export default function CreateUser({ currentUser, children }: Props) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("create.title", { ns: "user" })}</DialogTitle>
+          <DialogTitle>{t("create.title", { ns: "user-actions" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">

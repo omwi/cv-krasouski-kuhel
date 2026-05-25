@@ -31,7 +31,7 @@ export default function DeleteUser({
     <DeleteDialog
       open={open}
       onOpenChange={onOpenChange}
-      i18nKey="user"
+      i18nKey="user-actions"
       entityName={displayName}
       onConfirm={async () => {
         await mutateDelete({

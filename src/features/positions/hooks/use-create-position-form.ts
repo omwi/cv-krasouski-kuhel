@@ -27,7 +27,7 @@ export function useCreatePositionForm(
   open: boolean,
   setOpen: (open: boolean) => void
 ) {
-  const { t } = useT(["position", "input", "buttons"])
+  const { t } = useT(["position-actions", "input", "buttons"])
 
   const [mutateCreate, { loading }] = useMutation(CREATE_POSITION, {
     refetchQueries: [{ query: GET_POSITIONS }],
@@ -57,14 +57,14 @@ export function useCreatePositionForm(
           },
         },
       })
-      toast.success(t("create.success", { ns: "position" }))
+      toast.success(t("create.success", { ns: "position-actions" }))
       setOpen(false)
     } catch (error) {
       console.error(error)
       const errorMessage =
         error instanceof Error
           ? error.message
-          : t("create.error", { ns: "position" })
+          : t("create.error", { ns: "position-actions" })
       toast.error(errorMessage)
     }
   })

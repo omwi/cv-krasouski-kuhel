@@ -29,7 +29,7 @@ export function useUpdatePositionForm(
   open: boolean,
   setOpen: (open: boolean) => void
 ) {
-  const { t } = useT(["position", "input", "buttons"])
+  const { t } = useT(["position-actions", "input", "buttons"])
 
   const [mutateUpdate, { loading }] = useMutation(UPDATE_POSITION, {
     refetchQueries: [{ query: GET_POSITIONS }],
@@ -56,7 +56,7 @@ export function useUpdatePositionForm(
 
   const onSubmit = handleSubmit(async (data) => {
     if (!isDirty) {
-      toast.info(t("update.no-changes", { ns: "position" }))
+      toast.info(t("update.no-changes", { ns: "position-actions" }))
       setOpen(false)
       return
     }
@@ -70,14 +70,14 @@ export function useUpdatePositionForm(
           },
         },
       })
-      toast.success(t("update.success", { ns: "position" }))
+      toast.success(t("update.success", { ns: "position-actions" }))
       setOpen(false)
     } catch (error) {
       console.error(error)
       const errorMessage =
         error instanceof Error
           ? error.message
-          : t("update.error", { ns: "position" })
+          : t("update.error", { ns: "position-actions" })
       toast.error(errorMessage)
     }
   })

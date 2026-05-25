@@ -28,7 +28,7 @@ export default function CreatePosition({
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: Props) {
-  const { t } = useT(["position", "input", "buttons"])
+  const { t } = useT(["position-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -58,7 +58,9 @@ export default function CreatePosition({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("create.title", { ns: "position" })}</DialogTitle>
+          <DialogTitle>
+            {t("create.title", { ns: "position-actions" })}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">

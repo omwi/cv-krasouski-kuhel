@@ -31,7 +31,7 @@ export default function UpdatePosition({
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: Props) {
-  const { t } = useT(["position", "input", "buttons"])
+  const { t } = useT(["position-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -52,7 +52,9 @@ export default function UpdatePosition({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("update.title", { ns: "position" })}</DialogTitle>
+          <DialogTitle>
+            {t("update.title", { ns: "position-actions" })}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">

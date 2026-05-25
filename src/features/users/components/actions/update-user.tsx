@@ -39,7 +39,7 @@ export default function UpdateUser({
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: Props) {
-  const { t } = useT(["user", "input", "buttons"])
+  const { t } = useT(["user-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -62,7 +62,7 @@ export default function UpdateUser({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("update.title", { ns: "user" })}</DialogTitle>
+          <DialogTitle>{t("update.title", { ns: "user-actions" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">

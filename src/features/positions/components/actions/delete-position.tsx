@@ -26,7 +26,7 @@ export default function DeletePosition({
     <DeleteDialog
       open={open}
       onOpenChange={onOpenChange}
-      i18nKey="position"
+      i18nKey="position-actions"
       entityName={position.name}
       onConfirm={async () => {
         await mutateDelete({
