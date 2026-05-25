@@ -1,6 +1,8 @@
 import { getT } from "next-i18next/server"
 
-import { canUpdateUser } from "@/utils/permissions"
+import { PreloadQuery } from "@/apollo-client"
+import UserSKills from "@/features/users/components/skills/user-skills"
+import { GET_USER_SKILLS } from "@/graphql/users/queries"
 
 export async function generateMetadata() {
   const { t } = await getT("metadata")
@@ -17,8 +19,9 @@ export default async function UserSkillsPage({
 }) {
   const { userId } = await params
 
-  const hasUpdatePermissions = await canUpdateUser(userId)
-  console.log(hasUpdatePermissions)
-
-  return <div>Skills</div>
+  return (
+    <PreloadQuery query={GET_USER_SKILLS} variables={{ userId }}>
+      <UserSKills userId={userId} />
+    </PreloadQuery>
+  )
 }
