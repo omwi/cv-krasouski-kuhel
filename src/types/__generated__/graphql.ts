@@ -83,11 +83,6 @@ export type UpdateLanguageInput = {
   native_name?: string | null | undefined
 }
 
-export type UpdatePositionInput = {
-  name: string
-  positionId: string | number
-}
-
 export type DeleteProfileSkillInput = {
   name: Array<string>
   userId: string | number
@@ -99,6 +94,11 @@ export type Mastery =
   | "Expert"
   | "Novice"
   | "Proficient"
+
+export type UpdatePositionInput = {
+  name: string
+  positionId: string | number
+}
 
 export type UpdateProfileInput = {
   first_name?: string | null | undefined
