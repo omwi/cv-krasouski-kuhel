@@ -1,45 +1,41 @@
-import { cookies } from "next/headers"
-
-import { COOKIES } from "@/config/const"
-import { decodeJwtPayload } from "@/features/auth/utils/jwt"
-
 export type CurrentUser = {
   id: string
   role?: string
 } | null
 
-export async function getCurrentUser(): Promise<CurrentUser> {
-  try {
-    const cookieStore = await cookies()
-    const token = cookieStore.get(COOKIES.ACCESS_TOKEN)?.value
-
-    if (!token) return null
-
-    const payload = decodeJwtPayload(token)
-    if (payload && payload.sub) {
-      return {
-        id: String(payload.sub),
-        role: payload.role,
-      }
-    }
-
-    return null
-  } catch (error) {
-    console.error(error)
-    return null
-  }
-}
-
 export function isAdmin(user: CurrentUser) {
   return user?.role?.toLowerCase() === "admin"
 }
 
-export async function canCreateUser() {
-  const currentUser = await getCurrentUser()
-  return isAdmin(currentUser)
+export function isEmployee(user: CurrentUser) {
+  return user?.role?.toLowerCase() === "employee"
 }
 
-export async function canUpdateUser(userId: string) {
-  const currentUser = await getCurrentUser()
-  return isAdmin(currentUser) || currentUser?.id === userId
+export const userPermissions = {
+  canCreate: (user: CurrentUser) => isAdmin(user),
+  canView: (user: CurrentUser) => isAdmin(user) || isEmployee(user),
+  canUpdate: (user: CurrentUser, targetId: string) =>
+    isAdmin(user) || user?.id === targetId,
+  canDelete: (user: CurrentUser, targetId: string) =>
+    isAdmin(user) && user?.id !== targetId,
+}
+
+export const cvPermissions = {
+  canCreate: (user: CurrentUser) => isAdmin(user) || isEmployee(user),
+  canView: (user: CurrentUser) => isAdmin(user) || isEmployee(user),
+  canUpdate: (user: CurrentUser, isOwner = false) => isAdmin(user) || isOwner,
+  canDelete: (user: CurrentUser, isOwner = false) => isAdmin(user) || isOwner,
+}
+
+export const projectPermissions = {
+  canCreate: (user: CurrentUser) => isAdmin(user),
+  canView: (user: CurrentUser) => isAdmin(user) || isEmployee(user),
+  canUpdate: (user: CurrentUser) => isAdmin(user),
+  canDelete: (user: CurrentUser) => isAdmin(user),
+}
+
+export const adminOnlyPermissions = {
+  canCreate: (user: CurrentUser) => isAdmin(user),
+  canUpdate: (user: CurrentUser) => isAdmin(user),
+  canDelete: (user: CurrentUser) => isAdmin(user),
 }

@@ -7,7 +7,7 @@ import { TableUser } from "@/features/users/components/user-table/users-table"
 import { DELETE_USER } from "@/graphql/users/mutations"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
 
-export type DeleteUserProps = {
+type Props = {
   user: TableUser
   open?: boolean
   onOpenChange?: (open: boolean) => void
@@ -17,7 +17,7 @@ export default function DeleteUser({
   user,
   open = false,
   onOpenChange = () => {},
-}: DeleteUserProps) {
+}: Props) {
   const [mutateDelete] = useMutation(DELETE_USER, {
     refetchQueries: [{ query: GET_USERS_LIST }],
   })
@@ -31,7 +31,7 @@ export default function DeleteUser({
     <DeleteDialog
       open={open}
       onOpenChange={onOpenChange}
-      i18nKey="user"
+      i18nKey="user-actions"
       entityName={displayName}
       onConfirm={async () => {
         await mutateDelete({

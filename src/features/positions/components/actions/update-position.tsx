@@ -1,13 +1,7 @@
 "use client"
 
-import { ReactNode, useEffect, useState } from "react"
-import { useMutation } from "@apollo/client/react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import type { TFunction } from "i18next"
+import { ReactNode, useState } from "react"
 import { useT } from "next-i18next/client"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,25 +16,13 @@ import {
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import { TablePosition } from "@/features/positions/components/table/positions-table-columns"
-import { UPDATE_POSITION } from "@/graphql/positions/mutations"
-import { GET_POSITIONS } from "@/graphql/positions/queries"
+import { useUpdatePositionForm } from "@/features/positions/hooks/use-update-position-form"
 
-export type UpdatePositionProps = {
+type Props = {
   position: TablePosition
   children?: ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
-}
-
-const getUpdatePositionSchema = (t: TFunction) =>
-  z.object({
-    name: z.string().min(1, {
-      message: t("input:errors.name"),
-    }),
-  })
-
-type UpdatePositionFormValues = {
-  name: string
 }
 
 export default function UpdatePosition({
@@ -48,8 +30,8 @@ export default function UpdatePosition({
   children,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
-}: UpdatePositionProps) {
-  const { t } = useT(["position", "input", "buttons"])
+}: Props) {
+  const { t } = useT(["position-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -58,62 +40,21 @@ export default function UpdatePosition({
       ? controlledOnOpenChange
       : setInternalOpen
 
-  const [mutateUpdate, { loading }] = useMutation(UPDATE_POSITION, {
-    refetchQueries: [{ query: GET_POSITIONS }],
-  })
-
-  const form = useForm<UpdatePositionFormValues>({
-    resolver: zodResolver(getUpdatePositionSchema(t)),
-    defaultValues: {
-      name: position.name || "",
-    },
-  })
-
   const {
     register,
-    handleSubmit,
-    reset,
+    onSubmit,
+    loading,
     formState: { errors, isSubmitting, isDirty },
-  } = form
-
-  useEffect(() => {
-    if (open) {
-      reset({ name: position.name || "" })
-    }
-  }, [open, position, reset])
-
-  const onSubmit = handleSubmit(async (data) => {
-    if (!isDirty) {
-      toast.info(t("position:update.no-changes"))
-      setOpen(false)
-      return
-    }
-
-    try {
-      await mutateUpdate({
-        variables: {
-          position: {
-            positionId: String(position.id),
-            name: data.name,
-          },
-        },
-      })
-      toast.success(t("position:update.success"))
-      setOpen(false)
-    } catch (error) {
-      console.error(error)
-      const errorMessage =
-        error instanceof Error ? error.message : t("position:update.error")
-      toast.error(errorMessage)
-    }
-  })
+  } = useUpdatePositionForm(position, open, setOpen)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("position:update.title")}</DialogTitle>
+          <DialogTitle>
+            {t("update.title", { ns: "position-actions" })}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -121,7 +62,7 @@ export default function UpdatePosition({
             <Field>
               <FloatingInput
                 id="name"
-                label={t("input:name")}
+                label={t("name", { ns: "input" })}
                 {...register("name")}
               />
               {errors.name && (
@@ -137,14 +78,14 @@ export default function UpdatePosition({
                 variant="outline"
                 disabled={loading || isSubmitting}
               >
-                {t("buttons:cancel")}
+                {t("cancel", { ns: "buttons" })}
               </Button>
             </DialogClose>
             <Button
               type="submit"
               disabled={!isDirty || loading || isSubmitting}
             >
-              {t("buttons:update")}
+              {t("update", { ns: "buttons" })}
             </Button>
           </DialogFooter>
         </form>

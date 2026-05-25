@@ -12,7 +12,7 @@ import { paths } from "@/config/paths"
 
 export const getForgotPasswordSchema = (t: TFunction) =>
   z.object({
-    email: z.email(t("input:errors.email")),
+    email: z.email(t("errors.email", { ns: "input" })),
   })
 
 export type ForgotPasswordInput = z.infer<

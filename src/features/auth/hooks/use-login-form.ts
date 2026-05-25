@@ -1,5 +1,5 @@
 import { startTransition, useActionState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -9,7 +9,6 @@ import { z } from "zod"
 
 import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
-import { authUserVar } from "@/lib/apollo/auth-var"
 
 export const getLoginSchema = (t: TFunction) =>
   z.object({
@@ -30,7 +29,6 @@ const initialState: ActionState = {
 }
 
 export function useLoginForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = sanitizeCallbackUrl(searchParams.get("callbackUrl"))
   const { t } = useT("input")
@@ -58,14 +56,13 @@ export function useLoginForm() {
       if (!res.ok) {
         const errorMessage =
           res.status === 401 || data.message === "Invalid credentials"
-            ? t("input:errors.invalid-credentials")
+            ? t("errors.invalid-credentials", { ns: "input" })
             : data.message || "Login failed"
         toast.error(errorMessage)
         return { error: errorMessage, success: false }
       }
 
-      authUserVar(data.user)
-      router.replace(callbackUrl)
+      window.location.href = callbackUrl
 
       return { error: null, success: true }
     } catch (err: unknown) {

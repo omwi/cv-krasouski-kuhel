@@ -22,9 +22,9 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import { useUpdateUserForm } from "@/features/users/hooks/use-update-user-form"
-import type { CurrentUser } from "@/utils/get-auth-user"
+import type { CurrentUser } from "@/utils/permissions"
 
-export type UpdateUserProps = {
+type Props = {
   user: TableUser
   currentUser: CurrentUser
   children?: ReactNode
@@ -38,8 +38,8 @@ export default function UpdateUser({
   children,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
-}: UpdateUserProps) {
-  const { t } = useT(["user", "input", "buttons"])
+}: Props) {
+  const { t } = useT(["user-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -60,9 +60,9 @@ export default function UpdateUser({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("user:update.title")}</DialogTitle>
+          <DialogTitle>{t("update.title", { ns: "user-actions" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -70,7 +70,7 @@ export default function UpdateUser({
             <Field>
               <FloatingInput
                 id="email"
-                label={t("input:email")}
+                label={t("email", { ns: "input" })}
                 disabled
                 {...register("email")}
               />
@@ -79,7 +79,7 @@ export default function UpdateUser({
             <Field>
               <FloatingPasswordInput
                 id="password"
-                label={t("input:password")}
+                label={t("password", { ns: "input" })}
                 disabled
                 value="*********"
               />
@@ -88,7 +88,7 @@ export default function UpdateUser({
             <Field>
               <FloatingInput
                 id="firstName"
-                label={t("input:first-name")}
+                label={t("first-name", { ns: "input" })}
                 {...register("firstName")}
               />
               {errors.firstName && (
@@ -101,7 +101,7 @@ export default function UpdateUser({
             <Field>
               <FloatingInput
                 id="lastName"
-                label={t("input:last-name")}
+                label={t("last-name", { ns: "input" })}
                 {...register("lastName")}
               />
               {errors.lastName && (
@@ -155,11 +155,11 @@ export default function UpdateUser({
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
-                {t("buttons:cancel")}
+                {t("cancel", { ns: "buttons" })}
               </Button>
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {t("buttons:update")}
+              {t("update", { ns: "buttons" })}
             </Button>
           </DialogFooter>
         </form>

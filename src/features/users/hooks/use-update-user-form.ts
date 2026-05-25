@@ -21,7 +21,7 @@ export function useUpdateUserForm(
   open: boolean,
   setOpen: (open: boolean) => void
 ) {
-  const { t } = useT(["user", "input", "buttons"])
+  const { t } = useT(["user-actions", "input", "buttons"])
 
   const [mutateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [{ query: GET_USERS_LIST }],
@@ -95,16 +95,18 @@ export function useUpdateUserForm(
       }
 
       if (changed) {
-        toast.success(t("user:update.success"))
+        toast.success(t("update.success", { ns: "user-actions" }))
         setOpen(false)
       } else {
-        toast.info(t("user:update.no-changes"))
+        toast.info(t("update.no-changes", { ns: "user-actions" }))
         setOpen(false)
       }
     } catch (error) {
       console.error(error)
       const errorMessage =
-        error instanceof Error ? error.message : t("user:update.error")
+        error instanceof Error
+          ? error.message
+          : t("update.error", { ns: "user-actions" })
       toast.error(errorMessage)
     }
   })

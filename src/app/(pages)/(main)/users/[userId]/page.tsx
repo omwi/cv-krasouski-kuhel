@@ -5,7 +5,8 @@ import AvatarUpload from "@/features/users/components/profile/avatar-upload"
 import ProfileTextInfo from "@/features/users/components/profile/profile-text-info"
 import ProfileUpdateForm from "@/features/users/components/profile/profile-update-form"
 import { GET_USER } from "@/graphql/users/queries"
-import { canUpdateUser } from "@/utils/permissions"
+import { getCurrentUser } from "@/utils/get-current-user"
+import { userPermissions } from "@/utils/permissions"
 
 export async function generateMetadata() {
   const { t } = await getT("metadata")
@@ -21,8 +22,9 @@ export default async function ProfilePage({
   params: Promise<{ userId: string }>
 }) {
   const { userId } = await params
+  const currentUser = await getCurrentUser()
 
-  const hasUpdatePermission = await canUpdateUser(userId)
+  const hasUpdatePermission = userPermissions.canUpdate(currentUser, userId)
 
   return (
     <PreloadQuery query={GET_USER} variables={{ userId }}>

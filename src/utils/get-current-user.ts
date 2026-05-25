@@ -1,14 +1,11 @@
+import { cache } from "react"
 import { cookies } from "next/headers"
 
 import { COOKIES } from "@/config/const"
 import { decodeJwtPayload } from "@/features/auth/utils/jwt"
+import type { CurrentUser } from "@/utils/permissions"
 
-export type CurrentUser = {
-  id: string
-  role?: string
-} | null
-
-export async function getCurrentUser(): Promise<CurrentUser> {
+export const getCurrentUser = cache(async (): Promise<CurrentUser> => {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get(COOKIES.ACCESS_TOKEN)?.value
@@ -28,4 +25,4 @@ export async function getCurrentUser(): Promise<CurrentUser> {
     console.error(error)
     return null
   }
-}
+})

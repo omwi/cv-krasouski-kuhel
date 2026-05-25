@@ -9,7 +9,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -30,14 +29,13 @@ export function DeleteDialog({
   i18nKey,
   entityName,
 }: DeleteDialogProps) {
-  const { t: tButtons } = useT("buttons")
-  const { t: tEntity } = useT(i18nKey)
+  const { t } = useT(["buttons", i18nKey])
   const [loading, setLoading] = useState(false)
 
-  const title = tEntity("delete.title")
-  const description = tEntity("delete.description", { name: entityName })
-  const successMessage = tEntity("delete.success")
-  const errorMessage = tEntity("delete.error")
+  const title = t(`delete.title`, { ns: i18nKey })
+  const description = t(`delete.description`, { name: entityName, ns: i18nKey })
+  const successMessage = t(`delete.success`, { ns: i18nKey })
+  const errorMessage = t(`delete.error`, { ns: i18nKey })
 
   const handleDelete = async () => {
     setLoading(true)
@@ -61,23 +59,21 @@ export function DeleteDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-150">
+      <DialogContent aria-describedby={undefined} className="max-w-150">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
 
-        <DialogDescription className="text-foreground">
-          {description}
-        </DialogDescription>
+        <div className="text-foreground">{description}</div>
 
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="outline" disabled={loading}>
-              {tButtons("cancel")}
+              {t("cancel", { ns: "buttons" })}
             </Button>
           </DialogClose>
           <Button type="button" disabled={loading} onClick={handleDelete}>
-            {tButtons("delete")}
+            {t("delete", { ns: "buttons" })}
           </Button>
         </DialogFooter>
       </DialogContent>
