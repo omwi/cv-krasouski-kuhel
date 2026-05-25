@@ -21,6 +21,7 @@ const i18nConfig: I18nConfig = {
     "input",
     "delete",
     "table",
+    "skills",
   ],
   localeInPath: false,
   resourceLoader:

@@ -1,0 +1,24 @@
+{
+  "category": {
+    "1": "Programming languages",
+    "2": "Frontend",
+    "3": "Frontend technologies",
+    "4": "State management libraries",
+    "5": "Form libraries",
+    "6": "UI libraries",
+    "7": "Data visualization",
+    "8": "Internationalization",
+    "9": "Backend",
+    "10": "Backend technologies",
+    "11": "Databases",
+    "12": "Cloud",
+    "13": "Testing frameworks and tools",
+    "14": "DevOps",
+    "15": "CI/CD",
+    "16": "Containerization",
+    "17": "Source control systems",
+    "18": "Documentation",
+    "19": "Graphic editors",
+    "other": "Other"
+  }
+}
