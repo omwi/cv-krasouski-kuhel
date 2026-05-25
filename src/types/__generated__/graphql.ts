@@ -11,6 +11,10 @@ export type AuthInput = {
   password: string
 }
 
+export type CreateDepartmentInput = {
+  name: string
+}
+
 export type CreatePositionInput = {
   name: string
 }
@@ -33,8 +37,17 @@ export type DeleteAvatarInput = {
   userId: string | number
 }
 
+export type DeleteDepartmentInput = {
+  departmentId: string | number
+}
+
 export type DeletePositionInput = {
   positionId: string | number
+}
+
+export type UpdateDepartmentInput = {
+  departmentId: string | number
+  name: string
 }
 
 export type UpdatePositionInput = {
@@ -64,6 +77,30 @@ export type UploadAvatarInput = {
 }
 
 export type UserRole = "Admin" | "Employee"
+
+export type CreatePDepartmentMutationVariables = Exact<{
+  department: CreateDepartmentInput
+}>
+
+export type CreatePDepartmentMutation = {
+  createDepartment: { __typename: "Department"; name: string }
+}
+
+export type UpdateDepartmentMutationVariables = Exact<{
+  department: UpdateDepartmentInput
+}>
+
+export type UpdateDepartmentMutation = {
+  updateDepartment: { __typename: "Department"; name: string; id: string }
+}
+
+export type DeleteDepartmentMutationVariables = Exact<{
+  department: DeleteDepartmentInput
+}>
+
+export type DeleteDepartmentMutation = {
+  deleteDepartment: { __typename: "DeleteResult"; affected: number }
+}
 
 export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never }>
 
@@ -174,14 +211,17 @@ export type GetUsersListQuery = {
   users: Array<{
     __typename: "User"
     id: string
+    created_at: string
     email: string
     role: UserRole
+    is_verified: boolean
     department_name: string | null
     position_name: string | null
     department: { __typename: "Department"; id: string; name: string } | null
     position: { __typename: "Position"; id: string; name: string } | null
     profile: {
       __typename: "Profile"
+      id: string
       avatar: string | null
       first_name: string | null
       last_name: string | null
