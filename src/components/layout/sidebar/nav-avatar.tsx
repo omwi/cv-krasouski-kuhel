@@ -1,8 +1,6 @@
-import { useReactiveVar } from "@apollo/client/react"
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { authUserVar } from "@/lib/apollo/auth-var"
+import { useGetMeQuery } from "@/features/auth/hooks/use-get-me"
 import { cn } from "@/lib/utils"
 
 type Props = React.ComponentPropsWithRef<typeof Button> & {
@@ -10,7 +8,7 @@ type Props = React.ComponentPropsWithRef<typeof Button> & {
 }
 
 export default function NavAvatar({ className, variant, ...props }: Props) {
-  const user = useReactiveVar(authUserVar)
+  const { user } = useGetMeQuery()
 
   if (!user) return null
 

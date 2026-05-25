@@ -11,7 +11,7 @@ type Props = {
 }
 
 export default function CrumbUser({ userId, href, isPage }: Props) {
-  const { data } = useQuery(GET_USER, { variables: { userId } })
+  const { data } = useQuery(GET_USER, { variables: { userId: String(userId) } })
   const label = data?.user?.profile?.full_name || data?.user?.email || userId
 
   return (

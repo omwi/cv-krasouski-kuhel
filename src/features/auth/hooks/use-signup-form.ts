@@ -1,5 +1,5 @@
 import { startTransition, useActionState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -10,7 +10,6 @@ import { z } from "zod"
 import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
 import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
-import { authUserVar } from "@/lib/apollo/auth-var"
 
 export const getSignupSchema = (t: TFunction) =>
   z.object({
@@ -31,7 +30,6 @@ const initialState: ActionState = {
 }
 
 export function useSignupForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const { t } = useT("input")
 
@@ -62,12 +60,10 @@ export function useSignupForm() {
         return { error: errorMessage, success: false }
       }
 
-      authUserVar(data.user)
-      const callbackUrl = sanitizeCallbackUrl(
+      window.location.href = sanitizeCallbackUrl(
         searchParams.get("callbackUrl"),
         paths.users.details.get(data.user.id)
       )
-      router.replace(callbackUrl)
 
       return { error: null, success: true }
     } catch (err: unknown) {

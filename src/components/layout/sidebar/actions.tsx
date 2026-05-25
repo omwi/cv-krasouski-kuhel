@@ -1,4 +1,3 @@
-import { useReactiveVar } from "@apollo/client/react"
 import { CircleUser, Settings } from "lucide-react"
 import { useT } from "next-i18next/client"
 
@@ -6,18 +5,18 @@ import ActionLink from "@/components/layout/sidebar/action-link"
 import LogoutButton from "@/components/layout/sidebar/logout-button"
 import { Separator } from "@/components/ui/separator"
 import { paths } from "@/config/paths"
-import { authUserVar } from "@/lib/apollo/auth-var"
+import { useAuthContext } from "@/features/auth/components/auth-provider"
 
 export default function Actions() {
   const { t } = useT("nav")
-  const user = useReactiveVar(authUserVar)
+  const { userId } = useAuthContext()
 
-  if (!user) return null
+  if (!userId) return null
 
   return (
     <div className="flex flex-col gap-2 py-2">
       <nav className="flex flex-col">
-        <ActionLink to={paths.users.details.get(parseInt(user.id))}>
+        <ActionLink to={paths.users.details.get(parseInt(userId))}>
           <CircleUser />
           {t("profile")}
         </ActionLink>
