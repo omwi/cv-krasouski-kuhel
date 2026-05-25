@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { getT } from "next-i18next/server"
 
 import { PreloadQuery } from "@/apollo-client"
+import SkillsTable from "@/features/skills/components/table/skills-table"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 import { getCurrentUser } from "@/utils/get-current-user"
 
@@ -18,7 +19,7 @@ export default async function Skills() {
 
   return (
     <PreloadQuery query={GET_SKILLS}>
-      <p>skills</p>
+      <SkillsTable currentUser={currentUser} />
     </PreloadQuery>
   )
 }
