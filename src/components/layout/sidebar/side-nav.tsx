@@ -51,6 +51,11 @@ const navLinks: readonly NavLink[] = [
     to: paths.positions.get(),
     icon: <BriefcaseBusiness className="shrink-0" />,
   },
+  {
+    i18: "departments",
+    to: paths.departments.get(),
+    icon: <BriefcaseBusiness className="shrink-0" />,
+  },
 ] as const
 
 export default function SideNav() {
