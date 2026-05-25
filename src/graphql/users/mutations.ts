@@ -1,16 +1,22 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  AddUserSkillMutation,
+  AddUserSkillMutationVariables,
   CreateUserMutation,
   CreateUserMutationVariables,
   DeleteAvatarMutation,
   DeleteAvatarMutationVariables,
   DeleteUserMutation,
   DeleteUserMutationVariables,
+  DeleteUserSkillMutation,
+  DeleteUserSkillMutationVariables,
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
   UpdateUserMutation,
   UpdateUserMutationVariables,
+  UpdateUserSkillMutation,
+  UpdateUserSkillMutationVariables,
   UploadAvatarMutation,
   UploadAvatarMutationVariables,
 } from "@/types/__generated__/graphql"
@@ -42,6 +48,54 @@ export const UPDATE_PROFILE: TypedDocumentNode<
       first_name
       last_name
       full_name
+    }
+  }
+`
+
+export const ADD_USER_SKILL: TypedDocumentNode<
+  AddUserSkillMutation,
+  AddUserSkillMutationVariables
+> = gql`
+  mutation AddUserSkill($skill: AddProfileSkillInput!) {
+    addProfileSkill(skill: $skill) {
+      id
+      skills {
+        name
+        categoryId
+        mastery
+      }
+    }
+  }
+`
+
+export const UPDATE_USER_SKILL: TypedDocumentNode<
+  UpdateUserSkillMutation,
+  UpdateUserSkillMutationVariables
+> = gql`
+  mutation UpdateUserSkill($skill: UpdateProfileSkillInput!) {
+    updateProfileSkill(skill: $skill) {
+      id
+      skills {
+        name
+        categoryId
+        mastery
+      }
+    }
+  }
+`
+
+export const DELETE_USER_SKILL: TypedDocumentNode<
+  DeleteUserSkillMutation,
+  DeleteUserSkillMutationVariables
+> = gql`
+  mutation DeleteUserSkill($skill: DeleteProfileSkillInput!) {
+    deleteProfileSkill(skill: $skill) {
+      id
+      skills {
+        name
+        categoryId
+        mastery
+      }
     }
   }
 `

@@ -6,6 +6,13 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never
     }
+export type AddProfileSkillInput = {
+  categoryId?: string | number | null | undefined
+  mastery: Mastery
+  name: string
+  userId: string | number
+}
+
 export type AuthInput = {
   email: string
   password: string
@@ -81,6 +88,18 @@ export type UpdatePositionInput = {
   positionId: string | number
 }
 
+export type DeleteProfileSkillInput = {
+  name: Array<string>
+  userId: string | number
+}
+
+export type Mastery =
+  | "Advanced"
+  | "Competent"
+  | "Expert"
+  | "Novice"
+  | "Proficient"
+
 export type UpdateProfileInput = {
   first_name?: string | null | undefined
   last_name?: string | null | undefined
@@ -91,6 +110,13 @@ export type UpdateSkillInput = {
   categoryId?: string | number | null | undefined
   name: string
   skillId: string | number
+}
+
+export type UpdateProfileSkillInput = {
+  categoryId?: string | number | null | undefined
+  mastery: Mastery
+  name: string
+  userId: string | number
 }
 
 export type UpdateUserInput = {
@@ -319,6 +345,57 @@ export type UpdateProfileMutation = {
   }
 }
 
+export type AddUserSkillMutationVariables = Exact<{
+  skill: AddProfileSkillInput
+}>
+
+export type AddUserSkillMutation = {
+  addProfileSkill: {
+    __typename: "Profile"
+    id: string
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
+  }
+}
+
+export type UpdateUserSkillMutationVariables = Exact<{
+  skill: UpdateProfileSkillInput
+}>
+
+export type UpdateUserSkillMutation = {
+  updateProfileSkill: {
+    __typename: "Profile"
+    id: string
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
+  }
+}
+
+export type DeleteUserSkillMutationVariables = Exact<{
+  skill: DeleteProfileSkillInput
+}>
+
+export type DeleteUserSkillMutation = {
+  deleteProfileSkill: {
+    __typename: "Profile"
+    id: string
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
+  }
+}
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput
 }>
@@ -407,5 +484,22 @@ export type GetUserQuery = {
     }
     department: { __typename: "Department"; id: string; name: string } | null
     position: { __typename: "Position"; id: string; name: string } | null
+  }
+}
+
+export type GetUserSkillsQueryVariables = Exact<{
+  userId: string | number
+}>
+
+export type GetUserSkillsQuery = {
+  profile: {
+    __typename: "Profile"
+    id: string
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
   }
 }
