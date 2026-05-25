@@ -24,7 +24,7 @@ import { TableUser } from "@/features/users/components/user-table/users-table"
 import { useUpdateUserForm } from "@/features/users/hooks/use-update-user-form"
 import type { CurrentUser } from "@/utils/permissions"
 
-export type UpdateUserProps = {
+type Props = {
   user: TableUser
   currentUser: CurrentUser
   children?: ReactNode
@@ -38,7 +38,7 @@ export default function UpdateUser({
   children,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
-}: UpdateUserProps) {
+}: Props) {
   const { t } = useT(["user", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 

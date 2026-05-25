@@ -23,12 +23,12 @@ import { FloatingInput } from "@/components/ui/floating-label-input"
 import { useCreateUserForm } from "@/features/users/hooks/use-create-user-form"
 import type { CurrentUser } from "@/utils/permissions"
 
-export type CreateUserProps = {
+type Props = {
   currentUser: CurrentUser
   children: ReactNode
 }
 
-export default function CreateUser({ currentUser, children }: CreateUserProps) {
+export default function CreateUser({ currentUser, children }: Props) {
   const { t } = useT(["user", "input", "buttons"])
   const [open, setOpen] = useState(false)
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
