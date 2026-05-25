@@ -2,7 +2,7 @@
 
 import { useMutation } from "@apollo/client/react"
 
-import { DeleteDialog } from "@/components/shared/delete-dialog"
+import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
 import { TableDepartment } from "@/features/departments/components/table/departments-table-columns"
 import { DELETE_DEPARTMENT } from "@/graphql/departments/mutations"
 import { GET_DEPARTMENTS } from "@/graphql/departments/queries"

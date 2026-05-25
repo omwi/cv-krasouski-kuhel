@@ -83,7 +83,7 @@ export function useUpdatePositionForm(
   })
 
   return {
-    ...form,
+    form,
     onSubmit,
     loading,
   }

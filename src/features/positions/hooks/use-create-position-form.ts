@@ -70,7 +70,7 @@ export function useCreatePositionForm(
   })
 
   return {
-    ...form,
+    form,
     onSubmit,
     loading,
   }

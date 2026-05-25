@@ -2,7 +2,7 @@
 
 import { useMutation } from "@apollo/client/react"
 
-import { DeleteDialog } from "@/components/shared/delete-dialog"
+import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
 import { TablePosition } from "@/features/positions/components/table/positions-table-columns"
 import { DELETE_POSITION } from "@/graphql/positions/mutations"
 import { GET_POSITIONS } from "@/graphql/positions/queries"
