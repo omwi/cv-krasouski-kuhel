@@ -24,6 +24,11 @@ export type CreateProfileInput = {
   last_name?: string | null | undefined
 }
 
+export type CreateSkillInput = {
+  categoryId?: string | number | null | undefined
+  name: string
+}
+
 export type CreateUserInput = {
   auth: AuthInput
   cvsIds: Array<string>
@@ -45,6 +50,10 @@ export type DeletePositionInput = {
   positionId: string | number
 }
 
+export type DeleteSkillInput = {
+  skillId: string | number
+}
+
 export type UpdateDepartmentInput = {
   departmentId: string | number
   name: string
@@ -59,6 +68,12 @@ export type UpdateProfileInput = {
   first_name?: string | null | undefined
   last_name?: string | null | undefined
   userId: string | number
+}
+
+export type UpdateSkillInput = {
+  categoryId?: string | number | null | undefined
+  name: string
+  skillId: string | number
 }
 
 export type UpdateUserInput = {
@@ -136,6 +151,82 @@ export type GetPositionsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetPositionsQuery = {
   positions: Array<{ __typename: "Position"; id: string; name: string }>
+}
+
+export type CreateSkillMutationVariables = Exact<{
+  skill: CreateSkillInput
+}>
+
+export type CreateSkillMutation = {
+  createSkill: {
+    __typename: "Skill"
+    id: string
+    name: string
+    created_at: string
+  }
+}
+
+export type UpdateSkillMutationVariables = Exact<{
+  skill: UpdateSkillInput
+}>
+
+export type UpdateSkillMutation = {
+  updateSkill: {
+    __typename: "Skill"
+    id: string
+    name: string
+    created_at: string
+  }
+}
+
+export type DeleteSkillMutationVariables = Exact<{
+  skill: DeleteSkillInput
+}>
+
+export type DeleteSkillMutation = {
+  deleteSkill: { __typename: "DeleteResult"; affected: number }
+}
+
+export type SkillsQueryVariables = Exact<{ [key: string]: never }>
+
+export type SkillsQuery = {
+  skills: Array<{
+    __typename: "Skill"
+    id: string
+    name: string
+    category_name: string | null
+    category_parent_name: string | null
+    created_at: string
+    category: {
+      __typename: "SkillCategory"
+      id: string
+      name: string
+      order: number
+    } | null
+  }>
+}
+
+export type SkillCategoriesQueryVariables = Exact<{ [key: string]: never }>
+
+export type SkillCategoriesQuery = {
+  skillCategories: Array<{
+    __typename: "SkillCategory"
+    id: string
+    name: string
+    order: number
+    parent: {
+      __typename: "SkillCategory"
+      id: string
+      name: string
+      order: number
+    } | null
+    children: Array<{
+      __typename: "SkillCategory"
+      id: string
+      name: string
+      order: number
+    }>
+  }>
 }
 
 export type UploadAvatarMutationVariables = Exact<{
