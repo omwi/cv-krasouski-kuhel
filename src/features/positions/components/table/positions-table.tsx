@@ -12,7 +12,7 @@ import { getColumns } from "@/features/positions/components/table/positions-tabl
 import { GET_POSITIONS } from "@/graphql/positions/queries"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import type { CurrentUser } from "@/utils/permissions"
+import { adminOnlyPermissions, CurrentUser } from "@/utils/permissions"
 
 export default function PositionsTable({
   currentUser,
@@ -25,7 +25,7 @@ export default function PositionsTable({
   })
   const { t } = useT("table")
 
-  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
+  const canCreate = adminOnlyPermissions.canCreate(currentUser)
   const positions = data?.positions || []
 
   const columns = useMemo(() => getColumns(currentUser), [currentUser])
@@ -46,7 +46,7 @@ export default function PositionsTable({
       searchValue={params.search}
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
-        isAdmin && (
+        canCreate && (
           <CreatePosition>
             <Button variant="outline-primary">
               <Plus />
