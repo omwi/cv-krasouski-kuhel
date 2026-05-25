@@ -58,7 +58,7 @@ export default function CreatePosition({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("position:create.title")}</DialogTitle>
+          <DialogTitle>{t("create.title", { ns: "position" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -66,7 +66,7 @@ export default function CreatePosition({
             <Field>
               <FloatingInput
                 id="name"
-                label={t("input:name")}
+                label={t("name", { ns: "input" })}
                 disabled={loading || isSubmitting}
                 {...register("name")}
               />
@@ -83,14 +83,14 @@ export default function CreatePosition({
                 variant="outline"
                 disabled={loading || isSubmitting}
               >
-                {t("buttons:cancel")}
+                {t("cancel", { ns: "buttons" })}
               </Button>
             </DialogClose>
             <Button
               type="submit"
               disabled={!isValid || loading || isSubmitting}
             >
-              {t("buttons:create")}
+              {t("create", { ns: "buttons" })}
             </Button>
           </DialogFooter>
         </form>

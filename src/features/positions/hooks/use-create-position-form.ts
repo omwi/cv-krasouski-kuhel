@@ -15,7 +15,7 @@ import { GET_POSITIONS } from "@/graphql/positions/queries"
 const getCreatePositionSchema = (t: TFunction) =>
   z.object({
     name: z.string().min(1, {
-      message: t("input:errors.name"),
+      message: t("errors.name", { ns: "input" }),
     }),
   })
 
@@ -57,12 +57,14 @@ export function useCreatePositionForm(
           },
         },
       })
-      toast.success(t("position:create.success"))
+      toast.success(t("create.success", { ns: "position" }))
       setOpen(false)
     } catch (error) {
       console.error(error)
       const errorMessage =
-        error instanceof Error ? error.message : t("position:create.error")
+        error instanceof Error
+          ? error.message
+          : t("create.error", { ns: "position" })
       toast.error(errorMessage)
     }
   })

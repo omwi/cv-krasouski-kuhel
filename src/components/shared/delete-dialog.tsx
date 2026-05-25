@@ -32,10 +32,10 @@ export function DeleteDialog({
   const { t } = useT(["buttons", i18nKey])
   const [loading, setLoading] = useState(false)
 
-  const title = t(`${i18nKey}:delete.title`)
-  const description = t(`${i18nKey}:delete.description`, { name: entityName })
-  const successMessage = t(`${i18nKey}:delete.success`)
-  const errorMessage = t(`${i18nKey}:delete.error`)
+  const title = t(`delete.title`, { ns: i18nKey })
+  const description = t(`delete.description`, { name: entityName, ns: i18nKey })
+  const successMessage = t(`delete.success`, { ns: i18nKey })
+  const errorMessage = t(`delete.error`, { ns: i18nKey })
 
   const handleDelete = async () => {
     setLoading(true)
@@ -69,11 +69,11 @@ export function DeleteDialog({
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="outline" disabled={loading}>
-              {t("buttons:cancel")}
+              {t("cancel", { ns: "buttons" })}
             </Button>
           </DialogClose>
           <Button type="button" disabled={loading} onClick={handleDelete}>
-            {t("buttons:delete")}
+            {t("delete", { ns: "buttons" })}
           </Button>
         </DialogFooter>
       </DialogContent>

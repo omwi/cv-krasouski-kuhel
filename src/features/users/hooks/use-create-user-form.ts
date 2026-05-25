@@ -76,7 +76,7 @@ export function useCreateUserForm(
         variables: { user: userInput },
       })
 
-      toast.success(t("user:create.success"))
+      toast.success(t("create.success", { ns: "user" }))
       setOpen(false)
     } catch (error) {
       console.error(error)

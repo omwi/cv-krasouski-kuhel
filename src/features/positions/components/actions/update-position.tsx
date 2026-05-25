@@ -52,7 +52,7 @@ export default function UpdatePosition({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("position:update.title")}</DialogTitle>
+          <DialogTitle>{t("update.title", { ns: "position" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -60,7 +60,7 @@ export default function UpdatePosition({
             <Field>
               <FloatingInput
                 id="name"
-                label={t("input:name")}
+                label={t("name", { ns: "input" })}
                 {...register("name")}
               />
               {errors.name && (
@@ -76,14 +76,14 @@ export default function UpdatePosition({
                 variant="outline"
                 disabled={loading || isSubmitting}
               >
-                {t("buttons:cancel")}
+                {t("cancel", { ns: "buttons" })}
               </Button>
             </DialogClose>
             <Button
               type="submit"
               disabled={!isDirty || loading || isSubmitting}
             >
-              {t("buttons:update")}
+              {t("update", { ns: "buttons" })}
             </Button>
           </DialogFooter>
         </form>

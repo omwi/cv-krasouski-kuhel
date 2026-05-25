@@ -62,7 +62,7 @@ export default function UpdateUser({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("user:update.title")}</DialogTitle>
+          <DialogTitle>{t("update.title", { ns: "user" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -70,7 +70,7 @@ export default function UpdateUser({
             <Field>
               <FloatingInput
                 id="email"
-                label={t("input:email")}
+                label={t("email", { ns: "input" })}
                 disabled
                 {...register("email")}
               />
@@ -79,7 +79,7 @@ export default function UpdateUser({
             <Field>
               <FloatingPasswordInput
                 id="password"
-                label={t("input:password")}
+                label={t("password", { ns: "input" })}
                 disabled
                 value="*********"
               />
@@ -88,7 +88,7 @@ export default function UpdateUser({
             <Field>
               <FloatingInput
                 id="firstName"
-                label={t("input:first-name")}
+                label={t("first-name", { ns: "input" })}
                 {...register("firstName")}
               />
               {errors.firstName && (
@@ -101,7 +101,7 @@ export default function UpdateUser({
             <Field>
               <FloatingInput
                 id="lastName"
-                label={t("input:last-name")}
+                label={t("last-name", { ns: "input" })}
                 {...register("lastName")}
               />
               {errors.lastName && (
@@ -155,11 +155,11 @@ export default function UpdateUser({
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
-                {t("buttons:cancel")}
+                {t("cancel", { ns: "buttons" })}
               </Button>
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {t("buttons:update")}
+              {t("update", { ns: "buttons" })}
             </Button>
           </DialogFooter>
         </form>

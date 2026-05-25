@@ -16,7 +16,7 @@ import { GET_POSITIONS } from "@/graphql/positions/queries"
 const getUpdatePositionSchema = (t: TFunction) =>
   z.object({
     name: z.string().min(1, {
-      message: t("input:errors.name"),
+      message: t("errors.name", { ns: "input" }),
     }),
   })
 
@@ -56,7 +56,7 @@ export function useUpdatePositionForm(
 
   const onSubmit = handleSubmit(async (data) => {
     if (!isDirty) {
-      toast.info(t("position:update.no-changes"))
+      toast.info(t("update.no-changes", { ns: "position" }))
       setOpen(false)
       return
     }
@@ -70,12 +70,14 @@ export function useUpdatePositionForm(
           },
         },
       })
-      toast.success(t("position:update.success"))
+      toast.success(t("update.success", { ns: "position" }))
       setOpen(false)
     } catch (error) {
       console.error(error)
       const errorMessage =
-        error instanceof Error ? error.message : t("position:update.error")
+        error instanceof Error
+          ? error.message
+          : t("update.error", { ns: "position" })
       toast.error(errorMessage)
     }
   })

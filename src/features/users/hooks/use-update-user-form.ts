@@ -95,16 +95,18 @@ export function useUpdateUserForm(
       }
 
       if (changed) {
-        toast.success(t("user:update.success"))
+        toast.success(t("update.success", { ns: "user" }))
         setOpen(false)
       } else {
-        toast.info(t("user:update.no-changes"))
+        toast.info(t("update.no-changes", { ns: "user" }))
         setOpen(false)
       }
     } catch (error) {
       console.error(error)
       const errorMessage =
-        error instanceof Error ? error.message : t("user:update.error")
+        error instanceof Error
+          ? error.message
+          : t("update.error", { ns: "user" })
       toast.error(errorMessage)
     }
   })

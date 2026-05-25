@@ -56,7 +56,7 @@ export function useLoginForm() {
       if (!res.ok) {
         const errorMessage =
           res.status === 401 || data.message === "Invalid credentials"
-            ? t("input:errors.invalid-credentials")
+            ? t("errors.invalid-credentials", { ns: "input" })
             : data.message || "Login failed"
         toast.error(errorMessage)
         return { error: errorMessage, success: false }

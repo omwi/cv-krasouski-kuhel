@@ -45,7 +45,7 @@ export default function CreateUser({ currentUser, children }: Props) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("user:create.title")}</DialogTitle>
+          <DialogTitle>{t("create.title", { ns: "user" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -53,7 +53,7 @@ export default function CreateUser({ currentUser, children }: Props) {
             <Field>
               <FloatingInput
                 id="email"
-                label={t("input:email")}
+                label={t("email", { ns: "input" })}
                 disabled={isSubmitting}
                 {...register("email")}
               />
@@ -65,7 +65,7 @@ export default function CreateUser({ currentUser, children }: Props) {
             <Field>
               <FloatingPasswordInput
                 id="password"
-                label={t("input:password")}
+                label={t("password", { ns: "input" })}
                 disabled={isSubmitting}
                 {...register("password")}
               />
@@ -79,7 +79,7 @@ export default function CreateUser({ currentUser, children }: Props) {
             <Field>
               <FloatingInput
                 id="firstName"
-                label={t("input:first-name")}
+                label={t("first-name", { ns: "input" })}
                 disabled={isSubmitting}
                 {...register("firstName")}
               />

@@ -16,8 +16,8 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h4>{t("auth:login-form.title")}</h4>
-      <p className="sub-title">{t("auth:login-form.text")}</p>
+      <h4>{t("login-form.title", { ns: "auth" })}</h4>
+      <p className="sub-title">{t("login-form.text", { ns: "auth" })}</p>
 
       <FieldGroup>
         <Field>
@@ -25,7 +25,7 @@ export default function LoginForm() {
             autoFocus
             autoComplete="email"
             type="email"
-            label={t("input:email")}
+            label={t("email", { ns: "input" })}
             disabled={isPending}
             {...register("email")}
           />
@@ -34,7 +34,7 @@ export default function LoginForm() {
         <Field>
           <FloatingPasswordInput
             autoComplete="current-password"
-            label={t("input:password")}
+            label={t("password", { ns: "input" })}
             disabled={isPending}
             {...register("password")}
           />
@@ -43,10 +43,12 @@ export default function LoginForm() {
       </FieldGroup>
       <div className="button-group mt-4">
         <Button disabled={isPending} type="submit">
-          {isPending ? t("auth:button-loading") : t("auth:login-form.button")}
+          {isPending
+            ? t("button-loading", { ns: "auth" })
+            : t("login-form.button", { ns: "auth" })}
         </Button>
         <Link href={paths.auth.forgotPassword.get()}>
-          {t("auth:login-form.button-secondary")}
+          {t("login-form.button-secondary", { ns: "auth" })}
         </Link>
       </div>
     </form>
