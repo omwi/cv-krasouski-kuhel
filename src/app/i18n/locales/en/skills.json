@@ -20,5 +20,9 @@
     "18": "Documentation",
     "19": "Graphic editors",
     "other": "Other"
+  },
+  "dialog": {
+    "add": "Add Skill",
+    "update": "Update Skill"
   }
 }

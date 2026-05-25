@@ -10,6 +10,8 @@
   "category": "Category",
   "native-name": "Native Name",
   "iso2": "ISO2",
+  "skill": "Skill",
+  "skill-mastery": "Skill Mastery",
   "errors": {
     "first-name": "First name is required",
     "last-name": "Last name is required",
