@@ -6,7 +6,7 @@ import ProfileTextInfo from "@/features/users/components/profile/profile-text-in
 import ProfileUpdateForm from "@/features/users/components/profile/profile-update-form"
 import { GET_USER } from "@/graphql/users/queries"
 import { getCurrentUser } from "@/utils/get-current-user"
-import { canUpdateUser } from "@/utils/permissions"
+import { userPermissions } from "@/utils/permissions"
 
 export async function generateMetadata() {
   const { t } = await getT("metadata")
@@ -24,7 +24,7 @@ export default async function ProfilePage({
   const { userId } = await params
   const currentUser = await getCurrentUser()
 
-  const hasUpdatePermission = canUpdateUser(currentUser, userId)
+  const hasUpdatePermission = userPermissions.canUpdate(currentUser, userId)
 
   return (
     <PreloadQuery query={GET_USER} variables={{ userId }}>

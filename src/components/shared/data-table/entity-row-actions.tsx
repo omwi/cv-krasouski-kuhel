@@ -10,11 +10,27 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import type { CurrentUser } from "@/utils/permissions"
+import {
+  adminOnlyPermissions,
+  cvPermissions,
+  isAdmin,
+  projectPermissions,
+  userPermissions,
+  type CurrentUser,
+} from "@/utils/permissions"
+
+export type EntityType =
+  | "user"
+  | "project"
+  | "cv"
+  | "positions"
+  | "department"
+  | "skill"
+  | "language"
 
 export interface EntityRowActionsProps<T> {
   entity: T
-  entityType: "user" | "project" | "cv" | "positions"
+  entityType: EntityType
   entityId: string
   currentUser: CurrentUser
   isOwner?: boolean
@@ -35,9 +51,9 @@ export interface EntityRowActionsProps<T> {
 export function EntityRowActions<T>({
   entity,
   entityType,
+  entityId,
   currentUser,
   isOwner = false,
-  isMe = false,
   onView,
   renderEditModal,
   renderDeleteModal,
@@ -50,35 +66,42 @@ export function EntityRowActions<T>({
 
   if (!currentUser) return null
 
-  const isAdmin = currentUser.role?.toLowerCase() === "admin"
-  const isEmployee = currentUser.role?.toLowerCase() === "employee"
-
   let canView: boolean
   let canEdit: boolean
   let canDelete: boolean
   let isDeleteDisabled = false
 
+  const isUserAdmin = isAdmin(currentUser)
+
   switch (entityType) {
     case "user":
-      canView = isAdmin || isEmployee
-      canEdit = isAdmin || isMe
-      canDelete = isAdmin
-      isDeleteDisabled = isMe
-      break
-    case "project":
-      canView = true
-      canEdit = isAdmin
-      canDelete = isAdmin
+      canView = userPermissions.canView(currentUser)
+      canEdit = userPermissions.canUpdate(currentUser, entityId)
+      canDelete = isUserAdmin
+      isDeleteDisabled = !userPermissions.canDelete(currentUser, entityId)
       break
     case "cv":
-      canView = true
-      canEdit = isAdmin || isOwner
-      canDelete = isAdmin || isOwner
+      canView = cvPermissions.canView(currentUser)
+      canEdit = cvPermissions.canUpdate(currentUser, isOwner)
+      canDelete = cvPermissions.canDelete(currentUser, isOwner)
+      break
+    case "project":
+      canView = projectPermissions.canView(currentUser)
+      canEdit = projectPermissions.canUpdate(currentUser)
+      canDelete = projectPermissions.canDelete(currentUser)
+      break
+    case "positions":
+    case "department":
+    case "skill":
+    case "language":
+      canView = false
+      canEdit = adminOnlyPermissions.canUpdate(currentUser)
+      canDelete = adminOnlyPermissions.canDelete(currentUser)
       break
     default:
       canView = false
-      canEdit = isAdmin
-      canDelete = isAdmin
+      canEdit = adminOnlyPermissions.canUpdate(currentUser)
+      canDelete = adminOnlyPermissions.canDelete(currentUser)
       break
   }
 

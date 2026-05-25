@@ -18,17 +18,14 @@ export function UserRowActions({
 
   if (!currentUser) return null
 
-  const isMe = currentUser.id === rowUser.id
-
   return (
     <EntityRowActions<TableUser>
       entity={rowUser}
       entityType="user"
       entityId={rowUser.id}
       currentUser={currentUser}
-      isMe={isMe}
       onView={(user) => {
-        router.push(paths.users.details.get(Number(user.id)))
+        router.push(paths.users.details.get(user.id))
       }}
       renderEditModal={(props) => (
         <UpdateUser user={props.entity} currentUser={currentUser} {...props} />
