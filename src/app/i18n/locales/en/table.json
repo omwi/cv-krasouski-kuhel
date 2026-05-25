@@ -48,5 +48,17 @@
     "columns": {
       "name": "Department Name"
     }
+  },
+  "skills-table": {
+    "create": "CREATE SKILL",
+    "control-actions": {
+      "aria-label": "Control Actions",
+      "update": "Edit Skill",
+      "delete": "Delete Skill"
+    },
+    "columns": {
+      "name": "Skill Name",
+      "category": "Skill category"
+    }
   }
 }

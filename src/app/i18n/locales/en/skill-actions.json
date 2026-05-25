@@ -1,0 +1,20 @@
+{
+  "create": {
+    "title": "Create Skill",
+    "success": "Skill created successfully!",
+    "error": "Failed to create skill. Please try again."
+  },
+  "update": {
+    "title": "Update Skill",
+    "success": "Skill updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update skill. Please try again."
+  },
+  "delete": {
+    "title": "Delete Skill",
+    "description": "Are you sure you want to delete skill {{name}}? This action cannot be undone.",
+    "success": "Skill deleted successfully!",
+    "error": "Failed to delete Skill. Please try again."
+  },
+  "no-category": "No Category"
+}
