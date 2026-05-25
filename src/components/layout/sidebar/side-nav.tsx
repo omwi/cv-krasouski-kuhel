@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import {
+  BriefcaseBusiness,
   ChevronLeft,
   FileUser,
   Languages,
@@ -44,6 +45,11 @@ const navLinks: readonly NavLink[] = [
     to: paths.cvs.get(),
     icon: <FileUser className="shrink-0" />,
     isDesktopOnly: true,
+  },
+  {
+    i18: "positions",
+    to: paths.positions.get(),
+    icon: <BriefcaseBusiness className="shrink-0" />,
   },
 ] as const
 

@@ -15,8 +15,10 @@ export default function ForgotPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h4>{t("auth:forgot-password-form.title")}</h4>
-      <p className="sub-title">{t("auth:forgot-password-form.text")}</p>
+      <h4>{t("forgot-password-form.title", { ns: "auth" })}</h4>
+      <p className="sub-title">
+        {t("forgot-password-form.text", { ns: "auth" })}
+      </p>
 
       <FieldGroup>
         <Field>
@@ -24,7 +26,7 @@ export default function ForgotPasswordForm() {
             autoFocus
             autoComplete="email"
             type="email"
-            label={t("input:email")}
+            label={t("email", { ns: "input" })}
             disabled={isPending}
             {...register("email")}
           />
@@ -34,12 +36,12 @@ export default function ForgotPasswordForm() {
       <div className="button-group mt-4">
         <Button disabled={isPending} type="submit">
           {isPending
-            ? t("auth:button-loading")
-            : t("auth:forgot-password-form.button")}
+            ? t("button-loading", { ns: "auth" })
+            : t("forgot-password-form.button", { ns: "auth" })}
         </Button>
 
         <Link href={paths.auth.login.get()}>
-          {t("auth:forgot-password-form.button-secondary")}
+          {t("forgot-password-form.button-secondary", { ns: "auth" })}
         </Link>
       </div>
     </form>

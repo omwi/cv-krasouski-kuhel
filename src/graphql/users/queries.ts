@@ -16,8 +16,10 @@ export const GET_USERS_LIST: TypedDocumentNode<
   query GetUsersList {
     users {
       id
+      created_at
       email
       role
+      is_verified
       department_name
       position_name
       department {
@@ -29,6 +31,7 @@ export const GET_USERS_LIST: TypedDocumentNode<
         name
       }
       profile {
+        id
         avatar
         first_name
         last_name

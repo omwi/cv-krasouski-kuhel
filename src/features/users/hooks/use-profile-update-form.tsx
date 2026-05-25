@@ -8,7 +8,7 @@ import { z } from "zod"
 import { useAuthContext } from "@/features/auth/components/auth-provider"
 import { UPDATE_PROFILE, UPDATE_USER } from "@/graphql/users/mutations"
 import { GET_USER } from "@/graphql/users/queries"
-import { canUpdateUser } from "@/utils/permissions"
+import { userPermissions } from "@/utils/permissions"
 
 const ProfileUpdateSchema = z.object({
   firstName: z.string(),
@@ -73,7 +73,7 @@ export function useProfileUpdateForm(userId: string) {
       ? { id: currentUserId, role: currentUserRole || undefined }
       : null
 
-    if (!currentUser || !canUpdateUser(currentUser, userId)) {
+    if (!currentUser || !userPermissions.canUpdate(currentUser, userId)) {
       console.error("Don't have permissions to update this user")
       return
     }

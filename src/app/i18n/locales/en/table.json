@@ -12,19 +12,30 @@
     "control-actions": {
       "aria-label": "Control Actions",
       "profile": "Profile",
-      "update-user": "Edit User",
-      "delete-user": "Delete User"
+      "update": "Edit User",
+      "delete": "Delete User"
+    },
+    "columns": {
+      "avatar": "Avatar",
+      "first-name": "First Name",
+      "last-name": "Last Name",
+      "email": "Email",
+      "department": "Department",
+      "position": "Position",
+      "name": "Name",
+      "actions": "Actions"
     },
     "open-profile-aria-label": "Open {{name}}'s profile"
   },
-  "columns": {
-    "avatar": "Avatar",
-    "first-name": "First Name",
-    "last-name": "Last Name",
-    "email": "Email",
-    "department": "Department",
-    "position": "Position",
-    "name": "Name",
-    "actions": "Actions"
+  "positions-table": {
+    "create": "CREATE POSITION",
+    "control-actions": {
+      "aria-label": "Control Actions",
+      "update": "Edit Position",
+      "delete": "Delete Position"
+    },
+    "columns": {
+      "name": "Position Name"
+    }
   }
 }

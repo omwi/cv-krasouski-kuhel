@@ -6,9 +6,11 @@
   "department": "Department",
   "position": "Position",
   "role": "Role",
+  "name": "Name",
   "errors": {
     "first-name": "First name is required",
     "last-name": "Last name is required",
+    "name": "Name is required",
     "email": "Invalid email address",
     "password": "Password must be at least 8 characters",
     "role": "Role is required",

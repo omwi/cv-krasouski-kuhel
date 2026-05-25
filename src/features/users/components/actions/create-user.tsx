@@ -23,13 +23,13 @@ import { FloatingInput } from "@/components/ui/floating-label-input"
 import { useCreateUserForm } from "@/features/users/hooks/use-create-user-form"
 import type { CurrentUser } from "@/utils/permissions"
 
-export type CreateUserProps = {
+type Props = {
   currentUser: CurrentUser
   children: ReactNode
 }
 
-export default function CreateUser({ currentUser, children }: CreateUserProps) {
-  const { t } = useT(["create-user", "input", "buttons"])
+export default function CreateUser({ currentUser, children }: Props) {
+  const { t } = useT(["user-actions", "input", "buttons"])
   const [open, setOpen] = useState(false)
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
 
@@ -43,9 +43,9 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{t("title", { ns: "create-user" })}</DialogTitle>
+          <DialogTitle>{t("create.title", { ns: "user-actions" })}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -53,7 +53,7 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
             <Field>
               <FloatingInput
                 id="email"
-                label={t("input:email")}
+                label={t("email", { ns: "input" })}
                 disabled={isSubmitting}
                 {...register("email")}
               />
@@ -65,7 +65,7 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
             <Field>
               <FloatingPasswordInput
                 id="password"
-                label={t("input:password")}
+                label={t("password", { ns: "input" })}
                 disabled={isSubmitting}
                 {...register("password")}
               />
@@ -79,7 +79,7 @@ export default function CreateUser({ currentUser, children }: CreateUserProps) {
             <Field>
               <FloatingInput
                 id="firstName"
-                label={t("input:first-name")}
+                label={t("first-name", { ns: "input" })}
                 disabled={isSubmitting}
                 {...register("firstName")}
               />
