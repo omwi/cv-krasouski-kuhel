@@ -41,6 +41,7 @@ export const UPDATE_PROFILE: TypedDocumentNode<
       id
       first_name
       last_name
+      full_name
     }
   }
 `

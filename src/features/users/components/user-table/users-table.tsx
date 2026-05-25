@@ -13,7 +13,7 @@ import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
-import type { CurrentUser } from "@/utils/permissions"
+import { canCreateUser, CurrentUser } from "@/utils/permissions"
 
 export type TableUser = GetUsersListQuery["users"][0]
 
@@ -29,7 +29,7 @@ export default function UsersTable({
   })
   const { t } = useT("table")
 
-  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
+  const hasCreatePermission = canCreateUser(currentUser)
   const hoistPredicate = useCallback(
     (u: TableUser) => u.id === currentUser?.id,
     [currentUser?.id]
@@ -52,7 +52,7 @@ export default function UsersTable({
       searchValue={params.search}
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
-        isAdmin && (
+        hasCreatePermission && (
           <CreateUser currentUser={currentUser}>
             <Button variant="outline-primary">
               <Plus />
