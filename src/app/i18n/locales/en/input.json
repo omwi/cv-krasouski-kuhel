@@ -8,7 +8,8 @@
   "role": "Role",
   "name": "Name",
   "category": "Category",
-
+  "native-name": "Native Name",
+  "iso2": "ISO2",
   "errors": {
     "first-name": "First name is required",
     "last-name": "Last name is required",
@@ -16,6 +17,7 @@
     "email": "Invalid email address",
     "password": "Password must be at least 8 characters",
     "role": "Role is required",
-    "invalid-credentials": "User not found or invalid password"
+    "invalid-credentials": "User not found or invalid password",
+    "iso2": "ISO2 must be 2 characters long"
   }
 }

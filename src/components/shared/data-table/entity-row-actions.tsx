@@ -26,7 +26,7 @@ export type EntityType =
   | "positions"
   | "departments"
   | "skills"
-  | "language"
+  | "languages"
 
 export interface EntityRowActionsProps<T> {
   entity: T
@@ -93,7 +93,7 @@ export function EntityRowActions<T>({
     case "positions":
     case "departments":
     case "skills":
-    case "language":
+    case "languages":
       canView = false
       canEdit = adminOnlyPermissions.canUpdate(currentUser)
       canDelete = adminOnlyPermissions.canDelete(currentUser)
