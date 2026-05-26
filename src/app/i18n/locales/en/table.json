@@ -79,7 +79,8 @@
     "control-actions": {
       "aria-label": "Control Actions",
       "update": "Edit Project",
-      "delete": "Delete Project"
+      "delete": "Delete Project",
+      "profile": "Project"
     },
     "columns": {
       "name": "Name",
