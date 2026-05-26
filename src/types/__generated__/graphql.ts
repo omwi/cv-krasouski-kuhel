@@ -13,6 +13,12 @@ export type AddProfileSkillInput = {
   userId: string | number
 }
 
+export type AddProfileLanguageInput = {
+  name: string
+  proficiency: Proficiency
+  userId: string | number
+}
+
 export type AuthInput = {
   email: string
   password: string
@@ -85,9 +91,16 @@ export type DeleteProjectInput = {
   projectId: string | number
 }
 
+export type DeleteProfileLanguageInput = {
+  name: Array<string>
+  userId: string | number
+}
+
 export type DeleteSkillInput = {
   skillId: string | number
 }
+
+export type Proficiency = "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "Native"
 
 export type Mastery =
   | "Advanced"
@@ -134,6 +147,12 @@ export type UpdateProjectInput = {
   name: string
   projectId: string | number
   start_date: string
+}
+
+export type UpdateProfileLanguageInput = {
+  name: string
+  proficiency: Proficiency
+  userId: string | number
 }
 
 export type UpdateSkillInput = {
@@ -517,6 +536,54 @@ export type UpdateUserMutation = {
   }
 }
 
+export type AddUserLanguageMutationVariables = Exact<{
+  language: AddProfileLanguageInput
+}>
+
+export type AddUserLanguageMutation = {
+  addProfileLanguage: {
+    __typename: "Profile"
+    id: string
+    languages: Array<{
+      __typename: "LanguageProficiency"
+      name: string
+      proficiency: Proficiency
+    }>
+  }
+}
+
+export type UpdateUserLanguageMutationVariables = Exact<{
+  language: UpdateProfileLanguageInput
+}>
+
+export type UpdateUserLanguageMutation = {
+  updateProfileLanguage: {
+    __typename: "Profile"
+    id: string
+    languages: Array<{
+      __typename: "LanguageProficiency"
+      name: string
+      proficiency: Proficiency
+    }>
+  }
+}
+
+export type DeleteUserLanguageMutationVariables = Exact<{
+  language: DeleteProfileLanguageInput
+}>
+
+export type DeleteUserLanguageMutation = {
+  deleteProfileLanguage: {
+    __typename: "Profile"
+    id: string
+    languages: Array<{
+      __typename: "LanguageProficiency"
+      name: string
+      proficiency: Proficiency
+    }>
+  }
+}
+
 export type GetUsersListQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetUsersListQuery = {
@@ -580,6 +647,22 @@ export type GetUserSkillsQuery = {
       name: string
       categoryId: string | null
       mastery: Mastery
+    }>
+  }
+}
+
+export type GetUserLanguagesQueryVariables = Exact<{
+  userId: string | number
+}>
+
+export type GetUserLanguagesQuery = {
+  profile: {
+    __typename: "Profile"
+    id: string
+    languages: Array<{
+      __typename: "LanguageProficiency"
+      name: string
+      proficiency: Proficiency
     }>
   }
 }

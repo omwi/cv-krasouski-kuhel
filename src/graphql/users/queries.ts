@@ -1,6 +1,8 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  GetUserLanguagesQuery,
+  GetUserLanguagesQueryVariables,
   GetUserQuery,
   GetUserQueryVariables,
   GetUserSkillsQuery,
@@ -82,6 +84,21 @@ export const GET_USER_SKILLS: TypedDocumentNode<
         name
         categoryId
         mastery
+      }
+    }
+  }
+`
+
+export const GET_USER_LANGUAGES: TypedDocumentNode<
+  GetUserLanguagesQuery,
+  GetUserLanguagesQueryVariables
+> = gql`
+  query GetUserLanguages($userId: ID!) {
+    profile(userId: $userId) {
+      id
+      languages {
+        name
+        proficiency
       }
     }
   }
