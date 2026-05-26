@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useMutation, useQuery } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
