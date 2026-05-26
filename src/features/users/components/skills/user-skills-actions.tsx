@@ -54,9 +54,17 @@ export default function UserSkillsActions({ userId }: { userId: string }) {
           <Button variant={"outline"} onClick={handleCancelDelete}>
             {t("cancel")}
           </Button>
-          <Button onClick={handleConfirmDelete} disabled={!hasSelection}>
+          <Button
+            onClick={handleConfirmDelete}
+            disabled={!hasSelection}
+            className="flex flex-row gap-4"
+          >
             <span>{t("delete")}</span>
-            {hasSelection && <span className="">{selectedCount}</span>}
+            {hasSelection && (
+              <div className="flex size-6 items-center justify-center rounded-full bg-primary-foreground text-primary">
+                {selectedCount}
+              </div>
+            )}
           </Button>
         </>
       )}
