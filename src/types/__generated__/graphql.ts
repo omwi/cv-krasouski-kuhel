@@ -67,9 +67,21 @@ export type DeletePositionInput = {
   positionId: string | number
 }
 
+export type DeleteProfileSkillInput = {
+  name: Array<string>
+  userId: string | number
+}
+
 export type DeleteSkillInput = {
   skillId: string | number
 }
+
+export type Mastery =
+  | "Advanced"
+  | "Competent"
+  | "Expert"
+  | "Novice"
+  | "Proficient"
 
 export type UpdateDepartmentInput = {
   departmentId: string | number
@@ -83,18 +95,6 @@ export type UpdateLanguageInput = {
   native_name?: string | null | undefined
 }
 
-export type DeleteProfileSkillInput = {
-  name: Array<string>
-  userId: string | number
-}
-
-export type Mastery =
-  | "Advanced"
-  | "Competent"
-  | "Expert"
-  | "Novice"
-  | "Proficient"
-
 export type UpdatePositionInput = {
   name: string
   positionId: string | number
@@ -106,17 +106,17 @@ export type UpdateProfileInput = {
   userId: string | number
 }
 
-export type UpdateSkillInput = {
-  categoryId?: string | number | null | undefined
-  name: string
-  skillId: string | number
-}
-
 export type UpdateProfileSkillInput = {
   categoryId?: string | number | null | undefined
   mastery: Mastery
   name: string
   userId: string | number
+}
+
+export type UpdateSkillInput = {
+  categoryId?: string | number | null | undefined
+  name: string
+  skillId: string | number
 }
 
 export type UpdateUserInput = {
@@ -316,17 +316,6 @@ export type SkillCategoriesQuery = {
       name: string
       order: number
     }>
-  }>
-}
-
-export type GetSkillsQueryVariables = Exact<{ [key: string]: never }>
-
-export type GetSkillsQuery = {
-  skills: Array<{
-    __typename: "Skill"
-    id: string
-    name: string
-    category: { __typename: "SkillCategory"; id: string; name: string } | null
   }>
 }
 

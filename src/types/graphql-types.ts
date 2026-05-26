@@ -1,8 +1,5 @@
-import {
-  GetSkillsQuery,
-  GetUserSkillsQuery,
-} from "@/types/__generated__/graphql"
+import { GetUserSkillsQuery, SkillsQuery } from "@/types/__generated__/graphql"
 
 export type UserSkill = GetUserSkillsQuery["profile"]["skills"][number]
 
-export type Skill = GetSkillsQuery["skills"][number]
+export type Skill = SkillsQuery["skills"][number]
