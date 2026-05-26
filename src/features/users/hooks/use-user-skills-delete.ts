@@ -1,11 +1,11 @@
 import { useMutation } from "@apollo/client/react"
 
 import { useSelection } from "@/components/shared/selection-provider"
-import { DELETE_USER_SKILL } from "@/graphql/users/mutations"
+import { DELETE_USER_SKILLS } from "@/graphql/users/mutations"
 import { GET_USER_SKILLS } from "@/graphql/users/queries"
 
 export function useUserSkillsDelete(userId: string) {
-  const [deleteUserSkills, { loading }] = useMutation(DELETE_USER_SKILL, {
+  const [deleteUserSkills, { loading }] = useMutation(DELETE_USER_SKILLS, {
     refetchQueries: [{ query: GET_USER_SKILLS, variables: { userId } }],
   })
 
@@ -15,7 +15,7 @@ export function useUserSkillsDelete(userId: string) {
     try {
       await deleteUserSkills({
         variables: {
-          skill: {
+          skills: {
             name: [...selectedValues],
             userId: userId,
           },

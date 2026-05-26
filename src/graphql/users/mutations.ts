@@ -9,8 +9,8 @@ import {
   DeleteAvatarMutationVariables,
   DeleteUserMutation,
   DeleteUserMutationVariables,
-  DeleteUserSkillMutation,
-  DeleteUserSkillMutationVariables,
+  DeleteUserSkillsMutation,
+  DeleteUserSkillsMutationVariables,
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
   UpdateUserMutation,
@@ -84,12 +84,12 @@ export const UPDATE_USER_SKILL: TypedDocumentNode<
   }
 `
 
-export const DELETE_USER_SKILL: TypedDocumentNode<
-  DeleteUserSkillMutation,
-  DeleteUserSkillMutationVariables
+export const DELETE_USER_SKILLS: TypedDocumentNode<
+  DeleteUserSkillsMutation,
+  DeleteUserSkillsMutationVariables
 > = gql`
-  mutation DeleteUserSkill($skill: DeleteProfileSkillInput!) {
-    deleteProfileSkill(skill: $skill) {
+  mutation DeleteUserSkills($skills: DeleteProfileSkillInput!) {
+    deleteProfileSkill(skill: $skills) {
       id
       skills {
         name

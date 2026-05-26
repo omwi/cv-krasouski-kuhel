@@ -390,11 +390,11 @@ export type UpdateUserSkillMutation = {
   }
 }
 
-export type DeleteUserSkillMutationVariables = Exact<{
-  skill: DeleteProfileSkillInput
+export type DeleteUserSkillsMutationVariables = Exact<{
+  skills: DeleteProfileSkillInput
 }>
 
-export type DeleteUserSkillMutation = {
+export type DeleteUserSkillsMutation = {
   deleteProfileSkill: {
     __typename: "Profile"
     id: string
