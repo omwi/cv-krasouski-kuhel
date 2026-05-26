@@ -15,6 +15,12 @@ export type CreateDepartmentInput = {
   name: string
 }
 
+export type CreateLanguageInput = {
+  iso2: string
+  name: string
+  native_name?: string | null | undefined
+}
+
 export type CreatePositionInput = {
   name: string
 }
@@ -46,6 +52,10 @@ export type DeleteDepartmentInput = {
   departmentId: string | number
 }
 
+export type DeleteLanguageInput = {
+  languageId: string | number
+}
+
 export type DeletePositionInput = {
   positionId: string | number
 }
@@ -57,6 +67,13 @@ export type DeleteSkillInput = {
 export type UpdateDepartmentInput = {
   departmentId: string | number
   name: string
+}
+
+export type UpdateLanguageInput = {
+  iso2: string
+  languageId: string | number
+  name: string
+  native_name?: string | null | undefined
 }
 
 export type UpdatePositionInput = {
@@ -93,11 +110,11 @@ export type UploadAvatarInput = {
 
 export type UserRole = "Admin" | "Employee"
 
-export type CreatePDepartmentMutationVariables = Exact<{
+export type CreateDepartmentMutationVariables = Exact<{
   department: CreateDepartmentInput
 }>
 
-export type CreatePDepartmentMutation = {
+export type CreateDepartmentMutation = {
   createDepartment: { __typename: "Department"; name: string }
 }
 
@@ -121,6 +138,53 @@ export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetDepartmentsQuery = {
   departments: Array<{ __typename: "Department"; id: string; name: string }>
+}
+
+export type CreateLanguageMutationVariables = Exact<{
+  language: CreateLanguageInput
+}>
+
+export type CreateLanguageMutation = {
+  createLanguage: {
+    __typename: "Language"
+    iso2: string
+    name: string
+    native_name: string | null
+  }
+}
+
+export type UpdateLanguageMutationVariables = Exact<{
+  language: UpdateLanguageInput
+}>
+
+export type UpdateLanguageMutation = {
+  updateLanguage: {
+    __typename: "Language"
+    id: string
+    iso2: string
+    name: string
+    native_name: string | null
+  }
+}
+
+export type DeleteLanguageMutationVariables = Exact<{
+  language: DeleteLanguageInput
+}>
+
+export type DeleteLanguageMutation = {
+  deleteLanguage: { __typename: "DeleteResult"; affected: number }
+}
+
+export type GetLanguagesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetLanguagesQuery = {
+  languages: Array<{
+    __typename: "Language"
+    id: string
+    iso2: string
+    name: string
+    native_name: string | null
+  } | null>
 }
 
 export type CreatePositionMutationVariables = Exact<{
