@@ -38,5 +38,9 @@
   "languages": {
     "title": "Languages List",
     "description": "View and assess employees' language proficiency levels."
+  },
+  "projects": {
+    "title": "Projects List",
+    "description": "View and assess employees' project assignments and progress."
   }
 }
