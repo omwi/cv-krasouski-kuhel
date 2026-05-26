@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useSuspenseQuery } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 import { Controller } from "react-hook-form"
 
@@ -9,6 +10,7 @@ import { Field } from "@/components/ui/field"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
 import SkillSelect from "@/features/skills/components/skill-select"
 import { useUserSkillAddForm } from "@/features/users/hooks/use-user-skill-add-form"
+import { GET_USER_SKILLS } from "@/graphql/users/queries"
 
 type Props = {
   children: React.ReactNode
@@ -24,6 +26,9 @@ export default function UserSkillAddDialog({ children, userId }: Props) {
 
   const { control, reset, isDirty, isValid, onSubmit } =
     useUserSkillAddForm(userId)
+
+  const { data } = useSuspenseQuery(GET_USER_SKILLS, { variables: { userId } })
+  const userSkills = data.profile.skills
 
   return (
     <FormDialog
@@ -58,6 +63,7 @@ export default function UserSkillAddDialog({ children, userId }: Props) {
                 required
                 value={field.value}
                 onValueChange={field.onChange}
+                userSkills={userSkills}
               />
             )}
           />
