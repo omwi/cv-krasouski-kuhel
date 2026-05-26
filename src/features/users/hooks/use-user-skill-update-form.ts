@@ -1,7 +1,9 @@
 import { useEffect } from "react"
 import { useMutation } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
+import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
 import { UPDATE_USER_SKILL } from "@/graphql/users/mutations"
@@ -17,6 +19,8 @@ const formSchema = z.object({
 type UpdateUserSkillInput = z.infer<typeof formSchema>
 
 export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
+  const { t } = useT("skills")
+
   const { canUpdateUser } = usePermissions()
 
   const {
@@ -55,6 +59,7 @@ export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
           },
         },
       })
+      toast.success(t("toast.updated"))
     } catch (error) {
       console.error(error)
     }

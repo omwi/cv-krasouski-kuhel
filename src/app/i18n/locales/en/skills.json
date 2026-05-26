@@ -24,5 +24,11 @@
   "dialog": {
     "add": "Add Skill",
     "update": "Update Skill"
+  },
+  "toast": {
+    "added": "Skill was added",
+    "updated": "Skill was updated",
+    "deleted": "Skill was removed",
+    "deleted-plural": "Skills were removed"
   }
 }

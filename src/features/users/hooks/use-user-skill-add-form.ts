@@ -1,7 +1,9 @@
 import { useEffect } from "react"
 import { useMutation, useQuery } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
+import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
 import { SKILL_MASTERIES } from "@/config/const"
@@ -19,6 +21,8 @@ const formSchema = z.object({
 type AddUserSkillInput = z.infer<typeof formSchema>
 
 export function useUserSkillAddForm(userId: string) {
+  const { t } = useT("skills")
+
   const { canUpdateUser } = usePermissions()
 
   const {
@@ -65,6 +69,7 @@ export function useUserSkillAddForm(userId: string) {
           },
         },
       })
+      toast.success(t("toast.added"))
     } catch (error) {
       console.error(error)
     } finally {
