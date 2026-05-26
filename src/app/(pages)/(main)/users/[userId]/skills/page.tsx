@@ -1,6 +1,7 @@
 import { getT } from "next-i18next/server"
 
 import { PreloadQuery } from "@/apollo-client"
+import { SelectionProvider } from "@/components/shared/selection-provider"
 import UserSKills from "@/features/users/components/skills/user-skills"
 import { GET_USER_SKILLS } from "@/graphql/users/queries"
 
@@ -21,7 +22,9 @@ export default async function UserSkillsPage({
 
   return (
     <PreloadQuery query={GET_USER_SKILLS} variables={{ userId }}>
-      <UserSKills userId={userId} />
+      <SelectionProvider>
+        <UserSKills userId={userId} />
+      </SelectionProvider>
     </PreloadQuery>
   )
 }

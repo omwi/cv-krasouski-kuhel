@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useMutation } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useForm } from "react-hook-form"
@@ -30,20 +31,18 @@ export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
     },
   })
 
+  useEffect(() => {
+    reset({
+      mastery: userSkill.mastery,
+    })
+  }, [userSkill.mastery, reset])
+
   const [updateUserSkill, { loading }] = useMutation(UPDATE_USER_SKILL, {
     refetchQueries: [{ query: GET_USER_SKILLS, variables: { userId } }],
   })
 
   const onSubmit = async (values: UpdateUserSkillInput) => {
     if (!canUpdateUser(userId)) return
-
-    console.log("updating")
-    console.log({
-      userId: userId,
-      mastery: values.mastery as Mastery,
-      name: userSkill.name,
-      categoryId: userSkill.categoryId,
-    })
 
     try {
       await updateUserSkill({
@@ -58,8 +57,6 @@ export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
       })
     } catch (error) {
       console.error(error)
-    } finally {
-      reset()
     }
   }
 

@@ -1,3 +1,4 @@
+import { useSelection } from "@/components/shared/selection-provider"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import UserSkillUpdateDialog from "@/features/users/components/skills/user-skill-update-dialog"
@@ -6,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Mastery } from "@/types/__generated__/graphql"
 import { UserSkill } from "@/types/graphql-types"
 
-export default function UserSKill({
+export default function UserSKillItem({
   skill,
   userId,
 }: {
@@ -15,9 +16,11 @@ export default function UserSKill({
 }) {
   const { canUpdateUser } = usePermissions()
 
+  const { isSelecting, toggle, isSelected } = useSelection()
+
   const { color, trackColor, percent } = getColors(skill.mastery)
 
-  return (
+  return !isSelecting ? (
     <UserSkillUpdateDialog userId={userId} userSkill={skill}>
       <Button
         variant={"ghost"}
@@ -32,6 +35,21 @@ export default function UserSKill({
         <p>{skill.name}</p>
       </Button>
     </UserSkillUpdateDialog>
+  ) : (
+    <Button
+      variant={"ghost"}
+      className="flex flex-row justify-start gap-4 px-4"
+      onClick={() => toggle(skill.name)}
+    >
+      <Progress
+        value={isSelected(skill.name) ? 0 : percent}
+        indicatorClassName={color}
+        className={cn(trackColor, "w-20")}
+      />
+      <p className={cn(isSelected(skill.name) && "text-foreground")}>
+        {skill.name}
+      </p>
+    </Button>
   )
 }
 

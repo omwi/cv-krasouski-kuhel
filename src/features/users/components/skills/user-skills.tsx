@@ -1,24 +1,14 @@
 "use client"
 
 import { useSuspenseQuery } from "@apollo/client/react"
-import { Plus, Trash } from "lucide-react"
-import { useT } from "next-i18next/client"
 
-import { Button } from "@/components/ui/button"
-import UserSkillAddDialog from "@/features/users/components/skills/user-skill-add-dialog"
+import UserSkillsActions from "@/features/users/components/skills/user-skills-actions"
 import UserSKillsCategory from "@/features/users/components/skills/user-skills-category"
 import { GET_USER_SKILLS } from "@/graphql/users/queries"
-import { usePermissions } from "@/hooks/use-permissions"
-import { cn } from "@/lib/utils"
 
 export default function UserSKills({ userId }: { userId: string }) {
-  const { t } = useT("buttons")
-
   const { data } = useSuspenseQuery(GET_USER_SKILLS, { variables: { userId } })
   const userSkills = data.profile.skills
-
-  const { canUpdateUser } = usePermissions()
-  const hasPermissions = canUpdateUser(userId)
 
   const skillsByCategory = Map.groupBy(userSkills, (skill) => skill.categoryId)
     .entries()
@@ -37,32 +27,7 @@ export default function UserSKills({ userId }: { userId: string }) {
         ))}
       </div>
 
-      <div
-        className={cn(
-          "flex flex-row justify-between gap-4 sm:justify-end",
-          !hasPermissions && "hidden"
-        )}
-      >
-        <UserSkillAddDialog userId={userId}>
-          <Button
-            variant={"ghost"}
-            disabled={!hasPermissions}
-            className="gap-4"
-          >
-            <Plus className="size-6" />
-            <span>{t("add-skill")}</span>
-          </Button>
-        </UserSkillAddDialog>
-
-        <Button
-          variant={"ghost-primary"}
-          disabled={!hasPermissions}
-          className="gap-4"
-        >
-          <Trash className="size-6" />
-          <span>{t("remove-skills")}</span>
-        </Button>
-      </div>
+      <UserSkillsActions userId={userId} />
     </div>
   )
 }
