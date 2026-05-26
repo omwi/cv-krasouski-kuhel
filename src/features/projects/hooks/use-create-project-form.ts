@@ -36,7 +36,7 @@ export function useCreateProjectForm(t: TFunction, onSuccess?: () => void) {
             domain: data.domain,
             environment: data.environment,
             start_date: data.start_date,
-            end_date: data.end_date,
+            end_date: data.end_date || null,
           },
         },
       })

@@ -14,7 +14,9 @@ export const GET_PROJECTS: TypedDocumentNode<
       id
       name
       internal_name
+      description
       domain
+      environment
       start_date
       end_date
     }
