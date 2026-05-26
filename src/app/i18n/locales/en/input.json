@@ -7,6 +7,8 @@
   "position": "Position",
   "role": "Role",
   "name": "Name",
+  "category": "Category",
+
   "errors": {
     "first-name": "First name is required",
     "last-name": "Last name is required",

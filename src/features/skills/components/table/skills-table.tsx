@@ -7,31 +7,31 @@ import { useT } from "next-i18next/client"
 
 import { DataTable } from "@/components/shared/data-table/data-table"
 import { Button } from "@/components/ui/button"
-import CreatePosition from "@/features/positions/components/actions/create-position"
-import { getColumns } from "@/features/positions/components/table/positions-table-columns"
-import { GET_POSITIONS } from "@/graphql/positions/queries"
+import CreateSkill from "@/features/skills/components/actions/create-skill"
+import { getColumns } from "@/features/skills/components/table/skills-table-columns"
+import { GET_SKILLS } from "@/graphql/skills/queries"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { adminOnlyPermissions, CurrentUser } from "@/utils/permissions"
 
-export default function PositionsTable({
+export default function SkillsTable({
   currentUser,
 }: {
   currentUser: CurrentUser
 }) {
-  const { data } = useSuspenseQuery(GET_POSITIONS)
+  const { data } = useSuspenseQuery(GET_SKILLS)
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
   const { t } = useT("table")
 
   const canCreate = adminOnlyPermissions.canCreate(currentUser)
-  const positions = data?.positions || []
+  const skills = data?.skills || []
 
   const columns = useMemo(() => getColumns(currentUser), [currentUser])
 
   const { paginatedData, totalCount } = useProcessedData({
-    data: positions,
+    data: skills,
     params,
     columns,
   })
@@ -47,12 +47,12 @@ export default function PositionsTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         canCreate && (
-          <CreatePosition>
+          <CreateSkill>
             <Button variant="outline-primary">
               <Plus />
-              {t("positions-table.create")}
+              {t("skills-table.create")}
             </Button>
-          </CreatePosition>
+          </CreateSkill>
         )
       }
     />

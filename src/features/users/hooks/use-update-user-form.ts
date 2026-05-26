@@ -31,18 +31,16 @@ export function useUpdateUserForm(
     refetchQueries: [{ query: GET_USERS_LIST }],
   })
 
-  const defaultValues = {
-    firstName: user.profile?.first_name || "",
-    lastName: user.profile?.last_name || "",
-    email: user.email || "",
-    departmentId: user.department?.id || "",
-    positionId: user.position?.id || "",
-    role: user.role || "",
-  }
-
   const form = useForm<UpdateUserFormValues>({
     resolver: zodResolver(getUpdateUserSchema(t)),
-    defaultValues,
+    defaultValues: {
+      firstName: user.profile?.first_name || "",
+      lastName: user.profile?.last_name || "",
+      email: user.email || "",
+      departmentId: user.department?.id || "",
+      positionId: user.position?.id || "",
+      role: user.role || "",
+    },
   })
 
   const {
@@ -53,7 +51,14 @@ export function useUpdateUserForm(
 
   useEffect(() => {
     if (open) {
-      reset(defaultValues)
+      reset({
+        firstName: user.profile?.first_name || "",
+        lastName: user.profile?.last_name || "",
+        email: user.email || "",
+        departmentId: user.department?.id || "",
+        positionId: user.position?.id || "",
+        role: user.role || "",
+      })
     }
   }, [open, user, reset])
 

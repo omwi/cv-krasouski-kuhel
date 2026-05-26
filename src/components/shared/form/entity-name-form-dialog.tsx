@@ -1,12 +1,11 @@
 "use client"
 
 import { ReactNode } from "react"
-import { useT } from "next-i18next/client"
-import { FieldValues, Path, UseFormReturn } from "react-hook-form"
+import { FieldValues, UseFormReturn } from "react-hook-form"
 
 import { FormDialog } from "@/components/shared/dialog/form-dialog"
-import { Field, FieldError, FieldGroup } from "@/components/ui/field"
-import { FloatingInput } from "@/components/ui/floating-label-input"
+import { NameInput } from "@/components/shared/input/name-input"
+import { FieldGroup } from "@/components/ui/field"
 
 export interface EntityNameFormDialogProps<TFieldValues extends FieldValues> {
   open: boolean
@@ -31,7 +30,6 @@ export function EntityNameFormDialog<TFieldValues extends { name: string }>({
   submitDisabled = false,
   form,
 }: EntityNameFormDialogProps<TFieldValues>) {
-  const { t } = useT(["input"])
   const {
     register,
     formState: { errors },
@@ -49,19 +47,11 @@ export function EntityNameFormDialog<TFieldValues extends { name: string }>({
       submitDisabled={submitDisabled}
     >
       <FieldGroup className="grid grid-cols-1">
-        <Field>
-          <FloatingInput
-            id="name"
-            label={t("name", { ns: "input" })}
-            disabled={isSubmitting}
-            {...register("name" as Path<TFieldValues>)}
-          />
-          {errors.name && (
-            <FieldError className="mt-1">
-              {errors.name.message as string}
-            </FieldError>
-          )}
-        </Field>
+        <NameInput
+          register={register}
+          errors={errors}
+          isSubmitting={isSubmitting}
+        />
       </FieldGroup>
     </FormDialog>
   )
