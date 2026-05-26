@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import UserSkillUpdateDialog from "@/features/users/components/skills/user-skill-update-dialog"
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
 import { Mastery } from "@/types/__generated__/graphql"
-import { UserSkill } from "@/types/queries"
+import { UserSkill } from "@/types/graphql-types"
 
 export default function UserSKill({
   skill,
@@ -17,18 +18,20 @@ export default function UserSKill({
   const { color, trackColor, percent } = getColors(skill.mastery)
 
   return (
-    <Button
-      variant={"ghost"}
-      disabled={!canUpdateUser(userId)}
-      className="flex flex-row justify-start gap-4 px-4"
-    >
-      <Progress
-        value={percent}
-        indicatorClassName={color}
-        className={cn(trackColor, "w-20")}
-      />
-      <p>{skill.name}</p>
-    </Button>
+    <UserSkillUpdateDialog userId={userId} userSkill={skill}>
+      <Button
+        variant={"ghost"}
+        disabled={!canUpdateUser(userId)}
+        className="flex flex-row justify-start gap-4 px-4"
+      >
+        <Progress
+          value={percent}
+          indicatorClassName={color}
+          className={cn(trackColor, "w-20")}
+        />
+        <p>{skill.name}</p>
+      </Button>
+    </UserSkillUpdateDialog>
   )
 }
 

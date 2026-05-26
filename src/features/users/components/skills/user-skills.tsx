@@ -5,6 +5,7 @@ import { Plus, Trash } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { Button } from "@/components/ui/button"
+import UserSkillAddDialog from "@/features/users/components/skills/user-skill-add-dialog"
 import UserSKillsCategory from "@/features/users/components/skills/user-skills-category"
 import { GET_USER_SKILLS } from "@/graphql/users/queries"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -42,10 +43,17 @@ export default function UserSKills({ userId }: { userId: string }) {
           !hasPermissions && "hidden"
         )}
       >
-        <Button variant={"ghost"} disabled={!hasPermissions} className="gap-4">
-          <Plus className="size-6" />
-          <span>{t("add-skill")}</span>
-        </Button>
+        <UserSkillAddDialog userId={userId}>
+          <Button
+            variant={"ghost"}
+            disabled={!hasPermissions}
+            className="gap-4"
+          >
+            <Plus className="size-6" />
+            <span>{t("add-skill")}</span>
+          </Button>
+        </UserSkillAddDialog>
+
         <Button
           variant={"ghost-primary"}
           disabled={!hasPermissions}
