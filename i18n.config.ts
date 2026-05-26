@@ -17,6 +17,7 @@ const i18nConfig: I18nConfig = {
     "position-actions",
     "department-actions",
     "skill-actions",
+    "language-actions",
     "input",
     "delete",
     "table",

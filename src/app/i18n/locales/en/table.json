@@ -60,5 +60,18 @@
       "name": "Skill Name",
       "category": "Skill category"
     }
+  },
+  "languages-table": {
+    "create": "CREATE LANGUAGE",
+    "control-actions": {
+      "aria-label": "Control Actions",
+      "update": "Edit Language",
+      "delete": "Delete Language"
+    },
+    "columns": {
+      "name": "Name",
+      "native-name": "Native name",
+      "iso2": "ISO2"
+    }
   }
 }

@@ -34,5 +34,9 @@
   "skills": {
     "title": "Skills List",
     "description": "View and assess employee professional skills."
+  },
+  "languages": {
+    "title": "Languages List",
+    "description": "View and assess employees' language proficiency levels."
   }
 }
