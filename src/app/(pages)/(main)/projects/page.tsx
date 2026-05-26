@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import { getT } from "next-i18next/server"
 
+import { PreloadQuery } from "@/apollo-client"
+import ProjectsTable from "@/features/projects/components/table/projects-table"
+import { GET_PROJECTS } from "@/graphql/projects/queries"
 import { getCurrentUser } from "@/utils/get-current-user"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,5 +17,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Projects() {
   const currentUser = await getCurrentUser()
 
-  return <p>projects</p>
+  return (
+    <PreloadQuery query={GET_PROJECTS}>
+      <ProjectsTable currentUser={currentUser} />
+    </PreloadQuery>
+  )
 }

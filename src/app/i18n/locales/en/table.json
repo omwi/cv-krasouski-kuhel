@@ -73,5 +73,20 @@
       "native-name": "Native name",
       "iso2": "ISO2"
     }
+  },
+  "projects-table": {
+    "create": "ADD PROJECT",
+    "control-actions": {
+      "aria-label": "Control Actions",
+      "update": "Edit Project",
+      "delete": "Delete Project"
+    },
+    "columns": {
+      "name": "Name",
+      "internal-name": "Internal Name",
+      "domain": "Domain",
+      "start-date": "Start Date",
+      "end-date": "End Date"
+    }
   }
 }

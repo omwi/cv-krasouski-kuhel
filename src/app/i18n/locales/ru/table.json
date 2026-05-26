@@ -75,5 +75,20 @@
       "native-name": "Имя на родном языке ",
       "iso2": "ISO2"
     }
+  },
+  "projects-table": {
+    "create": "ДОБАВИТЬ ПРОЕКТ",
+    "control-actions": {
+      "aria-label": "Действия управления",
+      "update": "Редактировать проект",
+      "delete": "Удалить проект"
+    },
+    "columns": {
+      "name": "Название",
+      "internal-name": "Внутреннее название",
+      "domain": "Домен",
+      "start-date": "Дата начала",
+      "end-date": "Дата окончания"
+    }
   }
 }

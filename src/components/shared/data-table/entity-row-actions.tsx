@@ -21,7 +21,7 @@ import {
 
 export type EntityType =
   | "user"
-  | "project"
+  | "projects"
   | "cv"
   | "positions"
   | "departments"
@@ -85,7 +85,7 @@ export function EntityRowActions<T>({
       canEdit = cvPermissions.canUpdate(currentUser, isOwner)
       canDelete = cvPermissions.canDelete(currentUser, isOwner)
       break
-    case "project":
+    case "projects":
       canView = projectPermissions.canView(currentUser)
       canEdit = projectPermissions.canUpdate(currentUser)
       canDelete = projectPermissions.canDelete(currentUser)

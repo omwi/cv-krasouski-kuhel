@@ -1,0 +1,19 @@
+{
+  "create": {
+    "title": "Create Project",
+    "success": "Position created successfully!",
+    "error": "Failed to create Project. Please try again."
+  },
+  "update": {
+    "title": "Update Project",
+    "success": "Project updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update Project. Please try again."
+  },
+  "delete": {
+    "title": "Delete Project",
+    "description": "Are you sure you want to delete Project {{name}}? This action cannot be undone.",
+    "success": "Project deleted successfully!",
+    "error": "Failed to delete Project. Please try again."
+  }
+}
