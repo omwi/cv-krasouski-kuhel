@@ -1,0 +1,19 @@
+{
+  "create": {
+    "title": "Create Language",
+    "success": "Language created successfully!",
+    "error": "Failed to create language. Please try again."
+  },
+  "update": {
+    "title": "Update Language",
+    "success": "Language updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update language. Please try again."
+  },
+  "delete": {
+    "title": "Delete Language",
+    "description": "Are you sure you want to delete language {{name}}? This action cannot be undone.",
+    "success": "Language deleted successfully!",
+    "error": "Failed to delete language. Please try again."
+  }
+}

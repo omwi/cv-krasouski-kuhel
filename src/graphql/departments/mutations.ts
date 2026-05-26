@@ -1,8 +1,8 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
-  CreatePDepartmentMutation,
-  CreatePDepartmentMutationVariables,
+  CreateDepartmentMutation,
+  CreateDepartmentMutationVariables,
   DeleteDepartmentMutation,
   DeleteDepartmentMutationVariables,
   UpdateDepartmentMutation,
@@ -10,10 +10,10 @@ import {
 } from "@/types/__generated__/graphql"
 
 export const CREATE_DEPARTMENT: TypedDocumentNode<
-  CreatePDepartmentMutation,
-  CreatePDepartmentMutationVariables
+  CreateDepartmentMutation,
+  CreateDepartmentMutationVariables
 > = gql`
-  mutation CreatePDepartment($department: CreateDepartmentInput!) {
+  mutation CreateDepartment($department: CreateDepartmentInput!) {
     createDepartment(department: $department) {
       name
     }
