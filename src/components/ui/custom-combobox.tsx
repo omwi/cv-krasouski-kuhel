@@ -14,38 +14,73 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
-export type CustomComboboxProps = {
+type BaseComboboxProps = {
   id?: string
   label: string
-  value: string[]
-  onValueChange: (val: string[]) => void
   options: { value: string; label: string }[]
   disabled?: boolean
   searchPlaceholder?: string
   emptyText?: string
 }
 
-export function CustomCombobox({
-  id,
-  label,
-  value = [],
-  onValueChange,
-  options = [],
-  disabled,
-  searchPlaceholder = "Search...",
-  emptyText = "No items found.",
-}: CustomComboboxProps) {
+type SingleComboboxProps = BaseComboboxProps & {
+  mode: "single"
+  value: string
+  onValueChange: (val: string) => void
+}
+
+type MultiComboboxProps = BaseComboboxProps & {
+  mode?: "multi"
+  value: string[]
+  onValueChange: (val: string[]) => void
+}
+
+export type CustomComboboxProps = SingleComboboxProps | MultiComboboxProps
+
+export function CustomCombobox(props: CustomComboboxProps) {
+  const {
+    id,
+    label,
+    options = [],
+    disabled,
+    searchPlaceholder = "Search...",
+    emptyText = "No items found.",
+    mode = "multi",
+  } = props
+
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("")
 
   const generatedId = useId()
   const comboboxId = id || generatedId
 
+  const isMulti = mode === "multi"
+
+  const isEmpty = isMulti
+    ? !props.value || (props.value as string[]).length === 0
+    : !props.value
+
   const handleSelect = (optionValue: string) => {
-    if (value.includes(optionValue)) {
-      onValueChange(value.filter((v) => v !== optionValue))
+    if (isMulti) {
+      const currentValues = (props.value as string[]) || []
+      if (currentValues.includes(optionValue)) {
+        ;(props.onValueChange as (val: string[]) => void)(
+          currentValues.filter((v) => v !== optionValue)
+        )
+      } else {
+        ;(props.onValueChange as (val: string[]) => void)([
+          ...currentValues,
+          optionValue,
+        ])
+      }
     } else {
-      onValueChange([...value, optionValue])
+      const currentValue = props.value as string
+      if (currentValue === optionValue) {
+        ;(props.onValueChange as (val: string) => void)("")
+      } else {
+        ;(props.onValueChange as (val: string) => void)(optionValue)
+      }
+      setOpen(false)
     }
   }
 
@@ -55,7 +90,12 @@ export function CustomCombobox({
   ) => {
     e.stopPropagation()
     e.preventDefault()
-    onValueChange(value.filter((v) => v !== optionValue))
+    if (isMulti) {
+      const currentValues = (props.value as string[]) || []
+      ;(props.onValueChange as (val: string[]) => void)(
+        currentValues.filter((v) => v !== optionValue)
+      )
+    }
   }
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -82,16 +122,16 @@ export function CustomCombobox({
               "peer h-auto min-h-12 w-full justify-between rounded-none px-3 py-1 text-left text-base font-normal",
               "hover:bg-transparent focus:bg-transparent active:bg-transparent aria-expanded:bg-transparent",
               "hover:border-foreground focus-visible:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=open]:border-primary",
-              value.length === 0 && "text-muted-foreground"
+              isEmpty && "text-muted-foreground"
             )}
             disabled={disabled}
-            data-empty={value.length === 0}
+            data-empty={isEmpty}
           >
             <div className="flex flex-wrap items-center gap-1">
-              {value.length === 0 ? (
+              {isEmpty ? (
                 <span className="opacity-0">{label}</span>
-              ) : (
-                value.map((val) => {
+              ) : isMulti ? (
+                (props.value as string[]).map((val) => {
                   const optionLabel =
                     options.find((o) => o.value === val)?.label || val
                   return (
@@ -116,6 +156,11 @@ export function CustomCombobox({
                     </Badge>
                   )
                 })
+              ) : (
+                <span className="text-base text-foreground">
+                  {options.find((o) => o.value === props.value)?.label ||
+                    (props.value as string)}
+                </span>
               )}
             </div>
             <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
@@ -143,7 +188,9 @@ export function CustomCombobox({
               </div>
             ) : (
               filteredOptions.map((option) => {
-                const isSelected = value.includes(option.value)
+                const isSelected = isMulti
+                  ? ((props.value as string[]) || []).includes(option.value)
+                  : (props.value as string) === option.value
                 return (
                   <div
                     key={option.value}
