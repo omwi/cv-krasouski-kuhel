@@ -297,6 +297,24 @@ export type GetProjectsQuery = {
   }>
 }
 
+export type GetProjectQueryVariables = Exact<{
+  projectId: string | number
+}>
+
+export type GetProjectQuery = {
+  project: {
+    __typename: "Project"
+    id: string
+    name: string
+    internal_name: string
+    description: string
+    domain: string
+    environment: Array<string>
+    start_date: string
+    end_date: string | null
+  }
+}
+
 export type CreateSkillMutationVariables = Exact<{
   skill: CreateSkillInput
 }>
