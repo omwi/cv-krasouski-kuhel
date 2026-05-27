@@ -8,7 +8,13 @@ import { useUserSkillsDelete } from "@/features/users/hooks/use-user-skills-dele
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
 
-export default function UserSkillsActions({ userId }: { userId: string }) {
+export default function UserSkillsActions({
+  userId,
+  hasSkills,
+}: {
+  userId: string
+  hasSkills: boolean
+}) {
   const { t } = useT("buttons")
 
   const { canUpdateUser } = usePermissions()
@@ -39,15 +45,17 @@ export default function UserSkillsActions({ userId }: { userId: string }) {
             </Button>
           </UserSkillAddDialog>
 
-          <Button
-            variant={"ghost-primary"}
-            disabled={!hasPermissions}
-            className="gap-4"
-            onClick={handleStartDelete}
-          >
-            <Trash className="size-6" />
-            <span>{t("remove-skills")}</span>
-          </Button>
+          {hasSkills && (
+            <Button
+              variant={"ghost-primary"}
+              disabled={!hasPermissions || !hasSkills}
+              className="gap-4"
+              onClick={handleStartDelete}
+            >
+              <Trash className="size-6" />
+              <span>{t("remove-skills")}</span>
+            </Button>
+          )}
         </>
       ) : (
         <>

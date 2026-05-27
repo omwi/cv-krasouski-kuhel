@@ -27,7 +27,7 @@ export default function UserSKills({ userId }: { userId: string }) {
         ))}
       </div>
 
-      <UserSkillsActions userId={userId} />
+      <UserSkillsActions userId={userId} hasSkills={userSkills.length > 0} />
     </div>
   )
 }
