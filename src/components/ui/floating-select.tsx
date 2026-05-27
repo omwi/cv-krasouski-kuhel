@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
-import { ReactNode, useState } from "react"
+import { ReactNode, useId, useState } from "react"
 
+import { FloatingLabel } from "@/components/ui/floating-label"
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils"
 
 export type FloatingSelectProps = {
-  id: string
+  id?: string
   label: string
   value: string
   onValueChange: (val: string) => void
@@ -29,8 +29,8 @@ export function FloatingSelect({
   children,
 }: FloatingSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const hasValue = !!value
-  const isFloating = hasValue || isOpen
+  const generatedId = useId()
+  const resolvedId = id || generatedId
 
   return (
     <div className="relative w-full">
@@ -42,25 +42,23 @@ export function FloatingSelect({
         disabled={disabled}
       >
         <SelectTrigger
-          id={id}
+          id={resolvedId}
+          data-empty={!value}
           className="peer h-12 w-full border border-input bg-transparent px-3 text-left text-base text-secondary-foreground transition-colors outline-none select-none hover:border-foreground focus-visible:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=open]:border-primary"
         >
           <SelectValue placeholder=" " />
         </SelectTrigger>
         <SelectContent position="popper">{children}</SelectContent>
       </Select>
-      <label
-        htmlFor={id}
+      <FloatingLabel
+        htmlFor={resolvedId}
         className={cn(
-          "pointer-events-none absolute inset-s-2 z-10 origin-left transform cursor-text bg-background px-2 text-sm transition-all duration-300",
-          isFloating
-            ? "top-2 -translate-y-4 scale-75"
-            : "top-1/2 -translate-y-1/2 scale-100",
-          isOpen ? "text-primary" : "text-input"
+          "peer-data-[empty=true]:top-1/2 peer-data-[empty=true]:-translate-y-1/2 peer-data-[empty=true]:scale-100",
+          "peer-data-[state=open]:top-2 peer-data-[state=open]:-translate-y-4 peer-data-[state=open]:scale-75 peer-data-[state=open]:px-2 peer-data-[state=open]:text-primary"
         )}
       >
         {label}
-      </label>
+      </FloatingLabel>
     </div>
   )
 }

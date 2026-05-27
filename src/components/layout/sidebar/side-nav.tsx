@@ -6,6 +6,7 @@ import {
   Building,
   ChevronLeft,
   FileUser,
+  FolderOpen,
   Languages,
   TrendingUp,
   Users,
@@ -51,11 +52,19 @@ const navLinks: readonly NavLink[] = [
     i18: "positions",
     to: paths.positions.get(),
     icon: <BriefcaseBusiness className="shrink-0" />,
+    isDesktopOnly: true,
+  },
+  {
+    i18: "projects",
+    to: paths.projects.get(),
+    icon: <FolderOpen className="shrink-0" />,
+    isDesktopOnly: true,
   },
   {
     i18: "departments",
     to: paths.departments.get(),
     icon: <Building className="shrink-0" />,
+    isDesktopOnly: true,
   },
 ] as const
 

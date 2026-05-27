@@ -33,11 +33,8 @@ export default function UpdateUser({
   const { t } = useT(["user-actions", "input", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
-  const open = controlledOpen !== undefined ? controlledOpen : internalOpen
-  const setOpen =
-    controlledOnOpenChange !== undefined
-      ? controlledOnOpenChange
-      : setInternalOpen
+  const open = controlledOpen ?? internalOpen
+  const setOpen = controlledOnOpenChange ?? setInternalOpen
 
   const isAdmin = currentUser?.role?.toLowerCase() === "admin"
 

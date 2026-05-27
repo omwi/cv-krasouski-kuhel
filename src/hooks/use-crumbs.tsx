@@ -3,6 +3,7 @@ import { useT } from "next-i18next/client"
 
 import Crumb from "@/components/layout/crumbs/crumb"
 import CrumbCv from "@/components/layout/crumbs/crumb-cv"
+import CrumbProject from "@/components/layout/crumbs/crumb-project"
 import CrumbUser from "@/components/layout/crumbs/crumb-user"
 import { getCrumbI18Key } from "@/config/crumb-i18-keys"
 import { getPathParts, joinPathParts } from "@/utils/url"
@@ -37,6 +38,21 @@ export function useCrumbs(): Crumb[] {
         key: href,
         element: (
           <CrumbCv key={index} cvId={cvId} href={href} isPage={isPage} />
+        ),
+      }
+    }
+
+    if (parts[0] === "projects" && index === 1) {
+      const projectId = parseInt(part)
+      return {
+        key: href,
+        element: (
+          <CrumbProject
+            key={index}
+            projectId={projectId}
+            href={href}
+            isPage={isPage}
+          />
         ),
       }
     }

@@ -10,6 +10,13 @@
   "category": "Category",
   "native-name": "Native Name",
   "iso2": "ISO2",
+  "start-date": "Start Date",
+  "end-date": "End date",
+  "domain": "Domain",
+  "description": "Description",
+  "environment": "Environment",
+  "search-skill": "Search Skills...",
+
   "errors": {
     "first-name": "First name is required",
     "last-name": "Last name is required",
@@ -18,6 +25,11 @@
     "password": "Password must be at least 8 characters",
     "role": "Role is required",
     "invalid-credentials": "User not found or invalid password",
-    "iso2": "ISO2 must be 2 characters long"
+    "iso2": "ISO2 must be 2 characters long",
+    "domain": "Domain is required",
+    "description": "Description must be at least 10 characters",
+    "environment": "Please select at least one environment",
+    "start-date": "Start date is required",
+    "invalid-date-range": "End date cannot be earlier than start date"
   }
 }

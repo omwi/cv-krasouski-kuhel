@@ -7,10 +7,7 @@ import { serverEnv } from "@/config/env.server"
 import { paths } from "@/config/paths"
 import { setAuthCookies } from "@/features/auth/utils/cookies"
 import { isAuthRoute } from "@/features/auth/utils/is-auth-route"
-import { checkAccessToken, decodeJwtPayload } from "@/features/auth/utils/jwt"
-import { pathWithoutLocale } from "@/utils/url"
-
-const ADMIN_ROUTES = [paths.projects.get()]
+import { checkAccessToken } from "@/features/auth/utils/jwt"
 
 const STATIC_PATTERN =
   /^\/(api|_next\/static|_next\/image|assets|favicon\.ico|sw\.js|site\.webmanifest)/
@@ -30,7 +27,6 @@ export async function proxy(request: NextRequest) {
 
   const authStatus = checkAccessToken(request)
   let isAuthenticated = authStatus.isValid
-  let userRole = authStatus.role
 
   let newAccessToken: string | null = null
   let newRefreshToken: string | null = null
@@ -55,9 +51,6 @@ export async function proxy(request: NextRequest) {
           newAccessToken = data.updateToken.access_token
           newRefreshToken = data.updateToken.refresh_token
 
-          const newPayload = decodeJwtPayload(newAccessToken!)
-          userRole = newPayload?.role
-
           request.cookies.set(COOKIES.ACCESS_TOKEN, newAccessToken!)
           request.cookies.set(COOKIES.REFRESH_TOKEN, newRefreshToken!)
         }
@@ -67,17 +60,6 @@ export async function proxy(request: NextRequest) {
 
   if (isAuthenticated && isAuthRoute(pathname)) {
     return NextResponse.redirect(new URL(paths.users.get(), request.url))
-  }
-
-  if (isAuthenticated && userRole?.toLowerCase() !== "admin") {
-    const path = pathWithoutLocale(pathname)
-    const isAdminRoute = ADMIN_ROUTES.some(
-      (route) => path === route || path.startsWith(route + "/")
-    )
-
-    if (isAdminRoute) {
-      return NextResponse.redirect(new URL(paths.users.get(), request.url))
-    }
   }
 
   if (!isAuthenticated && !isAuthRoute(pathname)) {

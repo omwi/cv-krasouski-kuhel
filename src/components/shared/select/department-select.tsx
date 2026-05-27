@@ -8,7 +8,6 @@ import { SelectItem } from "@/components/ui/select"
 import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
 
 export type DepartmentSelectProps = {
-  id?: string
   value: string
   onValueChangeAction: (val: string) => void
   disabled?: boolean
@@ -25,7 +24,7 @@ export function DepartmentSelect({
 
   return (
     <FloatingSelect
-      id={props.id || "departmentId"}
+      id="departmentId"
       label={t("department")}
       value={value}
       onValueChange={onValueChangeAction}

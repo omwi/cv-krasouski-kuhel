@@ -16,6 +16,7 @@ const i18nConfig: I18nConfig = {
     "user-actions",
     "position-actions",
     "department-actions",
+    "project-actions",
     "skill-actions",
     "language-actions",
     "input",
