@@ -17,6 +17,8 @@
   "environment": "Environment",
   "search-skill": "Search Skills...",
 
+  "skill": "Skill",
+  "skill-mastery": "Skill Mastery",
   "errors": {
     "first-name": "First name is required",
     "last-name": "Last name is required",

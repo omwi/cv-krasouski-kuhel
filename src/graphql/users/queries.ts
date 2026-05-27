@@ -3,6 +3,8 @@ import { gql, TypedDocumentNode } from "@apollo/client"
 import {
   GetUserQuery,
   GetUserQueryVariables,
+  GetUserSkillsQuery,
+  GetUserSkillsQueryVariables,
   GetUsersListQuery,
   GetUsersListQueryVariables,
 } from "@/types/__generated__/graphql"
@@ -68,3 +70,19 @@ export const GET_USER: TypedDocumentNode<GetUserQuery, GetUserQueryVariables> =
       }
     }
   `
+
+export const GET_USER_SKILLS: TypedDocumentNode<
+  GetUserSkillsQuery,
+  GetUserSkillsQueryVariables
+> = gql`
+  query GetUserSkills($userId: ID!) {
+    profile(userId: $userId) {
+      id
+      skills {
+        name
+        categoryId
+        mastery
+      }
+    }
+  }
+`

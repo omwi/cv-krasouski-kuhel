@@ -44,7 +44,7 @@
   --color-skill-advanced: var(--skill-advanced);
   --color-skill-advanced-track: var(--skill-advanced-track);
   --color-skill-competent: var(--skill-competent);
-  --color-skill-competent-track: var(--skill-competent);
+  --color-skill-competent-track: var(--skill-competent-track);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

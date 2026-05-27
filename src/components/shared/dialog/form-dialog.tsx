@@ -27,6 +27,7 @@ export interface FormDialogProps {
   cancelLabel?: string
   children: ReactNode
   className?: string
+  dialogClassName?: string
 }
 
 export function FormDialog({
@@ -40,14 +41,18 @@ export function FormDialog({
   submitDisabled = false,
   cancelLabel,
   children,
-  className = "",
+  className,
+  dialogClassName,
 }: FormDialogProps) {
-  const { t } = useT(["buttons"])
+  const { t } = useT("buttons")
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent aria-describedby={undefined}>
+      <DialogContent
+        aria-describedby={undefined}
+        className={cn(dialogClassName)}
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
@@ -61,7 +66,7 @@ export function FormDialog({
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline" disabled={isSubmitting}>
-                {cancelLabel || t("cancel", { ns: "buttons" })}
+                {cancelLabel || t("cancel")}
               </Button>
             </DialogClose>
             <Button type="submit" disabled={submitDisabled || isSubmitting}>

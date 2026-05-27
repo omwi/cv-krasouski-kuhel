@@ -14,19 +14,18 @@ import { cn } from "@/lib/utils"
 export type FloatingSelectProps = {
   id?: string
   label: string
-  value: string
-  onValueChange: (val: string) => void
-  disabled?: boolean
   children: ReactNode
-}
+} & Omit<
+  React.ComponentProps<typeof Select>,
+  "open" | "onOpenChange" | "defaultOpen"
+>
 
 export function FloatingSelect({
   id,
   label,
   value,
-  onValueChange,
-  disabled,
   children,
+  ...props
 }: FloatingSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const generatedId = useId()
@@ -34,13 +33,7 @@ export function FloatingSelect({
 
   return (
     <div className="relative w-full">
-      <Select
-        value={value}
-        onValueChange={onValueChange}
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        disabled={disabled}
-      >
+      <Select value={value} open={isOpen} onOpenChange={setIsOpen} {...props}>
         <SelectTrigger
           id={resolvedId}
           data-empty={!value}

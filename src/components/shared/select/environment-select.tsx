@@ -4,7 +4,7 @@ import * as React from "react"
 import { useQuery } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 
-import { CustomCombobox } from "@/components/ui/custom-combobox"
+import { Combobox } from "@/components/ui/combobox"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 
 export type EnvironmentSelectProps = {
@@ -30,7 +30,7 @@ export function EnvironmentSelect({
   }, [data?.skills])
 
   return (
-    <CustomCombobox
+    <Combobox
       id="environment"
       label={t("environment", { ns: "input" })}
       value={value}
