@@ -37,6 +37,15 @@ export type CreateProfileInput = {
   last_name?: string | null | undefined
 }
 
+export type CreateProjectInput = {
+  description: string
+  domain: string
+  end_date?: string | null | undefined
+  environment: Array<string>
+  name: string
+  start_date: string
+}
+
 export type CreateSkillInput = {
   categoryId?: string | number | null | undefined
   name: string
@@ -65,6 +74,10 @@ export type DeleteLanguageInput = {
 
 export type DeletePositionInput = {
   positionId: string | number
+}
+
+export type DeleteProjectInput = {
+  projectId: string | number
 }
 
 export type DeleteProfileSkillInput = {
@@ -104,6 +117,16 @@ export type UpdateProfileInput = {
   first_name?: string | null | undefined
   last_name?: string | null | undefined
   userId: string | number
+}
+
+export type UpdateProjectInput = {
+  description: string
+  domain: string
+  end_date?: string | null | undefined
+  environment: Array<string>
+  name: string
+  projectId: string | number
+  start_date: string
 }
 
 export type UpdateProfileSkillInput = {
@@ -241,6 +264,63 @@ export type GetPositionsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetPositionsQuery = {
   positions: Array<{ __typename: "Position"; id: string; name: string }>
+}
+
+export type CreateProjectMutationVariables = Exact<{
+  project: CreateProjectInput
+}>
+
+export type CreateProjectMutation = {
+  createProject: {
+    __typename: "Project"
+    name: string
+    description: string
+    domain: string
+    environment: Array<string>
+    start_date: string
+    end_date: string | null
+  }
+}
+
+export type UpdateProjectMutationVariables = Exact<{
+  project: UpdateProjectInput
+}>
+
+export type UpdateProjectMutation = {
+  updateProject: {
+    __typename: "Project"
+    id: string
+    name: string
+    description: string
+    domain: string
+    environment: Array<string>
+    start_date: string
+    end_date: string | null
+  }
+}
+
+export type DeleteProjectMutationVariables = Exact<{
+  project: DeleteProjectInput
+}>
+
+export type DeleteProjectMutation = {
+  deleteProject: { __typename: "DeleteResult"; affected: number }
+}
+
+export type GetProjectsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetProjectsQuery = {
+  projects: Array<{
+    __typename: "Project"
+    id: string
+    name: string
+    internal_name: string
+    description: string
+    domain: string
+    environment: Array<string>
+    start_date: string
+    end_date: string | null
+  }>
 }
 
 export type CreateSkillMutationVariables = Exact<{

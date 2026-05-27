@@ -1,6 +1,7 @@
 "use client"
 
 import { ReactNode, useState } from "react"
+import Link from "next/link"
 import { ChevronRight, MoreVertical } from "lucide-react"
 import { useT } from "next-i18next/client"
 
@@ -21,7 +22,7 @@ import {
 
 export type EntityType =
   | "user"
-  | "project"
+  | "projects"
   | "cv"
   | "positions"
   | "departments"
@@ -35,7 +36,7 @@ export interface EntityRowActionsProps<T> {
   currentUser: CurrentUser
   isOwner?: boolean
   isMe?: boolean
-  onView?: (entity: T) => void
+  viewLink?: string
   renderEditModal?: (props: {
     entity: T
     open: boolean
@@ -54,7 +55,7 @@ export function EntityRowActions<T>({
   entityId,
   currentUser,
   isOwner = false,
-  onView,
+  viewLink,
   renderEditModal,
   renderDeleteModal,
 }: EntityRowActionsProps<T>) {
@@ -85,7 +86,7 @@ export function EntityRowActions<T>({
       canEdit = cvPermissions.canUpdate(currentUser, isOwner)
       canDelete = cvPermissions.canDelete(currentUser, isOwner)
       break
-    case "project":
+    case "projects":
       canView = projectPermissions.canView(currentUser)
       canEdit = projectPermissions.canUpdate(currentUser)
       canDelete = projectPermissions.canDelete(currentUser)
@@ -105,7 +106,7 @@ export function EntityRowActions<T>({
       break
   }
 
-  const showViewAction = canView && !!onView
+  const showViewAction = canView && !!viewLink
   const showEditAction = canEdit && !!renderEditModal
   const showDeleteAction = canDelete && !!renderDeleteModal
 
@@ -133,12 +134,14 @@ export function EntityRowActions<T>({
   if (totalActionsCount === 1 && showViewAction) {
     return (
       <Button
+        asChild
         variant="ghost"
         className="h-9 w-9 min-w-0"
-        onClick={() => onView?.(entity)}
         aria-label={defaultLabels.viewAriaLabel}
       >
-        <ChevronRight />
+        <Link href={viewLink}>
+          <ChevronRight />
+        </Link>
       </Button>
     )
   }
@@ -163,20 +166,17 @@ export function EntityRowActions<T>({
           <div className="flex flex-col">
             {showViewAction && (
               <Button
+                asChild
                 variant="ghost"
-                className="min-w-0 justify-start rounded-none text-foreground"
-                onClick={() => {
-                  setPopoverOpen(false)
-                  onView?.(entity)
-                }}
+                className="w-full min-w-0 justify-start rounded-none text-foreground"
               >
-                {defaultLabels.view}
+                <Link href={viewLink}>{defaultLabels.view}</Link>
               </Button>
             )}
             {showEditAction && (
               <Button
                 variant="ghost"
-                className="min-w-0 justify-start rounded-none text-foreground"
+                className="w-full min-w-0 justify-start rounded-none text-foreground"
                 onClick={() => {
                   setPopoverOpen(false)
                   setEditOpen(true)

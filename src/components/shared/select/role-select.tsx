@@ -6,7 +6,6 @@ import { FloatingSelect } from "@/components/ui/floating-select"
 import { SelectItem } from "@/components/ui/select"
 
 export type RoleSelectProps = {
-  id?: string
   value: string
   onValueChangeAction: (val: string) => void
   disabled?: boolean
@@ -21,7 +20,7 @@ export function RoleSelect({
 
   return (
     <FloatingSelect
-      id={props.id || "role"}
+      id="role"
       label={t("role")}
       value={value}
       onValueChange={onValueChangeAction}

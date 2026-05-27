@@ -66,7 +66,6 @@ export function SkillFormDialog({
             name="categoryId"
             render={({ field }) => (
               <SkillCategorySelect
-                id="categoryId"
                 value={field.value || ""}
                 onValueChangeAction={field.onChange}
                 disabled={isSubmitting}

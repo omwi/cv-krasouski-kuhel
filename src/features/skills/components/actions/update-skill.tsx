@@ -23,11 +23,8 @@ export default function UpdateSkill({
   const { t } = useT(["skill-actions", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
-  const open = controlledOpen !== undefined ? controlledOpen : internalOpen
-  const setOpen =
-    controlledOnOpenChange !== undefined
-      ? controlledOnOpenChange
-      : setInternalOpen
+  const open = controlledOpen ?? internalOpen
+  const setOpen = controlledOnOpenChange ?? setInternalOpen
 
   const { form, onSubmit, loading } = useUpdateSkillForm(skill, open, setOpen)
 

@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { cn } from "@/lib/utils"
 
 export interface FormDialogProps {
   open: boolean
@@ -25,6 +26,7 @@ export interface FormDialogProps {
   submitDisabled?: boolean
   cancelLabel?: string
   children: ReactNode
+  className?: string
 }
 
 export function FormDialog({
@@ -38,6 +40,7 @@ export function FormDialog({
   submitDisabled = false,
   cancelLabel,
   children,
+  className = "",
 }: FormDialogProps) {
   const { t } = useT(["buttons"])
 
@@ -49,7 +52,10 @@ export function FormDialog({
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="space-y-6">
+        <form
+          onSubmit={onSubmit}
+          className={cn(className, "flex flex-col gap-6")}
+        >
           {children}
 
           <DialogFooter>
