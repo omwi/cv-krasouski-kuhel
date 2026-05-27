@@ -52,7 +52,10 @@ export function FormDialog({
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className={cn(className, "space-y-6")}>
+        <form
+          onSubmit={onSubmit}
+          className={cn(className, "flex flex-col gap-6")}
+        >
           {children}
 
           <DialogFooter>
