@@ -19,6 +19,8 @@
 
   "skill": "Skill",
   "skill-mastery": "Skill Mastery",
+  "language": "Language",
+  "language-proficiency": "Language Proficiency",
   "errors": {
     "first-name": "First name is required",
     "last-name": "Last name is required",

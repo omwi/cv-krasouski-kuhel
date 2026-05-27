@@ -1,0 +1,12 @@
+{
+  "dialog": {
+    "add": "Add Language",
+    "update": "Update Language"
+  },
+  "toast": {
+    "added": "Language was added",
+    "updated": "Language was updated",
+    "deleted": "Language was removed",
+    "deleted-plural": "Languages were removed"
+  }
+}
