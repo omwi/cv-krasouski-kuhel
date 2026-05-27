@@ -6,16 +6,16 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never
     }
+export type AddProfileLanguageInput = {
+  name: string
+  proficiency: Proficiency
+  userId: string | number
+}
+
 export type AddProfileSkillInput = {
   categoryId?: string | number | null | undefined
   mastery: Mastery
   name: string
-  userId: string | number
-}
-
-export type AddProfileLanguageInput = {
-  name: string
-  proficiency: Proficiency
   userId: string | number
 }
 
@@ -82,6 +82,11 @@ export type DeletePositionInput = {
   positionId: string | number
 }
 
+export type DeleteProfileLanguageInput = {
+  name: Array<string>
+  userId: string | number
+}
+
 export type DeleteProfileSkillInput = {
   name: Array<string>
   userId: string | number
@@ -91,16 +96,9 @@ export type DeleteProjectInput = {
   projectId: string | number
 }
 
-export type DeleteProfileLanguageInput = {
-  name: Array<string>
-  userId: string | number
-}
-
 export type DeleteSkillInput = {
   skillId: string | number
 }
-
-export type Proficiency = "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "Native"
 
 export type Mastery =
   | "Advanced"
@@ -108,6 +106,8 @@ export type Mastery =
   | "Expert"
   | "Novice"
   | "Proficient"
+
+export type Proficiency = "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "Native"
 
 export type UpdateDepartmentInput = {
   departmentId: string | number
@@ -132,6 +132,12 @@ export type UpdateProfileInput = {
   userId: string | number
 }
 
+export type UpdateProfileLanguageInput = {
+  name: string
+  proficiency: Proficiency
+  userId: string | number
+}
+
 export type UpdateProfileSkillInput = {
   categoryId?: string | number | null | undefined
   mastery: Mastery
@@ -147,12 +153,6 @@ export type UpdateProjectInput = {
   name: string
   projectId: string | number
   start_date: string
-}
-
-export type UpdateProfileLanguageInput = {
-  name: string
-  proficiency: Proficiency
-  userId: string | number
 }
 
 export type UpdateSkillInput = {
