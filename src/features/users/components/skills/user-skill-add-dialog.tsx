@@ -43,7 +43,6 @@ export default function UserSkillAddDialog({ children, userId }: Props) {
           name="skillId"
           render={({ field }) => (
             <SkillSelect
-              required
               value={field.value}
               onValueChange={field.onChange}
               userSkills={userSkills}
@@ -55,7 +54,6 @@ export default function UserSkillAddDialog({ children, userId }: Props) {
           name="mastery"
           render={({ field }) => (
             <SkillMasterySelect
-              required
               value={field.value}
               onValueChange={field.onChange}
             />

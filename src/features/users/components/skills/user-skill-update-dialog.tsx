@@ -58,7 +58,6 @@ export default function UserSkillUpdateDialog({
           name="mastery"
           render={({ field }) => (
             <SkillMasterySelect
-              required
               value={field.value}
               onValueChange={field.onChange}
             />
