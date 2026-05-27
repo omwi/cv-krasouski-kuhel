@@ -35,9 +35,9 @@ type MultiComboboxProps = BaseComboboxProps & {
   onValueChange: (val: string[]) => void
 }
 
-export type CustomComboboxProps = SingleComboboxProps | MultiComboboxProps
+export type ComboboxProps = SingleComboboxProps | MultiComboboxProps
 
-export function CustomCombobox(props: CustomComboboxProps) {
+export function Combobox(props: ComboboxProps) {
   const {
     id,
     label,
