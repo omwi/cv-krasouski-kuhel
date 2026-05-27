@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useMutation } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
@@ -23,6 +23,8 @@ export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
 
   const { canUpdateUser } = usePermissions()
 
+  const [open, setOpen] = useState(false)
+
   const {
     control,
     handleSubmit,
@@ -39,7 +41,7 @@ export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
     reset({
       mastery: userSkill.mastery,
     })
-  }, [userSkill.mastery, reset])
+  }, [userSkill.mastery, open, reset])
 
   const [updateUserSkill, { loading }] = useMutation(UPDATE_USER_SKILL, {
     refetchQueries: [{ query: GET_USER_SKILLS, variables: { userId } }],
@@ -62,15 +64,18 @@ export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
       toast.success(t("toast.updated"))
     } catch (error) {
       console.error(error)
+    } finally {
+      setOpen(false)
     }
   }
 
   return {
     control,
     reset,
-    isDirty,
-    isValid,
+    isSubmitReady: isDirty && isValid,
     onSubmit: handleSubmit(onSubmit),
     loading,
+    open,
+    setOpen,
   }
 }

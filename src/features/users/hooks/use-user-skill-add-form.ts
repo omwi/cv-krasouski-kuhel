@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { useMutation, useQuery } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
@@ -22,6 +23,8 @@ type AddUserSkillInput = z.infer<typeof formSchema>
 export function useUserSkillAddForm(userId: string) {
   const { t } = useT("skills")
 
+  const [open, setOpen] = useState(false)
+
   const { canUpdateUser } = usePermissions()
 
   const {
@@ -36,6 +39,13 @@ export function useUserSkillAddForm(userId: string) {
       skillId: "",
     },
   })
+
+  useEffect(() => {
+    reset({
+      mastery: SKILL_MASTERIES[0],
+      skillId: "",
+    })
+  }, [open, reset])
 
   const { data } = useQuery(GET_SKILLS)
   const skills = data?.skills ?? []
@@ -72,16 +82,17 @@ export function useUserSkillAddForm(userId: string) {
     } catch (error) {
       console.error(error)
     } finally {
-      reset()
+      setOpen(false)
     }
   }
 
   return {
     control,
     reset,
-    isDirty,
-    isValid,
+    isSubmitReady: isValid && isDirty,
     onSubmit: handleSubmit(onSubmit),
     loading,
+    open,
+    setOpen,
   }
 }
