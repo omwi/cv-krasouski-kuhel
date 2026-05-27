@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useMutation } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
@@ -26,6 +26,8 @@ export function useUserLanguageUpdateForm(
 
   const { canUpdateUser } = usePermissions()
 
+  const [open, setOpen] = useState(false)
+
   const {
     control,
     handleSubmit,
@@ -42,7 +44,7 @@ export function useUserLanguageUpdateForm(
     reset({
       proficiency: userLanguage.proficiency,
     })
-  }, [userLanguage.proficiency, reset])
+  }, [userLanguage.proficiency, open, reset])
 
   const [updateUserLanguage, { loading }] = useMutation(UPDATE_USER_LANGUAGE, {
     refetchQueries: [{ query: GET_USER_LANGUAGES, variables: { userId } }],
@@ -64,15 +66,18 @@ export function useUserLanguageUpdateForm(
       toast.success(t("toast.updated"))
     } catch (error) {
       console.error(error)
+    } finally {
+      setOpen(false)
     }
   }
 
   return {
     control,
     reset,
-    isDirty,
-    isValid,
+    isSubmitReady: isDirty && isValid,
     onSubmit: handleSubmit(onSubmit),
     loading,
+    open,
+    setOpen,
   }
 }

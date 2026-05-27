@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { useMutation } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
@@ -5,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
+import { LANGUAGE_PROFICIENCIES } from "@/config/const"
 import { ADD_USER_LANGUAGE } from "@/graphql/users/mutations"
 import { GET_USER_LANGUAGES } from "@/graphql/users/queries"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -20,6 +22,8 @@ type AddUserLanguageInput = z.infer<typeof formSchema>
 export function useUserLanguageAddForm(userId: string) {
   const { t } = useT("skills")
 
+  const [open, setOpen] = useState(false)
+
   const { canUpdateUser } = usePermissions()
 
   const {
@@ -31,9 +35,16 @@ export function useUserLanguageAddForm(userId: string) {
     resolver: standardSchemaResolver(formSchema),
     defaultValues: {
       languageName: "",
-      proficiency: "",
+      proficiency: LANGUAGE_PROFICIENCIES[0],
     },
   })
+
+  useEffect(() => {
+    reset({
+      languageName: "",
+      proficiency: LANGUAGE_PROFICIENCIES[0],
+    })
+  }, [open, reset])
 
   const [addUserLanguage, { loading }] = useMutation(ADD_USER_LANGUAGE, {
     refetchQueries: [{ query: GET_USER_LANGUAGES, variables: { userId } }],
@@ -56,16 +67,17 @@ export function useUserLanguageAddForm(userId: string) {
     } catch (error) {
       console.error(error)
     } finally {
-      reset()
+      setOpen(false)
     }
   }
 
   return {
     control,
     reset,
-    isDirty,
-    isValid,
+    isSubmitReady: isDirty && isValid,
     onSubmit: handleSubmit(onSubmit),
     loading,
+    open,
+    setOpen,
   }
 }

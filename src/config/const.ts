@@ -14,7 +14,7 @@ export const SKILL_MASTERIES: Mastery[] = [
   "Expert",
 ]
 
-export const LANGUAGE_LEVELS: Proficiency[] = [
+export const LANGUAGE_PROFICIENCIES: Proficiency[] = [
   "A1",
   "A2",
   "B1",
