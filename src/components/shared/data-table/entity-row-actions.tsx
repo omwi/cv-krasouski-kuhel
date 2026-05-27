@@ -133,15 +133,16 @@ export function EntityRowActions<T>({
 
   if (totalActionsCount === 1 && showViewAction) {
     return (
-      <Link href={viewLink}>
-        <Button
-          variant="ghost"
-          className="h-9 w-9 min-w-0"
-          aria-label={defaultLabels.viewAriaLabel}
-        >
+      <Button
+        asChild
+        variant="ghost"
+        className="h-9 w-9 min-w-0"
+        aria-label={defaultLabels.viewAriaLabel}
+      >
+        <Link href={viewLink}>
           <ChevronRight />
-        </Button>
-      </Link>
+        </Link>
+      </Button>
     )
   }
 
@@ -164,17 +165,13 @@ export function EntityRowActions<T>({
         >
           <div className="flex flex-col">
             {showViewAction && (
-              <Link href={viewLink}>
-                <Button
-                  variant="ghost"
-                  className="w-full min-w-0 justify-start rounded-none text-foreground"
-                  onClick={() => {
-                    setPopoverOpen(false)
-                  }}
-                >
-                  {defaultLabels.view}
-                </Button>
-              </Link>
+              <Button
+                asChild
+                variant="ghost"
+                className="w-full min-w-0 justify-start rounded-none text-foreground"
+              >
+                <Link href={viewLink}>{defaultLabels.view}</Link>
+              </Button>
             )}
             {showEditAction && (
               <Button
