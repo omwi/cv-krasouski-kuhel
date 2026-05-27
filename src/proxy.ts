@@ -10,7 +10,7 @@ import { isAuthRoute } from "@/features/auth/utils/is-auth-route"
 import { checkAccessToken, decodeJwtPayload } from "@/features/auth/utils/jwt"
 import { pathWithoutLocale } from "@/utils/url"
 
-const ADMIN_ROUTES = [paths.projects.get()]
+const ADMIN_ROUTES = ["/admin"]
 
 const STATIC_PATTERN =
   /^\/(api|_next\/static|_next\/image|assets|favicon\.ico|sw\.js|site\.webmanifest)/

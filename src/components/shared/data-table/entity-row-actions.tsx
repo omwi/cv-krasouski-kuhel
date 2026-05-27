@@ -1,6 +1,7 @@
 "use client"
 
 import { ReactNode, useState } from "react"
+import Link from "next/link"
 import { ChevronRight, MoreVertical } from "lucide-react"
 import { useT } from "next-i18next/client"
 
@@ -35,7 +36,7 @@ export interface EntityRowActionsProps<T> {
   currentUser: CurrentUser
   isOwner?: boolean
   isMe?: boolean
-  onView?: (entity: T) => void
+  viewLink?: string
   renderEditModal?: (props: {
     entity: T
     open: boolean
@@ -54,7 +55,7 @@ export function EntityRowActions<T>({
   entityId,
   currentUser,
   isOwner = false,
-  onView,
+  viewLink,
   renderEditModal,
   renderDeleteModal,
 }: EntityRowActionsProps<T>) {
@@ -105,7 +106,7 @@ export function EntityRowActions<T>({
       break
   }
 
-  const showViewAction = canView && !!onView
+  const showViewAction = canView && !!viewLink
   const showEditAction = canEdit && !!renderEditModal
   const showDeleteAction = canDelete && !!renderDeleteModal
 
@@ -132,14 +133,15 @@ export function EntityRowActions<T>({
 
   if (totalActionsCount === 1 && showViewAction) {
     return (
-      <Button
-        variant="ghost"
-        className="h-9 w-9 min-w-0"
-        onClick={() => onView?.(entity)}
-        aria-label={defaultLabels.viewAriaLabel}
-      >
-        <ChevronRight />
-      </Button>
+      <Link href={viewLink}>
+        <Button
+          variant="ghost"
+          className="h-9 w-9 min-w-0"
+          aria-label={defaultLabels.viewAriaLabel}
+        >
+          <ChevronRight />
+        </Button>
+      </Link>
     )
   }
 
@@ -162,21 +164,22 @@ export function EntityRowActions<T>({
         >
           <div className="flex flex-col">
             {showViewAction && (
-              <Button
-                variant="ghost"
-                className="min-w-0 justify-start rounded-none text-foreground"
-                onClick={() => {
-                  setPopoverOpen(false)
-                  onView?.(entity)
-                }}
-              >
-                {defaultLabels.view}
-              </Button>
+              <Link href={viewLink}>
+                <Button
+                  variant="ghost"
+                  className="w-full min-w-0 justify-start rounded-none text-foreground"
+                  onClick={() => {
+                    setPopoverOpen(false)
+                  }}
+                >
+                  {defaultLabels.view}
+                </Button>
+              </Link>
             )}
             {showEditAction && (
               <Button
                 variant="ghost"
-                className="min-w-0 justify-start rounded-none text-foreground"
+                className="w-full min-w-0 justify-start rounded-none text-foreground"
                 onClick={() => {
                   setPopoverOpen(false)
                   setEditOpen(true)

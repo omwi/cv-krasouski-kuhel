@@ -14,8 +14,6 @@ export default function ProjectsRowActions({
   project: TableProjects
   currentUser: CurrentUser
 }) {
-  const router = useRouter()
-
   if (!currentUser) return null
 
   return (
@@ -24,9 +22,7 @@ export default function ProjectsRowActions({
       entityType="projects"
       entityId={String(project?.id)}
       currentUser={currentUser}
-      onView={(project) => {
-        router.push(paths.projects.details.get(project.id))
-      }}
+      viewLink={paths.projects.details.get(project.id)}
       renderEditModal={(props) => (
         <UpdateProject project={props.entity} {...props} />
       )}

@@ -14,8 +14,6 @@ export function UserRowActions({
   rowUser: TableUser
   currentUser: CurrentUser
 }) {
-  const router = useRouter()
-
   if (!currentUser) return null
 
   return (
@@ -24,9 +22,7 @@ export function UserRowActions({
       entityType="user"
       entityId={rowUser.id}
       currentUser={currentUser}
-      onView={(user) => {
-        router.push(paths.users.details.get(user.id))
-      }}
+      viewLink={paths.users.details.get(rowUser.id)}
       renderEditModal={(props) => (
         <UpdateUser user={props.entity} currentUser={currentUser} {...props} />
       )}
