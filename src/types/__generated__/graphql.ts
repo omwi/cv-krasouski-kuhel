@@ -289,7 +289,9 @@ export type GetProjectsQuery = {
     id: string
     name: string
     internal_name: string
+    description: string
     domain: string
+    environment: Array<string>
     start_date: string
     end_date: string | null
   }>

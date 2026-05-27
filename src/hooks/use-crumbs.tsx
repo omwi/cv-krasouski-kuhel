@@ -3,7 +3,6 @@ import { useT } from "next-i18next/client"
 
 import Crumb from "@/components/layout/crumbs/crumb"
 import CrumbCv from "@/components/layout/crumbs/crumb-cv"
-import projectCrumb from "@/components/layout/crumbs/crumb-project"
 import CrumbProject from "@/components/layout/crumbs/crumb-project"
 import CrumbUser from "@/components/layout/crumbs/crumb-user"
 import { getCrumbI18Key } from "@/config/crumb-i18-keys"

@@ -1,11 +1,11 @@
 "use client"
 
-import * as React from "react"
+import { KeyboardEvent, MouseEvent, useId, useState } from "react"
 import { Check, ChevronsUpDown, Search, X } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { FloatingLabel } from "@/components/ui/floating-label-input"
+import { FloatingLabel } from "@/components/ui/floating-label"
 import { Input } from "@/components/ui/input"
 import {
   Popover,
@@ -35,8 +35,11 @@ export function CustomCombobox({
   searchPlaceholder = "Search...",
   emptyText = "No items found.",
 }: CustomComboboxProps) {
-  const [open, setOpen] = React.useState(false)
-  const [search, setSearch] = React.useState("")
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState("")
+
+  const generatedId = useId()
+  const comboboxId = id || generatedId
 
   const handleSelect = (optionValue: string) => {
     if (value.includes(optionValue)) {
@@ -47,7 +50,7 @@ export function CustomCombobox({
   }
 
   const handleRemove = (
-    e: React.MouseEvent | React.KeyboardEvent,
+    e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>,
     optionValue: string
   ) => {
     e.stopPropagation()
@@ -71,7 +74,7 @@ export function CustomCombobox({
       <Popover open={open} onOpenChange={handleOpenChange} modal={true}>
         <PopoverTrigger asChild>
           <Button
-            id={id}
+            id={comboboxId}
             variant="outline"
             role="combobox"
             aria-expanded={open}
@@ -165,7 +168,7 @@ export function CustomCombobox({
         </PopoverContent>
       </Popover>
       <FloatingLabel
-        htmlFor={id}
+        htmlFor={comboboxId}
         className={cn(
           "peer-data-[empty=true]:top-1/2 peer-data-[empty=true]:-translate-y-1/2 peer-data-[empty=true]:scale-100",
           "peer-data-[state=open]:top-2 peer-data-[state=open]:-translate-y-4 peer-data-[state=open]:scale-75 peer-data-[state=open]:px-2 peer-data-[state=open]:text-primary"

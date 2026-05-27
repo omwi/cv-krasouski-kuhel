@@ -1,10 +1,10 @@
-import * as React from "react"
+import { Ref, useId } from "react"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import { FloatingLabel } from "@/components/ui/floating-label-input"
+import { FloatingLabel } from "@/components/ui/floating-label"
 import {
   Popover,
   PopoverContent,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
-export interface FloatingDatePickerProps {
+export type FloatingDatePickerProps = {
   label: string
   id?: string
   value?: Date | undefined
@@ -22,16 +22,25 @@ export interface FloatingDatePickerProps {
   className?: string
 }
 
-export const FloatingDatePicker = React.forwardRef<
-  HTMLButtonElement,
-  FloatingDatePickerProps
->(({ label, id, value, onChange, disabled, disabledDate, className }, ref) => {
+export function FloatingDatePicker({
+  label,
+  id,
+  value,
+  onChange,
+  disabled,
+  disabledDate,
+  className,
+  ref,
+}: FloatingDatePickerProps & { ref?: Ref<HTMLButtonElement> }) {
+  const generatedId = useId()
+  const resolvedId = id || generatedId
+
   return (
     <div className="relative">
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id={id}
+            id={resolvedId}
             ref={ref}
             variant="outline"
             data-empty={!value}
@@ -64,7 +73,7 @@ export const FloatingDatePicker = React.forwardRef<
         </PopoverContent>
       </Popover>
       <FloatingLabel
-        htmlFor={id}
+        htmlFor={resolvedId}
         className={cn(
           "peer-data-[empty=true]:top-1/2 peer-data-[empty=true]:-translate-y-1/2 peer-data-[empty=true]:scale-100",
           "peer-data-[state=open]:top-2 peer-data-[state=open]:-translate-y-4 peer-data-[state=open]:scale-75 peer-data-[state=open]:px-2 peer-data-[state=open]:text-primary"
@@ -74,5 +83,4 @@ export const FloatingDatePicker = React.forwardRef<
       </FloatingLabel>
     </div>
   )
-})
-FloatingDatePicker.displayName = "FloatingDatePicker"
+}

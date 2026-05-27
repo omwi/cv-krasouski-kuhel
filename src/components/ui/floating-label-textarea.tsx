@@ -1,24 +1,34 @@
-import * as React from "react"
+import { ComponentProps, useId } from "react"
 
-import { FloatingLabel } from "@/components/ui/floating-label-input"
+import { FloatingLabel } from "@/components/ui/floating-label"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
-export const FloatingTextarea: React.FC<
-  React.ComponentProps<typeof Textarea> & {
-    label: string
-  }
-> = ({ id, label, className, ...props }) => {
+export type FloatingTextareaProps = ComponentProps<typeof Textarea> & {
+  label: string
+}
+
+export function FloatingTextarea({
+  id,
+  label,
+  className,
+  ref,
+  ...props
+}: FloatingTextareaProps) {
+  const generatedId = useId()
+  const resolvedId = id || generatedId
+
   return (
     <div className="relative">
       <Textarea
-        id={id}
+        ref={ref}
+        id={resolvedId}
         className={cn("peer min-h-[100px] resize-y", className)}
         placeholder=" "
         {...props}
       />
       <FloatingLabel
-        htmlFor={id}
+        htmlFor={resolvedId}
         className="peer-placeholder-shown:top-3 peer-placeholder-shown:translate-y-0"
       >
         {label}
