@@ -568,11 +568,11 @@ export type UpdateUserLanguageMutation = {
   }
 }
 
-export type DeleteUserLanguageMutationVariables = Exact<{
-  language: DeleteProfileLanguageInput
+export type DeleteUserLanguagesMutationVariables = Exact<{
+  languages: DeleteProfileLanguageInput
 }>
 
-export type DeleteUserLanguageMutation = {
+export type DeleteUserLanguagesMutation = {
   deleteProfileLanguage: {
     __typename: "Profile"
     id: string

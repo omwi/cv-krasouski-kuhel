@@ -1,4 +1,4 @@
-import { Mastery } from "@/types/__generated__/graphql"
+import { Mastery, Proficiency } from "@/types/__generated__/graphql"
 
 export const COOKIES = {
   ACCESS_TOKEN: "access_token",
@@ -13,3 +13,12 @@ export const SKILL_MASTERIES: Mastery[] = [
   "Proficient",
   "Expert",
 ]
+
+export const LANGUAGE_LEVELS: Proficiency[] = [
+  "A1",
+  "A2",
+  "B1",
+  "B2",
+  "C1",
+  "C2",
+] as const

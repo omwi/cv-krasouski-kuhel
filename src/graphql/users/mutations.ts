@@ -9,8 +9,8 @@ import {
   CreateUserMutationVariables,
   DeleteAvatarMutation,
   DeleteAvatarMutationVariables,
-  DeleteUserLanguageMutation,
-  DeleteUserLanguageMutationVariables,
+  DeleteUserLanguagesMutation,
+  DeleteUserLanguagesMutationVariables,
   DeleteUserMutation,
   DeleteUserMutationVariables,
   DeleteUserSkillsMutation,
@@ -185,12 +185,12 @@ export const UPDATE_USER_LANGUAGE: TypedDocumentNode<
   }
 `
 
-export const DELETE_USER_LANGUAGE: TypedDocumentNode<
-  DeleteUserLanguageMutation,
-  DeleteUserLanguageMutationVariables
+export const DELETE_USER_LANGUAGES: TypedDocumentNode<
+  DeleteUserLanguagesMutation,
+  DeleteUserLanguagesMutationVariables
 > = gql`
-  mutation DeleteUserLanguage($language: DeleteProfileLanguageInput!) {
-    deleteProfileLanguage(language: $language) {
+  mutation DeleteUserLanguages($languages: DeleteProfileLanguageInput!) {
+    deleteProfileLanguage(language: $languages) {
       id
       languages {
         name
