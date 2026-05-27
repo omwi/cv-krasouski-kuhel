@@ -15,7 +15,7 @@ export default function UserLanguages({ userId }: { userId: string }) {
   return (
     <div className="flex w-full max-w-4xl flex-col gap-8 self-center px-4 py-6">
       <div className="flex flex-col gap-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3">
           {userLanguages.map((ul) => (
             <UserLanguageItem key={ul.name} language={ul} userId={userId} />
           ))}
