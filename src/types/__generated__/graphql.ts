@@ -76,13 +76,13 @@ export type DeletePositionInput = {
   positionId: string | number
 }
 
-export type DeleteProjectInput = {
-  projectId: string | number
-}
-
 export type DeleteProfileSkillInput = {
   name: Array<string>
   userId: string | number
+}
+
+export type DeleteProjectInput = {
+  projectId: string | number
 }
 
 export type DeleteSkillInput = {
@@ -119,6 +119,13 @@ export type UpdateProfileInput = {
   userId: string | number
 }
 
+export type UpdateProfileSkillInput = {
+  categoryId?: string | number | null | undefined
+  mastery: Mastery
+  name: string
+  userId: string | number
+}
+
 export type UpdateProjectInput = {
   description: string
   domain: string
@@ -127,13 +134,6 @@ export type UpdateProjectInput = {
   name: string
   projectId: string | number
   start_date: string
-}
-
-export type UpdateProfileSkillInput = {
-  categoryId?: string | number | null | undefined
-  mastery: Mastery
-  name: string
-  userId: string | number
 }
 
 export type UpdateSkillInput = {
