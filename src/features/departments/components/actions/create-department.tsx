@@ -18,11 +18,8 @@ export default function CreateDepartment({
   const { t } = useT(["department-actions", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
-  const open = controlledOpen !== undefined ? controlledOpen : internalOpen
-  const setOpen =
-    controlledOnOpenChange !== undefined
-      ? controlledOnOpenChange
-      : setInternalOpen
+  const open = controlledOpen ?? internalOpen
+  const setOpen = controlledOnOpenChange ?? setInternalOpen
 
   const { form, onSubmit, loading } = useCreateDepartmentForm(t, () =>
     setOpen(false)

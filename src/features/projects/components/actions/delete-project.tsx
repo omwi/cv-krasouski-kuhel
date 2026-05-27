@@ -36,7 +36,7 @@ export default function DeleteProject({
       entityName={project?.name}
       onConfirm={async () => {
         await mutateDelete({
-          variables: { project: { projectId: String(project?.id) } },
+          variables: { project: { projectId: project?.id } },
         })
       }}
     />

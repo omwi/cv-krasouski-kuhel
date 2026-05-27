@@ -20,11 +20,8 @@ export default function CreatePosition({
   const { t } = useT(["position-actions", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
 
-  const open = controlledOpen !== undefined ? controlledOpen : internalOpen
-  const setOpen =
-    controlledOnOpenChange !== undefined
-      ? controlledOnOpenChange
-      : setInternalOpen
+  const open = controlledOpen ?? internalOpen
+  const setOpen = controlledOnOpenChange ?? setInternalOpen
 
   const { form, onSubmit, loading } = useCreatePositionForm(open, setOpen)
 
