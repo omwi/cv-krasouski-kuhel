@@ -5,26 +5,13 @@ import { Controller, FieldValues, Path, UseFormReturn } from "react-hook-form"
 
 import { Field, FieldError } from "@/components/ui/field"
 import { FloatingDatePicker } from "@/components/ui/floating-date-picker"
+import { parseLocalToUtcString, parseUtcToLocal } from "@/utils/date"
 
 export type FormDateRangePickerProps<TFieldValues extends FieldValues> = {
   form: UseFormReturn<TFieldValues>
   startName: Path<TFieldValues>
   endName: Path<TFieldValues>
   isSubmitting?: boolean
-}
-
-function parseUtcToLocal(dateStr?: string) {
-  if (!dateStr) return undefined
-  const d = new Date(dateStr)
-  if (isNaN(d.getTime())) return undefined
-  return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())
-}
-
-function parseLocalToUtcString(date?: Date) {
-  if (!date) return ""
-  return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-  ).toISOString()
 }
 
 export function FormDateRangePicker<TFieldValues extends FieldValues>({
