@@ -8,7 +8,6 @@ import { SelectItem } from "@/components/ui/select"
 import { GET_SKILL_CATEGORIES } from "@/graphql/skills/queries"
 
 export type SkillCategorySelectProps = {
-  id?: string
   value: string
   onValueChangeAction: (val: string) => void
   disabled?: boolean
@@ -25,7 +24,7 @@ export function SkillCategorySelect({
 
   return (
     <FloatingSelect
-      id={props.id || "categoryId"}
+      id="categoryId"
       label={t("category", { ns: "input" })}
       value={value}
       onValueChange={onValueChangeAction}

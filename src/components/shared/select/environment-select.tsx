@@ -8,14 +8,12 @@ import { CustomCombobox } from "@/components/ui/custom-combobox"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 
 export type EnvironmentSelectProps = {
-  id?: string
   value: string[]
   onValueChange: (val: string[]) => void
   disabled?: boolean
 }
 
 export function EnvironmentSelect({
-  id = "environment",
   value = [],
   onValueChange,
   disabled,
@@ -33,7 +31,7 @@ export function EnvironmentSelect({
 
   return (
     <CustomCombobox
-      id={id}
+      id="environment"
       label={t("environment", { ns: "input" })}
       value={value}
       onValueChange={onValueChange}

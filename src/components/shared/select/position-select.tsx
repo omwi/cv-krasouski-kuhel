@@ -8,7 +8,6 @@ import { SelectItem } from "@/components/ui/select"
 import { GET_POSITIONS } from "@/graphql/positions/queries"
 
 export type PositionSelectProps = {
-  id?: string
   value: string
   onValueChangeAction: (val: string) => void
   disabled?: boolean
@@ -25,7 +24,7 @@ export function PositionSelect({
 
   return (
     <FloatingSelect
-      id={props.id || "positionId"}
+      id="positionId"
       label={t("position")}
       value={value}
       onValueChange={onValueChangeAction}
