@@ -37,7 +37,7 @@ export default function UserSKillItem({
     </UserSkillUpdateDialog>
   ) : (
     <Button
-      variant={"ghost"}
+      variant={isSelected(skill.name) ? "outline" : "ghost"}
       className="flex flex-row justify-start gap-4 px-4"
       onClick={() => toggle(skill.name)}
     >
