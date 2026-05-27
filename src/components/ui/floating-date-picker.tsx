@@ -1,6 +1,12 @@
+"use client"
+
 import { Ref, useId } from "react"
 import { format } from "date-fns"
+import { enUS } from "date-fns/locale"
 import { CalendarIcon } from "lucide-react"
+import { Locale } from "react-day-picker"
+import { ru } from "react-day-picker/locale"
+import { useTranslation } from "react-i18next"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -11,6 +17,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+
+const localeMap: Record<string, Locale> = {
+  ru: ru,
+  en: enUS,
+}
 
 export type FloatingDatePickerProps = {
   label: string
@@ -34,7 +45,8 @@ export function FloatingDatePicker({
 }: FloatingDatePickerProps & { ref?: Ref<HTMLButtonElement> }) {
   const generatedId = useId()
   const resolvedId = id || generatedId
-
+  const { i18n } = useTranslation()
+  const currentLocale = localeMap[i18n.language] || enUS
   return (
     <div className="relative">
       <Popover>
@@ -52,7 +64,7 @@ export function FloatingDatePicker({
             )}
           >
             {value ? (
-              format(value, "PPP")
+              format(value, "PPP", { locale: currentLocale })
             ) : (
               <span className="opacity-0">Pick a date</span>
             )}
@@ -69,6 +81,7 @@ export function FloatingDatePicker({
             selected={value}
             onSelect={onChange}
             disabled={disabledDate}
+            locale={currentLocale}
           />
         </PopoverContent>
       </Popover>
