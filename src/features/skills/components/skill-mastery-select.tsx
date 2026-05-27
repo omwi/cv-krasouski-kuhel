@@ -23,7 +23,7 @@ export default function SkillMasterySelect({ ...props }: Props) {
       <SelectContent>
         {SKILL_MASTERIES.map((mastery) => (
           <SelectItem key={mastery} value={mastery}>
-            {mastery}
+            {t(`mastery.${mastery}`)}
           </SelectItem>
         ))}
       </SelectContent>

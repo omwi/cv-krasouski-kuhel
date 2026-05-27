@@ -21,6 +21,13 @@
     "19": "Graphic editors",
     "other": "Other"
   },
+  "mastery": {
+    "Novice": "Novice",
+    "Advanced": "Advanced",
+    "Competent": "Competent",
+    "Proficient": "Proficient",
+    "Expert": "Expert"
+  },
   "dialog": {
     "add": "Add Skill",
     "update": "Update Skill"
