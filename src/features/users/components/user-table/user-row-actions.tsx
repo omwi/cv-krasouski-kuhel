@@ -1,5 +1,3 @@
-import { useRouter } from "next/navigation"
-
 import { EntityRowActions } from "@/components/shared/data-table/entity-row-actions"
 import { paths } from "@/config/paths"
 import DeleteUser from "@/features/users/components/actions/delete-user"
