@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { getT } from "next-i18next/server"
 
-import SignupForm from "@/features/auth/components/signup-form"
+import VerificationForm from "@/features/auth/components/verification-form"
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getT("metadata")
@@ -11,6 +11,6 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function Verify() {
-  return <SignupForm />
+export default function Verification() {
+  return <VerificationForm />
 }

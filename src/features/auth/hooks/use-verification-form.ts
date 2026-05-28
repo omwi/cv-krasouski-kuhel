@@ -1,5 +1,5 @@
 import { startTransition, useActionState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -9,15 +9,15 @@ import { z } from "zod"
 
 import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
-import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
 
-export const getLoginSchema = (t: TFunction) =>
+export const getForgotPasswordSchema = (t: TFunction) =>
   z.object({
-    email: z.email(t("errors.email")),
-    password: z.string().min(8, t("errors.password")),
+    email: z.email(t("errors.email", { ns: "input" })),
   })
 
-export type LoginInput = z.infer<ReturnType<typeof getLoginSchema>>
+export type ForgotPasswordInput = z.infer<
+  ReturnType<typeof getForgotPasswordSchema>
+>
 
 type ActionState = {
   error: string | null
@@ -29,9 +29,7 @@ const initialState: ActionState = {
   success: false,
 }
 
-export function useLoginForm() {
-  const searchParams = useSearchParams()
-  const callbackUrl = sanitizeCallbackUrl(searchParams.get("callbackUrl"))
+export function useVerificationForm() {
   const router = useRouter()
   const { t } = useT("input")
 
@@ -39,16 +37,16 @@ export function useLoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInput>({
-    resolver: standardSchemaResolver(getLoginSchema(t)),
+  } = useForm<ForgotPasswordInput>({
+    resolver: standardSchemaResolver(getForgotPasswordSchema(t)),
   })
 
-  const loginAction = async (
+  const forgotPasswordAction = async (
     prevState: ActionState,
-    formData: LoginInput
+    formData: ForgotPasswordInput
   ): Promise<ActionState> => {
     try {
-      const res = await fetch(API_ENDPOINTS.auth.login, {
+      const res = await fetch(API_ENDPOINTS.auth["verify"], {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -56,24 +54,14 @@ export function useLoginForm() {
       const data = await res.json()
 
       if (!res.ok) {
-        const errorMessage =
-          res.status === 401 || data.message === "Invalid credentials"
-            ? t("errors.invalid-credentials", { ns: "input" })
-            : data.message || "Login failed"
+        const errorMessage = data.message || "Failed"
         toast.error(errorMessage)
         return { error: errorMessage, success: false }
       }
 
-      if (!data.user.is_verified) {
-        toast.warning("Please verification your email", {
-          duration: 5000,
-          action: {
-            label: "Verify",
-            onClick: () => router.push(paths.auth.verification.get()),
-          },
-        })
-      }
-      window.location.href = callbackUrl
+      toast.success(t("toast.forgot-password"))
+      router.push(paths.auth.login.get())
+
       return { error: null, success: true }
     } catch (err: unknown) {
       const errorMessage =
@@ -84,11 +72,11 @@ export function useLoginForm() {
   }
 
   const [state, formAction, isPending] = useActionState(
-    loginAction,
+    forgotPasswordAction,
     initialState
   )
 
-  const onSubmitAction = (data: LoginInput) => {
+  const onSubmitAction = (data: ForgotPasswordInput) => {
     startTransition(() => {
       formAction(data)
     })

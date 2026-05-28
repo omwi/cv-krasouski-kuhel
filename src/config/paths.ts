@@ -10,6 +10,11 @@ export const paths = {
         return `/auth/signup${redirectTo ? `?redirectTo=${redirectTo}` : ""}`
       },
     },
+    verification: {
+      get() {
+        return `/auth/verification`
+      },
+    },
     forgotPassword: {
       get() {
         const redirectTo = paths.auth.login.get()
