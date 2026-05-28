@@ -3,8 +3,6 @@ import {
   GetLanguagesQuery,
   GetUserLanguagesQuery,
   GetUserSkillsQuery,
-  GetUserSkillsQuery,
-  SkillsQuery,
   SkillsQuery,
 } from "@/types/__generated__/graphql"
 

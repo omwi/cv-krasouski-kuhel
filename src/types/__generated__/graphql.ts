@@ -6,12 +6,6 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never
     }
-export type AddProfileLanguageInput = {
-  name: string
-  proficiency: Proficiency
-  userId: string | number
-}
-
 export type AddCvProjectInput = {
   cvId: string | number
   end_date?: string | null | undefined
@@ -26,6 +20,12 @@ export type AddCvSkillInput = {
   cvId: string | number
   mastery: Mastery
   name: string
+}
+
+export type AddProfileLanguageInput = {
+  name: string
+  proficiency: Proficiency
+  userId: string | number
 }
 
 export type AddProfileSkillInput = {
