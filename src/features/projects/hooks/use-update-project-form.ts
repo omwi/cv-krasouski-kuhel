@@ -18,28 +18,23 @@ export function useUpdateProjectForm(
     refetchQueries: [{ query: GET_PROJECTS }],
   })
 
+  const getNormalizedValues = (data: ProjectFormValues) => ({
+    name: data.name,
+    description: data.description,
+    domain: data.domain,
+    environment: data.environment,
+    start_date: data.start_date,
+    end_date: data.end_date || "",
+  })
+
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(getProjectSchema(t)),
     mode: "onBlur",
-    defaultValues: {
-      name: initialData.name,
-      description: initialData.description,
-      domain: initialData.domain,
-      environment: initialData.environment,
-      start_date: initialData.start_date,
-      end_date: initialData.end_date || "",
-    },
+    defaultValues: getNormalizedValues(initialData),
   })
 
   useEffect(() => {
-    form.reset({
-      name: initialData.name,
-      description: initialData.description,
-      domain: initialData.domain,
-      environment: initialData.environment,
-      start_date: initialData.start_date,
-      end_date: initialData.end_date || "",
-    })
+    form.reset(getNormalizedValues(initialData))
   }, [initialData, form])
 
   const onSubmit = form.handleSubmit(async (data) => {
