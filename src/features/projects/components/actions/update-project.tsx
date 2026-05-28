@@ -10,6 +10,7 @@ type Props = {
   children?: ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  onSuccess?: () => void
 }
 
 export default function UpdateProject({
@@ -17,6 +18,7 @@ export default function UpdateProject({
   children,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
+  onSuccess: controlledOnSuccess,
 }: Props) {
   const { t } = useT(["project-actions", "buttons"])
   const [internalOpen, setInternalOpen] = useState(false)
@@ -24,9 +26,12 @@ export default function UpdateProject({
   const open = controlledOpen ?? internalOpen
   const setOpen = controlledOnOpenChange ?? setInternalOpen
 
-  const { form, onSubmit, loading } = useUpdateProjectForm(t, project, () =>
+  const { form, onSubmit, loading } = useUpdateProjectForm(t, project, () => {
     setOpen(false)
-  )
+    if (controlledOnSuccess) {
+      controlledOnSuccess()
+    }
+  })
 
   const {
     formState: { isSubmitting, isDirty, isValid },
