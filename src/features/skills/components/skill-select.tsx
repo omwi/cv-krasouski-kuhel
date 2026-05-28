@@ -3,17 +3,15 @@ import { useQuery } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  Combobox,
+  ComboboxOption,
+  SingleComboboxProps,
+} from "@/components/ui/combobox"
 import { getNotOwnedSkills } from "@/features/skills/utils/skills"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 import { Skill, UserSkill } from "@/types/graphql-types"
 
-type Props = React.ComponentProps<typeof Select> & {
+type Props = Omit<SingleComboboxProps, "options" | "label" | "mode"> & {
   userSkills?: UserSkill[]
 }
 
@@ -22,27 +20,23 @@ export default function SkillSelect({ userSkills, ...props }: Props) {
 
   const { data } = useQuery(GET_SKILLS)
 
-  const skills = useMemo(() => {
+  const skills: ComboboxOption[] = useMemo(() => {
     let result: Skill[] = data?.skills ?? []
     if (userSkills) {
       result = getNotOwnedSkills(userSkills, result)
     }
-    return result
+    return result.map((s) => ({
+      value: s.id,
+      label: s.name,
+    }))
   }, [data?.skills, userSkills])
 
   return (
-    <Select {...props}>
-      <SelectTrigger>
-        <SelectValue placeholder={t("skill", { ns: "input" })} />
-      </SelectTrigger>
-
-      <SelectContent>
-        {skills.map((skill) => (
-          <SelectItem key={skill.id} value={skill.id}>
-            {skill.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <Combobox
+      mode="single"
+      label={t("skill", { ns: "input" })}
+      options={skills}
+      {...props}
+    />
   )
 }
