@@ -6,11 +6,11 @@ import { Controller } from "react-hook-form"
 
 import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import { FloatingPasswordInput } from "@/components/shared/input/floating-password-input"
-import { DepartmentSelect } from "@/components/shared/select/department-select"
-import { PositionSelect } from "@/components/shared/select/position-select"
 import { RoleSelect } from "@/components/shared/select/role-select"
 import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
+import DepartmentSelect from "@/features/departments/components/department-select"
+import PositionSelect from "@/features/positions/components/position-select"
 import { useCreateUserForm } from "@/features/users/hooks/use-create-user-form"
 import type { CurrentUser } from "@/utils/permissions"
 
@@ -98,7 +98,9 @@ export default function CreateUser({ currentUser, children }: Props) {
             render={({ field }) => (
               <DepartmentSelect
                 value={field.value || ""}
-                onValueChangeAction={(val) => field.onChange(val)}
+                onValueChange={(v) =>
+                  v === "none" ? field.onChange("") : field.onChange(v)
+                }
                 disabled={isSubmitting}
               />
             )}
@@ -112,7 +114,9 @@ export default function CreateUser({ currentUser, children }: Props) {
             render={({ field }) => (
               <PositionSelect
                 value={field.value || ""}
-                onValueChangeAction={(val) => field.onChange(val)}
+                onValueChange={(v) =>
+                  v === "none" ? field.onChange("") : field.onChange(v)
+                }
                 disabled={isSubmitting}
               />
             )}
