@@ -102,6 +102,7 @@
     },
     "columns": {
       "name": "Имя",
+      "description": "Описание",
       "education": "Образование",
       "employee": "Сотрудник"
     }

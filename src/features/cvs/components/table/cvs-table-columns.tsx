@@ -13,17 +13,26 @@ export const getColumns = (
     searchable: true,
   },
   {
+    id: "description",
+    titleKey: "cvs-table.columns.description",
+    sortable: false,
+    searchable: true,
+    cell: ({ row }) => (
+      <div className="max-w-64 truncate">{row.description}</div>
+    ),
+  },
+  {
     id: "education",
     titleKey: "cvs-table.columns.education",
-    sortable: true,
-    searchable: true,
+    sortable: false,
+    searchable: false,
   },
   {
     id: "employee",
     accessorFn: (row) => row.user?.email ?? "",
     titleKey: "cvs-table.columns.employee",
     sortable: true,
-    searchable: true,
+    searchable: false,
   },
   {
     id: "actions",

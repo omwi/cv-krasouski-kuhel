@@ -7,17 +7,14 @@ import { FloatingInput } from "@/components/ui/floating-label-input"
 import { FloatingTextarea } from "@/components/ui/floating-label-textarea"
 import { useUpdateCvForm } from "@/features/cvs/hooks/use-update-cv-form"
 import { Cv } from "@/types/graphql-types"
-import { CurrentUser } from "@/utils/permissions"
 
 export default function UpdateCv({
   children,
-  currentUser,
   cv,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: {
   children?: React.ReactNode
-  currentUser: CurrentUser
   cv: Cv
   open?: boolean
   onOpenChange?: (open: boolean) => void
