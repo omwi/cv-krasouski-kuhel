@@ -58,14 +58,34 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  const match = pathname.match(/^\/([a-zA-Z]{2}(-[a-zA-Z]{2})?)(\/|$)/)
+  const lngPrefix = match ? `/${match[1]}` : ""
+
   if (isAuthenticated && isAuthRoute(pathname)) {
-    return NextResponse.redirect(new URL(paths.users.get(), request.url))
+    return NextResponse.redirect(
+      new URL(`${lngPrefix}${paths.users.get()}`, request.url)
+    )
   }
 
   if (!isAuthenticated && !isAuthRoute(pathname)) {
-    const loginUrl = new URL(paths.auth.login.get(), request.url)
+    const loginUrl = new URL(
+      `${lngPrefix}${paths.auth.login.get()}`,
+      request.url
+    )
     loginUrl.searchParams.set("callbackUrl", pathname)
     return NextResponse.redirect(loginUrl)
+  }
+
+  const cookieLang = request.cookies.get(COOKIES.LANGUAGE)?.value
+  if (
+    !lngPrefix &&
+    cookieLang &&
+    cookieLang !== "en" &&
+    cookieLang !== "system"
+  ) {
+    return NextResponse.redirect(
+      new URL(`/${cookieLang}${pathname}${request.nextUrl.search}`, request.url)
+    )
   }
 
   const response = i18nProxy(request)

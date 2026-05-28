@@ -1,8 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname, useRouter } from "next/navigation"
 import { Globe, Laptop, Moon, Sun } from "lucide-react"
-import { useChangeLanguage, useT } from "next-i18next/client"
+import { useT } from "next-i18next/client"
 import { useTheme } from "next-themes"
 
 import { FloatingSelect } from "@/components/ui/floating-select"
@@ -15,7 +16,8 @@ import {
 export default function SettingsForm({ initialLang }: { initialLang: string }) {
   const { t, i18n } = useT("settings")
   const { theme, setTheme } = useTheme()
-  const changeLanguage = useChangeLanguage()
+  const pathname = usePathname()
+  const router = useRouter()
 
   const [activeLang, setActiveLang] = useState(initialLang)
   const [isChanging, setIsChanging] = useState(false)
@@ -25,13 +27,37 @@ export default function SettingsForm({ initialLang }: { initialLang: string }) {
     try {
       if (value === "system") {
         await resetLanguageCookie()
-        setActiveLang("system")
-        window.location.reload()
       } else {
         await setLanguageCookie(value)
-        setActiveLang(value)
-        await changeLanguage(value)
       }
+
+      const supportedLanguages = (i18n.options.supportedLngs || []).filter(
+        (lng): lng is string => lng !== "cimode"
+      )
+
+      const segments = pathname.split("/")
+      const firstSegment = segments[1]
+      const isLocaleSegment = supportedLanguages.includes(firstSegment)
+
+      let newPath = pathname
+      if (value === "system") {
+        if (isLocaleSegment) {
+          segments.splice(1, 1)
+          newPath = segments.join("/") || "/"
+        }
+        window.location.href = newPath
+      } else {
+        if (isLocaleSegment) {
+          segments[1] = value
+          newPath = segments.join("/")
+        } else {
+          segments.splice(1, 0, value)
+          newPath = segments.join("/")
+        }
+        router.push(newPath)
+        router.refresh()
+      }
+      setActiveLang(value)
     } finally {
       setIsChanging(false)
     }

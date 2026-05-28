@@ -9,6 +9,7 @@ import ActiveIndicator from "@/components/layout/tab-nav/active-indicator"
 import { paths } from "@/config/paths"
 import { useActiveIndicator } from "@/hooks/use-active-indicator"
 import { cn } from "@/lib/utils"
+import { pathWithoutLocale } from "@/utils/url"
 
 export type TabLink = {
   href: string
@@ -37,7 +38,10 @@ export default function TabNav({
     linkRefs
   )
 
-  if (pathname === paths.auth.forgotPassword.get().split("?")[0]) {
+  if (
+    pathWithoutLocale(pathname) ===
+    paths.auth.forgotPassword.get().split("?")[0]
+  ) {
     return null
   }
 

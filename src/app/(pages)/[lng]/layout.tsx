@@ -33,8 +33,13 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const { i18n, lng } = await getT()
+  params,
+}: Readonly<{
+  children: React.ReactNode
+  params: Promise<{ lng: string }>
+}>) {
+  const { lng } = await params
+  const { i18n } = await getT(undefined, { lng })
   const resources = getResources(i18n)
 
   const cookieStore = await cookies()
