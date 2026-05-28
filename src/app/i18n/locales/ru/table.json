@@ -91,5 +91,20 @@
       "start-date": "Дата начала",
       "end-date": "Дата окончания"
     }
+  },
+  "cvs-table": {
+    "create": "СОЗДАТЬ РЕЗЮМЕ",
+    "control-actions": {
+      "aria-label": "Действия управления",
+      "update": "Редактировать резюме",
+      "delete": "Удалить резюме",
+      "profile": "Подробности"
+    },
+    "columns": {
+      "name": "Имя",
+      "description": "Описание",
+      "education": "Образование",
+      "employee": "Сотрудник"
+    }
   }
 }

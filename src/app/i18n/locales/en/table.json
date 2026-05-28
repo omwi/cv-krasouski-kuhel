@@ -89,5 +89,20 @@
       "start-date": "Start Date",
       "end-date": "End Date"
     }
+  },
+  "cvs-table": {
+    "create": "ADD CV",
+    "control-actions": {
+      "aria-label": "Control Actions",
+      "update": "Edit CV",
+      "delete": "Delete CV",
+      "profile": "Details"
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "education": "Education",
+      "employee": "Employee"
+    }
   }
 }
