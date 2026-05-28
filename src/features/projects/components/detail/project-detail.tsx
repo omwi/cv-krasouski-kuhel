@@ -17,7 +17,7 @@ export default function ProjectDetail({
   currentUser: CurrentUser
   projectId: string
 }) {
-  const { t } = useT(["table", "buttons"])
+  const { t } = useT(["table", "buttons", "project-details"])
   const { data } = useSuspenseQuery(GET_PROJECT, {
     variables: { projectId },
   })
@@ -29,15 +29,39 @@ export default function ProjectDetail({
     <section className="flex max-w-200 flex-col gap-8 py-4 text-secondary-foreground">
       <div className="flex justify-between gap-8 text-xs">
         <div>
-          <h2 className="mb-2 text-xl text-foreground">Project Details</h2>
-          <p>Project name: {data.project.name || "-"}</p>
-          <p>Internal name: {data.project.internal_name || "-"}</p>
-          <p>Domain: {data.project.domain || "-"}</p>
+          <h2 className="mb-2 text-xl text-foreground">
+            {t("project-detail", {
+              ns: "project-details",
+            })}
+          </h2>
+          <p>
+            {t("name", {
+              ns: "project-details",
+            })}
+            : {data.project.name || "-"}
+          </p>
+          <p>
+            {t("internal-name", {
+              ns: "project-details",
+            })}
+            : {data.project.internal_name || "-"}
+          </p>
+          <p>
+            {t("domain", {
+              ns: "project-details",
+            })}
+            : {data.project.domain || "-"}
+          </p>
         </div>
 
         {project.start_date && (
           <div>
-            <h2 className="mb-2 text-xl text-foreground">Date: </h2>
+            <h2 className="mb-2 text-xl text-foreground">
+              {t("date", {
+                ns: "project-details",
+              })}
+              :
+            </h2>
 
             <div className="flex gap-1">
               <p>{data.project.start_date}</p>
@@ -45,19 +69,39 @@ export default function ProjectDetail({
               {data.project.end_date ? (
                 <p>- {data.project.end_date}</p>
               ) : (
-                <p>- Till now</p>
+                <p>
+                  -
+                  {t("till-now", {
+                    ns: "project-details",
+                  })}
+                </p>
               )}
             </div>
           </div>
         )}
       </div>
       <div>
-        <h2 className="mb-2 text-xl text-foreground">Project Description:</h2>
-        <p>{data.project.description || "No Description"}</p>
+        <h2 className="mb-2 text-xl text-foreground">
+          {t("description", {
+            ns: "project-details",
+          })}
+          :
+        </h2>
+        <p>
+          {data.project.description ||
+            t("no-description", {
+              ns: "project-details",
+            })}
+        </p>
       </div>
 
       <div>
-        <h2 className="mb-2 text-xl text-foreground">Project Environment:</h2>
+        <h2 className="mb-2 text-xl text-foreground">
+          {t("environment", {
+            ns: "project-details",
+          })}
+          :
+        </h2>
 
         <ul className="flex flex-wrap gap-2">
           {project.environment ? (
@@ -67,7 +111,11 @@ export default function ProjectDetail({
               </li>
             ))
           ) : (
-            <p>No Environment</p>
+            <p>
+              {t("no-environment  ", {
+                ns: "project-details",
+              })}
+            </p>
           )}
         </ul>
       </div>

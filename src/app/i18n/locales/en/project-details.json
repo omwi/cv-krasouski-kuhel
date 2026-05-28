@@ -1,0 +1,12 @@
+{
+  "project-detail": "Project Details",
+  "name": "Project Name",
+  "internal-name": "Internal Name",
+  "domain": "Domain",
+  "date": "Date",
+  "till-now": "Till Now",
+  "description": "Project Description",
+  "no-description": "No Description",
+  "environment": "Project Environment",
+  "no-environment": "No Environment"
+}

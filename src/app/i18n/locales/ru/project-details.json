@@ -1,0 +1,12 @@
+{
+  "project-detail": "Детали проекта",
+  "name": "Название проекта",
+  "internal-name": "Внутреннее название",
+  "domain": "Домен",
+  "date": "Дата",
+  "till-now": "По настоящее время",
+  "description": "Описание проекта",
+  "no-description": "Нет описания",
+  "environment": "Окружение проекта",
+  "no-environment": "Нет окружения"
+}
