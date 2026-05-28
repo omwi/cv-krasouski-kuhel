@@ -1,18 +1,24 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  AddUserLanguageMutation,
+  AddUserLanguageMutationVariables,
   AddUserSkillMutation,
   AddUserSkillMutationVariables,
   CreateUserMutation,
   CreateUserMutationVariables,
   DeleteAvatarMutation,
   DeleteAvatarMutationVariables,
+  DeleteUserLanguagesMutation,
+  DeleteUserLanguagesMutationVariables,
   DeleteUserMutation,
   DeleteUserMutationVariables,
   DeleteUserSkillsMutation,
   DeleteUserSkillsMutationVariables,
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
+  UpdateUserLanguageMutation,
+  UpdateUserLanguageMutationVariables,
   UpdateUserMutation,
   UpdateUserMutationVariables,
   UpdateUserSkillMutation,
@@ -144,6 +150,51 @@ export const UPDATE_USER: TypedDocumentNode<
       position {
         id
         name
+      }
+    }
+  }
+`
+
+export const ADD_USER_LANGUAGE: TypedDocumentNode<
+  AddUserLanguageMutation,
+  AddUserLanguageMutationVariables
+> = gql`
+  mutation AddUserLanguage($language: AddProfileLanguageInput!) {
+    addProfileLanguage(language: $language) {
+      id
+      languages {
+        name
+        proficiency
+      }
+    }
+  }
+`
+
+export const UPDATE_USER_LANGUAGE: TypedDocumentNode<
+  UpdateUserLanguageMutation,
+  UpdateUserLanguageMutationVariables
+> = gql`
+  mutation UpdateUserLanguage($language: UpdateProfileLanguageInput!) {
+    updateProfileLanguage(language: $language) {
+      id
+      languages {
+        name
+        proficiency
+      }
+    }
+  }
+`
+
+export const DELETE_USER_LANGUAGES: TypedDocumentNode<
+  DeleteUserLanguagesMutation,
+  DeleteUserLanguagesMutationVariables
+> = gql`
+  mutation DeleteUserLanguages($languages: DeleteProfileLanguageInput!) {
+    deleteProfileLanguage(language: $languages) {
+      id
+      languages {
+        name
+        proficiency
       }
     }
   }

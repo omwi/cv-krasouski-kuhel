@@ -12,25 +12,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
-import { useUserSkillUpdateForm } from "@/features/users/hooks/use-user-skill-update-form"
-import { UserSkill } from "@/types/graphql-types"
+import LanguageProficiencySelect from "@/features/languages/components/language-proficiency-select"
+import { useUserLanguageUpdateForm } from "@/features/users/hooks/use-user-language-update-form"
+import { UserLanguage } from "@/types/graphql-types"
 
 type Props = {
   children: React.ReactNode
   userId: string
-  userSkill: UserSkill
+  userLanguage: UserLanguage
 }
 
 export default function UserSkillUpdateDialog({
   children,
   userId,
-  userSkill,
+  userLanguage,
 }: Props) {
   const { t } = useT(["buttons", "skills"])
 
   const { control, onSubmit, isSubmitReady, open, setOpen } =
-    useUserSkillUpdateForm(userId, userSkill)
+    useUserLanguageUpdateForm(userId, userLanguage)
 
   return (
     <FormDialog
@@ -45,21 +45,23 @@ export default function UserSkillUpdateDialog({
       submitDisabled={!isSubmitReady}
     >
       <Field>
-        <Select value={userSkill.name} disabled={true}>
+        <Select value={userLanguage.name} disabled={true}>
           <SelectTrigger className="text-muted-foreground">
-            <SelectValue placeholder="Select skill" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={userSkill.name}>{userSkill.name}</SelectItem>
+            <SelectItem value={userLanguage.name}>
+              {userLanguage.name}
+            </SelectItem>
           </SelectContent>
         </Select>
       </Field>
       <Field>
         <Controller
           control={control}
-          name="mastery"
+          name="proficiency"
           render={({ field }) => (
-            <SkillMasterySelect
+            <LanguageProficiencySelect
               value={field.value}
               onValueChange={field.onChange}
             />

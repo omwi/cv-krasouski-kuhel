@@ -19,7 +19,7 @@ export default function UserSKillsCategory({
   return (
     <div className="flex flex-col gap-2">
       <p>{t(`category.${category}`)}</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3">
         {skills.map((skill) => (
           <UserSKillItem key={skill.name} skill={skill} userId={userId} />
         ))}

@@ -23,6 +23,7 @@ const i18nConfig: I18nConfig = {
     "delete",
     "table",
     "skills",
+    "languages",
   ],
   localeInPath: false,
   resourceLoader:
