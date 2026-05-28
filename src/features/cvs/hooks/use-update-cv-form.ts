@@ -8,6 +8,7 @@ import { z } from "zod"
 
 import { UPDATE_CV } from "@/graphql/cvs/mutations"
 import { GET_CV } from "@/graphql/cvs/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 import { Cv } from "@/types/graphql-types"
 
 export function useUpdateCvForm(
@@ -15,6 +16,8 @@ export function useUpdateCvForm(
   dialog?: { open: boolean; setOpen: (open: boolean) => void }
 ) {
   const { t } = useT(["input, 'cv-actions"])
+
+  const { canUpdateCv } = usePermissions()
 
   const { reset, handleSubmit, register, control, formState } = useForm({
     resolver: zodResolver(
@@ -48,6 +51,7 @@ export function useUpdateCvForm(
   })
 
   const onSubmit = handleSubmit(async (data) => {
+    if (!canUpdateCv(cv.user?.id)) return
     try {
       await updateCv({
         variables: {

@@ -8,12 +8,15 @@ import { z } from "zod"
 
 import { CREATE_CV } from "@/graphql/cvs/mutations"
 import { GET_CVS } from "@/graphql/cvs/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 
 export function useCreateCvForm(
   userId: string,
   dialog?: { open: boolean; setOpen: (open: boolean) => void }
 ) {
   const { t } = useT(["input, 'cv-actions"])
+
+  const { canCreateCv } = usePermissions()
 
   const { reset, handleSubmit, register, control, formState } = useForm({
     resolver: zodResolver(
@@ -47,6 +50,7 @@ export function useCreateCvForm(
   })
 
   const onSubmit = handleSubmit(async (data) => {
+    if (!canCreateCv) return
     try {
       await createCv({
         variables: {
