@@ -29,6 +29,7 @@ export type FloatingDatePickerProps = {
   value?: Date | undefined
   onChange?: (date?: Date) => void
   disabled?: boolean
+  required?: boolean
   disabledDate?: (date: Date) => boolean
   className?: string
 }
@@ -39,6 +40,7 @@ export function FloatingDatePicker({
   value,
   onChange,
   disabled,
+  required,
   disabledDate,
   className,
   ref,
@@ -87,6 +89,7 @@ export function FloatingDatePicker({
       </Popover>
       <FloatingLabel
         htmlFor={resolvedId}
+        required={required}
         className={cn(
           "peer-data-[empty=true]:top-1/2 peer-data-[empty=true]:-translate-y-1/2 peer-data-[empty=true]:scale-100",
           "peer-data-[state=open]:top-2 peer-data-[state=open]:-translate-y-4 peer-data-[state=open]:scale-75 peer-data-[state=open]:px-2 peer-data-[state=open]:text-primary"

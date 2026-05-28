@@ -3,11 +3,15 @@ import { Label } from "@radix-ui/react-label"
 
 import { cn } from "@/lib/utils"
 
-export type FloatingLabelProps = ComponentProps<typeof Label>
+export type FloatingLabelProps = ComponentProps<typeof Label> & {
+  required?: boolean
+}
 
 export function FloatingLabel({
   className,
   ref,
+  children,
+  required,
   ...props
 }: FloatingLabelProps) {
   return (
@@ -18,6 +22,9 @@ export function FloatingLabel({
         className
       )}
       {...props}
-    />
+    >
+      {children}
+      {required && <span> *</span>}
+    </Label>
   )
 }
