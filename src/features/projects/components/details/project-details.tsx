@@ -8,7 +8,7 @@ import { ProjectActionsWrapper } from "@/features/projects/components/actions/up
 import { GET_PROJECT } from "@/graphql/projects/queries"
 import { CurrentUser } from "@/utils/permissions"
 
-export default async function ProjectDetail({
+export default async function ProjectDetails({
   currentUser,
   projectId,
 }: {
@@ -31,7 +31,7 @@ export default async function ProjectDetail({
       <div className="flex justify-between gap-8 text-xs">
         <div>
           <h2 className="mb-2 text-xl text-foreground">
-            {t("project-detail")}
+            {t("project-detail")}:
           </h2>
           <p>
             {t("name")}: {project.name || "-"}

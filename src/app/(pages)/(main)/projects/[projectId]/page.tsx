@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { getT } from "next-i18next/server"
 
 import { getClient, PreloadQuery } from "@/apollo-client"
-import ProjectDetail from "@/features/projects/components/detail/project-detail"
+import ProjectDetails from "@/features/projects/components/details/project-details"
 import { GET_PROJECT } from "@/graphql/projects/queries"
 import { getCurrentUser } from "@/utils/get-current-user"
 
@@ -52,7 +52,7 @@ export default async function ProjectPage({
 
   return (
     <PreloadQuery query={GET_PROJECT} variables={{ projectId }}>
-      <ProjectDetail currentUser={currentUser} projectId={projectId} />
+      <ProjectDetails currentUser={currentUser} projectId={projectId} />
     </PreloadQuery>
   )
 }
