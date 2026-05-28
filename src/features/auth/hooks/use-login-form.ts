@@ -1,5 +1,5 @@
 import { startTransition, useActionState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -31,6 +31,7 @@ const initialState: ActionState = {
 export function useLoginForm() {
   const searchParams = useSearchParams()
   const callbackUrl = sanitizeCallbackUrl(searchParams.get("callbackUrl"))
+  const router = useRouter()
   const { t } = useT("input")
 
   const {
@@ -62,8 +63,16 @@ export function useLoginForm() {
         return { error: errorMessage, success: false }
       }
 
+      if (!data.user.is_verified) {
+        toast.warning("Please verify your email", {
+          duration: 5000,
+          action: {
+            label: "Verify",
+            onClick: () => router.push("/auth/verify"),
+          },
+        })
+      }
       window.location.href = callbackUrl
-
       return { error: null, success: true }
     } catch (err: unknown) {
       const errorMessage =
