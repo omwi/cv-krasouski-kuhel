@@ -12,6 +12,22 @@ export type AddProfileLanguageInput = {
   userId: string | number
 }
 
+export type AddCvProjectInput = {
+  cvId: string | number
+  end_date?: string | null | undefined
+  projectId: string | number
+  responsibilities: Array<string>
+  roles: Array<string>
+  start_date: string
+}
+
+export type AddCvSkillInput = {
+  categoryId?: string | number | null | undefined
+  cvId: string | number
+  mastery: Mastery
+  name: string
+}
+
 export type AddProfileSkillInput = {
   categoryId?: string | number | null | undefined
   mastery: Mastery
@@ -22,6 +38,13 @@ export type AddProfileSkillInput = {
 export type AuthInput = {
   email: string
   password: string
+}
+
+export type CreateCvInput = {
+  description: string
+  education?: string | null | undefined
+  name: string
+  userId?: string | number | null | undefined
 }
 
 export type CreateDepartmentInput = {
@@ -70,6 +93,15 @@ export type DeleteAvatarInput = {
   userId: string | number
 }
 
+export type DeleteCvInput = {
+  cvId: string | number
+}
+
+export type DeleteCvSkillInput = {
+  cvId: string | number
+  name: Array<string>
+}
+
 export type DeleteDepartmentInput = {
   departmentId: string | number
 }
@@ -100,6 +132,18 @@ export type DeleteSkillInput = {
   skillId: string | number
 }
 
+export type ExportPdfInput = {
+  html: string
+  margin?: MarginInput | null | undefined
+}
+
+export type MarginInput = {
+  bottom: string
+  left: string
+  right: string
+  top: string
+}
+
 export type Mastery =
   | "Advanced"
   | "Competent"
@@ -108,6 +152,34 @@ export type Mastery =
   | "Proficient"
 
 export type Proficiency = "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "Native"
+
+export type RemoveCvProjectInput = {
+  cvId: string | number
+  projectId: string | number
+}
+
+export type UpdateCvInput = {
+  cvId: string | number
+  description: string
+  education?: string | null | undefined
+  name: string
+}
+
+export type UpdateCvProjectInput = {
+  cvId: string | number
+  end_date?: string | null | undefined
+  projectId: string | number
+  responsibilities: Array<string>
+  roles: Array<string>
+  start_date: string
+}
+
+export type UpdateCvSkillInput = {
+  categoryId?: string | number | null | undefined
+  cvId: string | number
+  mastery: Mastery
+  name: string
+}
 
 export type UpdateDepartmentInput = {
   departmentId: string | number
@@ -177,6 +249,267 @@ export type UploadAvatarInput = {
 }
 
 export type UserRole = "Admin" | "Employee"
+
+export type CvProjectFragment = {
+  __typename: "CvProject"
+  id: string
+  name: string
+  domain: string
+  start_date: string
+  end_date: string | null
+  description: string
+  environment: Array<string>
+  roles: Array<string>
+  responsibilities: Array<string>
+  project: { __typename: "Project"; id: string }
+}
+
+export type CreateCvMutationVariables = Exact<{
+  cv: CreateCvInput
+}>
+
+export type CreateCvMutation = {
+  createCv: {
+    __typename: "Cv"
+    id: string
+    name: string
+    education: string | null
+    description: string
+    user: { __typename: "User"; id: string; email: string } | null
+  }
+}
+
+export type UpdateCvMutationVariables = Exact<{
+  cv: UpdateCvInput
+}>
+
+export type UpdateCvMutation = {
+  updateCv: {
+    __typename: "Cv"
+    id: string
+    name: string
+    education: string | null
+    description: string
+    user: { __typename: "User"; id: string; email: string } | null
+  }
+}
+
+export type DeleteCvMutationVariables = Exact<{
+  cv: DeleteCvInput
+}>
+
+export type DeleteCvMutation = {
+  deleteCv: { __typename: "DeleteResult"; affected: number }
+}
+
+export type AddCvSkillMutationVariables = Exact<{
+  skill: AddCvSkillInput
+}>
+
+export type AddCvSkillMutation = {
+  addCvSkill: {
+    __typename: "Cv"
+    id: string
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
+  }
+}
+
+export type UpdateCvSkillMutationVariables = Exact<{
+  skill: UpdateCvSkillInput
+}>
+
+export type UpdateCvSkillMutation = {
+  updateCvSkill: {
+    __typename: "Cv"
+    id: string
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
+  }
+}
+
+export type DeleteCvSkillMutationVariables = Exact<{
+  skill: DeleteCvSkillInput
+}>
+
+export type DeleteCvSkillMutation = {
+  deleteCvSkill: {
+    __typename: "Cv"
+    id: string
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
+  }
+}
+
+export type AddCvProjectMutationVariables = Exact<{
+  project: AddCvProjectInput
+}>
+
+export type AddCvProjectMutation = {
+  addCvProject: {
+    __typename: "Cv"
+    id: string
+    projects: Array<{
+      __typename: "CvProject"
+      id: string
+      name: string
+      domain: string
+      start_date: string
+      end_date: string | null
+      description: string
+      environment: Array<string>
+      roles: Array<string>
+      responsibilities: Array<string>
+      project: { __typename: "Project"; id: string }
+    }> | null
+  }
+}
+
+export type UpdateCvProjectMutationVariables = Exact<{
+  project: UpdateCvProjectInput
+}>
+
+export type UpdateCvProjectMutation = {
+  updateCvProject: {
+    __typename: "Cv"
+    id: string
+    projects: Array<{
+      __typename: "CvProject"
+      id: string
+      name: string
+      domain: string
+      start_date: string
+      end_date: string | null
+      description: string
+      environment: Array<string>
+      roles: Array<string>
+      responsibilities: Array<string>
+      project: { __typename: "Project"; id: string }
+    }> | null
+  }
+}
+
+export type RemoveCvProjectMutationVariables = Exact<{
+  project: RemoveCvProjectInput
+}>
+
+export type RemoveCvProjectMutation = {
+  removeCvProject: {
+    __typename: "Cv"
+    id: string
+    projects: Array<{
+      __typename: "CvProject"
+      id: string
+      name: string
+      domain: string
+      start_date: string
+      end_date: string | null
+      description: string
+      environment: Array<string>
+      roles: Array<string>
+      responsibilities: Array<string>
+      project: { __typename: "Project"; id: string }
+    }> | null
+  }
+}
+
+export type ExportPdfMutationVariables = Exact<{
+  pdf: ExportPdfInput
+}>
+
+export type ExportPdfMutation = { exportPdf: string }
+
+export type GetCvsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetCvsQuery = {
+  cvs: Array<{
+    __typename: "Cv"
+    id: string
+    name: string
+    education: string | null
+    description: string
+    user: { __typename: "User"; id: string; email: string } | null
+  }>
+}
+
+export type GetCvQueryVariables = Exact<{
+  cvId: string | number
+}>
+
+export type GetCvQuery = {
+  cv: {
+    __typename: "Cv"
+    id: string
+    name: string
+    education: string | null
+    description: string
+    user: {
+      __typename: "User"
+      id: string
+      position_name: string | null
+      profile: { __typename: "Profile"; full_name: string | null }
+    } | null
+    languages: Array<{
+      __typename: "LanguageProficiency"
+      name: string
+      proficiency: Proficiency
+    }>
+  }
+}
+
+export type GetCvSkillsQueryVariables = Exact<{
+  cvId: string | number
+}>
+
+export type GetCvSkillsQuery = {
+  cv: {
+    __typename: "Cv"
+    id: string
+    user: { __typename: "User"; id: string } | null
+    skills: Array<{
+      __typename: "SkillMastery"
+      name: string
+      categoryId: string | null
+      mastery: Mastery
+    }>
+  }
+}
+
+export type GetCvProjectsQueryVariables = Exact<{
+  cvId: string | number
+}>
+
+export type GetCvProjectsQuery = {
+  cv: {
+    __typename: "Cv"
+    id: string
+    projects: Array<{
+      __typename: "CvProject"
+      id: string
+      name: string
+      domain: string
+      start_date: string
+      end_date: string | null
+      description: string
+      environment: Array<string>
+      roles: Array<string>
+      responsibilities: Array<string>
+      project: { __typename: "Project"; id: string }
+    }> | null
+  }
+}
 
 export type CreateDepartmentMutationVariables = Exact<{
   department: CreateDepartmentInput
