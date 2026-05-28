@@ -21,7 +21,7 @@
   },
   "user-profile": {
     "title": "User Profile",
-    "description": "Manage your user profile."
+    "description": "Manage user profile."
   },
   "positions": {
     "title": "Positions List",
@@ -42,5 +42,13 @@
   "projects": {
     "title": "Projects List",
     "description": "View and assess employees' project assignments and progress."
+  },
+  "user-skills": {
+    "title": "User Skills",
+    "description": "Manage user skills."
+  },
+  "user-languages": {
+    "title": "User Languages List",
+    "description": "Manage user languages."
   }
 }

@@ -1,16 +1,28 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  AddUserLanguageMutation,
+  AddUserLanguageMutationVariables,
+  AddUserSkillMutation,
+  AddUserSkillMutationVariables,
   CreateUserMutation,
   CreateUserMutationVariables,
   DeleteAvatarMutation,
   DeleteAvatarMutationVariables,
+  DeleteUserLanguagesMutation,
+  DeleteUserLanguagesMutationVariables,
   DeleteUserMutation,
   DeleteUserMutationVariables,
+  DeleteUserSkillsMutation,
+  DeleteUserSkillsMutationVariables,
   UpdateProfileMutation,
   UpdateProfileMutationVariables,
+  UpdateUserLanguageMutation,
+  UpdateUserLanguageMutationVariables,
   UpdateUserMutation,
   UpdateUserMutationVariables,
+  UpdateUserSkillMutation,
+  UpdateUserSkillMutationVariables,
   UploadAvatarMutation,
   UploadAvatarMutationVariables,
 } from "@/types/__generated__/graphql"
@@ -42,6 +54,54 @@ export const UPDATE_PROFILE: TypedDocumentNode<
       first_name
       last_name
       full_name
+    }
+  }
+`
+
+export const ADD_USER_SKILL: TypedDocumentNode<
+  AddUserSkillMutation,
+  AddUserSkillMutationVariables
+> = gql`
+  mutation AddUserSkill($skill: AddProfileSkillInput!) {
+    addProfileSkill(skill: $skill) {
+      id
+      skills {
+        name
+        categoryId
+        mastery
+      }
+    }
+  }
+`
+
+export const UPDATE_USER_SKILL: TypedDocumentNode<
+  UpdateUserSkillMutation,
+  UpdateUserSkillMutationVariables
+> = gql`
+  mutation UpdateUserSkill($skill: UpdateProfileSkillInput!) {
+    updateProfileSkill(skill: $skill) {
+      id
+      skills {
+        name
+        categoryId
+        mastery
+      }
+    }
+  }
+`
+
+export const DELETE_USER_SKILLS: TypedDocumentNode<
+  DeleteUserSkillsMutation,
+  DeleteUserSkillsMutationVariables
+> = gql`
+  mutation DeleteUserSkills($skills: DeleteProfileSkillInput!) {
+    deleteProfileSkill(skill: $skills) {
+      id
+      skills {
+        name
+        categoryId
+        mastery
+      }
     }
   }
 `
@@ -90,6 +150,51 @@ export const UPDATE_USER: TypedDocumentNode<
       position {
         id
         name
+      }
+    }
+  }
+`
+
+export const ADD_USER_LANGUAGE: TypedDocumentNode<
+  AddUserLanguageMutation,
+  AddUserLanguageMutationVariables
+> = gql`
+  mutation AddUserLanguage($language: AddProfileLanguageInput!) {
+    addProfileLanguage(language: $language) {
+      id
+      languages {
+        name
+        proficiency
+      }
+    }
+  }
+`
+
+export const UPDATE_USER_LANGUAGE: TypedDocumentNode<
+  UpdateUserLanguageMutation,
+  UpdateUserLanguageMutationVariables
+> = gql`
+  mutation UpdateUserLanguage($language: UpdateProfileLanguageInput!) {
+    updateProfileLanguage(language: $language) {
+      id
+      languages {
+        name
+        proficiency
+      }
+    }
+  }
+`
+
+export const DELETE_USER_LANGUAGES: TypedDocumentNode<
+  DeleteUserLanguagesMutation,
+  DeleteUserLanguagesMutationVariables
+> = gql`
+  mutation DeleteUserLanguages($languages: DeleteProfileLanguageInput!) {
+    deleteProfileLanguage(language: $languages) {
+      id
+      languages {
+        name
+        proficiency
       }
     }
   }
