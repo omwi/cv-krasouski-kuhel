@@ -6,8 +6,8 @@ import { Controller } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Field } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
-import DepartmentsSelect from "@/features/departments/components/departments-select"
-import PositionsSelect from "@/features/positions/components/positions-select"
+import DepartmentSelect from "@/features/departments/components/department-select"
+import PositionSelect from "@/features/positions/components/position-select"
 import { useProfileUpdateForm } from "@/features/users/hooks/use-profile-update-form"
 import { cn } from "@/lib/utils"
 
@@ -51,7 +51,7 @@ export default function ProfileUpdateForm({
             control={control}
             name="departmentId"
             render={({ field }) => (
-              <DepartmentsSelect
+              <DepartmentSelect
                 disabled={!hasUpdatePermission}
                 value={field.value}
                 onValueChange={(v) =>
@@ -66,7 +66,7 @@ export default function ProfileUpdateForm({
             control={control}
             name="positionId"
             render={({ field }) => (
-              <PositionsSelect
+              <PositionSelect
                 disabled={!hasUpdatePermission}
                 value={field.value}
                 onValueChange={(v) =>

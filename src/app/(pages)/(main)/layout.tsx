@@ -9,7 +9,7 @@ export default function MainLayout({ children }: Props) {
   return (
     <div className="flex h-dvh flex-col-reverse md:flex-row">
       <SideNav />
-      <div className="flex flex-1 flex-col overflow-auto px-6 pt-4">
+      <div className="flex flex-1 flex-col gap-2 overflow-auto px-6 pt-4">
         <header>
           <CrumbsNav />
         </header>

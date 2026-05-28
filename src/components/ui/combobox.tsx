@@ -2,6 +2,7 @@
 
 import { KeyboardEvent, MouseEvent, useId, useState } from "react"
 import { Check, ChevronsUpDown, Search, X } from "lucide-react"
+import { useT } from "next-i18next/client"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,22 +15,27 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
+export type ComboboxOption = {
+  value: string
+  label: string
+}
+
 type BaseComboboxProps = {
   id?: string
   label: string
-  options: { value: string; label: string }[]
+  options: ComboboxOption[]
   disabled?: boolean
   searchPlaceholder?: string
   emptyText?: string
 }
 
-type SingleComboboxProps = BaseComboboxProps & {
+export type SingleComboboxProps = BaseComboboxProps & {
   mode: "single"
   value: string
   onValueChange: (val: string) => void
 }
 
-type MultiComboboxProps = BaseComboboxProps & {
+export type MultiComboboxProps = BaseComboboxProps & {
   mode?: "multi"
   value: string[]
   onValueChange: (val: string[]) => void
@@ -38,13 +44,15 @@ type MultiComboboxProps = BaseComboboxProps & {
 export type ComboboxProps = SingleComboboxProps | MultiComboboxProps
 
 export function Combobox(props: ComboboxProps) {
+  const { t } = useT("common")
+
   const {
     id,
     label,
     options = [],
     disabled,
-    searchPlaceholder = "Search...",
-    emptyText = "No items found.",
+    searchPlaceholder = t("search-placeholder"),
+    emptyText = t("no-options"),
     mode = "multi",
   } = props
 
