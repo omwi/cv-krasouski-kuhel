@@ -81,8 +81,8 @@ function Field({
       data-orientation={orientation}
       className={cn(
         fieldVariants({ orientation }),
-        className,
-        "w-full min-w-0"
+        "w-full min-w-0",
+        className
       )}
       {...props}
     />

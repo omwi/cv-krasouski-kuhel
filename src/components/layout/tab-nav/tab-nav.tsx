@@ -37,10 +37,7 @@ export default function TabNav({
     linkRefs
   )
 
-  if (
-    pathname === paths.auth.forgotPassword.get().split("?")[0] ||
-    pathname === paths.auth.verification.get().split("?")[0]
-  ) {
+  if (pathname === paths.auth.forgotPassword.get().split("?")[0]) {
     return null
   }
 

@@ -64,15 +64,6 @@ export function useLoginForm() {
         return { error: errorMessage, success: false }
       }
 
-      if (!data.user.is_verified) {
-        toast.warning("Please verification your email", {
-          duration: 5000,
-          action: {
-            label: "Verify",
-            onClick: () => router.push(paths.auth.verification.get()),
-          },
-        })
-      }
       window.location.href = callbackUrl
       return { error: null, success: true }
     } catch (err: unknown) {

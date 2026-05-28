@@ -46,7 +46,7 @@ export function useVerificationForm() {
     formData: ForgotPasswordInput
   ): Promise<ActionState> => {
     try {
-      const res = await fetch(API_ENDPOINTS.auth["verify"], {
+      const res = await fetch(API_ENDPOINTS.auth["login"], {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

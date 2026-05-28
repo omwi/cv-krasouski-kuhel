@@ -1,3 +1,5 @@
+import "@/features/auth/style/auth.css"
+
 import type { Metadata } from "next"
 import { getT } from "next-i18next/server"
 
@@ -12,5 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Verification() {
-  return <VerificationForm />
+  return (
+    <section className="auth-container flex h-dvh w-full items-center justify-center">
+      <VerificationForm />
+    </section>
+  )
 }
