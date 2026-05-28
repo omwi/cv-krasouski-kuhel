@@ -1,17 +1,13 @@
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { useT } from "next-i18next/client"
 
 import { Button } from "@/components/ui/button"
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { FloatingInput } from "@/components/ui/floating-label-input"
+import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import {
   InputOTP,
   InputOTPGroup,
@@ -19,28 +15,53 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { paths } from "@/config/paths"
-import { useForgotPasswordForm } from "@/features/auth/hooks/use-forgot-password-form"
+import { useGetMeQuery } from "@/features/auth/hooks/use-get-me"
+import { useVerificationForm } from "@/features/auth/hooks/use-verification-form"
 
 export default function VerificationForm() {
   const { t } = useT(["auth", "input"])
-  const { register, handleSubmit, errors, isPending } = useForgotPasswordForm()
+  const router = useRouter()
+  const { user, loading: userLoading } = useGetMeQuery()
+  const { setValue, watch, handleSubmit, errors, isPending } =
+    useVerificationForm()
+
+  useEffect(() => {
+    if (!userLoading && user?.isVerified) {
+      router.replace(paths.users.get())
+    }
+  }, [user, userLoading, router])
+
+  if (userLoading || user?.isVerified) {
+    return (
+      <div className="flex min-h-[300px] flex-col items-center justify-center p-8">
+        <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <span className="animate-pulse text-sm text-secondary-foreground">
+          {t("button-loading", { ns: "auth" })}
+        </span>
+      </div>
+    )
+  }
+
+  const otpValue = watch("otp") || ""
 
   return (
     <form onSubmit={handleSubmit}>
       <h4>{t("verification-form.title", { ns: "auth" })}</h4>
       <p className="text-secondary-foreground">
-        Check your email and provide verification code
+        {t("verification-form.description", { ns: "auth" })}
       </p>
 
       <Field className="my-10 w-fit">
         <FieldLabel className="text-secondary-foreground" htmlFor="digits-only">
-          Digits Only
+          {t("verification-form.label", { ns: "auth" })}
         </FieldLabel>
         <InputOTP
           className=""
           id="digits-only"
           maxLength={6}
           pattern={REGEXP_ONLY_DIGITS}
+          value={otpValue}
+          onChange={(val) => setValue("otp", val)}
         >
           <InputOTPGroup>
             <InputOTPSlot index={0} />
@@ -57,10 +78,13 @@ export default function VerificationForm() {
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
+        {errors.otp && (
+          <FieldError className="mt-2">{errors.otp.message}</FieldError>
+        )}
       </Field>
 
       <div className="button-group">
-        <Button disabled={isPending} type="submit">
+        <Button disabled={isPending || otpValue.length !== 6} type="submit">
           {isPending
             ? t("button-loading", { ns: "auth" })
             : t("verification-form.button", { ns: "auth" })}

@@ -10,13 +10,13 @@ import { z } from "zod"
 import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
 
-export const getForgotPasswordSchema = (t: TFunction) =>
+export const getVerificationSchema = (t: TFunction) =>
   z.object({
-    email: z.email(t("errors.email", { ns: "input" })),
+    otp: z.string().length(6, t("errors.otp", { ns: "input" })),
   })
 
-export type ForgotPasswordInput = z.infer<
-  ReturnType<typeof getForgotPasswordSchema>
+export type VerificationInput = z.infer<
+  ReturnType<typeof getVerificationSchema>
 >
 
 type ActionState = {
@@ -31,22 +31,26 @@ const initialState: ActionState = {
 
 export function useVerificationForm() {
   const router = useRouter()
-  const { t } = useT("input")
+  const { t } = useT(["input", "auth"])
 
   const {
-    register,
+    setValue,
+    watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<ForgotPasswordInput>({
-    resolver: standardSchemaResolver(getForgotPasswordSchema(t)),
+  } = useForm<VerificationInput>({
+    resolver: standardSchemaResolver(getVerificationSchema(t)),
+    defaultValues: {
+      otp: "",
+    },
   })
 
-  const forgotPasswordAction = async (
+  const verificationAction = async (
     prevState: ActionState,
-    formData: ForgotPasswordInput
+    formData: VerificationInput
   ): Promise<ActionState> => {
     try {
-      const res = await fetch(API_ENDPOINTS.auth["login"], {
+      const res = await fetch(API_ENDPOINTS.auth.verify, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -54,13 +58,13 @@ export function useVerificationForm() {
       const data = await res.json()
 
       if (!res.ok) {
-        const errorMessage = data.message || "Failed"
+        const errorMessage = data.message || "Failed to verify email"
         toast.error(errorMessage)
         return { error: errorMessage, success: false }
       }
 
-      toast.success(t("toast.forgot-password"))
-      router.push(paths.auth.login.get())
+      toast.success(t("toast.verification-success", { ns: "auth" }))
+      router.push(paths.users.get())
 
       return { error: null, success: true }
     } catch (err: unknown) {
@@ -72,18 +76,19 @@ export function useVerificationForm() {
   }
 
   const [state, formAction, isPending] = useActionState(
-    forgotPasswordAction,
+    verificationAction,
     initialState
   )
 
-  const onSubmitAction = (data: ForgotPasswordInput) => {
+  const onSubmitAction = (data: VerificationInput) => {
     startTransition(() => {
       formAction(data)
     })
   }
 
   return {
-    register,
+    setValue,
+    watch,
     handleSubmit: handleSubmit(onSubmitAction),
     errors,
     isPending,
