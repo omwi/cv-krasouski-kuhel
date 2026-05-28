@@ -1,33 +1,39 @@
-"use server"
-
 import { getT } from "next-i18next/server"
 
-import { getClient } from "@/apollo-client"
 import { Badge } from "@/components/ui/badge"
 import { ProjectActionsWrapper } from "@/features/projects/components/actions/update-project-wrapper"
-import { GET_PROJECT } from "@/graphql/projects/queries"
+import { GetProjectQuery } from "@/types/__generated__/graphql"
+import { parseUtcToLocal, toHumanDate } from "@/utils/date"
 import { CurrentUser } from "@/utils/permissions"
+
+type ProjectDetailsProps = {
+  currentUser: CurrentUser
+  project: NonNullable<GetProjectQuery["project"]>
+}
 
 export default async function ProjectDetails({
   currentUser,
-  projectId,
-}: {
-  currentUser: CurrentUser
-  projectId: string
-}) {
-  const { data } = await getClient().query({
-    query: GET_PROJECT,
-    variables: { projectId },
-  })
+  project,
+}: ProjectDetailsProps) {
+  const { t, lng } = await getT("project-details")
 
-  const project = data?.project
+  const startDate = parseUtcToLocal(project.start_date || undefined)
+  const endDate = parseUtcToLocal(project.end_date || undefined)
 
-  const { t } = await getT("project-details")
-
-  if (!project) return null
+  const formattedStart = startDate ? toHumanDate(startDate, lng) : ""
+  const formattedEnd = endDate ? toHumanDate(endDate, lng) : t("till-now")
 
   return (
-    <section className="flex max-w-200 flex-col gap-8 py-4 text-secondary-foreground">
+    <section className="flex max-w-3xl flex-col gap-8 py-4 text-secondary-foreground">
+      <div className="flex flex-col gap-2">
+        <span className="text-xs font-semibold tracking-wider text-secondary-foreground uppercase">
+          {t("project-detail")}
+        </span>
+        <h1 className="text-3xl font-bold text-foreground">
+          {project.name || "-"}
+        </h1>
+      </div>
+
       <div className="flex justify-between gap-8 text-xs">
         <div>
           <h2 className="mb-2 text-xl text-foreground">
@@ -48,8 +54,8 @@ export default async function ProjectDetails({
           <div>
             <h2 className="mb-2 text-xl text-foreground">{t("date")}:</h2>
             <div className="flex gap-1 text-nowrap">
-              <p>{project.start_date}</p>
-              <p>- {project.end_date ? project.end_date : t("till-now")}</p>
+              <p>{formattedStart}</p>
+              <p>- {formattedEnd}</p>
             </div>
           </div>
         )}
