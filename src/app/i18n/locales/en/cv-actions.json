@@ -1,0 +1,19 @@
+{
+  "create": {
+    "title": "Create CV",
+    "success": "CV created successfully!",
+    "error": "Failed to create CV. Please try again."
+  },
+  "update": {
+    "title": "Update CV",
+    "success": "CV updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update CV. Please try again."
+  },
+  "delete": {
+    "title": "Delete CV",
+    "description": "Are you sure you want to delete CV {{name}}? This action cannot be undone.",
+    "success": "CV deleted successfully!",
+    "error": "Failed to delete CV. Please try again."
+  }
+}

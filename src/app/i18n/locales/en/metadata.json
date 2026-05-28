@@ -55,5 +55,9 @@
     "title": "Project",
     "description": "Detailed information, statistics, and task management for project.",
     "not-found-title": "Project Not Found"
+  },
+  "cvs": {
+    "title": "CVs List",
+    "description": "Manage organization employee resumes."
   }
 }

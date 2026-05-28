@@ -11,5 +11,22 @@ export function usePermissions() {
   const canUpdateUser = (userId: string) => isAdmin || currentUserId === userId
   const canDeleteUser = (userId: string) => isAdmin && currentUserId !== userId
 
-  return { canCreateUser, canUpdateUser, canDeleteUser }
+  const canCreateCv = () => true
+  const canUpdateCv = (cvUserId?: string) => {
+    if (!cvUserId) return isAdmin
+    return isAdmin || currentUserId === cvUserId
+  }
+  const canDeleteCv = (cvUserId?: string) => {
+    if (!cvUserId) return isAdmin
+    return isAdmin || currentUserId === cvUserId
+  }
+
+  return {
+    canCreateUser,
+    canUpdateUser,
+    canDeleteUser,
+    canCreateCv,
+    canUpdateCv,
+    canDeleteCv,
+  }
 }

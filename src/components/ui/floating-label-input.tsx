@@ -27,7 +27,9 @@ export function FloatingInput({
         placeholder=" "
         {...props}
       />
-      <FloatingLabel htmlFor={resolvedId}>{label}</FloatingLabel>
+      <FloatingLabel htmlFor={resolvedId} required={props.required}>
+        {label}
+      </FloatingLabel>
     </div>
   )
 }

@@ -29,6 +29,7 @@ export function FloatingTextarea({
       />
       <FloatingLabel
         htmlFor={resolvedId}
+        required={props.required}
         className="peer-placeholder-shown:top-3 peer-placeholder-shown:translate-y-0"
       >
         {label}

@@ -20,6 +20,7 @@ const i18nConfig: I18nConfig = {
     "skill-actions",
     "language-actions",
     "project-details",
+    "cv-actions",
     "input",
     "delete",
     "table",
