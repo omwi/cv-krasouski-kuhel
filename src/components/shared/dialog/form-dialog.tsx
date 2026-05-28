@@ -37,7 +37,7 @@ export function FormDialog({
   trigger,
   onSubmit,
   isSubmitting = false,
-  submitLabel = "Save",
+  submitLabel,
   submitDisabled = false,
   cancelLabel,
   children,
@@ -66,11 +66,11 @@ export function FormDialog({
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline" disabled={isSubmitting}>
-                {cancelLabel || t("cancel")}
+                {cancelLabel ?? t("cancel")}
               </Button>
             </DialogClose>
             <Button type="submit" disabled={submitDisabled || isSubmitting}>
-              {submitLabel}
+              {submitLabel ?? t("confirm")}
             </Button>
           </DialogFooter>
         </form>

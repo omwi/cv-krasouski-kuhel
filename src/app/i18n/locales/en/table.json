@@ -96,12 +96,12 @@
       "aria-label": "Control Actions",
       "update": "Edit CV",
       "delete": "Delete CV",
-      "details": "Details"
+      "profile": "Details"
     },
     "columns": {
       "name": "Name",
       "education": "Education",
-      "display-name": "Employee"
+      "employee": "Employee"
     }
   }
 }

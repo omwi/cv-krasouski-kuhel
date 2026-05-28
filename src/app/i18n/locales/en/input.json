@@ -15,13 +15,14 @@
   "domain": "Domain",
   "description": "Description",
   "environment": "Environment",
+  "education": "Education",
   "search-skill": "Search Skills...",
-
   "skill": "Skill",
   "skill-mastery": "Skill Mastery",
   "language": "Language",
   "language-proficiency": "Language Proficiency",
   "errors": {
+    "required": "Required field",
     "first-name": "First name is required",
     "last-name": "Last name is required",
     "name": "Name is required",
