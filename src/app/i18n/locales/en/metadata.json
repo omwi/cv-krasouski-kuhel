@@ -59,5 +59,9 @@
   "cvs": {
     "title": "CVs List",
     "description": "Manage organization employee resumes."
+  },
+  "cv-details": {
+    "title": "CV Details",
+    "description": "View and manage CV details."
   }
 }

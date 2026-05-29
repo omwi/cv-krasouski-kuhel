@@ -33,6 +33,7 @@ export const GET_CV: TypedDocumentNode<GetCvQuery, GetCvQueryVariables> = gql`
       description
       user {
         id
+        email
         profile {
           full_name
         }

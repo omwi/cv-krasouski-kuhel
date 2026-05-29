@@ -16,13 +16,15 @@ type Props = {
     education: string
     description: string
   }>
-  isSubmitting: boolean
+  disabled?: boolean
+  readOnly?: boolean
 }
 
 export default function CvFormFields({
   register,
   errors,
-  isSubmitting,
+  disabled = false,
+  readOnly = false,
 }: Props) {
   const { t } = useT("input")
 
@@ -32,8 +34,9 @@ export default function CvFormFields({
         <FloatingInput
           id="name"
           label={t("name")}
-          disabled={isSubmitting}
+          disabled={disabled}
           required={true}
+          readOnly={readOnly}
           {...register("name")}
         />
         <FieldError>{errors.name?.message ?? ""}</FieldError>
@@ -42,7 +45,8 @@ export default function CvFormFields({
         <FloatingInput
           id="education"
           label={t("education")}
-          disabled={isSubmitting}
+          disabled={disabled}
+          readOnly={readOnly}
           {...register("education")}
         />
         <FieldError>{errors.education?.message ?? ""}</FieldError>
@@ -51,8 +55,9 @@ export default function CvFormFields({
         <FloatingTextarea
           id="description"
           label={t("description")}
-          disabled={isSubmitting}
+          disabled={disabled}
           required={true}
+          readOnly={readOnly}
           {...register("description")}
         />
         <FieldError>{errors.description?.message ?? ""}</FieldError>

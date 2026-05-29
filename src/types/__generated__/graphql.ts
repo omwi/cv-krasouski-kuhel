@@ -458,6 +458,7 @@ export type GetCvQuery = {
     user: {
       __typename: "User"
       id: string
+      email: string
       position_name: string | null
       profile: { __typename: "Profile"; full_name: string | null }
     } | null

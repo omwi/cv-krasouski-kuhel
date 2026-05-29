@@ -34,7 +34,7 @@ export default function CreateCv({
       <CvFormFields
         register={register}
         errors={errors}
-        isSubmitting={isSubmitting}
+        disabled={isSubmitting}
       />
     </FormDialog>
   )
