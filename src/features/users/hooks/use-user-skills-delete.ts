@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 import { toast } from "sonner"
 
-import { useSelection } from "@/components/shared/selection-provider"
+import { useSelection } from "@/components/shared/selection/selection-provider"
 import { DELETE_USER_SKILLS } from "@/graphql/users/mutations"
 import { GET_USER_SKILLS } from "@/graphql/users/queries"
 

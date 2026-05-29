@@ -45,7 +45,7 @@ export default function UserSkillAddDialog({ children, userId }: Props) {
             <SkillSelect
               value={field.value}
               onValueChange={field.onChange}
-              userSkills={userSkills}
+              excludedNames={userSkills.map((us) => us.name)}
             />
           )}
         />
