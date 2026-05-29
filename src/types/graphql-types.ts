@@ -1,4 +1,5 @@
 import {
+  GetCvSkillsQuery,
   GetCvsQuery,
   GetLanguagesQuery,
   GetUserLanguagesQuery,
@@ -15,3 +16,5 @@ export type UserLanguage = GetUserLanguagesQuery["profile"]["languages"][number]
 export type Language = GetLanguagesQuery["languages"][number]
 
 export type Cv = GetCvsQuery["cvs"][number]
+
+export type CvSkill = GetCvSkillsQuery["cv"]["skills"][number]

@@ -63,5 +63,9 @@
   "cv-details": {
     "title": "CV Details",
     "description": "View and manage CV details."
+  },
+  "cv-skills": {
+    "title": "CV Skills",
+    "description": "Manage CV skills."
   }
 }
