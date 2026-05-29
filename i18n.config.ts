@@ -27,7 +27,8 @@ const i18nConfig: I18nConfig = {
     "skills",
     "languages",
   ],
-  localeInPath: false,
+  localeInPath: true,
+  hideDefaultLocale: true,
   resourceLoader:
     process.env.NODE_ENV === "development"
       ? async (lng, ns) => {

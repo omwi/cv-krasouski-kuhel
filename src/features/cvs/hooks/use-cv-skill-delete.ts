@@ -3,25 +3,30 @@ import { useT } from "next-i18next/client"
 import { toast } from "sonner"
 
 import { useSelection } from "@/components/shared/selection/selection-provider"
-import { DELETE_USER_SKILLS } from "@/graphql/users/mutations"
-import { GET_USER_SKILLS } from "@/graphql/users/queries"
+import { DELETE_CV_SKILLS } from "@/graphql/cvs/mutations"
+import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
+import { usePermissions } from "@/hooks/use-permissions"
+import { CvUserId } from "@/types/graphql-types"
 
-export function useUserSkillsDelete(userId: string) {
+export function useCvSkillsDelete({ id: cvId, user }: CvUserId) {
   const { t } = useT("skills")
 
-  const [deleteUserSkills, { loading }] = useMutation(DELETE_USER_SKILLS, {
-    refetchQueries: [{ query: GET_USER_SKILLS, variables: { userId } }],
+  const { canUpdateCv } = usePermissions()
+
+  const [deleteCvSkill, { loading }] = useMutation(DELETE_CV_SKILLS, {
+    refetchQueries: [{ query: GET_CV_SKILLS, variables: { cvId } }],
   })
 
   const { selectedValues, startSelection, stopSelection } = useSelection()
 
   const handleConfirmDelete = async () => {
+    if (!canUpdateCv(user?.id)) return
     try {
-      await deleteUserSkills({
+      await deleteCvSkill({
         variables: {
           skills: {
             name: [...selectedValues],
-            userId: userId,
+            cvId,
           },
         },
       })

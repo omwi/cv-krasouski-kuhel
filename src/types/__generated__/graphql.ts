@@ -336,11 +336,11 @@ export type UpdateCvSkillMutation = {
   }
 }
 
-export type DeleteCvSkillMutationVariables = Exact<{
-  skill: DeleteCvSkillInput
+export type DeleteCvSkillsMutationVariables = Exact<{
+  skills: DeleteCvSkillInput
 }>
 
-export type DeleteCvSkillMutation = {
+export type DeleteCvSkillsMutation = {
   deleteCvSkill: {
     __typename: "Cv"
     id: string
@@ -458,6 +458,7 @@ export type GetCvQuery = {
     user: {
       __typename: "User"
       id: string
+      email: string
       position_name: string | null
       profile: { __typename: "Profile"; full_name: string | null }
     } | null

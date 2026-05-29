@@ -1,7 +1,7 @@
 import { getT } from "next-i18next/server"
 
 import { PreloadQuery } from "@/apollo-client"
-import { SelectionProvider } from "@/components/shared/selection-provider"
+import { SelectionProvider } from "@/components/shared/selection/selection-provider"
 import UserLanguages from "@/features/users/components/languages/user-languages"
 import { GET_USER_LANGUAGES } from "@/graphql/users/queries"
 

@@ -8,6 +8,7 @@ import { paths } from "@/config/paths"
 import { setAuthCookies } from "@/features/auth/utils/cookies"
 import { isAuthRoute } from "@/features/auth/utils/is-auth-route"
 import { checkAccessToken } from "@/features/auth/utils/jwt"
+import { getLngPrefix } from "@/utils/url"
 
 const STATIC_PATTERN =
   /^\/(api|_next\/static|_next\/image|assets|favicon\.ico|sw\.js|site\.webmanifest)/
@@ -58,14 +59,33 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  const lngPrefix = getLngPrefix(pathname)
+
   if (isAuthenticated && isAuthRoute(pathname)) {
-    return NextResponse.redirect(new URL(paths.users.get(), request.url))
+    return NextResponse.redirect(
+      new URL(`${lngPrefix}${paths.users.get()}`, request.url)
+    )
   }
 
   if (!isAuthenticated && !isAuthRoute(pathname)) {
-    const loginUrl = new URL(paths.auth.login.get(), request.url)
+    const loginUrl = new URL(
+      `${lngPrefix}${paths.auth.login.get()}`,
+      request.url
+    )
     loginUrl.searchParams.set("callbackUrl", pathname)
     return NextResponse.redirect(loginUrl)
+  }
+
+  const cookieLang = request.cookies.get(COOKIES.LANGUAGE)?.value
+  if (
+    !lngPrefix &&
+    cookieLang &&
+    cookieLang !== "en" &&
+    cookieLang !== "system"
+  ) {
+    return NextResponse.redirect(
+      new URL(`/${cookieLang}${pathname}${request.nextUrl.search}`, request.url)
+    )
   }
 
   const response = i18nProxy(request)

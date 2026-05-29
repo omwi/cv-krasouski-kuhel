@@ -7,29 +7,28 @@ import {
   ComboboxOption,
   SingleComboboxProps,
 } from "@/components/ui/combobox"
-import { getNotOwnedSkills } from "@/features/skills/utils/skills"
 import { GET_SKILLS } from "@/graphql/skills/queries"
-import { Skill, UserSkill } from "@/types/graphql-types"
+import { Skill } from "@/types/graphql-types"
 
 type Props = Omit<SingleComboboxProps, "options" | "label" | "mode"> & {
-  userSkills?: UserSkill[]
+  excludedNames?: string[]
 }
 
-export default function SkillSelect({ userSkills, ...props }: Props) {
+export default function SkillSelect({ excludedNames, ...props }: Props) {
   const { t } = useT(["skills", "input"])
 
   const { data } = useQuery(GET_SKILLS)
 
   const skills: ComboboxOption[] = useMemo(() => {
     let result: Skill[] = data?.skills ?? []
-    if (userSkills) {
-      result = getNotOwnedSkills(userSkills, result)
+    if (excludedNames) {
+      result = result.filter((s) => !excludedNames.includes(s.name))
     }
     return result.map((s) => ({
       value: s.id,
       label: s.name,
     }))
-  }, [data?.skills, userSkills])
+  }, [data?.skills, excludedNames])
 
   return (
     <Combobox

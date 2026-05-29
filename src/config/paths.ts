@@ -66,7 +66,7 @@ export const paths = {
     },
     details: {
       get(cvId: number | string) {
-        return `/cvs/${cvId}/details`
+        return `/cvs/${cvId}`
       },
     },
     skills: {
