@@ -33,7 +33,7 @@ export default function VerificationForm() {
 
   if (userLoading || user?.isVerified) {
     return (
-      <div className="flex min-h-[300px] flex-col items-center justify-center p-8">
+      <div className="flex min-h-75 flex-col items-center justify-center p-8">
         <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         <span className="animate-pulse text-sm text-secondary-foreground">
           {t("button-loading", { ns: "auth" })}
@@ -66,14 +66,11 @@ export default function VerificationForm() {
           <InputOTPGroup>
             <InputOTPSlot index={0} />
             <InputOTPSlot index={1} />
-          </InputOTPGroup>
-          <InputOTPSeparator />
-          <InputOTPGroup>
             <InputOTPSlot index={2} />
-            <InputOTPSlot index={3} />
           </InputOTPGroup>
           <InputOTPSeparator />
           <InputOTPGroup>
+            <InputOTPSlot index={3} />
             <InputOTPSlot index={4} />
             <InputOTPSlot index={5} />
           </InputOTPGroup>
