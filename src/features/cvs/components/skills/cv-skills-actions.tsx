@@ -9,23 +9,24 @@ import CvSkillAddDialog from "@/features/cvs/components/skills/cv-skill-add-dial
 import { useCvSkillsDelete } from "@/features/cvs/hooks/use-cv-skill-delete"
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
+import { CvUserId } from "@/types/graphql-types"
 
 export default function CvSkillsActions({
-  cvId,
+  cvUserId,
   hasSkills,
 }: {
-  cvId: string
+  cvUserId: CvUserId
   hasSkills: boolean
 }) {
   const { t } = useT("buttons")
 
   const { canUpdateCv } = usePermissions()
-  const hasPermissions = canUpdateCv(cvId)
+  const hasPermissions = canUpdateCv(cvUserId.user?.id)
 
   const { isSelecting } = useSelection()
 
   const { handleStartDelete, handleCancelDelete, handleConfirmDelete } =
-    useCvSkillsDelete(cvId)
+    useCvSkillsDelete(cvUserId)
 
   return (
     <div
@@ -36,7 +37,7 @@ export default function CvSkillsActions({
     >
       {!isSelecting ? (
         <>
-          <CvSkillAddDialog cvId={cvId}>
+          <CvSkillAddDialog cvUserId={cvUserId}>
             <Button
               variant={"ghost"}
               disabled={!hasPermissions}

@@ -14,23 +14,23 @@ import {
 } from "@/components/ui/select"
 import { useCvSkillUpdateForm } from "@/features/cvs/hooks/use-update-cv-skill-form"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
-import { CvSkill } from "@/types/graphql-types"
+import { CvSkill, CvUserId } from "@/types/graphql-types"
 
 type Props = {
   children: React.ReactNode
-  cvId: string
+  cvUserId: CvUserId
   cvSkill: CvSkill
 }
 
 export default function CvSkillUpdateDialog({
   children,
-  cvId,
+  cvUserId,
   cvSkill,
 }: Props) {
   const { t } = useT(["buttons", "skills"])
 
   const { control, onSubmit, isSubmitReady, open, setOpen } =
-    useCvSkillUpdateForm(cvId, cvSkill)
+    useCvSkillUpdateForm(cvUserId, cvSkill)
 
   return (
     <FormDialog

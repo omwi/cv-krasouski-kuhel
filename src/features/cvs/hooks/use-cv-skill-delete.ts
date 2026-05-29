@@ -6,8 +6,9 @@ import { useSelection } from "@/components/shared/selection/selection-provider"
 import { DELETE_CV_SKILLS } from "@/graphql/cvs/mutations"
 import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
+import { CvUserId } from "@/types/graphql-types"
 
-export function useCvSkillsDelete(cvId: string) {
+export function useCvSkillsDelete({ id: cvId, user }: CvUserId) {
   const { t } = useT("skills")
 
   const { canUpdateCv } = usePermissions()
@@ -19,13 +20,13 @@ export function useCvSkillsDelete(cvId: string) {
   const { selectedValues, startSelection, stopSelection } = useSelection()
 
   const handleConfirmDelete = async () => {
-    if (!canUpdateCv(cvId)) return
+    if (!canUpdateCv(user?.id)) return
     try {
       await deleteCvSkill({
         variables: {
           skills: {
             name: [...selectedValues],
-            cvId: cvId,
+            cvId,
           },
         },
       })

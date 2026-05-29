@@ -12,6 +12,7 @@ import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
+import { CvUserId } from "@/types/graphql-types"
 
 const formSchema = z.object({
   mastery: z.string().min(1),
@@ -20,7 +21,7 @@ const formSchema = z.object({
 
 type AddCvSkillInput = z.infer<typeof formSchema>
 
-export function useCvSkillAddForm(cvId: string) {
+export function useCvSkillAddForm({ id: cvId, user }: CvUserId) {
   const { t } = useT("skills")
 
   const [open, setOpen] = useState(false)
@@ -59,7 +60,7 @@ export function useCvSkillAddForm(cvId: string) {
   }
 
   const onSubmit = async (values: AddCvSkillInput) => {
-    if (!canUpdateCv(cvId)) return
+    if (!canUpdateCv(user?.id)) return
 
     const skill = findSkill(values.skillId)
     if (!skill) {

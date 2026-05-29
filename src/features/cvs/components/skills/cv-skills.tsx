@@ -22,12 +22,12 @@ export default function CvSKills({ cvId }: { cvId: string }) {
             key={categoryId ?? "other"}
             category={categoryId ?? "other"}
             skills={skills}
-            cvId={cvId}
+            cvUserId={data.cv}
           />
         ))}
       </div>
 
-      <CvSkillsActions cvId={cvId} hasSkills={cvSkill.length > 0} />
+      <CvSkillsActions cvUserId={data.cv} hasSkills={cvSkill.length > 0} />
     </div>
   )
 }

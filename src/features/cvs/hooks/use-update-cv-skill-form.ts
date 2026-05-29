@@ -10,7 +10,7 @@ import { UPDATE_CV_SKILL } from "@/graphql/cvs/mutations"
 import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
-import { CvSkill } from "@/types/graphql-types"
+import { CvSkill, CvUserId } from "@/types/graphql-types"
 
 const formSchema = z.object({
   mastery: z.string().min(1),
@@ -18,7 +18,10 @@ const formSchema = z.object({
 
 type UpdateCvSkillInput = z.infer<typeof formSchema>
 
-export function useCvSkillUpdateForm(cvId: string, cvSkill: CvSkill) {
+export function useCvSkillUpdateForm(
+  { id: cvId, user }: CvUserId,
+  cvSkill: CvSkill
+) {
   const { t } = useT("skills")
 
   const { canUpdateCv } = usePermissions()
@@ -44,17 +47,17 @@ export function useCvSkillUpdateForm(cvId: string, cvSkill: CvSkill) {
   }, [cvSkill.mastery, open, reset])
 
   const [updateUserSkill, { loading }] = useMutation(UPDATE_CV_SKILL, {
-    refetchQueries: [{ query: GET_CV_SKILLS, variables: { cvId: cvId } }],
+    refetchQueries: [{ query: GET_CV_SKILLS, variables: { cvId } }],
   })
 
   const onSubmit = async (values: UpdateCvSkillInput) => {
-    if (!canUpdateCv(cvId)) return
+    if (!canUpdateCv(user?.id)) return
 
     try {
       await updateUserSkill({
         variables: {
           skill: {
-            cvId: cvId,
+            cvId,
             mastery: values.mastery as Mastery,
             name: cvSkill.name,
             categoryId: cvSkill.categoryId,

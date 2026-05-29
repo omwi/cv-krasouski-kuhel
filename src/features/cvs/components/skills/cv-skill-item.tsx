@@ -4,15 +4,15 @@ import { Progress } from "@/components/ui/progress"
 import CvSkillUpdateDialog from "@/features/cvs/components/skills/cv-skill-update-dialog"
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
-import { CvSkill } from "@/types/graphql-types"
+import { CvSkill, CvUserId } from "@/types/graphql-types"
 import { getColors } from "@/utils/skill-colors"
 
 export default function CvSKillItem({
   skill,
-  cvId,
+  cvUserId,
 }: {
   skill: CvSkill
-  cvId: string
+  cvUserId: CvUserId
 }) {
   const { canUpdateCv } = usePermissions()
 
@@ -21,10 +21,10 @@ export default function CvSKillItem({
   const { color, trackColor, percent } = getColors(skill.mastery)
 
   return !isSelecting ? (
-    <CvSkillUpdateDialog cvId={cvId} cvSkill={skill}>
+    <CvSkillUpdateDialog cvUserId={cvUserId} cvSkill={skill}>
       <Button
         variant={"ghost"}
-        disabled={!canUpdateCv(cvId)}
+        disabled={!canUpdateCv(cvUserId.user?.id)}
         className="flex flex-row justify-start gap-4 px-4"
       >
         <Progress

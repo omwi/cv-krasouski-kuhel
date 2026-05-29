@@ -10,18 +10,21 @@ import { useCvSkillAddForm } from "@/features/cvs/hooks/use-add-cv-skill-form"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
 import SkillSelect from "@/features/skills/components/skill-select"
 import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
+import { CvUserId } from "@/types/graphql-types"
 
 type Props = {
   children: React.ReactNode
-  cvId: string
+  cvUserId: CvUserId
 }
 
-export default function CvSkillAddDialog({ children, cvId }: Props) {
+export default function CvSkillAddDialog({ children, cvUserId }: Props) {
   const { t } = useT(["buttons", "skills"])
 
   const { control, isSubmitReady, onSubmit, open, setOpen } =
-    useCvSkillAddForm(cvId)
-  const { data } = useSuspenseQuery(GET_CV_SKILLS, { variables: { cvId } })
+    useCvSkillAddForm(cvUserId)
+  const { data } = useSuspenseQuery(GET_CV_SKILLS, {
+    variables: { cvId: cvUserId.id },
+  })
   const cvSkill = data.cv.skills
 
   return (
