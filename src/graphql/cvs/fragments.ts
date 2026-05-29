@@ -1,6 +1,9 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
-import { CvProjectFragment } from "@/types/__generated__/graphql"
+import {
+  BaseCvFragment,
+  CvProjectFragment,
+} from "@/types/__generated__/graphql"
 
 export const CV_PROJECT_FRAGMENT: TypedDocumentNode<CvProjectFragment, never> =
   gql`
@@ -19,3 +22,16 @@ export const CV_PROJECT_FRAGMENT: TypedDocumentNode<CvProjectFragment, never> =
       responsibilities
     }
   `
+
+export const BASE_CV_FRAGMENT: TypedDocumentNode<BaseCvFragment, never> = gql`
+  fragment BaseCv on Cv {
+    id
+    name
+    description
+    education
+    user {
+      id
+      email
+    }
+  }
+`

@@ -264,6 +264,15 @@ export type CvProjectFragment = {
   project: { __typename: "Project"; id: string }
 }
 
+export type BaseCvFragment = {
+  __typename: "Cv"
+  id: string
+  name: string
+  description: string
+  education: string | null
+  user: { __typename: "User"; id: string; email: string } | null
+}
+
 export type CreateCvMutationVariables = Exact<{
   cv: CreateCvInput
 }>
@@ -438,8 +447,8 @@ export type GetCvsQuery = {
     __typename: "Cv"
     id: string
     name: string
-    education: string | null
     description: string
+    education: string | null
     user: { __typename: "User"; id: string; email: string } | null
   }>
 }
@@ -453,13 +462,14 @@ export type GetCvQuery = {
     __typename: "Cv"
     id: string
     name: string
-    education: string | null
     description: string
+    education: string | null
     user: {
       __typename: "User"
       id: string
-      email: string
       position_name: string | null
+      id: string
+      email: string
       profile: { __typename: "Profile"; full_name: string | null }
     } | null
     languages: Array<{
@@ -1016,5 +1026,24 @@ export type GetUserLanguagesQuery = {
       name: string
       proficiency: Proficiency
     }>
+  }
+}
+
+export type GetUserCvsQueryVariables = Exact<{
+  userId: string | number
+}>
+
+export type GetUserCvsQuery = {
+  user: {
+    __typename: "User"
+    id: string
+    cvs: Array<{
+      __typename: "Cv"
+      id: string
+      name: string
+      description: string
+      education: string | null
+      user: { __typename: "User"; id: string; email: string } | null
+    }> | null
   }
 }

@@ -1,6 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
-import { CV_PROJECT_FRAGMENT } from "@/graphql/cvs/fragments"
+import { BASE_CV_FRAGMENT, CV_PROJECT_FRAGMENT } from "@/graphql/cvs/fragments"
 import {
   GetCvProjectsQuery,
   GetCvProjectsQueryVariables,
@@ -16,28 +16,18 @@ export const GET_CVS: TypedDocumentNode<GetCvsQuery, GetCvsQueryVariables> =
   gql`
     query GetCvs {
       cvs {
-        id
-        name
-        education
-        description
-        user {
-          id
-          email
-        }
+        ...BaseCv
       }
     }
+
+    ${BASE_CV_FRAGMENT}
   `
 
 export const GET_CV: TypedDocumentNode<GetCvQuery, GetCvQueryVariables> = gql`
   query GetCv($cvId: ID!) {
     cv(cvId: $cvId) {
-      id
-      name
-      education
-      description
+      ...BaseCv
       user {
-        id
-        email
         profile {
           full_name
         }
@@ -49,6 +39,8 @@ export const GET_CV: TypedDocumentNode<GetCvQuery, GetCvQueryVariables> = gql`
       }
     }
   }
+
+  ${BASE_CV_FRAGMENT}
 `
 
 export const GET_CV_SKILLS: TypedDocumentNode<

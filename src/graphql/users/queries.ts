@@ -1,6 +1,8 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  GetUserCvsQuery,
+  GetUserCvsQueryVariables,
   GetUserLanguagesQuery,
   GetUserLanguagesQueryVariables,
   GetUserQuery,
@@ -12,6 +14,8 @@ import {
 } from "@/types/__generated__/graphql"
 
 import "@/types/__generated__/graphql"
+
+import { BASE_CV_FRAGMENT } from "@/graphql/cvs/fragments"
 
 export const GET_USERS_LIST: TypedDocumentNode<
   GetUsersListQuery,
@@ -102,4 +106,20 @@ export const GET_USER_LANGUAGES: TypedDocumentNode<
       }
     }
   }
+`
+
+export const GET_USER_CVS: TypedDocumentNode<
+  GetUserCvsQuery,
+  GetUserCvsQueryVariables
+> = gql`
+  query GetUserCvs($userId: ID!) {
+    user(userId: $userId) {
+      id
+      cvs {
+        ...BaseCv
+      }
+    }
+  }
+
+  ${BASE_CV_FRAGMENT}
 `
