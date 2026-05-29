@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { useT } from "next-i18next/client"
 
-import Loading from "@/app/(pages)/[lng]/verify-email/loading"
+import Loading from "@/app/[lng]/verify-email/loading"
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import {
