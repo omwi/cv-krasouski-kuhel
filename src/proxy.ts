@@ -8,6 +8,7 @@ import { paths } from "@/config/paths"
 import { setAuthCookies } from "@/features/auth/utils/cookies"
 import { isAuthRoute } from "@/features/auth/utils/is-auth-route"
 import { checkAccessToken } from "@/features/auth/utils/jwt"
+import { getLngPrefix } from "@/utils/url"
 
 const STATIC_PATTERN =
   /^\/(api|_next\/static|_next\/image|assets|favicon\.ico|sw\.js|site\.webmanifest)/
@@ -58,8 +59,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  const match = pathname.match(/^\/([a-zA-Z]{2}(-[a-zA-Z]{2})?)(\/|$)/)
-  const lngPrefix = match ? `/${match[1]}` : ""
+  const lngPrefix = getLngPrefix(pathname)
 
   if (isAuthenticated && isAuthRoute(pathname)) {
     return NextResponse.redirect(
