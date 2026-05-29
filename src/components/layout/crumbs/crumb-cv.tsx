@@ -1,4 +1,7 @@
+import { useQuery } from "@apollo/client/react"
+
 import Crumb from "@/components/layout/crumbs/crumb"
+import { GET_CV } from "@/graphql/cvs/queries"
 
 type Props = {
   cvId: number
@@ -7,10 +10,8 @@ type Props = {
 }
 
 export default function CrumbCv({ cvId, href, isPage }: Props) {
-  // todo: useCv
-  const cvName = "My CV"
-
-  const label = cvName || cvId
+  const { data } = useQuery(GET_CV, { variables: { cvId: String(cvId) } })
+  const label = data?.cv.name || cvId
 
   return (
     <Crumb href={href} isPage={isPage} isPrimary={true}>

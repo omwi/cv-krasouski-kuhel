@@ -1,4 +1,4 @@
-import { useSelection } from "@/components/shared/selection-provider"
+import { useSelection } from "@/components/shared/selection/selection-provider"
 import { Button } from "@/components/ui/button"
 import UserLanguageUpdateDialog from "@/features/users/components/languages/user-language-update-dialog"
 import { usePermissions } from "@/hooks/use-permissions"

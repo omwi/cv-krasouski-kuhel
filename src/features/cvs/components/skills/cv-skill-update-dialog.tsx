@@ -1,33 +1,40 @@
 "use client"
 
-import { useSuspenseQuery } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 import { Controller } from "react-hook-form"
 
 import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import { Field } from "@/components/ui/field"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useCvSkillUpdateForm } from "@/features/cvs/hooks/use-update-cv-skill-form"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
-import SkillSelect from "@/features/skills/components/skill-select"
-import { useUserSkillAddForm } from "@/features/users/hooks/use-user-skill-add-form"
-import { GET_USER_SKILLS } from "@/graphql/users/queries"
+import { CvSkill, CvUserId } from "@/types/graphql-types"
 
 type Props = {
   children: React.ReactNode
-  userId: string
+  cvUserId: CvUserId
+  cvSkill: CvSkill
 }
 
-export default function UserSkillAddDialog({ children, userId }: Props) {
+export default function CvSkillUpdateDialog({
+  children,
+  cvUserId,
+  cvSkill,
+}: Props) {
   const { t } = useT(["buttons", "skills"])
 
-  const { control, isSubmitReady, onSubmit, open, setOpen } =
-    useUserSkillAddForm(userId)
-
-  const { data } = useSuspenseQuery(GET_USER_SKILLS, { variables: { userId } })
-  const userSkills = data.profile.skills
+  const { control, onSubmit, isSubmitReady, open, setOpen } =
+    useCvSkillUpdateForm(cvUserId, cvSkill)
 
   return (
     <FormDialog
-      title={t("dialog.add", { ns: "skills" })}
+      title={t("dialog.update", { ns: "skills" })}
       submitLabel={t("confirm")}
       cancelLabel={t("cancel")}
       trigger={children}
@@ -38,17 +45,14 @@ export default function UserSkillAddDialog({ children, userId }: Props) {
       submitDisabled={!isSubmitReady}
     >
       <Field>
-        <Controller
-          control={control}
-          name="skillId"
-          render={({ field }) => (
-            <SkillSelect
-              value={field.value}
-              onValueChange={field.onChange}
-              excludedNames={userSkills.map((us) => us.name)}
-            />
-          )}
-        />
+        <Select value={cvSkill.name} disabled={true}>
+          <SelectTrigger className="text-muted-foreground">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={cvSkill.name}>{cvSkill.name}</SelectItem>
+          </SelectContent>
+        </Select>
       </Field>
       <Field>
         <Controller

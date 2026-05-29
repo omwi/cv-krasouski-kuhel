@@ -6,24 +6,26 @@ import { Controller } from "react-hook-form"
 
 import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import { Field } from "@/components/ui/field"
+import { useCvSkillAddForm } from "@/features/cvs/hooks/use-add-cv-skill-form"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
 import SkillSelect from "@/features/skills/components/skill-select"
-import { useUserSkillAddForm } from "@/features/users/hooks/use-user-skill-add-form"
-import { GET_USER_SKILLS } from "@/graphql/users/queries"
+import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
+import { CvUserId } from "@/types/graphql-types"
 
 type Props = {
   children: React.ReactNode
-  userId: string
+  cvUserId: CvUserId
 }
 
-export default function UserSkillAddDialog({ children, userId }: Props) {
+export default function CvSkillAddDialog({ children, cvUserId }: Props) {
   const { t } = useT(["buttons", "skills"])
 
   const { control, isSubmitReady, onSubmit, open, setOpen } =
-    useUserSkillAddForm(userId)
-
-  const { data } = useSuspenseQuery(GET_USER_SKILLS, { variables: { userId } })
-  const userSkills = data.profile.skills
+    useCvSkillAddForm(cvUserId)
+  const { data } = useSuspenseQuery(GET_CV_SKILLS, {
+    variables: { cvId: cvUserId.id },
+  })
+  const cvSkill = data.cv.skills
 
   return (
     <FormDialog
@@ -45,7 +47,7 @@ export default function UserSkillAddDialog({ children, userId }: Props) {
             <SkillSelect
               value={field.value}
               onValueChange={field.onChange}
-              excludedNames={userSkills.map((us) => us.name)}
+              excludedNames={cvSkill.map((cs) => cs.name)}
             />
           )}
         />

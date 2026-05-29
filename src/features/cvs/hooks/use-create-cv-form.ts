@@ -49,15 +49,15 @@ export function useCreateCvForm(
     refetchQueries: [{ query: GET_CVS }],
   })
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (values) => {
     if (!canCreateCv) return
     try {
       await createCv({
         variables: {
           cv: {
-            name: data.name,
-            education: data.education,
-            description: data.description,
+            name: values.name,
+            education: values.education,
+            description: values.description,
             userId,
           },
         },

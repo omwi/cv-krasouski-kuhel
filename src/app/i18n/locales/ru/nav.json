@@ -8,5 +8,7 @@
   "projects": "Проекты",
   "departments": "Департаменты",
   "settings": "Настройки",
-  "logout": "Выход"
+  "logout": "Выход",
+  "details": "Подробоности",
+  "preview": "Просмотр"
 }

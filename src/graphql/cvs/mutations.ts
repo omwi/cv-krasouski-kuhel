@@ -10,8 +10,8 @@ import {
   CreateCvMutationVariables,
   DeleteCvMutation,
   DeleteCvMutationVariables,
-  DeleteCvSkillMutation,
-  DeleteCvSkillMutationVariables,
+  DeleteCvSkillsMutation,
+  DeleteCvSkillsMutationVariables,
   ExportPdfMutation,
   ExportPdfMutationVariables,
   RemoveCvProjectMutation,
@@ -103,12 +103,12 @@ export const UPDATE_CV_SKILL: TypedDocumentNode<
   }
 `
 
-export const DELETE_CV_SKILL: TypedDocumentNode<
-  DeleteCvSkillMutation,
-  DeleteCvSkillMutationVariables
+export const DELETE_CV_SKILLS: TypedDocumentNode<
+  DeleteCvSkillsMutation,
+  DeleteCvSkillsMutationVariables
 > = gql`
-  mutation DeleteCvSkill($skill: DeleteCvSkillInput!) {
-    deleteCvSkill(skill: $skill) {
+  mutation DeleteCvSkills($skills: DeleteCvSkillInput!) {
+    deleteCvSkill(skill: $skills) {
       id
       skills {
         name
