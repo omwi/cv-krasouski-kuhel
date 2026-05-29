@@ -466,7 +466,6 @@ export type GetCvQuery = {
     education: string | null
     user: {
       __typename: "User"
-      id: string
       position_name: string | null
       id: string
       email: string
