@@ -19,6 +19,8 @@ import { AuthProvider } from "@/features/auth/components/auth-provider"
 import { decodeJwtPayload } from "@/features/auth/utils/jwt"
 import { cn } from "@/lib/utils"
 
+export const dynamic = "force-dynamic"
+
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "700"],
