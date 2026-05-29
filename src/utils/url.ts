@@ -19,3 +19,8 @@ export const getPathParts = (pathname: string): string[] => {
 export const joinPathParts = (parts: string[]): string => {
   return `/${parts.join("/")}`
 }
+
+export const getLngPrefix = (pathname: string): string => {
+  const match = pathname.match(/^\/([a-zA-Z]{2}(-[a-zA-Z]{2})?)(\/|$)/)
+  return match ? `/${match[1]}` : ""
+}

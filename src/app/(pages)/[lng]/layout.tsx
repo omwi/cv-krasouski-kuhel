@@ -19,6 +19,8 @@ import { AuthProvider } from "@/features/auth/components/auth-provider"
 import { decodeJwtPayload } from "@/features/auth/utils/jwt"
 import { cn } from "@/lib/utils"
 
+export const dynamic = "force-dynamic"
+
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "700"],
@@ -33,8 +35,13 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const { i18n, lng } = await getT()
+  params,
+}: Readonly<{
+  children: React.ReactNode
+  params: Promise<{ lng: string }>
+}>) {
+  const { lng } = await params
+  const { i18n } = await getT(undefined, { lng })
   const resources = getResources(i18n)
 
   const cookieStore = await cookies()
