@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { useT } from "next-i18next/client"
 
+import Loading from "@/app/(pages)/[lng]/verify-email/loading"
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import {
@@ -32,14 +33,7 @@ export default function VerificationForm() {
   }, [user, userLoading, router])
 
   if (userLoading || user?.isVerified) {
-    return (
-      <div className="flex min-h-75 flex-col items-center justify-center p-8">
-        <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <span className="animate-pulse text-sm text-secondary-foreground">
-          {t("button-loading", { ns: "auth" })}
-        </span>
-      </div>
-    )
+    return <Loading />
   }
 
   const otpValue = watch("otp") || ""
