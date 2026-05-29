@@ -5,27 +5,28 @@ import SelectForDeletionButton from "@/components/shared/selection/select-for-de
 import SelectionButtons from "@/components/shared/selection/selection-buttons"
 import { useSelection } from "@/components/shared/selection/selection-provider"
 import { Button } from "@/components/ui/button"
-import UserSkillAddDialog from "@/features/users/components/skills/user-skill-add-dialog"
-import { useUserSkillsDelete } from "@/features/users/hooks/use-user-skills-delete"
+import CvSkillAddDialog from "@/features/cvs/components/skills/cv-skill-add-dialog"
+import { useCvSkillsDelete } from "@/features/cvs/hooks/use-cv-skill-delete"
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
+import { CvUserId } from "@/types/graphql-types"
 
-export default function UserSkillsActions({
-  userId,
+export default function CvSkillsActions({
+  cvUserId,
   hasSkills,
 }: {
-  userId: string
+  cvUserId: CvUserId
   hasSkills: boolean
 }) {
   const { t } = useT("buttons")
 
-  const { canUpdateUser } = usePermissions()
-  const hasPermissions = canUpdateUser(userId)
+  const { canUpdateCv } = usePermissions()
+  const hasPermissions = canUpdateCv(cvUserId.user?.id)
 
   const { isSelecting } = useSelection()
 
   const { handleStartDelete, handleCancelDelete, handleConfirmDelete } =
-    useUserSkillsDelete(userId)
+    useCvSkillsDelete(cvUserId)
 
   return (
     <div
@@ -36,7 +37,7 @@ export default function UserSkillsActions({
     >
       {!isSelecting ? (
         <>
-          <UserSkillAddDialog userId={userId}>
+          <CvSkillAddDialog cvUserId={cvUserId}>
             <Button
               variant={"ghost"}
               disabled={!hasPermissions}
@@ -45,7 +46,7 @@ export default function UserSkillsActions({
               <Plus className="size-6" />
               <span>{t("add-skill")}</span>
             </Button>
-          </UserSkillAddDialog>
+          </CvSkillAddDialog>
 
           <SelectForDeletionButton
             label={t("remove-skills")}

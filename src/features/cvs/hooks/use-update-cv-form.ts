@@ -50,21 +50,29 @@ export function useUpdateCvForm(
     refetchQueries: [{ query: GET_CV, variables: { cvId: cv.id } }],
   })
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (values) => {
     if (!canUpdateCv(cv.user?.id)) return
     try {
       await updateCv({
         variables: {
           cv: {
             cvId: cv.id,
-            name: data.name,
-            education: data.education,
-            description: data.description,
+            name: values.name,
+            education: values.education,
+            description: values.description,
           },
         },
       })
       toast.success(t("update.success", { ns: "cv-actions" }))
-      dialog?.setOpen(false)
+      if (dialog) {
+        dialog.setOpen(false)
+      } else {
+        reset({
+          name: values.name,
+          education: values.education,
+          description: values.description,
+        })
+      }
     } catch (error) {
       console.error(error)
       toast.error(t("update.error", { ns: "cv-actions" }))

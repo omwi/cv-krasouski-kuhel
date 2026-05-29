@@ -1,30 +1,30 @@
 import { useSelection } from "@/components/shared/selection/selection-provider"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import UserSkillUpdateDialog from "@/features/users/components/skills/user-skill-update-dialog"
+import CvSkillUpdateDialog from "@/features/cvs/components/skills/cv-skill-update-dialog"
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
-import { UserSkill } from "@/types/graphql-types"
+import { CvSkill, CvUserId } from "@/types/graphql-types"
 import { getColors } from "@/utils/skill-colors"
 
-export default function UserSKillItem({
+export default function CvSKillItem({
   skill,
-  userId,
+  cvUserId,
 }: {
-  skill: UserSkill
-  userId: string
+  skill: CvSkill
+  cvUserId: CvUserId
 }) {
-  const { canUpdateUser } = usePermissions()
+  const { canUpdateCv } = usePermissions()
 
   const { isSelecting, toggle, isSelected } = useSelection()
 
   const { color, trackColor, percent } = getColors(skill.mastery)
 
   return !isSelecting ? (
-    <UserSkillUpdateDialog userId={userId} userSkill={skill}>
+    <CvSkillUpdateDialog cvUserId={cvUserId} cvSkill={skill}>
       <Button
         variant={"ghost"}
-        disabled={!canUpdateUser(userId)}
+        disabled={!canUpdateCv(cvUserId.user?.id)}
         className="flex flex-row justify-start gap-4 px-4"
       >
         <Progress
@@ -34,7 +34,7 @@ export default function UserSKillItem({
         />
         <p>{skill.name}</p>
       </Button>
-    </UserSkillUpdateDialog>
+    </CvSkillUpdateDialog>
   ) : (
     <Button
       variant={isSelected(skill.name) ? "outline" : "ghost"}
