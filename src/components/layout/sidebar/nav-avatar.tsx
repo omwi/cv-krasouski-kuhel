@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useGetMeQuery } from "@/features/auth/hooks/use-get-me"
 import { cn } from "@/lib/utils"
 
@@ -8,7 +9,16 @@ type Props = React.ComponentPropsWithRef<typeof Button> & {
 }
 
 export default function NavAvatar({ className, variant, ...props }: Props) {
-  const { user } = useGetMeQuery()
+  const { user, loading } = useGetMeQuery()
+
+  if (loading) {
+    return (
+      <Button variant="ghost">
+        <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+        <Skeleton className="h-5 w-24" />
+      </Button>
+    )
+  }
 
   if (!user) return null
 
