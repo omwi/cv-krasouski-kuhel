@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { useT } from "next-i18next/client"
 
+import Loading from "@/app/[lng]/verify-email/loading"
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import {
@@ -20,26 +21,19 @@ import { useVerificationForm } from "@/features/auth/hooks/use-verification-form
 
 export default function VerificationForm() {
   const { t } = useT(["auth", "input"])
-  const router = useRouter()
-  const { user, loading: userLoading } = useGetMeQuery()
   const { setValue, watch, handleSubmit, errors, isPending } =
     useVerificationForm()
+  const router = useRouter()
+  const { user, loading } = useGetMeQuery()
 
   useEffect(() => {
-    if (!userLoading && user?.isVerified) {
+    if (!loading && user?.isVerified) {
       router.replace(paths.users.get())
     }
-  }, [user, userLoading, router])
+  }, [user, loading, router])
 
-  if (userLoading || user?.isVerified) {
-    return (
-      <div className="flex min-h-75 flex-col items-center justify-center p-8">
-        <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <span className="animate-pulse text-sm text-secondary-foreground">
-          {t("button-loading")}
-        </span>
-      </div>
-    )
+  if (loading || user?.isVerified) {
+    return <Loading />
   }
 
   const otpValue = watch("otp") || ""
@@ -56,7 +50,6 @@ export default function VerificationForm() {
           {t("verification-form.label", { ns: "auth" })}
         </FieldLabel>
         <InputOTP
-          className=""
           id="digits-only"
           maxLength={6}
           pattern={REGEXP_ONLY_DIGITS}

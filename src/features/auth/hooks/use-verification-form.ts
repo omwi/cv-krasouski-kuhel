@@ -1,4 +1,4 @@
-import { startTransition, useActionState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
@@ -19,19 +19,10 @@ export type VerificationInput = z.infer<
   ReturnType<typeof getVerificationSchema>
 >
 
-type ActionState = {
-  error: string | null
-  success: boolean
-}
-
-const initialState: ActionState = {
-  error: null,
-  success: false,
-}
-
 export function useVerificationForm() {
   const router = useRouter()
   const { t } = useT(["input", "auth"])
+  const [isPending, setIsPending] = useState(false)
 
   const {
     setValue,
@@ -40,58 +31,40 @@ export function useVerificationForm() {
     formState: { errors },
   } = useForm<VerificationInput>({
     resolver: standardSchemaResolver(getVerificationSchema(t)),
-    defaultValues: {
-      otp: "",
-    },
+    defaultValues: { otp: "" },
   })
 
-  const verificationAction = async (
-    prevState: ActionState,
-    formData: VerificationInput
-  ): Promise<ActionState> => {
+  const onSubmit = async (data: VerificationInput) => {
+    setIsPending(true)
     try {
       const res = await fetch(API_ENDPOINTS.auth.verify, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       })
-      const data = await res.json()
+      const json = await res.json()
 
       if (!res.ok) {
-        const errorMessage = data.message || "Failed to verify email"
-        toast.error(errorMessage)
-        return { error: errorMessage, success: false }
+        const message =
+          json.message ?? t("errors.verify-failed", { ns: "auth" })
+        toast.error(message)
+        return
       }
 
       toast.success(t("toast.verification-success", { ns: "auth" }))
       router.push(paths.users.get())
-
-      return { error: null, success: true }
-    } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      toast.error(errorMessage)
-      return { error: errorMessage, success: false }
+    } catch {
+      toast.error(t("errors.unexpected", { ns: "auth" }))
+    } finally {
+      setIsPending(false)
     }
-  }
-
-  const [state, formAction, isPending] = useActionState(
-    verificationAction,
-    initialState
-  )
-
-  const onSubmitAction = (data: VerificationInput) => {
-    startTransition(() => {
-      formAction(data)
-    })
   }
 
   return {
     setValue,
     watch,
-    handleSubmit: handleSubmit(onSubmitAction),
+    handleSubmit: handleSubmit(onSubmit),
     errors,
     isPending,
-    state,
   }
 }

@@ -1,5 +1,5 @@
 import { startTransition, useActionState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -8,7 +8,6 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 import { API_ENDPOINTS } from "@/config/api-endpoints"
-import { paths } from "@/config/paths"
 import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
 
 export const getLoginSchema = (t: TFunction) =>
@@ -32,7 +31,6 @@ const initialState: ActionState = {
 export function useLoginForm() {
   const searchParams = useSearchParams()
   const callbackUrl = sanitizeCallbackUrl(searchParams.get("callbackUrl"))
-  const router = useRouter()
   const { t } = useT("input")
 
   const {
