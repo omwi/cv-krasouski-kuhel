@@ -8,8 +8,8 @@ import VerificationForm from "@/features/auth/components/verification-form"
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getT("metadata")
   return {
-    title: t("signup.title"),
-    description: t("signup.description"),
+    title: t("verify.title"),
+    description: t("verify.description"),
   }
 }
 
