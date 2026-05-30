@@ -282,8 +282,8 @@ export type CreateCvMutation = {
     __typename: "Cv"
     id: string
     name: string
-    education: string | null
     description: string
+    education: string | null
     user: { __typename: "User"; id: string; email: string } | null
   }
 }
@@ -297,8 +297,8 @@ export type UpdateCvMutation = {
     __typename: "Cv"
     id: string
     name: string
-    education: string | null
     description: string
+    education: string | null
     user: { __typename: "User"; id: string; email: string } | null
   }
 }

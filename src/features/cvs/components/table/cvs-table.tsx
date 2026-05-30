@@ -38,8 +38,6 @@ export default function CvsTable({
   const { canCreateCv } = usePermissions()
   const hasCreatePermission = canCreateCv(userId)
 
-  console.log("hasCreatePermission", hasCreatePermission)
-
   return (
     <DataTable
       columns={columns}
@@ -51,7 +49,7 @@ export default function CvsTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         hasCreatePermission && (
-          <CreateCv currentUser={currentUser} userId={currentUser!.id}>
+          <CreateCv currentUser={currentUser} userId={userId}>
             <Button variant="outline-primary">
               <Plus />
               {t("cvs-table.create")}

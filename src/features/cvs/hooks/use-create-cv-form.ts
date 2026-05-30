@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { Reference } from "@apollo/client"
 import { useMutation } from "@apollo/client/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useT } from "next-i18next/client"
@@ -6,17 +7,17 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
+import { BASE_CV_FRAGMENT } from "@/graphql/cvs/fragments"
 import { CREATE_CV } from "@/graphql/cvs/mutations"
-import { GET_CVS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 
 export function useCreateCvForm(
-  userId: string,
+  userId?: string,
   dialog?: { open: boolean; setOpen: (open: boolean) => void }
 ) {
-  const { t } = useT(["input, 'cv-actions"])
+  const { t } = useT(["input", "cv-actions"])
 
-  const { canCreateCv } = usePermissions()
+  const { currentUserId, canCreateCv } = usePermissions()
 
   const { reset, handleSubmit, register, control, formState } = useForm({
     resolver: zodResolver(
@@ -43,10 +44,60 @@ export function useCreateCvForm(
       education: "",
       description: "",
     })
-  }, [userId, reset, dialog?.open])
+  }, [reset, dialog?.open])
 
   const [createCv, { loading: isCreating }] = useMutation(CREATE_CV, {
-    refetchQueries: [{ query: GET_CVS }],
+    update(cache, { data }) {
+      const newCv = data?.createCv
+      if (!newCv) return
+
+      const newCvRef = cache.writeFragment({
+        data: newCv,
+        fragment: BASE_CV_FRAGMENT,
+      })
+
+      cache.modify({
+        fields: {
+          cvs(existingRefs = [], { readField }) {
+            const refs = existingRefs as readonly Reference[]
+
+            const alreadyExists = refs.some(
+              (ref) => readField("id", ref) === newCv.id
+            )
+
+            if (alreadyExists) {
+              return refs
+            }
+
+            return [newCvRef, ...refs]
+          },
+        },
+      })
+
+      if (!newCv.user) return
+
+      cache.modify({
+        id: cache.identify({
+          __typename: "User",
+          id: newCv.user.id,
+        }),
+        fields: {
+          cvs(existingRefs = [], { readField }) {
+            const refs = existingRefs as readonly Reference[]
+
+            const alreadyExists = refs.some(
+              (ref) => readField("id", ref) === newCv.id
+            )
+
+            if (alreadyExists) {
+              return refs
+            }
+
+            return [newCvRef, ...refs]
+          },
+        },
+      })
+    },
   })
 
   const onSubmit = handleSubmit(async (values) => {
@@ -58,12 +109,14 @@ export function useCreateCvForm(
             name: values.name,
             education: values.education,
             description: values.description,
-            userId,
+            userId: userId ?? currentUserId,
           },
         },
       })
       toast.success(t("create.success", { ns: "cv-actions" }))
-      dialog?.setOpen(false)
+      if (dialog) {
+        dialog.setOpen(false)
+      }
     } catch (error) {
       console.error(error)
       toast.error(t("create.error", { ns: "cv-actions" }))

@@ -25,6 +25,7 @@ export function usePermissions() {
   }
 
   return {
+    currentUserId,
     canCreateUser,
     canUpdateUser,
     canDeleteUser,

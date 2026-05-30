@@ -1,6 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
-import { CV_PROJECT_FRAGMENT } from "@/graphql/cvs/fragments"
+import { BASE_CV_FRAGMENT, CV_PROJECT_FRAGMENT } from "@/graphql/cvs/fragments"
 import {
   AddCvProjectMutation,
   AddCvProjectMutationVariables,
@@ -30,16 +30,11 @@ export const CREATE_CV: TypedDocumentNode<
 > = gql`
   mutation CreateCv($cv: CreateCvInput!) {
     createCv(cv: $cv) {
-      id
-      name
-      education
-      description
-      user {
-        id
-        email
-      }
+      ...BaseCv
     }
   }
+
+  ${BASE_CV_FRAGMENT}
 `
 
 export const UPDATE_CV: TypedDocumentNode<
@@ -48,16 +43,11 @@ export const UPDATE_CV: TypedDocumentNode<
 > = gql`
   mutation UpdateCv($cv: UpdateCvInput!) {
     updateCv(cv: $cv) {
-      id
-      name
-      education
-      description
-      user {
-        id
-        email
-      }
+      ...BaseCv
     }
   }
+
+  ${BASE_CV_FRAGMENT}
 `
 
 export const DELETE_CV: TypedDocumentNode<
