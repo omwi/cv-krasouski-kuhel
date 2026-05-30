@@ -4,17 +4,14 @@ import { useMutation } from "@apollo/client/react"
 import { DELETE_CV } from "@/graphql/cvs/mutations"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Cv } from "@/types/graphql-types"
+import { removeRefById } from "@/utils/cache"
 
 export function useDeleteCv(cv: Cv) {
   const [deleteCv] = useMutation(DELETE_CV, {
     update(cache) {
       cache.modify({
         fields: {
-          cvs(existingRefs = [], { readField }) {
-            const refs = existingRefs as readonly Reference[]
-
-            return refs.filter((ref) => readField("id", ref) !== cv.id)
-          },
+          cvs: removeRefById(cv.id),
         },
       })
 
@@ -24,11 +21,7 @@ export function useDeleteCv(cv: Cv) {
           id: cv.user?.id,
         }),
         fields: {
-          cvs(existingRefs = [], { readField }) {
-            const refs = existingRefs as readonly Reference[]
-
-            return refs.filter((ref) => readField("id", ref) !== cv.id)
-          },
+          cvs: removeRefById(cv.id),
         },
       })
 

@@ -1,5 +1,4 @@
 import { useEffect } from "react"
-import { Reference } from "@apollo/client"
 import { useMutation } from "@apollo/client/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useT } from "next-i18next/client"
@@ -10,6 +9,7 @@ import { z } from "zod"
 import { BASE_CV_FRAGMENT } from "@/graphql/cvs/fragments"
 import { CREATE_CV } from "@/graphql/cvs/mutations"
 import { usePermissions } from "@/hooks/use-permissions"
+import { appendUniqueRef } from "@/utils/cache"
 
 export function useCreateCvForm(
   userId?: string,
@@ -55,46 +55,22 @@ export function useCreateCvForm(
         data: newCv,
         fragment: BASE_CV_FRAGMENT,
       })
+      if (!newCvRef) return
 
       cache.modify({
         fields: {
-          cvs(existingRefs = [], { readField }) {
-            const refs = existingRefs as readonly Reference[]
-
-            const alreadyExists = refs.some(
-              (ref) => readField("id", ref) === newCv.id
-            )
-
-            if (alreadyExists) {
-              return refs
-            }
-
-            return [newCvRef, ...refs]
-          },
+          cvs: appendUniqueRef(newCvRef, newCv.id),
         },
       })
 
       if (!newCv.user) return
-
       cache.modify({
         id: cache.identify({
           __typename: "User",
           id: newCv.user.id,
         }),
         fields: {
-          cvs(existingRefs = [], { readField }) {
-            const refs = existingRefs as readonly Reference[]
-
-            const alreadyExists = refs.some(
-              (ref) => readField("id", ref) === newCv.id
-            )
-
-            if (alreadyExists) {
-              return refs
-            }
-
-            return [newCvRef, ...refs]
-          },
+          cvs: appendUniqueRef(newCvRef, newCv.id),
         },
       })
     },
