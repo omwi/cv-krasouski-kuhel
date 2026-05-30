@@ -60,10 +60,7 @@ export function useSignupForm() {
         return { error: errorMessage, success: false }
       }
 
-      window.location.href = sanitizeCallbackUrl(
-        searchParams.get("callbackUrl"),
-        paths.users.details.get(data.user.id)
-      )
+      window.location.href = paths.verification.get()
 
       return { error: null, success: true }
     } catch (err: unknown) {

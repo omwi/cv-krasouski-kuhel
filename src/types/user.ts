@@ -6,4 +6,5 @@ export type User = {
   fullName: string
   departmentName: string
   positionName: string
+  isVerified: boolean
 }
