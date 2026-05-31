@@ -8,7 +8,7 @@ import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import { Field } from "@/components/ui/field"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
 import SkillSelect from "@/features/skills/components/skill-select"
-import { useUserSkillAddForm } from "@/features/users/hooks/use-user-skill-add-form"
+import { useUserSkillAddForm } from "@/features/users/hooks/skills/use-user-skill-add-form"
 import { GET_USER_SKILLS } from "@/graphql/users/queries"
 
 type Props = {

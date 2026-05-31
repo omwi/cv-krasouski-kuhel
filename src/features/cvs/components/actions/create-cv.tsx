@@ -12,7 +12,7 @@ export default function CreateCv({
 }: {
   children: React.ReactNode
   currentUser: CurrentUser
-  userId: string
+  userId?: string
 }) {
   const { t } = useT(["cv-actions", "buttons"])
   const [open, setOpen] = useState(false)

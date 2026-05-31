@@ -6,7 +6,7 @@ import { Controller } from "react-hook-form"
 
 import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import { Field } from "@/components/ui/field"
-import { useCvSkillAddForm } from "@/features/cvs/hooks/use-add-cv-skill-form"
+import { useCvSkillAddForm } from "@/features/cvs/hooks/skills/use-add-cv-skill-form"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
 import SkillSelect from "@/features/skills/components/skill-select"
 import { GET_CV_SKILLS } from "@/graphql/cvs/queries"

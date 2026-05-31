@@ -6,17 +6,18 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
+import { BASE_CV_FRAGMENT } from "@/graphql/cvs/fragments"
 import { CREATE_CV } from "@/graphql/cvs/mutations"
-import { GET_CVS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
+import { appendUniqueRef } from "@/utils/cache"
 
 export function useCreateCvForm(
-  userId: string,
+  userId?: string,
   dialog?: { open: boolean; setOpen: (open: boolean) => void }
 ) {
-  const { t } = useT(["input, 'cv-actions"])
+  const { t } = useT(["input", "cv-actions"])
 
-  const { canCreateCv } = usePermissions()
+  const { currentUserId, canCreateCv } = usePermissions()
 
   const { reset, handleSubmit, register, control, formState } = useForm({
     resolver: zodResolver(
@@ -43,10 +44,36 @@ export function useCreateCvForm(
       education: "",
       description: "",
     })
-  }, [userId, reset, dialog?.open])
+  }, [reset, dialog?.open])
 
   const [createCv, { loading: isCreating }] = useMutation(CREATE_CV, {
-    refetchQueries: [{ query: GET_CVS }],
+    update(cache, { data }) {
+      const newCv = data?.createCv
+      if (!newCv) return
+
+      const newCvRef = cache.writeFragment({
+        data: newCv,
+        fragment: BASE_CV_FRAGMENT,
+      })
+      if (!newCvRef) return
+
+      cache.modify({
+        fields: {
+          cvs: appendUniqueRef(newCvRef, newCv.id),
+        },
+      })
+
+      if (!newCv.user) return
+      cache.modify({
+        id: cache.identify({
+          __typename: "User",
+          id: newCv.user.id,
+        }),
+        fields: {
+          cvs: appendUniqueRef(newCvRef, newCv.id),
+        },
+      })
+    },
   })
 
   const onSubmit = handleSubmit(async (values) => {
@@ -58,12 +85,14 @@ export function useCreateCvForm(
             name: values.name,
             education: values.education,
             description: values.description,
-            userId,
+            userId: userId ?? currentUserId,
           },
         },
       })
       toast.success(t("create.success", { ns: "cv-actions" }))
-      dialog?.setOpen(false)
+      if (dialog) {
+        dialog.setOpen(false)
+      }
     } catch (error) {
       console.error(error)
       toast.error(t("create.error", { ns: "cv-actions" }))

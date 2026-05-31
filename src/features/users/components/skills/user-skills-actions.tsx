@@ -6,7 +6,7 @@ import SelectionButtons from "@/components/shared/selection/selection-buttons"
 import { useSelection } from "@/components/shared/selection/selection-provider"
 import { Button } from "@/components/ui/button"
 import UserSkillAddDialog from "@/features/users/components/skills/user-skill-add-dialog"
-import { useUserSkillsDelete } from "@/features/users/hooks/use-user-skills-delete"
+import { useUserSkillsDelete } from "@/features/users/hooks/skills/use-user-skills-delete"
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
 

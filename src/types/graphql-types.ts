@@ -1,6 +1,6 @@
 import {
+  BaseCvFragment,
   GetCvSkillsQuery,
-  GetCvsQuery,
   GetLanguagesQuery,
   GetUserLanguagesQuery,
   GetUserSkillsQuery,
@@ -15,7 +15,7 @@ export type UserLanguage = GetUserLanguagesQuery["profile"]["languages"][number]
 
 export type Language = GetLanguagesQuery["languages"][number]
 
-export type Cv = GetCvsQuery["cvs"][number]
+export type Cv = BaseCvFragment
 
 export type CvUserId = {
   id: string

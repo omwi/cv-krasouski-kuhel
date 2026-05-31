@@ -8,7 +8,7 @@ import { Field } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import DepartmentSelect from "@/features/departments/components/department-select"
 import PositionSelect from "@/features/positions/components/position-select"
-import { useProfileUpdateForm } from "@/features/users/hooks/use-profile-update-form"
+import { useProfileUpdateForm } from "@/features/users/hooks/profile/use-profile-update-form"
 import { cn } from "@/lib/utils"
 
 export default function ProfileUpdateForm({

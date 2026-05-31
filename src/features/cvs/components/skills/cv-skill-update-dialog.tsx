@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useCvSkillUpdateForm } from "@/features/cvs/hooks/use-update-cv-skill-form"
+import { useCvSkillUpdateForm } from "@/features/cvs/hooks/skills/use-update-cv-skill-form"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
 import { CvSkill, CvUserId } from "@/types/graphql-types"
 

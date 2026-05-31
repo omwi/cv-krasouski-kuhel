@@ -23,6 +23,18 @@
     "title": "User Profile",
     "description": "Manage user profile."
   },
+  "user-skills": {
+    "title": "User Skills",
+    "description": "Manage user skills."
+  },
+  "user-languages": {
+    "title": "User Languages List",
+    "description": "Manage user languages."
+  },
+  "user-cvs": {
+    "title": "User CVs List",
+    "description": "Manage user resumes."
+  },
   "positions": {
     "title": "Positions List",
     "description": "Manage organization employee positions."
@@ -42,14 +54,6 @@
   "projects": {
     "title": "Projects List",
     "description": "View and assess employees' project assignments and progress."
-  },
-  "user-skills": {
-    "title": "User Skills",
-    "description": "Manage user skills."
-  },
-  "user-languages": {
-    "title": "User Languages List",
-    "description": "Manage user languages."
   },
   "project": {
     "title": "Project",

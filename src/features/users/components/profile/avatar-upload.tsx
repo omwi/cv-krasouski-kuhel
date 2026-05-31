@@ -7,7 +7,7 @@ import { useT } from "next-i18next/client"
 import IconButton from "@/components/shared/icon-button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { FileUpload, FileUploadDropzone } from "@/components/ui/file-upload"
-import { useAvatarUpload } from "@/features/users/hooks/use-avatar-upload"
+import { useAvatarUpload } from "@/features/users/hooks/profile/use-avatar-upload"
 import { GET_USER } from "@/graphql/users/queries"
 import { cn } from "@/lib/utils"
 
