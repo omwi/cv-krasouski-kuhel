@@ -1,5 +1,5 @@
 import { DataTableSkeleton } from "@/components/shared/data-table/data-table-skeleton"
 
 export default function SkillsLoading() {
-  return <DataTableSkeleton columns={2} rows={20} />
+  return <DataTableSkeleton columns={4} rows={2} />
 }

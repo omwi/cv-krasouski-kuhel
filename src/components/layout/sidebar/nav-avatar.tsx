@@ -11,11 +11,17 @@ type Props = React.ComponentPropsWithRef<typeof Button> & {
 export default function NavAvatar({ className, variant, ...props }: Props) {
   const { user, loading } = useGetMeQuery()
 
+  const buttonClasses = cn(
+    "my-auto flex h-10 min-w-0 flex-row items-center justify-center gap-2 rounded-[200px] pr-2 pl-0 text-foreground",
+    "md:h-14 md:flex-none md:justify-start md:rounded-l-none md:px-2 md:py-2",
+    "hover:bg-avatar-actions-hover"
+  )
+
   if (loading) {
     return (
-      <Button variant="ghost">
+      <Button variant="ghost" className={cn(className, buttonClasses)}>
         <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
-        <Skeleton className="h-5 w-24" />
+        <Skeleton className="h-5 w-26" />
       </Button>
     )
   }
@@ -28,12 +34,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
     <Button
       {...props}
       variant={variant ?? "ghost"}
-      className={cn(
-        className,
-        "my-auto flex h-10 min-w-0 flex-row items-center justify-center gap-2 rounded-[200px] pr-2 pl-0 text-foreground",
-        "md:h-14 md:flex-none md:justify-start md:rounded-l-none md:px-2 md:py-2",
-        "hover:bg-avatar-actions-hover"
-      )}
+      className={cn(className, buttonClasses)}
     >
       <Avatar>
         <AvatarImage src={user.avatarSrc ?? ""} />
