@@ -35,6 +35,7 @@
     "description": "Description must be at least 10 characters",
     "environment": "Please select at least one environment",
     "start-date": "Start date is required",
-    "invalid-date-range": "End date cannot be earlier than start date"
+    "invalid-date-range": "End date cannot be earlier than start date",
+    "otp": "OTP must be exactly 6 characters"
   }
 }

@@ -63,7 +63,6 @@ export function useLoginForm() {
       }
 
       window.location.href = callbackUrl
-
       return { error: null, success: true }
     } catch (err: unknown) {
       const errorMessage =

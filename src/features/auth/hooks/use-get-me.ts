@@ -23,6 +23,7 @@ export function useGetMeQuery() {
       fullName: data.user.profile.full_name || "",
       departmentName: data.user.department?.name || "",
       positionName: data.user.position?.name || "",
+      isVerified: data.user.is_verified,
     }
   }
 

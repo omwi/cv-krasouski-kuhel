@@ -115,4 +115,9 @@ export const paths = {
       return "/settings"
     },
   },
+  verification: {
+    get() {
+      return `/verify-email`
+    },
+  },
 } as const

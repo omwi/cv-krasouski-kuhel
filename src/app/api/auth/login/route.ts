@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       query: `query Login($auth: AuthInput!) {
-        login(auth: $auth) { access_token refresh_token user { id role email } }
+        login(auth: $auth) { access_token refresh_token user { id role email is_verified } }
       }`,
       variables: { auth: { email, password } },
     }),
