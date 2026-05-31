@@ -6,7 +6,7 @@ import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import { Field } from "@/components/ui/field"
 import LanguageProficiencySelect from "@/features/languages/components/language-proficiency-select"
 import LanguageSelect from "@/features/languages/components/language-select"
-import { useUserLanguageAddForm } from "@/features/users/hooks/use-user-language-add-form"
+import { useUserLanguageAddForm } from "@/features/users/hooks/languages/use-user-language-add-form"
 import { GET_USER_LANGUAGES } from "@/graphql/users/queries"
 
 type Props = {

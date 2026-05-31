@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo } from "react"
-import { useSuspenseQuery } from "@apollo/client/react"
 import { Plus } from "lucide-react"
 import { useT } from "next-i18next/client"
 
@@ -9,20 +8,22 @@ import { DataTable } from "@/components/shared/data-table/data-table"
 import { Button } from "@/components/ui/button"
 import CreateCv from "@/features/cvs/components/actions/create-cv"
 import { getColumns } from "@/features/cvs/components/table/cvs-table-columns"
-import { GET_CVS } from "@/graphql/cvs/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import { CurrentUser, cvPermissions } from "@/utils/permissions"
+import { Cv } from "@/types/graphql-types"
+import { CurrentUser } from "@/utils/permissions"
 
 export default function CvsTable({
   currentUser,
+  cvs,
+  userId,
 }: {
   currentUser: CurrentUser
+  cvs: Cv[]
+  userId?: string
 }) {
   const { t } = useT("table")
-
-  const { data } = useSuspenseQuery(GET_CVS)
-  const { cvs } = data
 
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
@@ -34,7 +35,8 @@ export default function CvsTable({
     columns,
   })
 
-  const hasCreatePermission = cvPermissions.canCreate(currentUser)
+  const { canCreateCv } = usePermissions()
+  const hasCreatePermission = canCreateCv(userId)
 
   return (
     <DataTable
@@ -47,7 +49,7 @@ export default function CvsTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         hasCreatePermission && (
-          <CreateCv currentUser={currentUser} userId={currentUser!.id}>
+          <CreateCv currentUser={currentUser} userId={userId}>
             <Button variant="outline-primary">
               <Plus />
               {t("cvs-table.create")}

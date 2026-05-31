@@ -13,6 +13,7 @@ export default async function ProfileLayout({ children, params }: Props) {
     { href: paths.users.details.get(userId), i18nKey: "profile" },
     { href: paths.users.skills.get(userId), i18nKey: "skills" },
     { href: paths.users.languages.get(userId), i18nKey: "languages" },
+    { href: paths.users.cvs.get(userId), i18nKey: "cvs" },
   ]
 
   return (

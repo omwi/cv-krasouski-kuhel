@@ -6,7 +6,7 @@ import SelectionButtons from "@/components/shared/selection/selection-buttons"
 import { useSelection } from "@/components/shared/selection/selection-provider"
 import { Button } from "@/components/ui/button"
 import UserLanguageAddDialog from "@/features/users/components/languages/user-language-add-dialog"
-import { useUserLanguagesDelete } from "@/features/users/hooks/use-user-languages-delete"
+import { useUserLanguagesDelete } from "@/features/users/hooks/languages/use-user-languages-delete"
 import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
 
