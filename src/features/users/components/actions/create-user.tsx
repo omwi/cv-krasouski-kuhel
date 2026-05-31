@@ -11,7 +11,7 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
 import DepartmentSelect from "@/features/departments/components/department-select"
 import PositionSelect from "@/features/positions/components/position-select"
-import { useCreateUserForm } from "@/features/users/hooks/use-create-user-form"
+import { useCreateUserForm } from "@/features/users/hooks/profile/use-create-user-form"
 import type { CurrentUser } from "@/utils/permissions"
 
 type Props = {

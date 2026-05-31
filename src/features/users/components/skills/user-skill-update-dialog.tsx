@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import SkillMasterySelect from "@/features/skills/components/skill-mastery-select"
-import { useUserSkillUpdateForm } from "@/features/users/hooks/use-user-skill-update-form"
+import { useUserSkillUpdateForm } from "@/features/users/hooks/skills/use-user-skill-update-form"
 import { UserSkill } from "@/types/graphql-types"
 
 type Props = {

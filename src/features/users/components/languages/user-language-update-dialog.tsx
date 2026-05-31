@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import LanguageProficiencySelect from "@/features/languages/components/language-proficiency-select"
-import { useUserLanguageUpdateForm } from "@/features/users/hooks/use-user-language-update-form"
+import { useUserLanguageUpdateForm } from "@/features/users/hooks/languages/use-user-language-update-form"
 import { UserLanguage } from "@/types/graphql-types"
 
 type Props = {

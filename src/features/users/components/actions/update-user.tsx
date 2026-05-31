@@ -12,7 +12,7 @@ import { FloatingInput } from "@/components/ui/floating-label-input"
 import DepartmentSelect from "@/features/departments/components/department-select"
 import PositionSelect from "@/features/positions/components/position-select"
 import { TableUser } from "@/features/users/components/user-table/users-table"
-import { useUpdateUserForm } from "@/features/users/hooks/use-update-user-form"
+import { useUpdateUserForm } from "@/features/users/hooks/profile/use-update-user-form"
 import type { CurrentUser } from "@/utils/permissions"
 
 type Props = {
