@@ -5,7 +5,6 @@ import { useMutation } from "@apollo/client/react"
 import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
 import { TablePosition } from "@/features/positions/components/table/positions-table-columns"
 import { DELETE_POSITION } from "@/graphql/positions/mutations"
-import { GET_POSITIONS } from "@/graphql/positions/queries"
 
 type Props = {
   position: TablePosition
@@ -19,7 +18,12 @@ export default function DeletePosition({
   onOpenChange = () => {},
 }: Props) {
   const [mutateDelete] = useMutation(DELETE_POSITION, {
-    refetchQueries: [{ query: GET_POSITIONS }],
+    update(cache) {
+      cache.evict({
+        id: cache.identify({ __typename: "Position", id: position.id }),
+      })
+      cache.gc()
+    },
   })
 
   return (

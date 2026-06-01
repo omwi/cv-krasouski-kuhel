@@ -603,7 +603,7 @@ export type CreatePositionMutationVariables = Exact<{
 }>
 
 export type CreatePositionMutation = {
-  createPosition: { __typename: "Position"; name: string }
+  createPosition: { __typename: "Position"; id: string; name: string }
 }
 
 export type UpdatePositionMutationVariables = Exact<{

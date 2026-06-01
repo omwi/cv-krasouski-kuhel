@@ -15,6 +15,7 @@ export const CREATE_POSITION: TypedDocumentNode<
 > = gql`
   mutation CreatePosition($position: CreatePositionInput!) {
     createPosition(position: $position) {
+      id
       name
     }
   }

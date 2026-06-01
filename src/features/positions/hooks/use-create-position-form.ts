@@ -10,7 +10,7 @@ import { toast } from "sonner"
 import * as z from "zod"
 
 import { CREATE_POSITION } from "@/graphql/positions/mutations"
-import { GET_POSITIONS } from "@/graphql/positions/queries"
+import { appendUniqueRef } from "@/utils/cache"
 
 const getCreatePositionSchema = (t: TFunction) =>
   z.object({
@@ -30,7 +30,23 @@ export function useCreatePositionForm(
   const { t } = useT(["position-actions", "input", "buttons"])
 
   const [mutateCreate, { loading }] = useMutation(CREATE_POSITION, {
-    refetchQueries: [{ query: GET_POSITIONS }],
+    update(cache, { data }) {
+      if (data?.createPosition) {
+        cache.modify({
+          fields: {
+            positions(existingRefs = [], { readField }) {
+              const newRef = { __ref: cache.identify(data.createPosition)! }
+              return appendUniqueRef(newRef, data.createPosition.id)(
+                existingRefs,
+                {
+                  readField,
+                }
+              )
+            },
+          },
+        })
+      }
+    },
   })
 
   const form = useForm<CreatePositionFormValues>({
