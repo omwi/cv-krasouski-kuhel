@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useT } from "next-i18next/client"
@@ -38,6 +38,21 @@ export default function TabNav({
     linkRefs
   )
 
+  useEffect(() => {
+    if (activeIndex !== -1) {
+      const navEl = navRef.current
+      const activeEl = linkRefs.current[activeIndex]
+      if (navEl && activeEl) {
+        const scrollLeft =
+          activeEl.offsetLeft - navEl.clientWidth / 2 + activeEl.offsetWidth / 2
+        navEl.scrollTo({
+          left: scrollLeft,
+          behavior: "smooth",
+        })
+      }
+    }
+  }, [activeIndex])
+
   if (isEqualPath(pathname, paths.auth.forgotPassword.get().split("?")[0])) {
     return null
   }
@@ -45,7 +60,10 @@ export default function TabNav({
   return (
     <nav
       ref={navRef}
-      className={cn("relative flex flex-row items-center", className)}
+      className={cn(
+        "relative flex w-full [scrollbar-width:none] flex-row flex-nowrap items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+        className
+      )}
     >
       {links.map((link, index) => {
         const isActive = activeIndex === index
@@ -57,7 +75,7 @@ export default function TabNav({
               linkRefs.current[index] = el
             }}
             className={cn(
-              "relative block min-w-35 px-4 py-3 text-center uppercase transition-colors",
+              "relative block min-w-35 shrink-0 px-4 py-3 text-center uppercase transition-colors",
               isActive && "active text-primary"
             )}
           >

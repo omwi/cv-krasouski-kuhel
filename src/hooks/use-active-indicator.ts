@@ -27,8 +27,6 @@ export function useActiveIndicator(
     let isResizing = false
 
     function updatePosition() {
-      if (!navEl) return
-
       if (activeIndex === -1) {
         setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
         return
@@ -37,13 +35,10 @@ export function useActiveIndicator(
       const activeEl = linkRefs.current[activeIndex]
       if (!activeEl) return
 
-      const navRect = navEl.getBoundingClientRect()
-      const activeRect = activeEl.getBoundingClientRect()
-
       setIndicatorStyle({
         opacity: 1,
-        width: activeRect.width,
-        transform: `translateX(${activeRect.left - navRect.left}px)`,
+        width: activeEl.offsetWidth,
+        transform: `translateX(${activeEl.offsetLeft}px)`,
         transition: isResizing
           ? "none"
           : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -65,6 +60,7 @@ export function useActiveIndicator(
       clearTimeout(resizeTimer)
       resizeTimer = setTimeout(() => {
         isResizing = false
+        updatePosition()
       }, 150)
     })
 
