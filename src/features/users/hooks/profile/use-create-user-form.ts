@@ -12,8 +12,8 @@ import {
   getCreateUserSchema,
 } from "@/features/users/utils/validation"
 import { CREATE_USER } from "@/graphql/users/mutations"
-import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { UserRole } from "@/types/__generated__/graphql"
+import { appendUniqueRef } from "@/utils/cache"
 
 export function useCreateUserForm(
   open: boolean,
@@ -22,7 +22,20 @@ export function useCreateUserForm(
   const { t } = useT(["user-actions", "input", "buttons"])
 
   const [mutateUser] = useMutation(CREATE_USER, {
-    refetchQueries: [{ query: GET_USERS_LIST }],
+    update(cache, { data }) {
+      if (data?.createUser) {
+        cache.modify({
+          fields: {
+            users(existingRefs = [], { readField }) {
+              const newRef = { __ref: cache.identify(data.createUser)! }
+              return appendUniqueRef(newRef, data.createUser.id)(existingRefs, {
+                readField,
+              })
+            },
+          },
+        })
+      }
+    },
   })
 
   const form = useForm<CreateUserFormValues>({

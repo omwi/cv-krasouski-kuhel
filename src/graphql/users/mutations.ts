@@ -113,13 +113,26 @@ export const CREATE_USER: TypedDocumentNode<
   mutation CreateUser($user: CreateUserInput!) {
     createUser(user: $user) {
       id
+      created_at
       email
       role
+      is_verified
       department_name
       position_name
+      department {
+        id
+        name
+      }
+      position {
+        id
+        name
+      }
       profile {
+        id
+        avatar
         first_name
         last_name
+        full_name
       }
     }
   }

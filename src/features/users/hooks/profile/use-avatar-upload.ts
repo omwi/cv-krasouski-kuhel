@@ -4,7 +4,6 @@ import { useT } from "next-i18next/client"
 import { toast } from "sonner"
 
 import { DELETE_AVATAR, UPLOAD_AVATAR } from "@/graphql/users/mutations"
-import { GET_USER } from "@/graphql/users/queries"
 import { UploadAvatarInput } from "@/types/__generated__/graphql"
 import { fileToBase64 } from "@/utils/file"
 
@@ -15,10 +14,50 @@ export function useAvatarUpload(userId: string) {
   const clearFiles = () => setFiles([])
 
   const [uploadAvatar, { loading: isUploading }] = useMutation(UPLOAD_AVATAR, {
-    refetchQueries: [{ query: GET_USER, variables: { userId } }],
+    update(cache, { data }) {
+      if (data?.uploadAvatar) {
+        cache.modify({
+          id: cache.identify({ __typename: "User", id: userId }),
+          fields: {
+            profile(existingProfileRef) {
+              if (existingProfileRef) {
+                cache.modify({
+                  id: cache.identify(existingProfileRef),
+                  fields: {
+                    avatar() {
+                      return data.uploadAvatar
+                    },
+                  },
+                })
+              }
+              return existingProfileRef
+            },
+          },
+        })
+      }
+    },
   })
   const [deleteAvatar, { loading: isDeleting }] = useMutation(DELETE_AVATAR, {
-    refetchQueries: [{ query: GET_USER, variables: { userId } }],
+    update(cache) {
+      cache.modify({
+        id: cache.identify({ __typename: "User", id: userId }),
+        fields: {
+          profile(existingProfileRef) {
+            if (existingProfileRef) {
+              cache.modify({
+                id: cache.identify(existingProfileRef),
+                fields: {
+                  avatar() {
+                    return null
+                  },
+                },
+              })
+            }
+            return existingProfileRef
+          },
+        },
+      })
+    },
   })
 
   const isLoading = isUploading || isDeleting

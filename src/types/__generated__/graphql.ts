@@ -872,14 +872,21 @@ export type CreateUserMutation = {
   createUser: {
     __typename: "User"
     id: string
+    created_at: string
     email: string
     role: UserRole
+    is_verified: boolean
     department_name: string | null
     position_name: string | null
+    department: { __typename: "Department"; id: string; name: string } | null
+    position: { __typename: "Position"; id: string; name: string } | null
     profile: {
       __typename: "Profile"
+      id: string
+      avatar: string | null
       first_name: string | null
       last_name: string | null
+      full_name: string | null
     }
   }
 }
