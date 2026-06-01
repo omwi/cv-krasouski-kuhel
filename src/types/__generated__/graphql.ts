@@ -655,6 +655,18 @@ export type GetPositionsQuery = {
   positions: Array<{ __typename: "Position"; id: string; name: string }>
 }
 
+export type ProjectFragment = {
+  __typename: "Project"
+  id: string
+  name: string
+  internal_name: string
+  description: string
+  domain: string
+  environment: Array<string>
+  start_date: string
+  end_date: string | null
+}
+
 export type CreateProjectMutationVariables = Exact<{
   project: CreateProjectInput
 }>
