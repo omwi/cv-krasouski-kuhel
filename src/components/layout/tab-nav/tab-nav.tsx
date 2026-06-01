@@ -40,12 +40,16 @@ export default function TabNav({
 
   useEffect(() => {
     if (activeIndex !== -1) {
+      const navEl = navRef.current
       const activeEl = linkRefs.current[activeIndex]
-      activeEl?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      })
+      if (navEl && activeEl) {
+        const scrollLeft =
+          activeEl.offsetLeft - navEl.clientWidth / 2 + activeEl.offsetWidth / 2
+        navEl.scrollTo({
+          left: scrollLeft,
+          behavior: "smooth",
+        })
+      }
     }
   }, [activeIndex])
 
