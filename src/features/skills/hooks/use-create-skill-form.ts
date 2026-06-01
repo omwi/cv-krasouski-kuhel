@@ -11,7 +11,7 @@ import * as z from "zod"
 
 import { SkillFormValues } from "@/components/shared/form/skill-form-dialog"
 import { CREATE_SKILL } from "@/graphql/skills/mutations"
-import { GET_SKILLS } from "@/graphql/skills/queries"
+import { appendUniqueRef } from "@/utils/cache"
 
 const getCreateSkillSchema = (t: TFunction) =>
   z.object({
@@ -28,7 +28,23 @@ export function useCreateSkillForm(
   const { t } = useT(["skill-actions", "input", "buttons"])
 
   const [mutateCreate, { loading }] = useMutation(CREATE_SKILL, {
-    refetchQueries: [{ query: GET_SKILLS }],
+    update(cache, { data }) {
+      if (data?.createSkill) {
+        cache.modify({
+          fields: {
+            skills(existingRefs = [], { readField }) {
+              const newRef = { __ref: cache.identify(data.createSkill)! }
+              return appendUniqueRef(newRef, data.createSkill.id)(
+                existingRefs,
+                {
+                  readField,
+                }
+              )
+            },
+          },
+        })
+      }
+    },
   })
 
   const form = useForm<SkillFormValues>({

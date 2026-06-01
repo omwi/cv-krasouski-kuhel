@@ -712,7 +712,15 @@ export type CreateSkillMutation = {
     __typename: "Skill"
     id: string
     name: string
+    category_name: string | null
+    category_parent_name: string | null
     created_at: string
+    category: {
+      __typename: "SkillCategory"
+      id: string
+      name: string
+      order: number
+    } | null
   }
 }
 
