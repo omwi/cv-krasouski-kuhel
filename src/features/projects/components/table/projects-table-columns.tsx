@@ -15,7 +15,7 @@ const DateCell = ({
   dateStr?: string | null
   isEndDate?: boolean
 }) => {
-  const { t, i18n } = useT(isEndDate ? "project-details" : "table")
+  const { t, i18n } = useT("project-details")
   const date = parseUtcToLocal(dateStr || undefined)
   if (!date) {
     return isEndDate ? <span className="text-sm">{t("till-now")}</span> : null
