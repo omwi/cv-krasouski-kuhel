@@ -8,7 +8,6 @@ import { z } from "zod"
 
 import { LANGUAGE_PROFICIENCIES } from "@/config/const"
 import { ADD_USER_LANGUAGE } from "@/graphql/users/mutations"
-import { GET_USER_LANGUAGES } from "@/graphql/users/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Proficiency } from "@/types/__generated__/graphql"
 
@@ -46,9 +45,7 @@ export function useUserLanguageAddForm(userId: string) {
     })
   }, [open, reset])
 
-  const [addUserLanguage, { loading }] = useMutation(ADD_USER_LANGUAGE, {
-    refetchQueries: [{ query: GET_USER_LANGUAGES, variables: { userId } }],
-  })
+  const [addUserLanguage, { loading }] = useMutation(ADD_USER_LANGUAGE)
 
   const onSubmit = async (values: AddUserLanguageInput) => {
     if (!canUpdateUser(userId)) return

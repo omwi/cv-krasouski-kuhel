@@ -13,7 +13,6 @@ import {
   UpdateUserFormValues,
 } from "@/features/users/utils/validation"
 import { UPDATE_PROFILE, UPDATE_USER } from "@/graphql/users/mutations"
-import { GET_USERS_LIST } from "@/graphql/users/queries"
 import { UserRole } from "@/types/__generated__/graphql"
 
 export function useUpdateUserForm(
@@ -23,13 +22,9 @@ export function useUpdateUserForm(
 ) {
   const { t } = useT(["user-actions", "input", "buttons"])
 
-  const [mutateUser] = useMutation(UPDATE_USER, {
-    refetchQueries: [{ query: GET_USERS_LIST }],
-  })
+  const [mutateUser] = useMutation(UPDATE_USER)
 
-  const [mutateProfile] = useMutation(UPDATE_PROFILE, {
-    refetchQueries: [{ query: GET_USERS_LIST }],
-  })
+  const [mutateProfile] = useMutation(UPDATE_PROFILE)
 
   const form = useForm<UpdateUserFormValues>({
     resolver: zodResolver(getUpdateUserSchema(t)),

@@ -725,7 +725,15 @@ export type UpdateSkillMutation = {
     __typename: "Skill"
     id: string
     name: string
+    category_name: string | null
+    category_parent_name: string | null
     created_at: string
+    category: {
+      __typename: "SkillCategory"
+      id: string
+      name: string
+      order: number
+    } | null
   }
 }
 
@@ -892,6 +900,9 @@ export type UpdateUserMutation = {
   updateUser: {
     __typename: "User"
     id: string
+    role: UserRole
+    department_name: string | null
+    position_name: string | null
     department: { __typename: "Department"; id: string; name: string } | null
     position: { __typename: "Position"; id: string; name: string } | null
   }

@@ -30,7 +30,14 @@ export const UPDATE_SKILL: TypedDocumentNode<
     updateSkill(skill: $skill) {
       id
       name
+      category_name
+      category_parent_name
       created_at
+      category {
+        id
+        name
+        order
+      }
     }
   }
 `

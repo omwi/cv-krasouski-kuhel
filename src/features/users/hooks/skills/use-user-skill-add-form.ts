@@ -9,7 +9,6 @@ import { z } from "zod"
 import { SKILL_MASTERIES } from "@/config/const"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 import { ADD_USER_SKILL } from "@/graphql/users/mutations"
-import { GET_USER_SKILLS } from "@/graphql/users/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
 
@@ -50,9 +49,7 @@ export function useUserSkillAddForm(userId: string) {
   const { data } = useQuery(GET_SKILLS)
   const skills = data?.skills ?? []
 
-  const [addUserSkill, { loading }] = useMutation(ADD_USER_SKILL, {
-    refetchQueries: [{ query: GET_USER_SKILLS, variables: { userId } }],
-  })
+  const [addUserSkill, { loading }] = useMutation(ADD_USER_SKILL)
 
   const findSkill = (skillId: string) => {
     return skills.find((skill) => skill.id === skillId)

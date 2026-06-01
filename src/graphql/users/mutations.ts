@@ -143,6 +143,9 @@ export const UPDATE_USER: TypedDocumentNode<
   mutation UpdateUser($user: UpdateUserInput!) {
     updateUser(user: $user) {
       id
+      role
+      department_name
+      position_name
       department {
         id
         name
