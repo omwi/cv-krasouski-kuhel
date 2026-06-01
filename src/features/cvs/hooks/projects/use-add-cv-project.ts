@@ -11,7 +11,6 @@ import {
 } from "@/features/cvs/components/projects/actions/cv-project-schema"
 import { splitResponsibilities } from "@/features/cvs/utils/cv-project"
 import { ADD_CV_PROJECT } from "@/graphql/cvs/mutations"
-import { GET_CV_PROJECTS } from "@/graphql/cvs/queries"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { CvUserId } from "@/types/graphql-types"
@@ -43,9 +42,7 @@ export function useAddCvProject({ id, user }: CvUserId) {
     }
   }, [open, reset])
 
-  const [addCvProject] = useMutation(ADD_CV_PROJECT, {
-    refetchQueries: [{ query: GET_CV_PROJECTS, variables: { cvId: id } }],
-  })
+  const [addCvProject] = useMutation(ADD_CV_PROJECT)
   const onSubmit = async (values: CvProjectFormValues) => {
     if (!canUpdateCv(user?.id)) return
 

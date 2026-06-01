@@ -14,7 +14,6 @@ import {
   splitResponsibilities,
 } from "@/features/cvs/utils/cv-project"
 import { UPDATE_CV_PROJECT } from "@/graphql/cvs/mutations"
-import { GET_CV_PROJECTS } from "@/graphql/cvs/queries"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { CvProject, CvUserId } from "@/types/graphql-types"
@@ -56,11 +55,7 @@ export function useUpdateCvProject(
     })
   }, [cvProject, reset, dialog?.open])
 
-  const [updateCvProject] = useMutation(UPDATE_CV_PROJECT, {
-    refetchQueries: [
-      { query: GET_CV_PROJECTS, variables: { cvId: cvUserId.id } },
-    ],
-  })
+  const [updateCvProject] = useMutation(UPDATE_CV_PROJECT)
 
   const onSubmit = async (values: CvProjectFormValues) => {
     if (!canUpdateCv(cvUserId.user?.id)) return
@@ -73,7 +68,7 @@ export function useUpdateCvProject(
             projectId: cvProject.project.id,
             responsibilities: splitResponsibilities(values.responsibilities),
             start_date: values.startDate,
-            end_date: values.endDate,
+            end_date: values.endDate ?? undefined,
             roles: cvProject.roles,
           },
         },
