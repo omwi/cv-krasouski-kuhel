@@ -31,7 +31,10 @@ export default function CvProjectsTable({
     defaultSortBy: "name",
   })
 
-  const columns = useMemo(() => getColumns(currentUser), [currentUser])
+  const columns = useMemo(
+    () => getColumns(currentUser, data.cv),
+    [currentUser, data.cv]
+  )
 
   const { paginatedData, totalCount } = useProcessedData({
     data: projects,
