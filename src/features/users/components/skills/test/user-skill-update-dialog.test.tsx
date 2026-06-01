@@ -60,16 +60,17 @@ vi.mock("@/features/skills/components/skill-mastery-select", () => ({
       value={value}
       onChange={(e) => onValueChange?.(e.target.value)}
     >
-      <option value="BEGINNER">Beginner</option>
-      <option value="ADVANCED">Advanced</option>
+      <option value="Novice">Beginner</option>
+      <option value="Advanced">Advanced</option>
     </select>
   ),
 }))
 
 const mockUserSkill: UserSkill = {
+  __typename: "SkillMastery",
   name: "React",
   categoryId: "frontend",
-  mastery: "ADVANCED",
+  mastery: "Advanced",
 }
 
 const TestWrapper = ({
@@ -79,7 +80,7 @@ const TestWrapper = ({
 }) => {
   const { control } = useForm<SkillFormFields>({
     defaultValues: {
-      mastery: "ADVANCED",
+      mastery: "Advanced",
     },
   })
 
@@ -90,6 +91,7 @@ const TestWrapper = ({
     onSubmit: (e) => {
       e?.preventDefault()
       onSubmitAction()
+      return Promise.resolve()
     },
     loading: false,
     open: true,
@@ -113,8 +115,8 @@ describe("UserSkillUpdateDialog", () => {
     )
     expect(screen.getAllByText("React").length).toBeGreaterThan(0)
 
-    // Verify select value is ADVANCED
-    expect(screen.getByTestId("mastery-select")).toHaveValue("ADVANCED")
+    // Verify select value is Advanced
+    expect(screen.getByTestId("mastery-select")).toHaveValue("Advanced")
   })
 
   it("should trigger submit handler on form submission", () => {

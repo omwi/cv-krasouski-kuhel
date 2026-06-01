@@ -91,6 +91,7 @@ const TestWrapper = ({
     onSubmit: (e) => {
       e?.preventDefault()
       onSubmitAction()
+      return Promise.resolve()
     },
     register,
     control,

@@ -70,6 +70,7 @@ vi.mock("@/features/languages/components/language-proficiency-select", () => ({
 }))
 
 const mockUserLanguage: UserLanguage = {
+  __typename: "LanguageProficiency",
   name: "English",
   proficiency: "B2",
 }
@@ -92,6 +93,7 @@ const TestWrapper = ({
     onSubmit: (e) => {
       e?.preventDefault()
       onSubmitAction()
+      return Promise.resolve()
     },
     loading: false,
     open: true,

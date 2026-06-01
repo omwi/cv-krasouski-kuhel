@@ -30,9 +30,10 @@ vi.mock("@apollo/client/react", () => ({
 }))
 
 const mockUserSkill: UserSkill = {
+  __typename: "SkillMastery",
   name: "React",
   categoryId: "frontend",
-  mastery: "ADVANCED",
+  mastery: "Advanced",
 }
 
 describe("useUserSkillUpdateForm", () => {

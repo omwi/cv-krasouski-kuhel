@@ -30,6 +30,7 @@ vi.mock("@apollo/client/react", () => ({
 }))
 
 const mockUserLanguage: UserLanguage = {
+  __typename: "LanguageProficiency",
   name: "English",
   proficiency: "B2",
 }
