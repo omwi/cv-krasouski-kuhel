@@ -15,6 +15,7 @@ export const CREATE_DEPARTMENT: TypedDocumentNode<
 > = gql`
   mutation CreateDepartment($department: CreateDepartmentInput!) {
     createDepartment(department: $department) {
+      id
       name
     }
   }

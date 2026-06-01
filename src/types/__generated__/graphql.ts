@@ -526,7 +526,7 @@ export type CreateDepartmentMutationVariables = Exact<{
 }>
 
 export type CreateDepartmentMutation = {
-  createDepartment: { __typename: "Department"; name: string }
+  createDepartment: { __typename: "Department"; id: string; name: string }
 }
 
 export type UpdateDepartmentMutationVariables = Exact<{
@@ -558,6 +558,7 @@ export type CreateLanguageMutationVariables = Exact<{
 export type CreateLanguageMutation = {
   createLanguage: {
     __typename: "Language"
+    id: string
     iso2: string
     name: string
     native_name: string | null

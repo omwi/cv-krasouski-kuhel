@@ -6,7 +6,7 @@ import { toast } from "sonner"
 import * as z from "zod"
 
 import { CREATE_DEPARTMENT } from "@/graphql/departments/mutations"
-import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
+import { appendUniqueRef } from "@/utils/cache"
 
 const getCreateDepartmentSchema = (t: TFunction) =>
   z.object({
@@ -21,7 +21,23 @@ export type CreateDepartmentFormValues = {
 
 export function useCreateDepartmentForm(t: TFunction, onSuccess?: () => void) {
   const [mutateCreate, { loading }] = useMutation(CREATE_DEPARTMENT, {
-    refetchQueries: [{ query: GET_DEPARTMENTS }],
+    update(cache, { data }) {
+      if (data?.createDepartment) {
+        cache.modify({
+          fields: {
+            departments(existingRefs = [], { readField }) {
+              const newRef = { __ref: cache.identify(data.createDepartment)! }
+              return appendUniqueRef(newRef, data.createDepartment.id)(
+                existingRefs,
+                {
+                  readField,
+                }
+              )
+            },
+          },
+        })
+      }
+    },
   })
 
   const form = useForm<CreateDepartmentFormValues>({
