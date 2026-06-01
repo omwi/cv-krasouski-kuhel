@@ -5,7 +5,6 @@ import { useMutation } from "@apollo/client/react"
 import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
 import { TableLanguages } from "@/features/languages/components/table/languages-table-columns"
 import { DELETE_LANGUAGE } from "@/graphql/languages/mutations"
-import { GET_LANGUAGES } from "@/graphql/languages/queries"
 import {
   DeleteLanguageMutation,
   DeleteLanguageMutationVariables,
@@ -26,7 +25,14 @@ export default function DeleteLanguage({
     DeleteLanguageMutation,
     DeleteLanguageMutationVariables
   >(DELETE_LANGUAGE, {
-    refetchQueries: [{ query: GET_LANGUAGES }],
+    update(cache) {
+      if (language) {
+        cache.evict({
+          id: cache.identify({ __typename: "Language", id: language.id }),
+        })
+        cache.gc()
+      }
+    },
   })
   return (
     <DeleteDialog

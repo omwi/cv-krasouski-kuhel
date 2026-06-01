@@ -7,7 +7,6 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 import { UPDATE_USER_SKILL } from "@/graphql/users/mutations"
-import { GET_USER_SKILLS } from "@/graphql/users/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
 import { UserSkill } from "@/types/graphql-types"
@@ -43,9 +42,7 @@ export function useUserSkillUpdateForm(userId: string, userSkill: UserSkill) {
     })
   }, [userSkill.mastery, open, reset])
 
-  const [updateUserSkill, { loading }] = useMutation(UPDATE_USER_SKILL, {
-    refetchQueries: [{ query: GET_USER_SKILLS, variables: { userId } }],
-  })
+  const [updateUserSkill, { loading }] = useMutation(UPDATE_USER_SKILL)
 
   const onSubmit = async (values: UpdateUserSkillInput) => {
     if (!canUpdateUser(userId)) return

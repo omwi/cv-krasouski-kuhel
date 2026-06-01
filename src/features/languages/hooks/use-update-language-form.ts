@@ -11,7 +11,6 @@ import {
   LanguageFormValues,
 } from "@/features/languages/schema"
 import { UPDATE_LANGUAGE } from "@/graphql/languages/mutations"
-import { GET_LANGUAGES } from "@/graphql/languages/queries"
 
 export function useUpdateLanguageForm(
   language: TableLanguages,
@@ -19,9 +18,7 @@ export function useUpdateLanguageForm(
   t: TFunction,
   onSuccess?: () => void
 ) {
-  const [mutateUpdate, { loading }] = useMutation(UPDATE_LANGUAGE, {
-    refetchQueries: [{ query: GET_LANGUAGES }],
-  })
+  const [mutateUpdate, { loading }] = useMutation(UPDATE_LANGUAGE)
 
   const form = useForm<LanguageFormValues>({
     resolver: zodResolver(getLanguageSchema(t)),

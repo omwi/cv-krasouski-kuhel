@@ -4,17 +4,11 @@ import { toast } from "sonner"
 
 import { useSelection } from "@/components/shared/selection/selection-provider"
 import { DELETE_USER_LANGUAGES } from "@/graphql/users/mutations"
-import { GET_USER_LANGUAGES } from "@/graphql/users/queries"
 
 export function useUserLanguagesDelete(userId: string) {
   const { t } = useT("languages")
 
-  const [deleteUserLanguages, { loading }] = useMutation(
-    DELETE_USER_LANGUAGES,
-    {
-      refetchQueries: [{ query: GET_USER_LANGUAGES, variables: { userId } }],
-    }
-  )
+  const [deleteUserLanguages, { loading }] = useMutation(DELETE_USER_LANGUAGES)
 
   const { selectedValues, startSelection, stopSelection } = useSelection()
 

@@ -7,16 +7,13 @@ import { toast } from "sonner"
 
 import { getProjectSchema, ProjectFormValues } from "@/features/projects/schema"
 import { UPDATE_PROJECT } from "@/graphql/projects/mutations"
-import { GET_PROJECTS } from "@/graphql/projects/queries"
 
 export function useUpdateProjectForm(
   t: TFunction,
   initialData: ProjectFormValues & { id: string },
   onSuccess?: () => void
 ) {
-  const [mutateUpdate, { loading }] = useMutation(UPDATE_PROJECT, {
-    refetchQueries: [{ query: GET_PROJECTS }],
-  })
+  const [mutateUpdate, { loading }] = useMutation(UPDATE_PROJECT)
 
   const getNormalizedValues = (data: ProjectFormValues) => ({
     name: data.name,

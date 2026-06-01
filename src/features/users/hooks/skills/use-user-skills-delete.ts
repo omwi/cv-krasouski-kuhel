@@ -4,14 +4,11 @@ import { toast } from "sonner"
 
 import { useSelection } from "@/components/shared/selection/selection-provider"
 import { DELETE_USER_SKILLS } from "@/graphql/users/mutations"
-import { GET_USER_SKILLS } from "@/graphql/users/queries"
 
 export function useUserSkillsDelete(userId: string) {
   const { t } = useT("skills")
 
-  const [deleteUserSkills, { loading }] = useMutation(DELETE_USER_SKILLS, {
-    refetchQueries: [{ query: GET_USER_SKILLS, variables: { userId } }],
-  })
+  const [deleteUserSkills, { loading }] = useMutation(DELETE_USER_SKILLS)
 
   const { selectedValues, startSelection, stopSelection } = useSelection()
 

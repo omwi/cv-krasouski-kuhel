@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { SKILL_FIELDS_FRAGMENT } from "@/graphql/skills/fragments"
 import {
   SkillCategoriesQuery,
   SkillCategoriesQueryVariables,
@@ -11,18 +12,11 @@ export const GET_SKILLS: TypedDocumentNode<SkillsQuery, SkillsQueryVariables> =
   gql`
     query Skills {
       skills {
-        id
-        name
-        category_name
-        category_parent_name
-        created_at
-        category {
-          id
-          name
-          order
-        }
+        ...SkillFields
       }
     }
+
+    ${SKILL_FIELDS_FRAGMENT}
   `
 
 export const GET_SKILL_CATEGORIES: TypedDocumentNode<

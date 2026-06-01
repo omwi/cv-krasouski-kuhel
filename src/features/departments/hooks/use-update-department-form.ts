@@ -8,7 +8,6 @@ import * as z from "zod"
 
 import { TableDepartment } from "@/features/departments/components/table/departments-table-columns"
 import { UPDATE_DEPARTMENT } from "@/graphql/departments/mutations"
-import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
 
 const getUpdateSchema = (t: TFunction) =>
   z.object({
@@ -27,9 +26,7 @@ export function useUpdateDepartmentForm(
   t: TFunction,
   onSuccess?: () => void
 ) {
-  const [mutateUpdate, { loading }] = useMutation(UPDATE_DEPARTMENT, {
-    refetchQueries: [{ query: GET_DEPARTMENTS }],
-  })
+  const [mutateUpdate, { loading }] = useMutation(UPDATE_DEPARTMENT)
 
   const form = useForm<UpdateFormValues>({
     resolver: zodResolver(getUpdateSchema(t)),

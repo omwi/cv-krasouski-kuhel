@@ -84,6 +84,7 @@ export function FloatingDatePicker({
             onSelect={onChange}
             disabled={disabledDate}
             locale={currentLocale}
+            defaultMonth={value}
           />
         </PopoverContent>
       </Popover>

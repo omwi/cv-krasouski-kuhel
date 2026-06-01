@@ -8,12 +8,28 @@ import {
   getLanguageSchema,
   LanguageFormValues,
 } from "@/features/languages/schema"
+import { LANGUAGE_FIELDS_FRAGMENT } from "@/graphql/languages/fragments"
 import { CREATE_LANGUAGE } from "@/graphql/languages/mutations"
-import { GET_LANGUAGES } from "@/graphql/languages/queries"
+import { appendUniqueRef } from "@/utils/cache"
 
 export function useCreateLanguageForm(t: TFunction, onSuccess?: () => void) {
   const [mutateCreate, { loading }] = useMutation(CREATE_LANGUAGE, {
-    refetchQueries: [{ query: GET_LANGUAGES }],
+    update(cache, { data }) {
+      const newLanguage = data?.createLanguage
+      if (!newLanguage) return
+
+      const newRef = cache.writeFragment({
+        data: newLanguage,
+        fragment: LANGUAGE_FIELDS_FRAGMENT,
+      })
+      if (!newRef) return
+
+      cache.modify({
+        fields: {
+          languages: appendUniqueRef(newRef, newLanguage.id),
+        },
+      })
+    },
   })
 
   const form = useForm<LanguageFormValues>({

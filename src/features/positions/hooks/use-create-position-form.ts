@@ -9,8 +9,9 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
+import { POSITION_FIELDS_FRAGMENT } from "@/graphql/positions/fragments"
 import { CREATE_POSITION } from "@/graphql/positions/mutations"
-import { GET_POSITIONS } from "@/graphql/positions/queries"
+import { appendUniqueRef } from "@/utils/cache"
 
 const getCreatePositionSchema = (t: TFunction) =>
   z.object({
@@ -30,7 +31,22 @@ export function useCreatePositionForm(
   const { t } = useT(["position-actions", "input", "buttons"])
 
   const [mutateCreate, { loading }] = useMutation(CREATE_POSITION, {
-    refetchQueries: [{ query: GET_POSITIONS }],
+    update(cache, { data }) {
+      const newPosition = data?.createPosition
+      if (!newPosition) return
+
+      const newRef = cache.writeFragment({
+        data: newPosition,
+        fragment: POSITION_FIELDS_FRAGMENT,
+      })
+      if (!newRef) return
+
+      cache.modify({
+        fields: {
+          positions: appendUniqueRef(newRef, newPosition.id),
+        },
+      })
+    },
   })
 
   const form = useForm<CreatePositionFormValues>({

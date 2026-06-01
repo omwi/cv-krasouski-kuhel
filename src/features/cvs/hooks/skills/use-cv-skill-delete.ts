@@ -4,7 +4,6 @@ import { toast } from "sonner"
 
 import { useSelection } from "@/components/shared/selection/selection-provider"
 import { DELETE_CV_SKILLS } from "@/graphql/cvs/mutations"
-import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { CvUserId } from "@/types/graphql-types"
 
@@ -13,9 +12,7 @@ export function useCvSkillsDelete({ id: cvId, user }: CvUserId) {
 
   const { canUpdateCv } = usePermissions()
 
-  const [deleteCvSkill, { loading }] = useMutation(DELETE_CV_SKILLS, {
-    refetchQueries: [{ query: GET_CV_SKILLS, variables: { cvId } }],
-  })
+  const [deleteCvSkill, { loading }] = useMutation(DELETE_CV_SKILLS)
 
   const { selectedValues, startSelection, stopSelection } = useSelection()
 

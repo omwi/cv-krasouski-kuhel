@@ -5,12 +5,28 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 import { getProjectSchema, ProjectFormValues } from "@/features/projects/schema"
+import { PROJECT_FRAGMENT } from "@/graphql/projects/fragments"
 import { CREATE_PROJECT } from "@/graphql/projects/mutations"
-import { GET_PROJECTS } from "@/graphql/projects/queries"
+import { appendUniqueRef } from "@/utils/cache"
 
 export function useCreateProjectForm(t: TFunction, onSuccess?: () => void) {
   const [mutateCreate, { loading }] = useMutation(CREATE_PROJECT, {
-    refetchQueries: [{ query: GET_PROJECTS }],
+    update(cache, { data }) {
+      const newProject = data?.createProject
+      if (!newProject) return
+
+      const newRef = cache.writeFragment({
+        data: newProject,
+        fragment: PROJECT_FRAGMENT,
+      })
+      if (!newRef) return
+
+      cache.modify({
+        fields: {
+          projects: appendUniqueRef(newRef, newProject.id),
+        },
+      })
+    },
   })
 
   const form = useForm<ProjectFormValues>({
