@@ -13,6 +13,9 @@ export default defineConfig({
     include: ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
     exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**", "**/.next/**"],
     globals: true,
+    api: {
+      port: 3005,
+    },
     server: {
       deps: {
         inline: ["next-i18next"],
