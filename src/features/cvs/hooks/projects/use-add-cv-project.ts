@@ -9,6 +9,7 @@ import {
   CvProjectFormValues,
   cvProjectSchema,
 } from "@/features/cvs/components/projects/actions/cv-project-schema"
+import { splitResponsibilities } from "@/features/cvs/utils/cv-project"
 import { ADD_CV_PROJECT } from "@/graphql/cvs/mutations"
 import { GET_CV_PROJECTS } from "@/graphql/cvs/queries"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
@@ -54,7 +55,7 @@ export function useAddCvProject({ id, user }: CvUserId) {
           project: {
             cvId: id,
             projectId: values.projectId,
-            responsibilities: values.responsibilities.split(" "), // todo: util parse responsibilities
+            responsibilities: splitResponsibilities(values.responsibilities),
             start_date: values.startDate,
             end_date: values.endDate,
             roles: [],

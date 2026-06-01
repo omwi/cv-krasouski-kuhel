@@ -45,7 +45,6 @@ export default function CvProjectsTable({
   const { canUpdateCv } = usePermissions()
   const hasUpdatePermissions = canUpdateCv(data.cv.user?.id)
 
-  // todo: replace intl here
   return (
     <DataTable
       columns={columns}

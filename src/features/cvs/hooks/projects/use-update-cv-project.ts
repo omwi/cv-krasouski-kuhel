@@ -9,6 +9,10 @@ import {
   CvProjectFormValues,
   cvProjectSchema,
 } from "@/features/cvs/components/projects/actions/cv-project-schema"
+import {
+  joinResponsibilities,
+  splitResponsibilities,
+} from "@/features/cvs/utils/cv-project"
 import { UPDATE_CV_PROJECT } from "@/graphql/cvs/mutations"
 import { GET_CV_PROJECTS } from "@/graphql/cvs/queries"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
@@ -28,7 +32,7 @@ export function useUpdateCvProject(
     resolver: standardSchemaResolver(cvProjectSchema),
     defaultValues: {
       projectId: cvProject.project.id,
-      responsibilities: cvProject.responsibilities.join(" "), // todo: util parse responsibilities,
+      responsibilities: joinResponsibilities(cvProject.responsibilities),
       startDate: cvProject.start_date,
       endDate: cvProject.end_date,
     },
@@ -46,7 +50,7 @@ export function useUpdateCvProject(
 
     reset({
       projectId: cvProject.project.id,
-      responsibilities: cvProject.responsibilities.join(" "), // todo: util parse responsibilities,
+      responsibilities: joinResponsibilities(cvProject.responsibilities),
       startDate: cvProject.start_date,
       endDate: cvProject.end_date,
     })
@@ -67,7 +71,7 @@ export function useUpdateCvProject(
           project: {
             cvId: cvUserId.id,
             projectId: cvProject.project.id,
-            responsibilities: values.responsibilities.split(" "), // todo: util parse responsibilities
+            responsibilities: splitResponsibilities(values.responsibilities),
             start_date: values.startDate,
             end_date: values.endDate,
             roles: cvProject.roles,
