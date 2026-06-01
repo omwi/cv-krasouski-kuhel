@@ -12,7 +12,6 @@ import * as z from "zod"
 import { SkillFormValues } from "@/components/shared/form/skill-form-dialog"
 import { TableSkill } from "@/features/skills/components/table/skills-table-columns"
 import { UPDATE_SKILL } from "@/graphql/skills/mutations"
-import { GET_SKILLS } from "@/graphql/skills/queries"
 
 const getUpdateSkillSchema = (t: TFunction) =>
   z.object({
@@ -29,9 +28,7 @@ export function useUpdateSkillForm(
 ) {
   const { t } = useT(["skill-actions", "input", "buttons"])
 
-  const [mutateUpdate, { loading }] = useMutation(UPDATE_SKILL, {
-    refetchQueries: [{ query: GET_SKILLS }],
-  })
+  const [mutateUpdate, { loading }] = useMutation(UPDATE_SKILL)
 
   const form = useForm<SkillFormValues>({
     resolver: zodResolver(getUpdateSkillSchema(t)),

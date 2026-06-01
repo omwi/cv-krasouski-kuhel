@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { LANGUAGE_FIELDS_FRAGMENT } from "@/graphql/languages/fragments"
 import {
   CreateLanguageMutation,
   CreateLanguageMutationVariables,
@@ -15,11 +16,11 @@ export const CREATE_LANGUAGE: TypedDocumentNode<
 > = gql`
   mutation CreateLanguage($language: CreateLanguageInput!) {
     createLanguage(language: $language) {
-      iso2
-      name
-      native_name
+      ...LanguageFields
     }
   }
+
+  ${LANGUAGE_FIELDS_FRAGMENT}
 `
 
 export const UPDATE_LANGUAGE: TypedDocumentNode<
@@ -28,12 +29,11 @@ export const UPDATE_LANGUAGE: TypedDocumentNode<
 > = gql`
   mutation UpdateLanguage($language: UpdateLanguageInput!) {
     updateLanguage(language: $language) {
-      id
-      iso2
-      name
-      native_name
+      ...LanguageFields
     }
   }
+
+  ${LANGUAGE_FIELDS_FRAGMENT}
 `
 
 export const DELETE_LANGUAGE: TypedDocumentNode<

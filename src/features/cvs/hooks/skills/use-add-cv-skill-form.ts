@@ -8,7 +8,6 @@ import { z } from "zod"
 
 import { SKILL_MASTERIES } from "@/config/const"
 import { ADD_CV_SKILL } from "@/graphql/cvs/mutations"
-import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
@@ -51,9 +50,7 @@ export function useCvSkillAddForm({ id: cvId, user }: CvUserId) {
   const { data } = useQuery(GET_SKILLS)
   const skills = data?.skills ?? []
 
-  const [addCvSkill, { loading }] = useMutation(ADD_CV_SKILL, {
-    refetchQueries: [{ query: GET_CV_SKILLS, variables: { cvId } }],
-  })
+  const [addCvSkill, { loading }] = useMutation(ADD_CV_SKILL)
 
   const findSkill = (skillId: string) => {
     return skills.find((skill) => skill.id === skillId)

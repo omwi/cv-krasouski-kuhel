@@ -11,7 +11,6 @@ import * as z from "zod"
 
 import { TablePosition } from "@/features/positions/components/table/positions-table-columns"
 import { UPDATE_POSITION } from "@/graphql/positions/mutations"
-import { GET_POSITIONS } from "@/graphql/positions/queries"
 
 const getUpdatePositionSchema = (t: TFunction) =>
   z.object({
@@ -31,9 +30,7 @@ export function useUpdatePositionForm(
 ) {
   const { t } = useT(["position-actions", "input", "buttons"])
 
-  const [mutateUpdate, { loading }] = useMutation(UPDATE_POSITION, {
-    refetchQueries: [{ query: GET_POSITIONS }],
-  })
+  const [mutateUpdate, { loading }] = useMutation(UPDATE_POSITION)
 
   const form = useForm<UpdatePositionFormValues>({
     resolver: zodResolver(getUpdatePositionSchema(t)),

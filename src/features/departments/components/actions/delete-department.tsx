@@ -5,7 +5,6 @@ import { useMutation } from "@apollo/client/react"
 import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
 import { TableDepartment } from "@/features/departments/components/table/departments-table-columns"
 import { DELETE_DEPARTMENT } from "@/graphql/departments/mutations"
-import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
 
 export type Props = {
   department: TableDepartment
@@ -19,7 +18,14 @@ export default function DeleteDepartment({
   onOpenChange = () => {},
 }: Props) {
   const [mutateDelete] = useMutation(DELETE_DEPARTMENT, {
-    refetchQueries: [{ query: GET_DEPARTMENTS }],
+    update(cache) {
+      if (department) {
+        cache.evict({
+          id: cache.identify({ __typename: "Department", id: department.id }),
+        })
+        cache.gc()
+      }
+    },
   })
 
   return (

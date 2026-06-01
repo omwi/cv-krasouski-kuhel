@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { POSITION_FIELDS_FRAGMENT } from "@/graphql/positions/fragments"
 import {
   GetPositionsQuery,
   GetPositionsQueryVariables,
@@ -11,8 +12,9 @@ export const GET_POSITIONS: TypedDocumentNode<
 > = gql`
   query GetPositions {
     positions {
-      id
-      name
+      ...PositionFields
     }
   }
+
+  ${POSITION_FIELDS_FRAGMENT}
 `

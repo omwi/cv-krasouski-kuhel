@@ -7,7 +7,6 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 import { UPDATE_CV } from "@/graphql/cvs/mutations"
-import { GET_CV } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Cv } from "@/types/graphql-types"
 
@@ -46,9 +45,7 @@ export function useUpdateCvForm(
     })
   }, [cv, reset, dialog?.open])
 
-  const [updateCv, { loading: isUpdating }] = useMutation(UPDATE_CV, {
-    refetchQueries: [{ query: GET_CV, variables: { cvId: cv.id } }],
-  })
+  const [updateCv, { loading: isUpdating }] = useMutation(UPDATE_CV)
 
   const onSubmit = handleSubmit(async (values) => {
     if (!canUpdateCv(cv.user?.id)) return
