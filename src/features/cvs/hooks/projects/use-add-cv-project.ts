@@ -4,22 +4,16 @@ import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { z } from "zod"
 
+import {
+  CvProjectFormValues,
+  cvProjectSchema,
+} from "@/features/cvs/components/projects/actions/cv-project-schema"
 import { ADD_CV_PROJECT } from "@/graphql/cvs/mutations"
 import { GET_CV_PROJECTS } from "@/graphql/cvs/queries"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { CvUserId } from "@/types/graphql-types"
-
-const schema = z.object({
-  projectId: z.string().min(1),
-  responsibilities: z.string().min(1),
-  startDate: z.string().min(1),
-  endDate: z.string().nullable(),
-})
-
-type AddCvProjectInput = z.infer<typeof schema>
 
 export function useAddCvProject({ id, user }: CvUserId) {
   const { t } = useT("cv-project-actions")
@@ -28,8 +22,8 @@ export function useAddCvProject({ id, user }: CvUserId) {
 
   const { canUpdateCv } = usePermissions()
 
-  const form = useForm<AddCvProjectInput>({
-    resolver: standardSchemaResolver(schema),
+  const form = useForm<CvProjectFormValues>({
+    resolver: standardSchemaResolver(cvProjectSchema),
     defaultValues: {
       projectId: "",
       responsibilities: "",
@@ -51,7 +45,7 @@ export function useAddCvProject({ id, user }: CvUserId) {
   const [addCvProject] = useMutation(ADD_CV_PROJECT, {
     refetchQueries: [{ query: GET_CV_PROJECTS, variables: { cvId: id } }],
   })
-  const onSubmit = async (values: AddCvProjectInput) => {
+  const onSubmit = async (values: CvProjectFormValues) => {
     if (!canUpdateCv(user?.id)) return
 
     try {
