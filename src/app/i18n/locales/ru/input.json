@@ -21,6 +21,8 @@
   "skill-mastery": "Мастерство навыка",
   "language": "Язык",
   "language-proficiency": "Уровень владения языком",
+  "project": "Проект",
+  "responsibilities": "Обязанности",
   "errors": {
     "required": "Обязательное поле",
     "first-name": "Имя обязательно для заполнения",

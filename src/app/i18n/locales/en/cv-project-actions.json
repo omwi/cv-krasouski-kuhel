@@ -1,0 +1,19 @@
+{
+  "create": {
+    "title": "Add Project",
+    "success": "Project added successfully!",
+    "error": "Failed to create CV. Please try again."
+  },
+  "update": {
+    "title": "Update CV Project",
+    "success": "CV Project updated successfully!",
+    "no-changes": "No changes detected.",
+    "error": "Failed to update CV project. Please try again."
+  },
+  "delete": {
+    "title": "Remove Project",
+    "description": "Are you sure you want to remove project {{name}} from CV? This action cannot be undone.",
+    "success": "CV Project removed successfully!",
+    "error": "Failed to remove project from CV. Please try again."
+  }
+}

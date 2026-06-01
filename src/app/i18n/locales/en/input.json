@@ -21,6 +21,8 @@
   "skill-mastery": "Skill Mastery",
   "language": "Language",
   "language-proficiency": "Language Proficiency",
+  "project": "Project",
+  "responsibilities": "Responsibilitiess",
   "errors": {
     "required": "Required field",
     "first-name": "First name is required",

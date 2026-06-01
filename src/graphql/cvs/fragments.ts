@@ -13,6 +13,7 @@ export const CV_PROJECT_FRAGMENT: TypedDocumentNode<CvProjectFragment, never> =
         id
       }
       name
+      internal_name
       domain
       start_date
       end_date
