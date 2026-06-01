@@ -1,4 +1,5 @@
 import { TableColumnConfig } from "@/components/shared/data-table/data-table"
+import { Badge } from "@/components/ui/badge"
 import CvProjectsRowActions from "@/features/cvs/components/projects/table/cv-projects-row-actions"
 import { CvProject, CvUserId } from "@/types/graphql-types"
 import type { CurrentUser } from "@/utils/permissions"
@@ -52,3 +53,15 @@ export const getColumns = (
     ),
   },
 ]
+
+export const renderResponsibilitiesRow = (cvProject: CvProject) => {
+  return (
+    <div className="flex flex-row flex-wrap gap-2">
+      {cvProject.responsibilities.map((r) => (
+        <Badge key={r}>
+          <div className="max-w-64 truncate">{r}</div>
+        </Badge>
+      ))}
+    </div>
+  )
+}

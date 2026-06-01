@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({
                     <TableRow className="border-t-0 hover:bg-muted/30">
                       <TableCell
                         colSpan={row.getVisibleCells().length}
-                        className="pt-0 pb-4 text-xs font-normal break-words whitespace-normal text-muted-foreground"
+                        className="pt-2 text-xs font-normal wrap-break-word whitespace-normal text-muted-foreground"
                       >
                         {renderSubRow(row.original)}
                       </TableCell>
