@@ -111,7 +111,9 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        header.id === "actions" && "w-12 text-right"
+                        header.id === "actions"
+                          ? "w-12 text-right"
+                          : "max-w-64 truncate"
                       )}
                     >
                       {header.isPlaceholder
@@ -140,7 +142,9 @@ export function DataTable<TData, TValue>({
                       <TableCell
                         key={cell.id}
                         className={cn(
-                          cell.column.id === "actions" && "w-12 text-right"
+                          cell.column.id === "actions"
+                            ? "w-12 text-right"
+                            : "max-w-64 truncate"
                         )}
                       >
                         {flexRender(
@@ -154,7 +158,7 @@ export function DataTable<TData, TValue>({
                     <TableRow className="border-t-0 hover:bg-muted/30">
                       <TableCell
                         colSpan={row.getVisibleCells().length}
-                        className="pt-0 pb-4 text-xs font-normal break-words whitespace-normal text-muted-foreground"
+                        className="pt-0 pb-4 text-xs font-normal wrap-break-word whitespace-normal text-muted-foreground"
                       >
                         {renderSubRow(row.original)}
                       </TableCell>
