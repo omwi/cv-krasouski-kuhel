@@ -17,7 +17,9 @@ export function useRemoveCvProject(cvProject: CvProject, cvUserId: CvUserId) {
   const handleDelete = async () => {
     if (!canUpdateCv(cvUserId.user?.id)) return
     await removeCvProject({
-      variables: { project: { projectId: cvProject.id, cvId: cvUserId.id } },
+      variables: {
+        project: { projectId: cvProject.project.id, cvId: cvUserId.id },
+      },
     })
   }
 
