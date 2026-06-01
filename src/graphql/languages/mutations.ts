@@ -15,6 +15,7 @@ export const CREATE_LANGUAGE: TypedDocumentNode<
 > = gql`
   mutation CreateLanguage($language: CreateLanguageInput!) {
     createLanguage(language: $language) {
+      id
       iso2
       name
       native_name
