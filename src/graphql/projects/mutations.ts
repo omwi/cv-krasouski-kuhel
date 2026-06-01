@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { PROJECT_FIELDS_FRAGMENT } from "@/graphql/projects/fragments"
 import {
   CreateProjectMutation,
   CreateProjectMutationVariables,
@@ -15,14 +16,11 @@ export const CREATE_PROJECT: TypedDocumentNode<
 > = gql`
   mutation CreateProject($project: CreateProjectInput!) {
     createProject(project: $project) {
-      name
-      description
-      domain
-      environment
-      start_date
-      end_date
+      ...ProjectFields
     }
   }
+
+  ${PROJECT_FIELDS_FRAGMENT}
 `
 export const UPDATE_PROJECT: TypedDocumentNode<
   UpdateProjectMutation,
@@ -30,15 +28,11 @@ export const UPDATE_PROJECT: TypedDocumentNode<
 > = gql`
   mutation UpdateProject($project: UpdateProjectInput!) {
     updateProject(project: $project) {
-      id
-      name
-      description
-      domain
-      environment
-      start_date
-      end_date
+      ...ProjectFields
     }
   }
+
+  ${PROJECT_FIELDS_FRAGMENT}
 `
 export const DELETE_PROJECT: TypedDocumentNode<
   DeleteProjectMutation,

@@ -1,5 +1,6 @@
 import "@/app/globals.css"
 
+import type { Viewport } from "next"
 import { Roboto } from "next/font/google"
 import { cookies } from "next/headers"
 import { I18nProvider } from "next-i18next/client"
@@ -20,6 +21,13 @@ import { decodeJwtPayload } from "@/features/auth/utils/jwt"
 import { cn } from "@/lib/utils"
 
 export const dynamic = "force-dynamic"
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],

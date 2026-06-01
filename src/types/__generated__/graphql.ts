@@ -521,12 +521,18 @@ export type GetCvProjectsQuery = {
   }
 }
 
+export type DepartmentFieldsFragment = {
+  __typename: "Department"
+  id: string
+  name: string
+}
+
 export type CreateDepartmentMutationVariables = Exact<{
   department: CreateDepartmentInput
 }>
 
 export type CreateDepartmentMutation = {
-  createDepartment: { __typename: "Department"; name: string }
+  createDepartment: { __typename: "Department"; id: string; name: string }
 }
 
 export type UpdateDepartmentMutationVariables = Exact<{
@@ -534,7 +540,7 @@ export type UpdateDepartmentMutationVariables = Exact<{
 }>
 
 export type UpdateDepartmentMutation = {
-  updateDepartment: { __typename: "Department"; name: string; id: string }
+  updateDepartment: { __typename: "Department"; id: string; name: string }
 }
 
 export type DeleteDepartmentMutationVariables = Exact<{
@@ -551,6 +557,14 @@ export type GetDepartmentsQuery = {
   departments: Array<{ __typename: "Department"; id: string; name: string }>
 }
 
+export type LanguageFieldsFragment = {
+  __typename: "Language"
+  id: string
+  iso2: string
+  name: string
+  native_name: string | null
+}
+
 export type CreateLanguageMutationVariables = Exact<{
   language: CreateLanguageInput
 }>
@@ -558,6 +572,7 @@ export type CreateLanguageMutationVariables = Exact<{
 export type CreateLanguageMutation = {
   createLanguage: {
     __typename: "Language"
+    id: string
     iso2: string
     name: string
     native_name: string | null
@@ -598,12 +613,18 @@ export type GetLanguagesQuery = {
   } | null>
 }
 
+export type PositionFieldsFragment = {
+  __typename: "Position"
+  id: string
+  name: string
+}
+
 export type CreatePositionMutationVariables = Exact<{
   position: CreatePositionInput
 }>
 
 export type CreatePositionMutation = {
-  createPosition: { __typename: "Position"; name: string }
+  createPosition: { __typename: "Position"; id: string; name: string }
 }
 
 export type UpdatePositionMutationVariables = Exact<{
@@ -611,7 +632,7 @@ export type UpdatePositionMutationVariables = Exact<{
 }>
 
 export type UpdatePositionMutation = {
-  updatePosition: { __typename: "Position"; name: string; id: string }
+  updatePosition: { __typename: "Position"; id: string; name: string }
 }
 
 export type DeletePositionMutationVariables = Exact<{
@@ -628,6 +649,18 @@ export type GetPositionsQuery = {
   positions: Array<{ __typename: "Position"; id: string; name: string }>
 }
 
+export type ProjectFieldsFragment = {
+  __typename: "Project"
+  id: string
+  name: string
+  internal_name: string
+  description: string
+  domain: string
+  environment: Array<string>
+  start_date: string
+  end_date: string | null
+}
+
 export type CreateProjectMutationVariables = Exact<{
   project: CreateProjectInput
 }>
@@ -635,7 +668,9 @@ export type CreateProjectMutationVariables = Exact<{
 export type CreateProjectMutation = {
   createProject: {
     __typename: "Project"
+    id: string
     name: string
+    internal_name: string
     description: string
     domain: string
     environment: Array<string>
@@ -653,6 +688,7 @@ export type UpdateProjectMutation = {
     __typename: "Project"
     id: string
     name: string
+    internal_name: string
     description: string
     domain: string
     environment: Array<string>
@@ -703,6 +739,21 @@ export type GetProjectQuery = {
   }
 }
 
+export type SkillFieldsFragment = {
+  __typename: "Skill"
+  id: string
+  name: string
+  category_name: string | null
+  category_parent_name: string | null
+  created_at: string
+  category: {
+    __typename: "SkillCategory"
+    id: string
+    name: string
+    order: number
+  } | null
+}
+
 export type CreateSkillMutationVariables = Exact<{
   skill: CreateSkillInput
 }>
@@ -712,7 +763,15 @@ export type CreateSkillMutation = {
     __typename: "Skill"
     id: string
     name: string
+    category_name: string | null
+    category_parent_name: string | null
     created_at: string
+    category: {
+      __typename: "SkillCategory"
+      id: string
+      name: string
+      order: number
+    } | null
   }
 }
 
@@ -725,7 +784,15 @@ export type UpdateSkillMutation = {
     __typename: "Skill"
     id: string
     name: string
+    category_name: string | null
+    category_parent_name: string | null
     created_at: string
+    category: {
+      __typename: "SkillCategory"
+      id: string
+      name: string
+      order: number
+    } | null
   }
 }
 
@@ -776,6 +843,48 @@ export type SkillCategoriesQuery = {
       name: string
       order: number
     }>
+  }>
+}
+
+export type UserFieldsFragment = {
+  __typename: "User"
+  id: string
+  created_at: string
+  email: string
+  role: UserRole
+  is_verified: boolean
+  department_name: string | null
+  position_name: string | null
+  department: { __typename: "Department"; id: string; name: string } | null
+  position: { __typename: "Position"; id: string; name: string } | null
+  profile: {
+    __typename: "Profile"
+    id: string
+    avatar: string | null
+    first_name: string | null
+    last_name: string | null
+    full_name: string | null
+  }
+}
+
+export type ProfileSkillsFragment = {
+  __typename: "Profile"
+  id: string
+  skills: Array<{
+    __typename: "SkillMastery"
+    name: string
+    categoryId: string | null
+    mastery: Mastery
+  }>
+}
+
+export type ProfileLanguagesFragment = {
+  __typename: "Profile"
+  id: string
+  languages: Array<{
+    __typename: "LanguageProficiency"
+    name: string
+    proficiency: Proficiency
   }>
 }
 
@@ -864,14 +973,21 @@ export type CreateUserMutation = {
   createUser: {
     __typename: "User"
     id: string
+    created_at: string
     email: string
     role: UserRole
+    is_verified: boolean
     department_name: string | null
     position_name: string | null
+    department: { __typename: "Department"; id: string; name: string } | null
+    position: { __typename: "Position"; id: string; name: string } | null
     profile: {
       __typename: "Profile"
+      id: string
+      avatar: string | null
       first_name: string | null
       last_name: string | null
+      full_name: string | null
     }
   }
 }
@@ -892,8 +1008,22 @@ export type UpdateUserMutation = {
   updateUser: {
     __typename: "User"
     id: string
+    created_at: string
+    email: string
+    role: UserRole
+    is_verified: boolean
+    department_name: string | null
+    position_name: string | null
     department: { __typename: "Department"; id: string; name: string } | null
     position: { __typename: "Position"; id: string; name: string } | null
+    profile: {
+      __typename: "Profile"
+      id: string
+      avatar: string | null
+      first_name: string | null
+      last_name: string | null
+      full_name: string | null
+    }
   }
 }
 
@@ -980,18 +1110,20 @@ export type GetUserQuery = {
     id: string
     created_at: string
     email: string
-    is_verified: boolean
     role: UserRole
+    is_verified: boolean
+    department_name: string | null
+    position_name: string | null
+    department: { __typename: "Department"; id: string; name: string } | null
+    position: { __typename: "Position"; id: string; name: string } | null
     profile: {
       __typename: "Profile"
       id: string
+      avatar: string | null
       first_name: string | null
       last_name: string | null
       full_name: string | null
-      avatar: string | null
     }
-    department: { __typename: "Department"; id: string; name: string } | null
-    position: { __typename: "Position"; id: string; name: string } | null
   }
 }
 

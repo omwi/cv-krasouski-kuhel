@@ -7,7 +7,6 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 import { UPDATE_USER_LANGUAGE } from "@/graphql/users/mutations"
-import { GET_USER_LANGUAGES } from "@/graphql/users/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Proficiency } from "@/types/__generated__/graphql"
 import { UserLanguage } from "@/types/graphql-types"
@@ -46,9 +45,7 @@ export function useUserLanguageUpdateForm(
     })
   }, [userLanguage.proficiency, open, reset])
 
-  const [updateUserLanguage, { loading }] = useMutation(UPDATE_USER_LANGUAGE, {
-    refetchQueries: [{ query: GET_USER_LANGUAGES, variables: { userId } }],
-  })
+  const [updateUserLanguage, { loading }] = useMutation(UPDATE_USER_LANGUAGE)
 
   const onSubmit = async (values: UpdateUserLanguageInput) => {
     if (!canUpdateUser(userId)) return

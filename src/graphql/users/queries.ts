@@ -1,6 +1,11 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  PROFILE_LANGUAGES_FRAGMENT,
+  PROFILE_SKILLS_FRAGMENT,
+  USER_FIELDS_FRAGMENT,
+} from "@/graphql/users/fragments"
+import {
   GetUserCvsQuery,
   GetUserCvsQueryVariables,
   GetUserLanguagesQuery,
@@ -23,58 +28,22 @@ export const GET_USERS_LIST: TypedDocumentNode<
 > = gql`
   query GetUsersList {
     users {
-      id
-      created_at
-      email
-      role
-      is_verified
-      department_name
-      position_name
-      department {
-        id
-        name
-      }
-      position {
-        id
-        name
-      }
-      profile {
-        id
-        avatar
-        first_name
-        last_name
-        full_name
-      }
+      ...UserFields
     }
   }
+
+  ${USER_FIELDS_FRAGMENT}
 `
 
 export const GET_USER: TypedDocumentNode<GetUserQuery, GetUserQueryVariables> =
   gql`
     query GetUser($userId: ID!) {
       user(userId: $userId) {
-        id
-        created_at
-        email
-        profile {
-          id
-          first_name
-          last_name
-          full_name
-          avatar
-        }
-        department {
-          id
-          name
-        }
-        position {
-          id
-          name
-        }
-        is_verified
-        role
+        ...UserFields
       }
     }
+
+    ${USER_FIELDS_FRAGMENT}
   `
 
 export const GET_USER_SKILLS: TypedDocumentNode<
@@ -83,14 +52,11 @@ export const GET_USER_SKILLS: TypedDocumentNode<
 > = gql`
   query GetUserSkills($userId: ID!) {
     profile(userId: $userId) {
-      id
-      skills {
-        name
-        categoryId
-        mastery
-      }
+      ...ProfileSkills
     }
   }
+
+  ${PROFILE_SKILLS_FRAGMENT}
 `
 
 export const GET_USER_LANGUAGES: TypedDocumentNode<
@@ -99,13 +65,11 @@ export const GET_USER_LANGUAGES: TypedDocumentNode<
 > = gql`
   query GetUserLanguages($userId: ID!) {
     profile(userId: $userId) {
-      id
-      languages {
-        name
-        proficiency
-      }
+      ...ProfileLanguages
     }
   }
+
+  ${PROFILE_LANGUAGES_FRAGMENT}
 `
 
 export const GET_USER_CVS: TypedDocumentNode<

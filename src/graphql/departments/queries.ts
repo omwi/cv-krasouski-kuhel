@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { DEPARTMENT_FIELDS_FRAGMENT } from "@/graphql/departments/fragments"
 import {
   GetDepartmentsQuery,
   GetDepartmentsQueryVariables,
@@ -11,8 +12,9 @@ export const GET_DEPARTMENTS: TypedDocumentNode<
 > = gql`
   query GetDepartments {
     departments {
-      id
-      name
+      ...DepartmentFields
     }
   }
+
+  ${DEPARTMENT_FIELDS_FRAGMENT}
 `

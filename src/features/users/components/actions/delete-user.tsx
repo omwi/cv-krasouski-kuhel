@@ -5,7 +5,6 @@ import { useMutation } from "@apollo/client/react"
 import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import { DELETE_USER } from "@/graphql/users/mutations"
-import { GET_USERS_LIST } from "@/graphql/users/queries"
 
 type Props = {
   user: TableUser
@@ -19,7 +18,10 @@ export default function DeleteUser({
   onOpenChange = () => {},
 }: Props) {
   const [mutateDelete] = useMutation(DELETE_USER, {
-    refetchQueries: [{ query: GET_USERS_LIST }],
+    update(cache) {
+      cache.evict({ id: cache.identify({ __typename: "User", id: user.id }) })
+      cache.gc()
+    },
   })
 
   const firstName = user.profile?.first_name || ""
