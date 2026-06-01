@@ -7,7 +7,6 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 import { UPDATE_CV_SKILL } from "@/graphql/cvs/mutations"
-import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
 import { CvSkill, CvUserId } from "@/types/graphql-types"
@@ -46,9 +45,7 @@ export function useCvSkillUpdateForm(
     })
   }, [cvSkill.mastery, open, reset])
 
-  const [updateUserSkill, { loading }] = useMutation(UPDATE_CV_SKILL, {
-    refetchQueries: [{ query: GET_CV_SKILLS, variables: { cvId } }],
-  })
+  const [updateUserSkill, { loading }] = useMutation(UPDATE_CV_SKILL)
 
   const onSubmit = async (values: UpdateCvSkillInput) => {
     if (!canUpdateCv(user?.id)) return
