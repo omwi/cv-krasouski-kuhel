@@ -254,6 +254,7 @@ export type CvProjectFragment = {
   __typename: "CvProject"
   id: string
   name: string
+  internal_name: string
   domain: string
   start_date: string
   end_date: string | null
@@ -374,6 +375,7 @@ export type AddCvProjectMutation = {
       __typename: "CvProject"
       id: string
       name: string
+      internal_name: string
       domain: string
       start_date: string
       end_date: string | null
@@ -398,6 +400,7 @@ export type UpdateCvProjectMutation = {
       __typename: "CvProject"
       id: string
       name: string
+      internal_name: string
       domain: string
       start_date: string
       end_date: string | null
@@ -422,6 +425,7 @@ export type RemoveCvProjectMutation = {
       __typename: "CvProject"
       id: string
       name: string
+      internal_name: string
       domain: string
       start_date: string
       end_date: string | null
@@ -505,10 +509,12 @@ export type GetCvProjectsQuery = {
   cv: {
     __typename: "Cv"
     id: string
+    user: { __typename: "User"; id: string } | null
     projects: Array<{
       __typename: "CvProject"
       id: string
       name: string
+      internal_name: string
       domain: string
       start_date: string
       end_date: string | null
@@ -649,7 +655,7 @@ export type GetPositionsQuery = {
   positions: Array<{ __typename: "Position"; id: string; name: string }>
 }
 
-export type ProjectFieldsFragment = {
+export type ProjectFragment = {
   __typename: "Project"
   id: string
   name: string

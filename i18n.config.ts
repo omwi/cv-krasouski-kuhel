@@ -21,6 +21,7 @@ const i18nConfig: I18nConfig = {
     "language-actions",
     "project-details",
     "cv-actions",
+    "cv-project-actions",
     "input",
     "delete",
     "table",

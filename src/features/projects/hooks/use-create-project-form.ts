@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 import { getProjectSchema, ProjectFormValues } from "@/features/projects/schema"
-import { PROJECT_FIELDS_FRAGMENT } from "@/graphql/projects/fragments"
+import { PROJECT_FRAGMENT } from "@/graphql/projects/fragments"
 import { CREATE_PROJECT } from "@/graphql/projects/mutations"
 import { appendUniqueRef } from "@/utils/cache"
 
@@ -17,7 +17,7 @@ export function useCreateProjectForm(t: TFunction, onSuccess?: () => void) {
 
       const newRef = cache.writeFragment({
         data: newProject,
-        fragment: PROJECT_FIELDS_FRAGMENT,
+        fragment: PROJECT_FRAGMENT,
       })
       if (!newRef) return
 

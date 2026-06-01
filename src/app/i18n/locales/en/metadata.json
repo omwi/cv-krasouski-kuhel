@@ -72,6 +72,10 @@
     "title": "CV Skills",
     "description": "Manage CV skills."
   },
+  "cv-projects": {
+    "title": "CV Projects",
+    "description": "Manage CV projects."
+  },
   "verify": {
     "title": "Verification",
     "description": "Verify skills or user data."

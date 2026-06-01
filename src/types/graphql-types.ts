@@ -1,9 +1,11 @@
 import {
   BaseCvFragment,
+  CvProjectFragment,
   GetCvSkillsQuery,
   GetLanguagesQuery,
   GetUserLanguagesQuery,
   GetUserSkillsQuery,
+  ProjectFragment,
   SkillsQuery,
 } from "@/types/__generated__/graphql"
 
@@ -25,3 +27,6 @@ export type CvUserId = {
 }
 
 export type CvSkill = GetCvSkillsQuery["cv"]["skills"][number]
+
+export type Project = ProjectFragment
+export type CvProject = CvProjectFragment

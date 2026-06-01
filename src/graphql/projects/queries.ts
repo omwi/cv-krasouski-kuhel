@@ -1,6 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
-import { PROJECT_FIELDS_FRAGMENT } from "@/graphql/projects/fragments"
+import { PROJECT_FRAGMENT } from "@/graphql/projects/fragments"
 import {
   GetProjectQuery,
   GetProjectQueryVariables,
@@ -14,11 +14,10 @@ export const GET_PROJECTS: TypedDocumentNode<
 > = gql`
   query GetProjects {
     projects {
-      ...ProjectFields
+      ...Project
     }
   }
-
-  ${PROJECT_FIELDS_FRAGMENT}
+  ${PROJECT_FRAGMENT}
 `
 
 export const GET_PROJECT: TypedDocumentNode<
@@ -27,9 +26,8 @@ export const GET_PROJECT: TypedDocumentNode<
 > = gql`
   query GetProject($projectId: ID!) {
     project(projectId: $projectId) {
-      ...ProjectFields
+      ...Project
     }
   }
-
-  ${PROJECT_FIELDS_FRAGMENT}
+  ${PROJECT_FRAGMENT}
 `
