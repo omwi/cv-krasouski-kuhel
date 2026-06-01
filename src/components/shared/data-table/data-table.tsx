@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, useMemo } from "react"
+import { Fragment, ReactNode, useMemo } from "react"
 import {
   ColumnDef,
   flexRender,
@@ -46,6 +46,7 @@ export type DataTableProps<TData, TValue> = {
   searchValue?: string
   onSearchChangeAction?: (value: string) => void
   actions?: React.ReactNode
+  renderSubRow?: (row: TData) => React.ReactNode
 }
 
 export function DataTable<TData, TValue>({
@@ -59,6 +60,7 @@ export function DataTable<TData, TValue>({
   searchValue,
   onSearchChangeAction,
   actions,
+  renderSubRow,
 }: DataTableProps<TData, TValue>) {
   const mappedColumns = useMemo(() => {
     if (!columns || columns.length === 0) return []
@@ -127,24 +129,38 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        cell.column.id === "actions" && "w-12 text-right"
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <Fragment key={row.id}>
+                  <TableRow
+                    data-state={row.getIsSelected() && "selected"}
+                    className={cn(
+                      renderSubRow && "border-b-0 hover:bg-muted/30"
+                    )}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className={cn(
+                          cell.column.id === "actions" && "w-12 text-right"
+                        )}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {renderSubRow && (
+                    <TableRow className="border-t-0 hover:bg-muted/30">
+                      <TableCell
+                        colSpan={row.getVisibleCells().length}
+                        className="pt-0 pb-4 text-xs font-normal break-words whitespace-normal text-muted-foreground"
+                      >
+                        {renderSubRow(row.original)}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </Fragment>
               ))
             ) : (
               <TableRow className="h-24 text-center hover:bg-transparent">
