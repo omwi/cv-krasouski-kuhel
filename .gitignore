@@ -40,3 +40,8 @@ next-env.d.ts
 
 # Visual Studio Code
 .vscode/*
+
+# Playwright
+/playwright-report/
+/test-results/
+/playwright/.cache/
