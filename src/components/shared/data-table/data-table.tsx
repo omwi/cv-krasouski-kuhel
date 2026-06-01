@@ -135,7 +135,9 @@ export function DataTable<TData, TValue>({
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        cell.column.id === "actions" && "w-12 text-right"
+                        cell.column.id === "actions"
+                          ? "w-12 text-right"
+                          : "max-w-64 truncate"
                       )}
                     >
                       {flexRender(
