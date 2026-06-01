@@ -11,6 +11,7 @@ import {
   CreateUserFormValues,
   getCreateUserSchema,
 } from "@/features/users/utils/validation"
+import { USER_FIELDS_FRAGMENT } from "@/graphql/users/fragments"
 import { CREATE_USER } from "@/graphql/users/mutations"
 import { UserRole } from "@/types/__generated__/graphql"
 import { appendUniqueRef } from "@/utils/cache"
@@ -23,18 +24,20 @@ export function useCreateUserForm(
 
   const [mutateUser] = useMutation(CREATE_USER, {
     update(cache, { data }) {
-      if (data?.createUser) {
-        cache.modify({
-          fields: {
-            users(existingRefs = [], { readField }) {
-              const newRef = { __ref: cache.identify(data.createUser)! }
-              return appendUniqueRef(newRef, data.createUser.id)(existingRefs, {
-                readField,
-              })
-            },
-          },
-        })
-      }
+      const newUser = data?.createUser
+      if (!newUser) return
+
+      const newRef = cache.writeFragment({
+        data: newUser,
+        fragment: USER_FIELDS_FRAGMENT,
+      })
+      if (!newRef) return
+
+      cache.modify({
+        fields: {
+          users: appendUniqueRef(newRef, newUser.id),
+        },
+      })
     },
   })
 

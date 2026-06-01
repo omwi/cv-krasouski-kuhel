@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
+import { DEPARTMENT_FIELDS_FRAGMENT } from "@/graphql/departments/fragments"
 import { CREATE_DEPARTMENT } from "@/graphql/departments/mutations"
 import { appendUniqueRef } from "@/utils/cache"
 
@@ -22,21 +23,20 @@ export type CreateDepartmentFormValues = {
 export function useCreateDepartmentForm(t: TFunction, onSuccess?: () => void) {
   const [mutateCreate, { loading }] = useMutation(CREATE_DEPARTMENT, {
     update(cache, { data }) {
-      if (data?.createDepartment) {
-        cache.modify({
-          fields: {
-            departments(existingRefs = [], { readField }) {
-              const newRef = { __ref: cache.identify(data.createDepartment)! }
-              return appendUniqueRef(newRef, data.createDepartment.id)(
-                existingRefs,
-                {
-                  readField,
-                }
-              )
-            },
-          },
-        })
-      }
+      const newDepartment = data?.createDepartment
+      if (!newDepartment) return
+
+      const newRef = cache.writeFragment({
+        data: newDepartment,
+        fragment: DEPARTMENT_FIELDS_FRAGMENT,
+      })
+      if (!newRef) return
+
+      cache.modify({
+        fields: {
+          departments: appendUniqueRef(newRef, newDepartment.id),
+        },
+      })
     },
   })
 

@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import * as z from "zod"
 
 import { SkillFormValues } from "@/components/shared/form/skill-form-dialog"
+import { SKILL_FIELDS_FRAGMENT } from "@/graphql/skills/fragments"
 import { CREATE_SKILL } from "@/graphql/skills/mutations"
 import { appendUniqueRef } from "@/utils/cache"
 
@@ -29,21 +30,20 @@ export function useCreateSkillForm(
 
   const [mutateCreate, { loading }] = useMutation(CREATE_SKILL, {
     update(cache, { data }) {
-      if (data?.createSkill) {
-        cache.modify({
-          fields: {
-            skills(existingRefs = [], { readField }) {
-              const newRef = { __ref: cache.identify(data.createSkill)! }
-              return appendUniqueRef(newRef, data.createSkill.id)(
-                existingRefs,
-                {
-                  readField,
-                }
-              )
-            },
-          },
-        })
-      }
+      const newSkill = data?.createSkill
+      if (!newSkill) return
+
+      const newRef = cache.writeFragment({
+        data: newSkill,
+        fragment: SKILL_FIELDS_FRAGMENT,
+      })
+      if (!newRef) return
+
+      cache.modify({
+        fields: {
+          skills: appendUniqueRef(newRef, newSkill.id),
+        },
+      })
     },
   })
 

@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
+import { POSITION_FIELDS_FRAGMENT } from "@/graphql/positions/fragments"
 import { CREATE_POSITION } from "@/graphql/positions/mutations"
 import { appendUniqueRef } from "@/utils/cache"
 
@@ -31,21 +32,20 @@ export function useCreatePositionForm(
 
   const [mutateCreate, { loading }] = useMutation(CREATE_POSITION, {
     update(cache, { data }) {
-      if (data?.createPosition) {
-        cache.modify({
-          fields: {
-            positions(existingRefs = [], { readField }) {
-              const newRef = { __ref: cache.identify(data.createPosition)! }
-              return appendUniqueRef(newRef, data.createPosition.id)(
-                existingRefs,
-                {
-                  readField,
-                }
-              )
-            },
-          },
-        })
-      }
+      const newPosition = data?.createPosition
+      if (!newPosition) return
+
+      const newRef = cache.writeFragment({
+        data: newPosition,
+        fragment: POSITION_FIELDS_FRAGMENT,
+      })
+      if (!newRef) return
+
+      cache.modify({
+        fields: {
+          positions: appendUniqueRef(newRef, newPosition.id),
+        },
+      })
     },
   })
 
