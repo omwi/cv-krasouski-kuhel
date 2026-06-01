@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { DEPARTMENT_FIELDS_FRAGMENT } from "@/graphql/departments/fragments"
 import {
   CreateDepartmentMutation,
   CreateDepartmentMutationVariables,
@@ -15,10 +16,11 @@ export const CREATE_DEPARTMENT: TypedDocumentNode<
 > = gql`
   mutation CreateDepartment($department: CreateDepartmentInput!) {
     createDepartment(department: $department) {
-      id
-      name
+      ...DepartmentFields
     }
   }
+
+  ${DEPARTMENT_FIELDS_FRAGMENT}
 `
 
 export const UPDATE_DEPARTMENT: TypedDocumentNode<
@@ -27,10 +29,11 @@ export const UPDATE_DEPARTMENT: TypedDocumentNode<
 > = gql`
   mutation UpdateDepartment($department: UpdateDepartmentInput!) {
     updateDepartment(department: $department) {
-      name
-      id
+      ...DepartmentFields
     }
   }
+
+  ${DEPARTMENT_FIELDS_FRAGMENT}
 `
 
 export const DELETE_DEPARTMENT: TypedDocumentNode<

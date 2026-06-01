@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { POSITION_FIELDS_FRAGMENT } from "@/graphql/positions/fragments"
 import {
   CreatePositionMutation,
   CreatePositionMutationVariables,
@@ -15,10 +16,11 @@ export const CREATE_POSITION: TypedDocumentNode<
 > = gql`
   mutation CreatePosition($position: CreatePositionInput!) {
     createPosition(position: $position) {
-      id
-      name
+      ...PositionFields
     }
   }
+
+  ${POSITION_FIELDS_FRAGMENT}
 `
 export const UPDATE_POSITION: TypedDocumentNode<
   UpdatePositionMutation,
@@ -26,10 +28,11 @@ export const UPDATE_POSITION: TypedDocumentNode<
 > = gql`
   mutation UpdatePosition($position: UpdatePositionInput!) {
     updatePosition(position: $position) {
-      name
-      id
+      ...PositionFields
     }
   }
+
+  ${POSITION_FIELDS_FRAGMENT}
 `
 export const DELETE_POSITION: TypedDocumentNode<
   DeletePositionMutation,

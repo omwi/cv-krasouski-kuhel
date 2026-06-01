@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { LANGUAGE_FIELDS_FRAGMENT } from "@/graphql/languages/fragments"
 import {
   GetLanguagesQuery,
   GetLanguagesQueryVariables,
@@ -11,10 +12,9 @@ export const GET_LANGUAGES: TypedDocumentNode<
 > = gql`
   query GetLanguages {
     languages {
-      id
-      iso2
-      name
-      native_name
+      ...LanguageFields
     }
   }
+
+  ${LANGUAGE_FIELDS_FRAGMENT}
 `

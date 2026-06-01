@@ -1,5 +1,6 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
+import { SKILL_FIELDS_FRAGMENT } from "@/graphql/skills/fragments"
 import {
   CreateSkillMutation,
   CreateSkillMutationVariables,
@@ -15,18 +16,11 @@ export const CREATE_SKILL: TypedDocumentNode<
 > = gql`
   mutation CreateSkill($skill: CreateSkillInput!) {
     createSkill(skill: $skill) {
-      id
-      name
-      category_name
-      category_parent_name
-      created_at
-      category {
-        id
-        name
-        order
-      }
+      ...SkillFields
     }
   }
+
+  ${SKILL_FIELDS_FRAGMENT}
 `
 
 export const UPDATE_SKILL: TypedDocumentNode<
@@ -35,18 +29,11 @@ export const UPDATE_SKILL: TypedDocumentNode<
 > = gql`
   mutation UpdateSkill($skill: UpdateSkillInput!) {
     updateSkill(skill: $skill) {
-      id
-      name
-      category_name
-      category_parent_name
-      created_at
-      category {
-        id
-        name
-        order
-      }
+      ...SkillFields
     }
   }
+
+  ${SKILL_FIELDS_FRAGMENT}
 `
 
 export const DELETE_SKILL: TypedDocumentNode<

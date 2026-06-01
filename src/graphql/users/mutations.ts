@@ -1,6 +1,11 @@
 import { gql, TypedDocumentNode } from "@apollo/client"
 
 import {
+  PROFILE_LANGUAGES_FRAGMENT,
+  PROFILE_SKILLS_FRAGMENT,
+  USER_FIELDS_FRAGMENT,
+} from "@/graphql/users/fragments"
+import {
   AddUserLanguageMutation,
   AddUserLanguageMutationVariables,
   AddUserSkillMutation,
@@ -64,14 +69,11 @@ export const ADD_USER_SKILL: TypedDocumentNode<
 > = gql`
   mutation AddUserSkill($skill: AddProfileSkillInput!) {
     addProfileSkill(skill: $skill) {
-      id
-      skills {
-        name
-        categoryId
-        mastery
-      }
+      ...ProfileSkills
     }
   }
+
+  ${PROFILE_SKILLS_FRAGMENT}
 `
 
 export const UPDATE_USER_SKILL: TypedDocumentNode<
@@ -80,14 +82,11 @@ export const UPDATE_USER_SKILL: TypedDocumentNode<
 > = gql`
   mutation UpdateUserSkill($skill: UpdateProfileSkillInput!) {
     updateProfileSkill(skill: $skill) {
-      id
-      skills {
-        name
-        categoryId
-        mastery
-      }
+      ...ProfileSkills
     }
   }
+
+  ${PROFILE_SKILLS_FRAGMENT}
 `
 
 export const DELETE_USER_SKILLS: TypedDocumentNode<
@@ -96,14 +95,11 @@ export const DELETE_USER_SKILLS: TypedDocumentNode<
 > = gql`
   mutation DeleteUserSkills($skills: DeleteProfileSkillInput!) {
     deleteProfileSkill(skill: $skills) {
-      id
-      skills {
-        name
-        categoryId
-        mastery
-      }
+      ...ProfileSkills
     }
   }
+
+  ${PROFILE_SKILLS_FRAGMENT}
 `
 
 export const CREATE_USER: TypedDocumentNode<
@@ -112,30 +108,11 @@ export const CREATE_USER: TypedDocumentNode<
 > = gql`
   mutation CreateUser($user: CreateUserInput!) {
     createUser(user: $user) {
-      id
-      created_at
-      email
-      role
-      is_verified
-      department_name
-      position_name
-      department {
-        id
-        name
-      }
-      position {
-        id
-        name
-      }
-      profile {
-        id
-        avatar
-        first_name
-        last_name
-        full_name
-      }
+      ...UserFields
     }
   }
+
+  ${USER_FIELDS_FRAGMENT}
 `
 
 export const DELETE_USER: TypedDocumentNode<
@@ -155,20 +132,11 @@ export const UPDATE_USER: TypedDocumentNode<
 > = gql`
   mutation UpdateUser($user: UpdateUserInput!) {
     updateUser(user: $user) {
-      id
-      role
-      department_name
-      position_name
-      department {
-        id
-        name
-      }
-      position {
-        id
-        name
-      }
+      ...UserFields
     }
   }
+
+  ${USER_FIELDS_FRAGMENT}
 `
 
 export const ADD_USER_LANGUAGE: TypedDocumentNode<
@@ -177,13 +145,11 @@ export const ADD_USER_LANGUAGE: TypedDocumentNode<
 > = gql`
   mutation AddUserLanguage($language: AddProfileLanguageInput!) {
     addProfileLanguage(language: $language) {
-      id
-      languages {
-        name
-        proficiency
-      }
+      ...ProfileLanguages
     }
   }
+
+  ${PROFILE_LANGUAGES_FRAGMENT}
 `
 
 export const UPDATE_USER_LANGUAGE: TypedDocumentNode<
@@ -192,13 +158,11 @@ export const UPDATE_USER_LANGUAGE: TypedDocumentNode<
 > = gql`
   mutation UpdateUserLanguage($language: UpdateProfileLanguageInput!) {
     updateProfileLanguage(language: $language) {
-      id
-      languages {
-        name
-        proficiency
-      }
+      ...ProfileLanguages
     }
   }
+
+  ${PROFILE_LANGUAGES_FRAGMENT}
 `
 
 export const DELETE_USER_LANGUAGES: TypedDocumentNode<
@@ -207,11 +171,9 @@ export const DELETE_USER_LANGUAGES: TypedDocumentNode<
 > = gql`
   mutation DeleteUserLanguages($languages: DeleteProfileLanguageInput!) {
     deleteProfileLanguage(language: $languages) {
-      id
-      languages {
-        name
-        proficiency
-      }
+      ...ProfileLanguages
     }
   }
+
+  ${PROFILE_LANGUAGES_FRAGMENT}
 `
