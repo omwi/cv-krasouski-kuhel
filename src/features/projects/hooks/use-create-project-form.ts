@@ -6,11 +6,27 @@ import { toast } from "sonner"
 
 import { getProjectSchema, ProjectFormValues } from "@/features/projects/schema"
 import { CREATE_PROJECT } from "@/graphql/projects/mutations"
-import { GET_PROJECTS } from "@/graphql/projects/queries"
+import { appendUniqueRef } from "@/utils/cache"
 
 export function useCreateProjectForm(t: TFunction, onSuccess?: () => void) {
   const [mutateCreate, { loading }] = useMutation(CREATE_PROJECT, {
-    refetchQueries: [{ query: GET_PROJECTS }],
+    update(cache, { data }) {
+      if (data?.createProject) {
+        cache.modify({
+          fields: {
+            projects(existingRefs = [], { readField }) {
+              const newRef = { __ref: cache.identify(data.createProject)! }
+              return appendUniqueRef(newRef, data.createProject.id)(
+                existingRefs,
+                {
+                  readField,
+                }
+              )
+            },
+          },
+        })
+      }
+    },
   })
 
   const form = useForm<ProjectFormValues>({

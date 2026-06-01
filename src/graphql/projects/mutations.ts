@@ -15,7 +15,9 @@ export const CREATE_PROJECT: TypedDocumentNode<
 > = gql`
   mutation CreateProject($project: CreateProjectInput!) {
     createProject(project: $project) {
+      id
       name
+      internal_name
       description
       domain
       environment

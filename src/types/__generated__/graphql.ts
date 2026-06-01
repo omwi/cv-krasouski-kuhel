@@ -636,7 +636,9 @@ export type CreateProjectMutationVariables = Exact<{
 export type CreateProjectMutation = {
   createProject: {
     __typename: "Project"
+    id: string
     name: string
+    internal_name: string
     description: string
     domain: string
     environment: Array<string>

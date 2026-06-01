@@ -5,7 +5,6 @@ import { useMutation } from "@apollo/client/react"
 import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
 import { TableProjects } from "@/features/projects/components/table/projects-table-columns"
 import { DELETE_PROJECT } from "@/graphql/projects/mutations"
-import { GET_PROJECTS } from "@/graphql/projects/queries"
 import {
   DeleteProjectMutation,
   DeleteProjectMutationVariables,
@@ -26,8 +25,16 @@ export default function DeleteProject({
     DeleteProjectMutation,
     DeleteProjectMutationVariables
   >(DELETE_PROJECT, {
-    refetchQueries: [{ query: GET_PROJECTS }],
+    update(cache) {
+      if (project) {
+        cache.evict({
+          id: cache.identify({ __typename: "Project", id: project.id }),
+        })
+        cache.gc()
+      }
+    },
   })
+
   return (
     <DeleteDialog
       open={open}
