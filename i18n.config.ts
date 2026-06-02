@@ -33,8 +33,10 @@ const i18nConfig: I18nConfig = {
   resourceLoader:
     process.env.NODE_ENV === "development"
       ? async (lng, ns) => {
-          const fs = await import("fs/promises")
-          const path = await import("path")
+          const [fs, path] = await Promise.all([
+            import("fs/promises"),
+            import("path"),
+          ])
           const content = await fs.readFile(
             path.resolve(
               process.cwd(),
