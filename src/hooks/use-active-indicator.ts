@@ -1,7 +1,51 @@
-import { RefObject, useLayoutEffect, useState } from "react"
+import { RefObject, useLayoutEffect, useReducer } from "react"
 import { usePathname } from "next/navigation"
 
 import { isEqualPath } from "@/utils/url"
+
+type IndicatorState = {
+  opacity: number
+  width: number
+  transform: string
+  transition: string
+}
+
+type Action =
+  | { type: "HIDE" }
+  | {
+      type: "SHOW"
+      width: number
+      left: number
+      isResizing: boolean
+    }
+
+const initialIndicatorState: IndicatorState = {
+  opacity: 0,
+  width: 0,
+  transform: "translateX(0px)",
+  transition: "none",
+}
+
+function indicatorReducer(
+  state: IndicatorState,
+  action: Action
+): IndicatorState {
+  switch (action.type) {
+    case "HIDE":
+      return { ...state, opacity: 0 }
+    case "SHOW":
+      return {
+        opacity: 1,
+        width: action.width,
+        transform: `translateX(${action.left}px)`,
+        transition: action.isResizing
+          ? "none"
+          : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      }
+    default:
+      return state
+  }
+}
 
 export function useActiveIndicator(
   links: { href: string }[],
@@ -9,12 +53,10 @@ export function useActiveIndicator(
   linkRefs: RefObject<(HTMLAnchorElement | null)[]>
 ) {
   const pathname = usePathname()
-  const [indicatorStyle, setIndicatorStyle] = useState({
-    opacity: 0,
-    width: 0,
-    transform: "translateX(0px)",
-    transition: "none",
-  })
+  const [indicatorStyle, dispatch] = useReducer(
+    indicatorReducer,
+    initialIndicatorState
+  )
 
   const activeIndex = links.findIndex((link) =>
     isEqualPath(link.href, pathname)
@@ -28,20 +70,18 @@ export function useActiveIndicator(
 
     function updatePosition() {
       if (activeIndex === -1) {
-        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
+        dispatch({ type: "HIDE" })
         return
       }
 
       const activeEl = linkRefs.current[activeIndex]
       if (!activeEl) return
 
-      setIndicatorStyle({
-        opacity: 1,
+      dispatch({
+        type: "SHOW",
         width: activeEl.offsetWidth,
-        transform: `translateX(${activeEl.offsetLeft}px)`,
-        transition: isResizing
-          ? "none"
-          : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        left: activeEl.offsetLeft,
+        isResizing,
       })
     }
 
