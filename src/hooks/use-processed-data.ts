@@ -40,7 +40,7 @@ export function useProcessedData<TData>({
 
     const activeSortColumn = columns.find((col) => col.id === params.sortBy)
     if (activeSortColumn && activeSortColumn.sortable) {
-      processed = [...processed].sort((a, b) => {
+      processed = processed.toSorted((a, b) => {
         let valA = activeSortColumn.accessorFn
           ? activeSortColumn.accessorFn(a)
           : (a as Record<string, TableCellValue>)[activeSortColumn.id]
