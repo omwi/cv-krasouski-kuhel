@@ -1,12 +1,11 @@
-import { ComponentProps, KeyboardEvent, MouseEvent, useId } from "react"
-import { X } from "lucide-react"
+import { ComponentProps, useId } from "react"
 
-import { Badge } from "@/components/ui/badge"
 import { FloatingLabel } from "@/components/ui/floating-label"
 import { Input } from "@/components/ui/input"
 import {
   TagsInput,
   TagsInputInput,
+  TagsInputItem,
   TagsInputList,
 } from "@/components/ui/tags-input"
 import { cn } from "@/lib/utils"
@@ -36,18 +35,6 @@ export default function FloatingBadgeInput({
   const safeValues = Array.isArray(value) ? value : []
   const hasValues = safeValues.length > 0
 
-  const handleRemove = (
-    e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>,
-    optionValue: string
-  ) => {
-    e.stopPropagation()
-    e.preventDefault()
-    if (onValueChange) {
-      const currentValues = safeValues.filter((v) => v !== optionValue)
-      onValueChange(currentValues)
-    }
-  }
-
   return (
     <div
       className={cn("group relative w-full", className)}
@@ -62,29 +49,9 @@ export default function FloatingBadgeInput({
       >
         <TagsInputList className="relative w-full">
           {safeValues.map((res) => (
-            <Badge
-              key={res}
-              className="flex items-center gap-1 py-0.5 pr-1 pl-2 text-xs"
-            >
-              <span>{res}</span>
-              <div
-                role="button"
-                tabIndex={0}
-                className="cursor-pointer rounded-full p-0.5 outline-none hover:bg-muted focus:ring-1 focus:ring-ring"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    handleRemove(e, res)
-                  }
-                }}
-                onMouseDown={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                }}
-                onClick={(e) => handleRemove(e, res)}
-              >
-                <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-              </div>
-            </Badge>
+            <TagsInputItem isBadge={true} key={res} value={res}>
+              {res}
+            </TagsInputItem>
           ))}
 
           <TagsInputInput id={id} placeholder=" " className="peer" {...props} />

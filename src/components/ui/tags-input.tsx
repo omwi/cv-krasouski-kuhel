@@ -2,7 +2,14 @@ import type * as React from "react"
 import * as TagsInputPrimitive from "@diceui/tags-input"
 import { X } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+
+interface TagsInputItemProps extends React.ComponentProps<
+  typeof TagsInputPrimitive.Item
+> {
+  isBadge?: boolean
+}
 
 function TagsInput({
   className,
@@ -67,27 +74,38 @@ function TagsInputInput({
     />
   )
 }
-
 function TagsInputItem({
   className,
   children,
+  isBadge,
   ...props
-}: React.ComponentProps<typeof TagsInputPrimitive.Item>) {
+}: TagsInputItemProps) {
   return (
     <TagsInputPrimitive.Item
       data-slot="tags-input-item"
-      className={cn(
-        "inline-flex max-w-[calc(100%-8px)] items-center gap-1.5 rounded border bg-transparent px-2.5 py-1 text-sm focus:outline-hidden data-editable:select-none data-editing:bg-transparent data-editing:ring-1 data-editing:ring-ring data-disabled:cursor-not-allowed data-disabled:opacity-50 [&:not([data-editing])]:pr-1.5 [&[data-highlighted]:not([data-editing])]:bg-accent [&[data-highlighted]:not([data-editing])]:text-accent-foreground",
-        className
-      )}
+      asChild={isBadge}
+      className={className}
       {...props}
     >
-      <TagsInputPrimitive.ItemText className="truncate">
-        {children}
-      </TagsInputPrimitive.ItemText>
-      <TagsInputPrimitive.ItemDelete className="size-4 shrink-0 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100">
-        <X className="size-3.5" />
-      </TagsInputPrimitive.ItemDelete>
+      {isBadge ? (
+        <Badge>
+          <TagsInputPrimitive.ItemText className="truncate">
+            {children}
+          </TagsInputPrimitive.ItemText>
+          <TagsInputPrimitive.ItemDelete className="size-4 shrink-0 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100">
+            <X className="size-3.5" />
+          </TagsInputPrimitive.ItemDelete>
+        </Badge>
+      ) : (
+        <>
+          <TagsInputPrimitive.ItemText className="truncate">
+            {children}
+          </TagsInputPrimitive.ItemText>
+          <TagsInputPrimitive.ItemDelete className="size-4 shrink-0 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100">
+            <X className="size-3.5" />
+          </TagsInputPrimitive.ItemDelete>
+        </>
+      )}
     </TagsInputPrimitive.Item>
   )
 }
