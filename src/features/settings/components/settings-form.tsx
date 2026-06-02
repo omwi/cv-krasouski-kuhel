@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Globe, Laptop, Moon, Sun } from "lucide-react"
 import { useT } from "next-i18next/client"
 import { useTheme } from "next-themes"
@@ -16,7 +16,6 @@ import {
 export default function SettingsForm({ initialLang }: { initialLang: string }) {
   const { t, i18n } = useT("settings")
   const { theme, setTheme } = useTheme()
-  const pathname = usePathname()
   const router = useRouter()
 
   const [activeLang, setActiveLang] = useState(initialLang)
@@ -35,11 +34,12 @@ export default function SettingsForm({ initialLang }: { initialLang: string }) {
         (lng): lng is string => lng !== "cimode"
       )
 
-      const segments = pathname.split("/")
+      const currentPathname = window.location.pathname
+      const segments = currentPathname.split("/")
       const firstSegment = segments[1]
       const isLocaleSegment = supportedLanguages.includes(firstSegment)
 
-      let newPath = pathname
+      let newPath = currentPathname
       if (value === "system") {
         if (isLocaleSegment) {
           segments.splice(1, 1)
