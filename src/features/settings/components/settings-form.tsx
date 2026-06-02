@@ -8,10 +8,7 @@ import { useTheme } from "next-themes"
 
 import { FloatingSelect } from "@/components/ui/floating-select"
 import { SelectItem } from "@/components/ui/select"
-import {
-  resetLanguageCookie,
-  setLanguageCookie,
-} from "@/features/settings/actions"
+import { COOKIES } from "@/config/const"
 
 export default function SettingsForm({ initialLang }: { initialLang: string }) {
   const { t, i18n } = useT("settings")
@@ -25,9 +22,9 @@ export default function SettingsForm({ initialLang }: { initialLang: string }) {
     setIsChanging(true)
     try {
       if (value === "system") {
-        await resetLanguageCookie()
+        document.cookie = `${COOKIES.LANGUAGE}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
       } else {
-        await setLanguageCookie(value)
+        document.cookie = `${COOKIES.LANGUAGE}=${value}; path=/; SameSite=Lax`
       }
 
       const supportedLanguages = (i18n.options.supportedLngs || []).filter(
