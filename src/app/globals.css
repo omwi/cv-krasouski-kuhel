@@ -65,7 +65,7 @@
   --popover: var(--background);
   --popover-foreground: var(--foreground);
   --primary: #c63031;
-  --primary-foreground: #fffff;
+  --primary-foreground: var(--background);
   --secondary: var(--background);
   --secondary-foreground: rgb(0 0 0 / 60%);
   --muted: rgb(0 0 0 / 12%);
@@ -182,10 +182,8 @@
 
   input {
     &:-webkit-autofill {
-      box-shadow: 0 0 0 1000px var(--background) inset !important; /* Вместо #ffffff укажите ваш цвет */
-      -webkit-text-fill-color: var(
-        --foreground
-      ) !important; /* Цвет текста, например, gray-700 */
+      box-shadow: 0 0 0 1000px var(--background) inset !important;
+      -webkit-text-fill-color: var(--foreground) !important;
     }
   }
 
