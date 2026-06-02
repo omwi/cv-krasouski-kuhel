@@ -180,6 +180,15 @@
     @apply font-sans;
   }
 
+  input {
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 1000px var(--background) inset !important; /* Вместо #ffffff укажите ваш цвет */
+      -webkit-text-fill-color: var(
+        --foreground
+      ) !important; /* Цвет текста, например, gray-700 */
+    }
+  }
+
   ::-webkit-scrollbar {
     width: 2px;
     height: 2px;
