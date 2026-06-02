@@ -63,6 +63,7 @@ export function Combobox(props: ComboboxProps) {
 
   const generatedId = useId()
   const comboboxId = id || generatedId
+  const listboxId = `listbox-${comboboxId}`
 
   const isMulti = mode === "multi"
 
@@ -128,6 +129,8 @@ export function Combobox(props: ComboboxProps) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
+            aria-controls={listboxId}
+            aria-haspopup="listbox"
             className={cn(
               "peer h-auto min-h-12 w-full justify-between rounded-none px-3 py-1 text-left text-base font-normal",
               "hover:bg-transparent focus:bg-transparent active:bg-transparent aria-expanded:bg-transparent",
@@ -147,11 +150,11 @@ export function Combobox(props: ComboboxProps) {
                   return (
                     <Badge key={val} className="my-1 mr-1">
                       {optionLabel}
-                      <div
-                        role="button"
-                        className="ml-1 rounded-full ring-offset-background outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      <button
+                        type="button"
+                        className="ml-1 rounded-full border-0 p-0 ring-offset-background outline-none hover:bg-transparent focus:ring-2 focus:ring-ring focus:ring-offset-2"
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") {
+                          if (e.key === "Enter" || e.key === " ") {
                             handleRemove(e, val)
                           }
                         }}
@@ -162,7 +165,7 @@ export function Combobox(props: ComboboxProps) {
                         onClick={(e) => handleRemove(e, val)}
                       >
                         <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                      </div>
+                      </button>
                     </Badge>
                   )
                 })
@@ -191,7 +194,12 @@ export function Combobox(props: ComboboxProps) {
               onKeyDown={(e) => e.stopPropagation()}
             />
           </div>
-          <div className="max-h-60 overflow-y-auto overscroll-contain p-1">
+          <div
+            id={listboxId}
+            role="listbox"
+            aria-label={label}
+            className="max-h-60 overflow-y-auto overscroll-contain p-1"
+          >
             {filteredOptions.length === 0 ? (
               <div className="p-4 text-center text-sm text-muted-foreground">
                 {emptyText}
@@ -204,9 +212,18 @@ export function Combobox(props: ComboboxProps) {
                 return (
                   <div
                     key={option.value}
+                    role="option"
+                    aria-selected={isSelected}
+                    tabIndex={0}
                     onClick={() => handleSelect(option.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        handleSelect(option.value)
+                      }
+                    }}
                     className={cn(
-                      "relative flex cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none hover:bg-accent hover:text-accent-foreground",
+                      "relative flex cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                       isSelected && "bg-accent text-accent-foreground"
                     )}
                   >
