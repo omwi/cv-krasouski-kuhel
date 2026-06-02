@@ -1,5 +1,4 @@
 import { startTransition, useActionState } from "react"
-import { useSearchParams } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -9,7 +8,6 @@ import { z } from "zod"
 
 import { API_ENDPOINTS } from "@/config/api-endpoints"
 import { paths } from "@/config/paths"
-import { sanitizeCallbackUrl } from "@/features/auth/utils/sanitize-callback-url"
 
 export const getSignupSchema = (t: TFunction) =>
   z.object({
@@ -30,7 +28,6 @@ const initialState: ActionState = {
 }
 
 export function useSignupForm() {
-  const searchParams = useSearchParams()
   const { t } = useT("input")
 
   const {

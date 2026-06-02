@@ -51,7 +51,7 @@ export function useProcessedData<TData>({
         if (valA === undefined || valA === null) valA = ""
         if (valB === undefined || valB === null) valB = ""
 
-        let comparison = 0
+        let comparison: number
         if (typeof valA === "number" && typeof valB === "number") {
           comparison = valA - valB
         } else {

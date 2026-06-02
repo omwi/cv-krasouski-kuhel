@@ -1,4 +1,3 @@
-import { Reference } from "@apollo/client"
 import { useMutation } from "@apollo/client/react"
 
 import { DELETE_CV } from "@/graphql/cvs/mutations"
