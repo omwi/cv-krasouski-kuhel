@@ -5,7 +5,7 @@ import { Check, ChevronsUpDown, Search, X } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { Badge } from "@/components/ui/badge"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { FloatingLabel } from "@/components/ui/floating-label"
 import { Input } from "@/components/ui/input"
 import {
