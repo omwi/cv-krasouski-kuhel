@@ -27,7 +27,7 @@ export function ProjectActionsWrapper({
   return (
     <UpdateProject project={project} onSuccess={() => router.refresh()}>
       <Button className="w-fit">
-        <PencilLine className="mr-2 h-4 w-4" />
+        <PencilLine className="mr-2 size-4" />
         {t("update")}
       </Button>
     </UpdateProject>

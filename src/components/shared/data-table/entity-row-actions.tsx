@@ -136,7 +136,7 @@ export function EntityRowActions<T>({
       <Button
         asChild
         variant="ghost"
-        className="h-9 w-9 min-w-0"
+        className="size-9 min-w-0"
         aria-label={defaultLabels.viewAriaLabel}
       >
         <Link href={viewLink}>
@@ -152,10 +152,10 @@ export function EntityRowActions<T>({
         <PopoverTrigger asChild>
           <Button
             variant="ghost"
-            className="h-9 w-9 min-w-0 p-0"
+            className="size-9 min-w-0 p-0"
             aria-label={defaultLabels.ariaLabel}
           >
-            <MoreVertical className="h-4 w-4 text-foreground" />
+            <MoreVertical className="size-4 text-foreground" />
           </Button>
         </PopoverTrigger>
         <PopoverContent

@@ -43,7 +43,7 @@ export default function SearchPanel({
           onChange={(e) => setLocalValue(e.target.value)}
         />
         <InputGroupAddon align="inline-start">
-          <Search className="h-4 w-4 text-muted-foreground" />
+          <Search className="size-4 text-muted-foreground" />
         </InputGroupAddon>
       </InputGroup>
     </div>

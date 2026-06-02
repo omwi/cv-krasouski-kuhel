@@ -164,7 +164,7 @@ export function Combobox(props: ComboboxProps) {
                         }}
                         onClick={(e) => handleRemove(e, val)}
                       >
-                        <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                        <X className="size-3 text-muted-foreground hover:text-foreground" />
                       </button>
                     </Badge>
                   )
@@ -176,7 +176,7 @@ export function Combobox(props: ComboboxProps) {
                 </span>
               )}
             </div>
-            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent
@@ -185,7 +185,7 @@ export function Combobox(props: ComboboxProps) {
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
           <div className="flex items-center border-b px-3">
-            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <Search className="mr-2 size-4 shrink-0 opacity-50" />
             <Input
               placeholder={searchPlaceholder}
               value={search}
@@ -229,7 +229,7 @@ export function Combobox(props: ComboboxProps) {
                   >
                     <Check
                       className={cn(
-                        "mr-2 h-4 w-4",
+                        "mr-2 size-4",
                         isSelected ? "opacity-100" : "opacity-0"
                       )}
                     />

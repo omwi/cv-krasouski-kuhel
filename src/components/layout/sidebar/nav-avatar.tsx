@@ -20,7 +20,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
   if (loading) {
     return (
       <Button variant="ghost" className={cn(className, buttonClasses)}>
-        <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+        <Skeleton className="size-10 shrink-0 rounded-full" />
         <Skeleton className="h-5 w-26" />
       </Button>
     )
