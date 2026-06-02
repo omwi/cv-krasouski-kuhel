@@ -8,21 +8,21 @@ import { toast } from "sonner"
 import { getProjectSchema, ProjectFormValues } from "@/features/projects/schema"
 import { UPDATE_PROJECT } from "@/graphql/projects/mutations"
 
+const getNormalizedValues = (data: ProjectFormValues) => ({
+  name: data.name,
+  description: data.description,
+  domain: data.domain,
+  environment: data.environment,
+  start_date: data.start_date,
+  end_date: data.end_date || "",
+})
+
 export function useUpdateProjectForm(
   t: TFunction,
   initialData: ProjectFormValues & { id: string },
   onSuccess?: () => void
 ) {
   const [mutateUpdate, { loading }] = useMutation(UPDATE_PROJECT)
-
-  const getNormalizedValues = (data: ProjectFormValues) => ({
-    name: data.name,
-    description: data.description,
-    domain: data.domain,
-    environment: data.environment,
-    start_date: data.start_date,
-    end_date: data.end_date || "",
-  })
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(getProjectSchema(t)),

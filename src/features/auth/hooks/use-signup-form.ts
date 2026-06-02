@@ -27,6 +27,37 @@ const initialState: ActionState = {
   success: false,
 }
 
+const signupAction = async (
+  prevState: ActionState,
+  formData: SignupInput
+): Promise<ActionState> => {
+  try {
+    const res = await fetch(API_ENDPOINTS.auth.signup, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+      cache: "no-store",
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      const errorMessage = data.message || "Signup failed"
+      toast.error(errorMessage)
+      return { error: errorMessage, success: false }
+    }
+
+    window.location.href = paths.verification.get()
+
+    return { error: null, success: true }
+  } catch (err: unknown) {
+    const errorMessage =
+      err instanceof Error ? err.message : "An unexpected error occurred"
+    toast.error(errorMessage)
+    return { error: errorMessage, success: false }
+  }
+}
+
 export function useSignupForm() {
   const { t } = useT("input")
 
@@ -37,36 +68,6 @@ export function useSignupForm() {
   } = useForm<SignupInput>({
     resolver: standardSchemaResolver(getSignupSchema(t)),
   })
-
-  const signupAction = async (
-    prevState: ActionState,
-    formData: SignupInput
-  ): Promise<ActionState> => {
-    try {
-      const res = await fetch(API_ENDPOINTS.auth.signup, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        const errorMessage = data.message || "Signup failed"
-        toast.error(errorMessage)
-        return { error: errorMessage, success: false }
-      }
-
-      window.location.href = paths.verification.get()
-
-      return { error: null, success: true }
-    } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      toast.error(errorMessage)
-      return { error: errorMessage, success: false }
-    }
-  }
 
   const [state, formAction, isPending] = useActionState(
     signupAction,
