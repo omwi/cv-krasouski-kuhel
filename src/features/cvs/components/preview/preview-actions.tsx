@@ -3,19 +3,25 @@
 import { useT } from "next-i18next/client"
 
 import { Button } from "@/components/ui/button"
+import { usePdfExport } from "@/features/cvs/hooks/preview/use-pdf-export"
 
-export default function PreviewActions() {
+export default function ExportButton({
+  exportFileName,
+}: {
+  exportFileName: string
+}) {
   const { t } = useT("buttons")
 
-  const handleClick = () => {
-    console.log("Export PDF")
-  }
+  const { onClick, loading } = usePdfExport(exportFileName)
 
   return (
-    <div className="flex flex-row justify-end">
-      <Button variant={"outline-primary"} onClick={handleClick}>
-        {t("export-pdf")}
-      </Button>
-    </div>
+    <Button
+      variant={"outline-primary"}
+      disabled={loading}
+      onClick={onClick}
+      className="print:hidden"
+    >
+      {t("export-pdf")}
+    </Button>
   )
 }

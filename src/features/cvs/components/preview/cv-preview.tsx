@@ -1,6 +1,6 @@
 import { getT } from "next-i18next/server"
 
-import PreviewActions from "@/features/cvs/components/preview/preview-actions"
+import ExportButton from "@/features/cvs/components/preview/preview-actions"
 import PreviewSection from "@/features/cvs/components/preview/preview-section"
 import SectionGroup from "@/features/cvs/components/preview/section-group"
 import SkillsPreviewTable from "@/features/cvs/components/preview/skills-preview-table"
@@ -25,11 +25,19 @@ export default async function CvPreview({
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-8">
-      <PreviewActions />
-      <article className="flex flex-col gap-16">
+      <article id="cv-preview" className="flex flex-col gap-16">
         <PreviewSection
-          heading={cv.user?.profile.full_name ?? cv.user?.email ?? ""}
-          subHeading={cv.user?.position_name?.toUpperCase() ?? ""}
+          heading={
+            <div className="flex flex-row justify-between">
+              <div>
+                <h2 className="text-3xl">
+                  {cv.user?.profile.full_name ?? cv.user?.email ?? ""}
+                </h2>
+                <h3>{cv.user?.position_name?.toUpperCase() ?? ""}</h3>
+              </div>
+              <ExportButton exportFileName={cv.name} />
+            </div>
+          }
         >
           <SplitView
             left={
@@ -61,6 +69,8 @@ export default async function CvPreview({
             }
           />
         </PreviewSection>
+
+        <div className="break-after-page"></div>
 
         <PreviewSection heading={t("projects")}>
           {projects.map((p) => (
@@ -106,6 +116,8 @@ export default async function CvPreview({
             />
           ))}
         </PreviewSection>
+
+        <div className="break-after-page"></div>
 
         <PreviewSection heading={t("professional-skills")}>
           <SkillsPreviewTable

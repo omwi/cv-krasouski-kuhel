@@ -1,20 +1,16 @@
 type Props = {
   children: React.ReactNode
-  heading: string
-  subHeading?: string
+  heading: string | React.ReactNode
 }
 
-export default function PreviewSection({
-  children,
-  heading,
-  subHeading,
-}: Props) {
+export default function PreviewSection({ children, heading }: Props) {
   return (
     <section className="flex flex-col gap-6">
-      <div className="flex flex-col gap-1">
+      {typeof heading === "string" ? (
         <h2 className="text-3xl">{heading}</h2>
-        {subHeading && <h3>{subHeading}</h3>}
-      </div>
+      ) : (
+        heading
+      )}
       {children}
     </section>
   )

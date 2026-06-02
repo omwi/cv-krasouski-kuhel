@@ -12,5 +12,8 @@
     "skills": "SKILLS",
     "exp-in-years": "EXPERIENCE IN YEARS",
     "last-used": "LAST USED"
+  },
+  "export": {
+    "error": "Failed to export CV. Please try again."
   }
 }
