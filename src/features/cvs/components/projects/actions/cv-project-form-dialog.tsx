@@ -1,9 +1,11 @@
+import { ReactNode } from "react"
 import { useSuspenseQuery } from "@apollo/client/react"
 import { useT } from "next-i18next/client"
 import { Controller, UseFormReturn } from "react-hook-form"
 
 import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import { FormDateRangePicker } from "@/components/shared/form/form-date-range-picker"
+import FloatingBadgeInput from "@/components/shared/input/floating-badge-input"
 import { EnvironmentSelect } from "@/components/shared/select/environment-select"
 import { Field, FieldGroup } from "@/components/ui/field"
 import { FloatingInput } from "@/components/ui/floating-label-input"
@@ -18,7 +20,7 @@ type Props = {
   onOpenChange: (open: boolean) => void
   title: string
   submitLabel: string
-  trigger?: React.ReactNode
+  trigger?: ReactNode
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>
   isSubmitReady: boolean
   form: UseFormReturn<CvProjectFormValues>
@@ -45,7 +47,7 @@ export default function CvProjectFormDialog({
   const { data } = useSuspenseQuery(GET_CV_PROJECTS, { variables: { cvId } })
   const cvProjects = data.cv.projects ?? []
 
-  const { control, register } = form
+  const { control } = form
 
   return (
     <FormDialog
@@ -107,10 +109,17 @@ export default function CvProjectFormDialog({
         />
 
         <Field>
-          <FloatingTextarea
-            id="responsibilities"
-            label={t("responsibilities")}
-            {...register("responsibilities")}
+          <Controller
+            control={control}
+            name="responsibilities"
+            render={({ field }) => (
+              <FloatingBadgeInput
+                id="responsibilities"
+                label={t("responsibilities")}
+                value={field.value ?? []}
+                onValueChange={field.onChange}
+              />
+            )}
           />
         </Field>
       </FieldGroup>

@@ -9,7 +9,6 @@ import {
   CvProjectFormValues,
   cvProjectSchema,
 } from "@/features/cvs/components/projects/actions/cv-project-schema"
-import { splitResponsibilities } from "@/features/cvs/utils/cv-project"
 import { ADD_CV_PROJECT } from "@/graphql/cvs/mutations"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -26,9 +25,10 @@ export function useAddCvProject({ id, user }: CvUserId) {
     resolver: standardSchemaResolver(cvProjectSchema),
     defaultValues: {
       projectId: "",
-      responsibilities: "",
+      responsibilities: [],
     },
   })
+
   const {
     reset,
     control,
@@ -36,6 +36,7 @@ export function useAddCvProject({ id, user }: CvUserId) {
     handleSubmit,
     formState: { isDirty, isValid },
   } = form
+
   useEffect(() => {
     if (open) {
       reset()
@@ -43,6 +44,7 @@ export function useAddCvProject({ id, user }: CvUserId) {
   }, [open, reset])
 
   const [addCvProject] = useMutation(ADD_CV_PROJECT)
+
   const onSubmit = async (values: CvProjectFormValues) => {
     if (!canUpdateCv(user?.id)) return
 
@@ -52,7 +54,7 @@ export function useAddCvProject({ id, user }: CvUserId) {
           project: {
             cvId: id,
             projectId: values.projectId,
-            responsibilities: splitResponsibilities(values.responsibilities),
+            responsibilities: values.responsibilities,
             start_date: values.startDate,
             end_date: values.endDate,
             roles: [],

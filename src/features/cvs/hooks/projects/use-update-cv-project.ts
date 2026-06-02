@@ -9,10 +9,6 @@ import {
   CvProjectFormValues,
   cvProjectSchema,
 } from "@/features/cvs/components/projects/actions/cv-project-schema"
-import {
-  joinResponsibilities,
-  splitResponsibilities,
-} from "@/features/cvs/utils/cv-project"
 import { UPDATE_CV_PROJECT } from "@/graphql/cvs/mutations"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -26,12 +22,11 @@ export function useUpdateCvProject(
   const { t } = useT("cv-project-actions")
 
   const { canUpdateCv } = usePermissions()
-
   const form = useForm<CvProjectFormValues>({
     resolver: standardSchemaResolver(cvProjectSchema),
     defaultValues: {
       projectId: cvProject.project.id,
-      responsibilities: joinResponsibilities(cvProject.responsibilities),
+      responsibilities: cvProject.responsibilities,
       startDate: cvProject.start_date,
       endDate: cvProject.end_date,
     },
@@ -49,14 +44,13 @@ export function useUpdateCvProject(
 
     reset({
       projectId: cvProject.project.id,
-      responsibilities: joinResponsibilities(cvProject.responsibilities),
+      responsibilities: cvProject.responsibilities,
       startDate: cvProject.start_date,
       endDate: cvProject.end_date,
     })
   }, [cvProject, reset, dialog?.open])
 
   const [updateCvProject] = useMutation(UPDATE_CV_PROJECT)
-
   const onSubmit = async (values: CvProjectFormValues) => {
     if (!canUpdateCv(cvUserId.user?.id)) return
 
@@ -66,7 +60,7 @@ export function useUpdateCvProject(
           project: {
             cvId: cvUserId.id,
             projectId: cvProject.project.id,
-            responsibilities: splitResponsibilities(values.responsibilities),
+            responsibilities: values.responsibilities,
             start_date: values.startDate,
             end_date: values.endDate ?? undefined,
             roles: cvProject.roles,
