@@ -26,9 +26,11 @@ async function getProject(projectId: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const [{ projectId }, { t }] = await Promise.all([params, getT("metadata")])
-
-  const project = await getProject(projectId)
+  const { projectId } = await params
+  const [{ t }, project] = await Promise.all([
+    getT("metadata"),
+    getProject(projectId),
+  ])
 
   if (!project) {
     return {
@@ -47,11 +49,11 @@ export default async function ProjectPage({
 }: {
   params: Promise<{ projectId: string }>
 }) {
-  const [{ projectId }, currentUser] = await Promise.all([
-    params,
+  const { projectId } = await params
+  const [currentUser, project] = await Promise.all([
     getCurrentUser(),
+    getProject(projectId),
   ])
-  const project = await getProject(projectId)
 
   if (!project) {
     notFound()
