@@ -1,0 +1,16 @@
+{
+  "education": "Education",
+  "language-proficiency": "Language Proficiency",
+  "domains": "Domains",
+  "projects": "Projects",
+  "period": "Period",
+  "project-roles": "Project Roles",
+  "professional-skills": "Professional Skills",
+  "responsibilities": "Responsibilities",
+  "environment": "Environment",
+  "table": {
+    "skills": "SKILLS",
+    "exp-in-years": "EXPERIENCE IN YEARS",
+    "last-used": "LAST USED"
+  }
+}
