@@ -1,8 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { useT } from "next-i18next/client"
 
@@ -23,16 +21,9 @@ export default function VerificationForm() {
   const { t } = useT(["auth", "input"])
   const { setValue, watch, handleSubmit, errors, isPending } =
     useVerificationForm()
-  const router = useRouter()
-  const { user, loading } = useGetMeQuery()
+  const { loading } = useGetMeQuery()
 
-  useEffect(() => {
-    if (!loading && user?.isVerified) {
-      router.replace(paths.users.get())
-    }
-  }, [user, loading, router])
-
-  if (loading || user?.isVerified) {
+  if (loading) {
     return <Loading />
   }
 
