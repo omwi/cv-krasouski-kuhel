@@ -32,7 +32,7 @@ export const getCreateUserSchema = (t: TFunction) =>
     lastName: z
       .string()
       .min(1, { message: t("errors.last-name", { ns: "input" }) }),
-    email: z.string().email({ message: t("errors.email", { ns: "input" }) }),
+    email: z.email({ message: t("errors.email", { ns: "input" }) }),
     password: z
       .string()
       .min(6, { message: t("errors.password", { ns: "input" }) }),
