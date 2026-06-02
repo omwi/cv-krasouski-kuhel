@@ -5,7 +5,7 @@ import { Check, ChevronsUpDown, Search, X } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { FloatingLabel } from "@/components/ui/floating-label"
 import { Input } from "@/components/ui/input"
 import {
@@ -124,21 +124,32 @@ export function Combobox(props: ComboboxProps) {
     <div className="relative">
       <Popover open={open} onOpenChange={handleOpenChange} modal={true}>
         <PopoverTrigger asChild>
-          <Button
+          <div
             id={comboboxId}
-            variant="outline"
             role="combobox"
             aria-expanded={open}
             aria-controls={listboxId}
             aria-haspopup="listbox"
+            aria-disabled={disabled || undefined}
+            tabIndex={disabled ? -1 : 0}
             className={cn(
-              "peer h-auto min-h-12 w-full justify-between rounded-none px-3 py-1 text-left text-base font-normal",
+              buttonVariants({ variant: "outline" }),
+              "peer flex h-auto min-h-12 w-full items-center justify-between rounded-none px-3 py-1 text-left text-base font-normal",
               "hover:bg-transparent focus:bg-transparent active:bg-transparent aria-expanded:bg-transparent",
               "hover:border-foreground focus-visible:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=open]:border-primary",
-              isEmpty && "text-muted-foreground"
+              isEmpty && "text-muted-foreground",
+              disabled && "pointer-events-none opacity-50",
+              "cursor-pointer focus-visible:outline-none"
             )}
-            disabled={disabled}
             data-empty={isEmpty}
+            data-state={open ? "open" : "closed"}
+            onKeyDown={(e) => {
+              if (disabled) return
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault()
+                setOpen((o) => !o)
+              }
+            }}
           >
             <div className="flex flex-wrap items-center gap-1">
               {isEmpty ? (
@@ -177,7 +188,7 @@ export function Combobox(props: ComboboxProps) {
               )}
             </div>
             <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
-          </Button>
+          </div>
         </PopoverTrigger>
         <PopoverContent
           className="w-[--radix-popover-trigger-width] rounded-none p-0"
