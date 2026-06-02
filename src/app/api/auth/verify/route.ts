@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
       }`,
       variables: { mail: { otp: body.otp } },
     }),
+    cache: "no-store",
   })
 
   const { errors } = await gqlRes.json()

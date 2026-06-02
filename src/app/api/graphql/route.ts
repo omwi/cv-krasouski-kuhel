@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     body,
+    cache: "no-store",
   })
 
   const data = await gqlRes.json()

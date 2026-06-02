@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
       }`,
       variables: { auth: { email, password } },
     }),
+    cache: "no-store",
   })
 
   const { data, errors } = await gqlRes.json()
