@@ -21,6 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Verification() {
   const currentUser = await getCurrentUser()
 
+  let shouldRedirect = false
+
   if (currentUser) {
     try {
       const client = getClient()
@@ -29,11 +31,15 @@ export default async function Verification() {
         variables: { userId: currentUser.id },
       })
       if (data?.user?.is_verified) {
-        redirect(paths.users.get())
+        shouldRedirect = true
       }
     } catch (error) {
       console.error("Error checking user verification status on server:", error)
     }
+  }
+
+  if (shouldRedirect) {
+    redirect(paths.users.get())
   }
 
   return (
