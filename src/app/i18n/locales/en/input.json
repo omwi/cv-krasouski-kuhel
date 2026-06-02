@@ -22,7 +22,8 @@
   "language": "Language",
   "language-proficiency": "Language Proficiency",
   "project": "Project",
-  "responsibilities": "Responsibilitiess",
+  "responsibilities": "Responsibilities",
+  "add-res": "Press Enter to Add...",
   "errors": {
     "required": "Required field",
     "first-name": "First name is required",

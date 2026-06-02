@@ -1,4 +1,5 @@
 import { ComponentProps, useId } from "react"
+import { useT } from "next-i18next/client"
 
 import { FloatingLabel } from "@/components/ui/floating-label"
 import { Input } from "@/components/ui/input"
@@ -31,7 +32,7 @@ export default function FloatingBadgeInput({
 }: FloatingBadgeInputProps) {
   const generatedId = useId()
   const id = providedId || generatedId
-
+  const { t } = useT("input")
   const safeValues = Array.isArray(value) ? value : []
   const hasValues = safeValues.length > 0
 
@@ -54,14 +55,20 @@ export default function FloatingBadgeInput({
             </TagsInputItem>
           ))}
 
-          <TagsInputInput id={id} placeholder=" " className="peer" {...props} />
+          <TagsInputInput
+            id={id}
+            placeholder={t("add-res")}
+            className="peer"
+            {...props}
+          />
 
           <FloatingLabel
             htmlFor={id}
             required={required}
             className={cn(
-              "group-data-[has-values=true]:top-2! group-data-[has-values=true]:-translate-y-4! group-data-[has-values=true]:scale-75!",
-              "peer-[:not(:placeholder-shown)]:top-2! peer-[:not(:placeholder-shown)]:-translate-y-4! peer-[:not(:placeholder-shown)]:scale-75!"
+              "group-data-[has-values=true]:top-2! group-data-[has-values=true]:w-fit group-data-[has-values=true]:-translate-y-4! group-data-[has-values=true]:scale-75!",
+              "peer-[:not(:placeholder-shown)]:top-2! peer-[:not(:placeholder-shown)]:w-fit peer-[:not(:placeholder-shown)]:-translate-y-4! peer-[:not(:placeholder-shown)]:scale-75!",
+              "w-[calc(100%-20px)] max-w-80"
             )}
           >
             {label}
