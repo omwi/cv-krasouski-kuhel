@@ -11,6 +11,10 @@
     "title": "Forgot Password",
     "description": "Reset your account password."
   },
+  "reset-password": {
+    "title": "Reset Password",
+    "description": "Enter a new password for your account."
+  },
   "users": {
     "title": "Employee List",
     "description": "Manage organization employee accounts."

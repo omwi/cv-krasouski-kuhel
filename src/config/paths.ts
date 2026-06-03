@@ -17,8 +17,8 @@ export const paths = {
       },
     },
     resetPassword: {
-      get(token: string) {
-        return `/auth/reset-password?token=${token}`
+      get(token?: string) {
+        return `/auth/reset-password${token ? `?token=${token}` : ""}`
       },
     },
   },
