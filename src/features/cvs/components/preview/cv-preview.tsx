@@ -1,6 +1,6 @@
 import { getT } from "next-i18next/server"
 
-import ExportButton from "@/features/cvs/components/preview/preview-actions"
+import ExportButton from "@/features/cvs/components/preview/export-button"
 import PreviewSection from "@/features/cvs/components/preview/preview-section"
 import SectionGroup from "@/features/cvs/components/preview/section-group"
 import SkillsPreviewTable from "@/features/cvs/components/preview/skills-preview-table"
