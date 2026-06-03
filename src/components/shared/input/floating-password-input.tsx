@@ -14,10 +14,13 @@ export type FloatingPasswordInputProps = Omit<
   showToggle?: boolean
 }
 
-const FloatingPasswordInput = React.forwardRef<
-  HTMLInputElement,
-  FloatingPasswordInputProps
->(({ disabled, showToggle = true, className, ...props }, ref) => {
+const FloatingPasswordInput = ({
+  disabled,
+  showToggle = true,
+  className,
+  ref,
+  ...props
+}: FloatingPasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
   const canToggle = !disabled && showToggle
@@ -43,7 +46,7 @@ const FloatingPasswordInput = React.forwardRef<
       )}
     </div>
   )
-})
+}
 
 FloatingPasswordInput.displayName = "FloatingPasswordInput"
 

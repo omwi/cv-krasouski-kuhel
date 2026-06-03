@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useMutation, useQuery } from "@apollo/client/react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { toast } from "sonner"
 
 import {
@@ -34,6 +34,7 @@ export function useAddCvProject({ id, user }: CvUserId) {
     control,
     register,
     handleSubmit,
+    setValue,
     formState: { isDirty, isValid },
   } = form
   useEffect(() => {
@@ -70,21 +71,24 @@ export function useAddCvProject({ id, user }: CvUserId) {
 
   const { data } = useQuery(GET_PROJECTS)
   const projects = data?.projects ?? []
-  const selectProjectId = form.watch("projectId")
+  const selectProjectId = useWatch({
+    control,
+    name: "projectId",
+  })
   const selectedProject = projects.find((p) => p.id === selectProjectId)
 
   useEffect(() => {
     if (!selectedProject) return
 
-    form.setValue("startDate", selectedProject.start_date, {
+    setValue("startDate", selectedProject.start_date, {
       shouldValidate: true,
       shouldDirty: true,
     })
-    form.setValue("endDate", selectedProject.end_date, {
+    setValue("endDate", selectedProject.end_date, {
       shouldValidate: true,
       shouldDirty: true,
     })
-  }, [selectedProject, form])
+  }, [selectedProject, setValue])
 
   return {
     form,

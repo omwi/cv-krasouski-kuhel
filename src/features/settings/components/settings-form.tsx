@@ -1,22 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Globe, Laptop, Moon, Sun } from "lucide-react"
 import { useT } from "next-i18next/client"
 import { useTheme } from "next-themes"
 
 import { FloatingSelect } from "@/components/ui/floating-select"
 import { SelectItem } from "@/components/ui/select"
-import {
-  resetLanguageCookie,
-  setLanguageCookie,
-} from "@/features/settings/actions"
+import { COOKIES } from "@/config/const"
 
 export default function SettingsForm({ initialLang }: { initialLang: string }) {
   const { t, i18n } = useT("settings")
   const { theme, setTheme } = useTheme()
-  const pathname = usePathname()
   const router = useRouter()
 
   const [activeLang, setActiveLang] = useState(initialLang)
@@ -26,20 +22,21 @@ export default function SettingsForm({ initialLang }: { initialLang: string }) {
     setIsChanging(true)
     try {
       if (value === "system") {
-        await resetLanguageCookie()
+        document.cookie = `${COOKIES.LANGUAGE}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
       } else {
-        await setLanguageCookie(value)
+        document.cookie = `${COOKIES.LANGUAGE}=${value}; path=/; SameSite=Lax`
       }
 
       const supportedLanguages = (i18n.options.supportedLngs || []).filter(
         (lng): lng is string => lng !== "cimode"
       )
 
-      const segments = pathname.split("/")
+      const currentPathname = window.location.pathname
+      const segments = currentPathname.split("/")
       const firstSegment = segments[1]
       const isLocaleSegment = supportedLanguages.includes(firstSegment)
 
-      let newPath = pathname
+      let newPath = currentPathname
       if (value === "system") {
         if (isLocaleSegment) {
           segments.splice(1, 1)

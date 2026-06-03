@@ -1,15 +1,19 @@
-import { useT } from "next-i18next/client"
-import { FieldValues } from "react-hook-form"
-
-import { FormDateRangePickerProps } from "@/components/shared/form/form-date-range-picker"
+const formattersCache = new Map<string, Intl.DateTimeFormat>()
 
 export function toHumanDate(date: Date, locale: Intl.LocalesArgument): string {
-  const formatter = new Intl.DateTimeFormat(locale, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  })
+  const localeKey = String(locale || "default")
+  let formatter = formattersCache.get(localeKey)
+
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+    formattersCache.set(localeKey, formatter)
+  }
+
   return formatter.format(date).replaceAll(",", "")
 }
 

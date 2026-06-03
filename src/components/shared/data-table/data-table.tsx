@@ -49,6 +49,16 @@ export type DataTableProps<TData, TValue> = {
   renderSubRow?: (row: TData) => React.ReactNode
 }
 
+function SubRowWrapper<TData>({
+  render,
+  data,
+}: {
+  render: (row: TData) => React.ReactNode
+  data: TData
+}) {
+  return <>{render(data)}</>
+}
+
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -160,7 +170,10 @@ export function DataTable<TData, TValue>({
                         colSpan={row.getVisibleCells().length}
                         className="pt-2 text-xs font-normal wrap-break-word whitespace-normal text-muted-foreground"
                       >
-                        {renderSubRow(row.original)}
+                        <SubRowWrapper
+                          render={renderSubRow}
+                          data={row.original}
+                        />
                       </TableCell>
                     </TableRow>
                   )}

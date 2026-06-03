@@ -5,7 +5,7 @@ import { Check, ChevronsUpDown, Search, X } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { FloatingLabel } from "@/components/ui/floating-label"
 import { Input } from "@/components/ui/input"
 import {
@@ -63,6 +63,7 @@ export function Combobox(props: ComboboxProps) {
 
   const generatedId = useId()
   const comboboxId = id || generatedId
+  const listboxId = `listbox-${comboboxId}`
 
   const isMulti = mode === "multi"
 
@@ -123,19 +124,32 @@ export function Combobox(props: ComboboxProps) {
     <div className="relative">
       <Popover open={open} onOpenChange={handleOpenChange} modal={true}>
         <PopoverTrigger asChild>
-          <Button
+          <div
             id={comboboxId}
-            variant="outline"
             role="combobox"
             aria-expanded={open}
+            aria-controls={listboxId}
+            aria-haspopup="listbox"
+            aria-disabled={disabled || undefined}
+            tabIndex={disabled ? -1 : 0}
             className={cn(
-              "peer h-auto min-h-12 w-full justify-between rounded-none px-3 py-1 text-left text-base font-normal",
+              buttonVariants({ variant: "outline" }),
+              "peer flex h-auto min-h-12 w-full items-center justify-between rounded-none px-3 py-1 text-left text-base font-normal",
               "hover:bg-transparent focus:bg-transparent active:bg-transparent aria-expanded:bg-transparent",
               "hover:border-foreground focus-visible:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=open]:border-primary",
-              isEmpty && "text-muted-foreground"
+              isEmpty && "text-muted-foreground",
+              disabled && "pointer-events-none opacity-50",
+              "cursor-pointer focus-visible:outline-none"
             )}
-            disabled={disabled}
             data-empty={isEmpty}
+            data-state={open ? "open" : "closed"}
+            onKeyDown={(e) => {
+              if (disabled) return
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault()
+                setOpen((o) => !o)
+              }
+            }}
           >
             <div className="flex flex-wrap items-center gap-1">
               {isEmpty ? (
@@ -147,11 +161,11 @@ export function Combobox(props: ComboboxProps) {
                   return (
                     <Badge key={val} className="my-1 mr-1">
                       {optionLabel}
-                      <div
-                        role="button"
-                        className="ml-1 rounded-full ring-offset-background outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      <button
+                        type="button"
+                        className="ml-1 rounded-full border-0 p-0 ring-offset-background outline-none hover:bg-transparent focus:ring-2 focus:ring-ring focus:ring-offset-2"
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") {
+                          if (e.key === "Enter" || e.key === " ") {
                             handleRemove(e, val)
                           }
                         }}
@@ -161,8 +175,8 @@ export function Combobox(props: ComboboxProps) {
                         }}
                         onClick={(e) => handleRemove(e, val)}
                       >
-                        <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                      </div>
+                        <X className="size-3 text-muted-foreground hover:text-foreground" />
+                      </button>
                     </Badge>
                   )
                 })
@@ -173,8 +187,8 @@ export function Combobox(props: ComboboxProps) {
                 </span>
               )}
             </div>
-            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-          </Button>
+            <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
+          </div>
         </PopoverTrigger>
         <PopoverContent
           className="w-[--radix-popover-trigger-width] rounded-none p-0"
@@ -182,7 +196,7 @@ export function Combobox(props: ComboboxProps) {
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
           <div className="flex items-center border-b px-3">
-            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <Search className="mr-2 size-4 shrink-0 opacity-50" />
             <Input
               placeholder={searchPlaceholder}
               value={search}
@@ -191,7 +205,12 @@ export function Combobox(props: ComboboxProps) {
               onKeyDown={(e) => e.stopPropagation()}
             />
           </div>
-          <div className="max-h-60 overflow-y-auto overscroll-contain p-1">
+          <div
+            id={listboxId}
+            role="listbox"
+            aria-label={label}
+            className="max-h-60 overflow-y-auto overscroll-contain p-1"
+          >
             {filteredOptions.length === 0 ? (
               <div className="p-4 text-center text-sm text-muted-foreground">
                 {emptyText}
@@ -204,15 +223,24 @@ export function Combobox(props: ComboboxProps) {
                 return (
                   <div
                     key={option.value}
+                    role="option"
+                    aria-selected={isSelected}
+                    tabIndex={0}
                     onClick={() => handleSelect(option.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        handleSelect(option.value)
+                      }
+                    }}
                     className={cn(
-                      "relative flex cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none hover:bg-accent hover:text-accent-foreground",
+                      "relative flex cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                       isSelected && "bg-accent text-accent-foreground"
                     )}
                   >
                     <Check
                       className={cn(
-                        "mr-2 h-4 w-4",
+                        "mr-2 size-4",
                         isSelected ? "opacity-100" : "opacity-0"
                       )}
                     />

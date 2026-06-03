@@ -7,6 +7,12 @@ import { Field, FieldError } from "@/components/ui/field"
 import { FloatingDatePicker } from "@/components/ui/floating-date-picker"
 import { parseLocalToUtcString, parseUtcToLocal } from "@/utils/date"
 
+const getToday = () => {
+  const d = new Date()
+  d.setHours(0, 0, 0, 0)
+  return d
+}
+
 export type FormDateRangePickerProps<TFieldValues extends FieldValues> = {
   form: UseFormReturn<TFieldValues>
   startName: Path<TFieldValues>
@@ -47,8 +53,7 @@ export function FormDateRangePicker<TFieldValues extends FieldValues>({
               onChange={(date) => field.onChange(parseLocalToUtcString(date))}
               disabled={isSubmitting}
               disabledDate={(date) => {
-                const today = new Date()
-                today.setHours(0, 0, 0, 0)
+                const today = getToday()
                 if (date > today) return true
 
                 if (parsedEndDate) {

@@ -23,7 +23,7 @@ export const getColumns = (
         "U"
 
       return (
-        <Avatar className="h-9 w-9">
+        <Avatar className="size-9">
           <AvatarImage
             src={row.profile?.avatar || undefined}
             alt={row.profile?.full_name || "User"}

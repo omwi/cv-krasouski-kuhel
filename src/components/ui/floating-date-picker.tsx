@@ -70,7 +70,7 @@ export function FloatingDatePicker({
             ) : (
               <span className="opacity-0">Pick a date</span>
             )}
-            <CalendarIcon className="h-4 w-4 opacity-50" />
+            <CalendarIcon className="size-4 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent
