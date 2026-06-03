@@ -23,6 +23,7 @@
   "language-proficiency": "Уровень владения языком",
   "project": "Проект",
   "responsibilities": "Обязанности",
+  "add-res": "Нажми Enter чтобы добавить",
   "errors": {
     "required": "Обязательное поле",
     "first-name": "Имя обязательно для заполнения",
