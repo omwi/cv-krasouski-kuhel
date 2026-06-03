@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import { useT } from "next-i18next/client"
 import { Control, Controller, FieldValues, Path } from "react-hook-form"
