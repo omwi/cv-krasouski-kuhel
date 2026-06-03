@@ -13,6 +13,8 @@ export default function SectionGroup({
   variant = "default",
   isList = false,
 }: Props) {
+  const isEmpty =
+    typeof content === "string" ? content.trim() === "" : content.length === 0
   return (
     <section className="flex flex-col gap-1">
       <h3
@@ -20,21 +22,29 @@ export default function SectionGroup({
       >
         {heading}
       </h3>
-      {isList ? (
-        <ul className="list-disc pl-4">
-          {typeof content === "string" ? (
-            <li className="marker:text-primary">{content}</li>
-          ) : (
-            content.map((c, index) => (
-              <li key={index} className="marker:text-primary">
-                {c}
-              </li>
-            ))
-          )}
-        </ul>
+      {isEmpty ? (
+        <p>–</p>
+      ) : isList ? (
+        <ListContent content={content} />
       ) : (
         <p>{typeof content === "string" ? content : content.join(", ")}</p>
       )}
     </section>
+  )
+}
+
+function ListContent({ content }: { content: string[] | string }) {
+  return (
+    <ul className="list-disc pl-4">
+      {typeof content === "string" ? (
+        <li className="marker:text-primary">{content}</li>
+      ) : (
+        content.map((c, index) => (
+          <li key={index} className="marker:text-primary">
+            {c}
+          </li>
+        ))
+      )}
+    </ul>
   )
 }
