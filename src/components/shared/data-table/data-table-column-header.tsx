@@ -51,8 +51,8 @@ export function DataTableColumnHeader({
       className="h-full w-full min-w-0 justify-start p-4 text-foreground hover:bg-transparent"
     >
       <span>{title}</span>
-      {isSorted && isAsc && <MoveUp className="ml-2 h-4 w-4" />}
-      {isSorted && !isAsc && <MoveDown className="ml-2 h-4 w-4" />}
+      {isSorted && isAsc && <MoveUp className="ml-2 size-4" />}
+      {isSorted && !isAsc && <MoveDown className="ml-2 size-4" />}
     </Button>
   )
 }

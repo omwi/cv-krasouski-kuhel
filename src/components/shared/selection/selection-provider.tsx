@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState } from "react"
+import { createContext, use, useState } from "react"
 
 type SelectionContextValue = {
   isSelecting: boolean
@@ -53,15 +53,11 @@ export function SelectionProvider({ children }: { children: React.ReactNode }) {
     isSelected,
   }
 
-  return (
-    <SelectionContext.Provider value={value}>
-      {children}
-    </SelectionContext.Provider>
-  )
+  return <SelectionContext value={value}>{children}</SelectionContext>
 }
 
 export function useSelection() {
-  const context = useContext(SelectionContext)
+  const context = use(SelectionContext)
   if (!context) {
     throw new Error("useIdSelection must be used within IdSelectionProvider")
   }

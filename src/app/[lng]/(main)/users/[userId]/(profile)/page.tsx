@@ -21,8 +21,10 @@ export default async function ProfilePage({
 }: {
   params: Promise<{ userId: string }>
 }) {
-  const { userId } = await params
-  const currentUser = await getCurrentUser()
+  const [{ userId }, currentUser] = await Promise.all([
+    params,
+    getCurrentUser(),
+  ])
 
   const hasUpdatePermission = userPermissions.canUpdate(currentUser, userId)
 

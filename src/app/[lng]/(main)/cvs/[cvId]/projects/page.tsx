@@ -18,9 +18,7 @@ export default async function UserCvsPage({
 }: {
   params: Promise<{ cvId: string }>
 }) {
-  const currentUser = await getCurrentUser()
-
-  const { cvId } = await params
+  const [currentUser, { cvId }] = await Promise.all([getCurrentUser(), params])
 
   return (
     <PreloadQuery query={GET_CV_PROJECTS} variables={{ cvId }}>

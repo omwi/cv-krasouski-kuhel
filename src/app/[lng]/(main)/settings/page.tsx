@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
+import { cookies } from "next/headers"
 import { getT } from "next-i18next/server"
 
-import { getLanguageCookie } from "@/features/settings/actions"
+import { COOKIES } from "@/config/const"
 import SettingsForm from "@/features/settings/components/settings-form"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,7 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Settings() {
-  const initialLang = await getLanguageCookie()
+  const cookieStore = await cookies()
+  const initialLang = cookieStore.get(COOKIES.LANGUAGE)?.value ?? "system"
 
   return (
     <div className="flex flex-1 flex-col pt-4">

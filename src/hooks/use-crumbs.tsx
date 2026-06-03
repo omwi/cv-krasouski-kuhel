@@ -27,7 +27,7 @@ export function useCrumbs(): Crumb[] {
       return {
         key: href,
         element: (
-          <CrumbUser key={index} userId={userId} href={href} isPage={isPage} />
+          <CrumbUser key={href} userId={userId} href={href} isPage={isPage} />
         ),
       }
     }
@@ -36,9 +36,7 @@ export function useCrumbs(): Crumb[] {
       const cvId = parseInt(part)
       return {
         key: href,
-        element: (
-          <CrumbCv key={index} cvId={cvId} href={href} isPage={isPage} />
-        ),
+        element: <CrumbCv key={href} cvId={cvId} href={href} isPage={isPage} />,
       }
     }
 
@@ -48,7 +46,7 @@ export function useCrumbs(): Crumb[] {
         key: href,
         element: (
           <CrumbProject
-            key={index}
+            key={href}
             projectId={projectId}
             href={href}
             isPage={isPage}
@@ -61,7 +59,7 @@ export function useCrumbs(): Crumb[] {
     return {
       key: href,
       element: (
-        <Crumb key={index} href={href} isPage={isPage}>
+        <Crumb key={href} href={href} isPage={isPage}>
           {label}
         </Crumb>
       ),

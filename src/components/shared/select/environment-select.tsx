@@ -13,8 +13,10 @@ export type EnvironmentSelectProps = {
   disabled?: boolean
 }
 
+const EMPTY_VALUES: string[] = []
+
 export function EnvironmentSelect({
-  value = [],
+  value = EMPTY_VALUES,
   onValueChange,
   disabled,
 }: EnvironmentSelectProps) {

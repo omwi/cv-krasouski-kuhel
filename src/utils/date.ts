@@ -1,10 +1,19 @@
+const formattersCache = new Map<string, Intl.DateTimeFormat>()
+
 export function toHumanDate(date: Date, locale: Intl.LocalesArgument): string {
-  const formatter = new Intl.DateTimeFormat(locale, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  })
+  const localeKey = String(locale || "default")
+  let formatter = formattersCache.get(localeKey)
+
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+    formattersCache.set(localeKey, formatter)
+  }
+
   return formatter.format(date).replaceAll(",", "")
 }
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, ReactNode, useContext, useMemo } from "react"
+import { createContext, ReactNode, use, useMemo } from "react"
 
 type AuthContextType = {
   userId: string | null
@@ -23,9 +23,9 @@ export function AuthProvider({
 }) {
   const value = useMemo(() => ({ userId, role }), [userId, role])
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return <AuthContext value={value}>{children}</AuthContext>
 }
 
 export function useAuthContext() {
-  return useContext(AuthContext)
+  return use(AuthContext)
 }

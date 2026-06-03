@@ -40,7 +40,7 @@ export function useProcessedData<TData>({
 
     const activeSortColumn = columns.find((col) => col.id === params.sortBy)
     if (activeSortColumn && activeSortColumn.sortable) {
-      processed = [...processed].sort((a, b) => {
+      processed = processed.toSorted((a, b) => {
         let valA = activeSortColumn.accessorFn
           ? activeSortColumn.accessorFn(a)
           : (a as Record<string, TableCellValue>)[activeSortColumn.id]
@@ -51,7 +51,7 @@ export function useProcessedData<TData>({
         if (valA === undefined || valA === null) valA = ""
         if (valB === undefined || valB === null) valB = ""
 
-        let comparison = 0
+        let comparison: number
         if (typeof valA === "number" && typeof valB === "number") {
           comparison = valA - valB
         } else {

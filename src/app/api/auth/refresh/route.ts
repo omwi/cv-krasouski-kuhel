@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       query: "mutation { updateToken { access_token refresh_token } }",
     }),
+    cache: "no-store",
   })
 
   const { data, errors } = await gqlRes.json()

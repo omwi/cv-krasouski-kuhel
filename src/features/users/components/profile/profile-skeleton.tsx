@@ -4,7 +4,7 @@ export function ProfileSkeleton() {
   return (
     <section className="flex w-full flex-col items-center gap-6 pt-8 md:gap-12">
       <div className="flex w-full flex-col items-center justify-center gap-4 md:flex-row md:gap-8">
-        <Skeleton className="h-32 w-32 shrink-0 rounded-full" />
+        <Skeleton className="size-32 shrink-0 rounded-full" />
         <Skeleton className="hidden h-32 w-100 rounded-md md:block" />
       </div>
 
