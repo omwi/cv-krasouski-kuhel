@@ -25,8 +25,8 @@ export default function SectionGroup({
           {typeof content === "string" ? (
             <li className="marker:text-primary">{content}</li>
           ) : (
-            content.map((c) => (
-              <li key={c} className="marker:text-primary">
+            content.map((c, index) => (
+              <li key={index} className="marker:text-primary">
                 {c}
               </li>
             ))

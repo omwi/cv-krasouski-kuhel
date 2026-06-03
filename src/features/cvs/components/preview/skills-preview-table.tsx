@@ -47,22 +47,22 @@ export default async function SkillsPreviewTable({
               })}
             </TableCell>
             <TableCell>
-              {skills.map((skill) => (
-                <div key={skill.name} className="h-lh">
+              {skills.map((skill, index) => (
+                <div key={index} className="h-lh">
                   {skill.name}
                 </div>
               ))}
             </TableCell>
             <TableCell className="text-center">
-              {skills.map((skill) => (
-                <div key={skill.name} className="h-lh">
+              {skills.map((skill, index) => (
+                <div key={index} className="h-lh">
                   {getSkillExperienceYears(projects, skill) || ""}
                 </div>
               ))}
             </TableCell>
             <TableCell className="text-center">
-              {skills.map((skill) => (
-                <div key={skill.name} className="h-lh">
+              {skills.map((skill, index) => (
+                <div key={index} className="h-lh">
                   {getSkillLastUsedYear(projects, skill) || ""}
                 </div>
               ))}
