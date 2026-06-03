@@ -13,8 +13,9 @@ export default function CvProjectsRowActions({
   return (
     <EntityRowActions<CvProject>
       entity={project}
-      entityType="projects"
+      entityType="cv-projects"
       entityId={String(project?.id)}
+      ownerId={cvUserId.user?.id}
       renderEditModal={(props) => (
         <UpdateCvProject
           cvProject={props.entity}

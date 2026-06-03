@@ -92,6 +92,22 @@
       "end-date": "Дата окончания"
     }
   },
+  "cv-projects-table": {
+    "create": "ДОБАВИТЬ ПРОЕКТ",
+    "control-actions": {
+      "aria-label": "Действия управления",
+      "update": "Редактировать проект",
+      "delete": "Удалить проект",
+      "profile": "Проект"
+    },
+    "columns": {
+      "name": "Название",
+      "internal-name": "Внутреннее название",
+      "domain": "Домен",
+      "start-date": "Дата начала",
+      "end-date": "Дата окончания"
+    }
+  },
   "cvs-table": {
     "create": "СОЗДАТЬ РЕЗЮМЕ",
     "control-actions": {

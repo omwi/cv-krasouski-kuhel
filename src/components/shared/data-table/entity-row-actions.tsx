@@ -21,6 +21,7 @@ export type EntityType =
   | "departments"
   | "skills"
   | "languages"
+  | "cv-projects"
 
 export interface EntityRowActionsProps<T> {
   entity: T
@@ -77,6 +78,7 @@ export function EntityRowActions<T>({
       canDelete = canDeleteUser(entityId)
       break
     case "cvs":
+    case "cv-projects":
       canView = true
       canEdit = canUpdateCv(ownerId)
       canDelete = canDeleteCv(ownerId)
