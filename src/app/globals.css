@@ -70,8 +70,8 @@
   --secondary-foreground: rgb(0 0 0 / 60%);
   --muted: rgb(0 0 0 / 12%);
   --muted-foreground: rgb(0 0 0 / 26%);
-  --badge: rgb(0 0 0 / 80%);
-  --badge-foreground: var(--foreground);
+  --badge: var(--secondary-foreground);
+  --badge-foreground: var(--background);
   --combobox: #ffff;
   --combobox-hover: rgb(0 0 0 / 4%);
   --accent: oklch(97% 0 0deg);
