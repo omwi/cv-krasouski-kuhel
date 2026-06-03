@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useCallback, useMemo } from "react"
 import { Plus } from "lucide-react"
 import { useT } from "next-i18next/client"
 
@@ -22,6 +22,13 @@ export default function CvsTable({
 }) {
   const { t } = useT("table")
 
+  const { currentUserId, canCreateCv } = usePermissions()
+  const hasCreatePermission = canCreateCv(userId)
+  const hoistPredicate = useCallback(
+    (cv: Cv) => cv.user !== null && cv.user.id === currentUserId,
+    [currentUserId]
+  )
+
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
@@ -30,10 +37,8 @@ export default function CvsTable({
     data: cvs,
     params,
     columns,
+    hoistPredicate,
   })
-
-  const { canCreateCv } = usePermissions()
-  const hasCreatePermission = canCreateCv(userId)
 
   return (
     <DataTable
