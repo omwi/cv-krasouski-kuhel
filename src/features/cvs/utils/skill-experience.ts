@@ -1,4 +1,4 @@
-import { differenceInYears } from "date-fns"
+import { differenceInCalendarYears } from "date-fns"
 
 import { CvProject, CvSkill } from "@/types/graphql-types"
 
@@ -12,9 +12,9 @@ function getYearsDuration(project: CvProject) {
   const startDate = new Date(project.start_date)
   const endDate = project.end_date && new Date(project.end_date)
   if (!endDate) {
-    return differenceInYears(new Date(), startDate)
+    return differenceInCalendarYears(new Date(), startDate)
   }
-  return differenceInYears(endDate, startDate)
+  return differenceInCalendarYears(endDate, startDate)
 }
 
 export function getSkillLastUsedYear(projects: CvProject[], skill: CvSkill) {
