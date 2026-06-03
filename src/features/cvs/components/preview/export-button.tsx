@@ -1,6 +1,6 @@
 "use client"
 
-import { FileUser } from "lucide-react"
+import { FileUser, Loader2 } from "lucide-react"
 import { useT } from "next-i18next/client"
 
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,12 @@ export default function ExportButton({
       onClick={onClick}
       className="flex flex-row gap-2 print:hidden"
     >
-      <FileUser />
+      {loading ? (
+        <Loader2 className="size-5 animate-spin text-primary" />
+      ) : (
+        <FileUser className="size-5" />
+      )}
+
       {t("export-pdf")}
     </Button>
   )
