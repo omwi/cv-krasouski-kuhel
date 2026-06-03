@@ -6,7 +6,7 @@ type Props = {
   params: Promise<{ cvId: string }>
 }
 
-export default async function ProfileLayout({ children, params }: Props) {
+export default async function CvLayout({ children, params }: Props) {
   const { cvId } = await params
 
   const links: TabLink[] = [
