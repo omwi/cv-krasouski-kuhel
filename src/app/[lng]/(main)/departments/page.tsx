@@ -4,7 +4,6 @@ import { getT } from "next-i18next/server"
 import { PreloadQuery } from "@/apollo-client"
 import DepartmentsTable from "@/features/departments/components/table/departments-table"
 import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
-import { getCurrentUser } from "@/utils/get-current-user"
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getT("metadata")
@@ -15,11 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Departments() {
-  const currentUser = await getCurrentUser()
-
   return (
     <PreloadQuery query={GET_DEPARTMENTS}>
-      <DepartmentsTable currentUser={currentUser} />
+      <DepartmentsTable />
     </PreloadQuery>
   )
 }

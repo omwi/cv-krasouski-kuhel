@@ -4,7 +4,6 @@ import { TableColumnConfig } from "@/components/shared/data-table/data-table"
 import ProjectsRowActions from "@/features/projects/components/table/projects-row-actions"
 import { GetProjectsQuery } from "@/types/__generated__/graphql"
 import { parseUtcToLocal, toHumanDate } from "@/utils/date"
-import type { CurrentUser } from "@/utils/permissions"
 
 export type TableProjects = GetProjectsQuery["projects"][0]
 
@@ -23,9 +22,7 @@ const DateCell = ({
   return <span className="text-sm">{toHumanDate(date, i18n.language)}</span>
 }
 
-export const getColumns = (
-  currentUser: CurrentUser
-): TableColumnConfig<TableProjects>[] => [
+export const getColumns = (): TableColumnConfig<TableProjects>[] => [
   {
     id: "name",
     titleKey: "projects-table.columns.name",
@@ -64,8 +61,6 @@ export const getColumns = (
     isSrOnly: true,
     sortable: false,
     searchable: false,
-    cell: ({ row }) => (
-      <ProjectsRowActions project={row} currentUser={currentUser} />
-    ),
+    cell: ({ row }) => <ProjectsRowActions project={row} />,
   },
 ]

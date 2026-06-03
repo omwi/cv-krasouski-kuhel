@@ -10,25 +10,22 @@ import { Button } from "@/components/ui/button"
 import CreatePosition from "@/features/positions/components/actions/create-position"
 import { getColumns } from "@/features/positions/components/table/positions-table-columns"
 import { GET_POSITIONS } from "@/graphql/positions/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import { adminOnlyPermissions, CurrentUser } from "@/utils/permissions"
 
-export default function PositionsTable({
-  currentUser,
-}: {
-  currentUser: CurrentUser
-}) {
+export default function PositionsTable() {
   const { data } = useSuspenseQuery(GET_POSITIONS)
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
   const { t } = useT("table")
 
-  const canCreate = adminOnlyPermissions.canCreate(currentUser)
+  const { isAdmin: canCreate } = usePermissions()
+
   const positions = data?.positions || []
 
-  const columns = useMemo(() => getColumns(currentUser), [currentUser])
+  const columns = useMemo(() => getColumns(), [])
 
   const { paginatedData, totalCount } = useProcessedData({
     data: positions,

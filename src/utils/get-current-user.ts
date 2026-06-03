@@ -3,7 +3,11 @@ import { cookies } from "next/headers"
 
 import { COOKIES } from "@/config/const"
 import { decodeJwtPayload } from "@/features/auth/utils/jwt"
-import type { CurrentUser } from "@/utils/permissions"
+
+export type CurrentUser = {
+  id: string
+  role?: string
+} | null
 
 export const getCurrentUser = cache(async (): Promise<CurrentUser> => {
   try {

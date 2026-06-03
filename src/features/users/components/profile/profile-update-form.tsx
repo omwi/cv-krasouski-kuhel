@@ -9,16 +9,14 @@ import { FloatingInput } from "@/components/ui/floating-label-input"
 import DepartmentSelect from "@/features/departments/components/department-select"
 import PositionSelect from "@/features/positions/components/position-select"
 import { useProfileUpdateForm } from "@/features/users/hooks/profile/use-profile-update-form"
+import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
 
-export default function ProfileUpdateForm({
-  userId,
-  hasUpdatePermission,
-}: {
-  userId: string
-  hasUpdatePermission: boolean
-}) {
+export default function ProfileUpdateForm({ userId }: { userId: string }) {
   const { t } = useT(["users", "buttons"])
+
+  const { canUpdateUser } = usePermissions()
+  const hasUpdatePermission = canUpdateUser(userId)
 
   const { onSubmit, register, control, isDirty, isPending } =
     useProfileUpdateForm(userId)

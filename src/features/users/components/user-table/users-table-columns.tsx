@@ -4,11 +4,8 @@ import { TableColumnConfig } from "@/components/shared/data-table/data-table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserRowActions } from "@/features/users/components/user-table/user-row-actions"
 import { TableUser } from "@/features/users/components/user-table/users-table"
-import type { CurrentUser } from "@/utils/permissions"
 
-export const getColumns = (
-  currentUser: CurrentUser
-): TableColumnConfig<TableUser>[] => [
+export const getColumns = (): TableColumnConfig<TableUser>[] => [
   {
     id: "avatar",
     titleKey: "user-table.columns.avatar",
@@ -74,8 +71,6 @@ export const getColumns = (
     isSrOnly: true,
     sortable: false,
     searchable: false,
-    cell: ({ row }) => (
-      <UserRowActions rowUser={row} currentUser={currentUser} />
-    ),
+    cell: ({ row }) => <UserRowActions rowUser={row} />,
   },
 ]

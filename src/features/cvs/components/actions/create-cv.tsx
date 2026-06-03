@@ -4,14 +4,12 @@ import { useT } from "next-i18next/client"
 import { FormDialog } from "@/components/shared/dialog/form-dialog"
 import CvFormFields from "@/features/cvs/components/cv-form-fields"
 import { useCreateCvForm } from "@/features/cvs/hooks/use-create-cv-form"
-import { CurrentUser } from "@/utils/permissions"
 
 export default function CreateCv({
   children,
   userId,
 }: {
   children: React.ReactNode
-  currentUser: CurrentUser
   userId?: string
 }) {
   const { t } = useT(["cv-actions", "buttons"])

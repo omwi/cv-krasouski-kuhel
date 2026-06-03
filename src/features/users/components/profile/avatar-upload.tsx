@@ -9,21 +9,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { FileUpload, FileUploadDropzone } from "@/components/ui/file-upload"
 import { useAvatarUpload } from "@/features/users/hooks/profile/use-avatar-upload"
 import { GET_USER } from "@/graphql/users/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 import { cn } from "@/lib/utils"
 
-export default function AvatarUpload({
-  userId,
-  hasUpdatePermission,
-}: {
-  userId: string
-  hasUpdatePermission: boolean
-}) {
+export default function AvatarUpload({ userId }: { userId: string }) {
   const { t } = useT("user-profile")
 
   const { data } = useSuspenseQuery(GET_USER, {
     variables: { userId },
   })
   const { user } = data
+
+  const { canUpdateUser } = usePermissions()
+  const hasUpdatePermission = canUpdateUser(userId)
 
   const {
     isLoading,

@@ -10,24 +10,20 @@ import { Button } from "@/components/ui/button"
 import CreateProject from "@/features/projects/components/actions/create-project"
 import { getColumns } from "@/features/projects/components/table/projects-table-columns"
 import { GET_PROJECTS } from "@/graphql/projects/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import { adminOnlyPermissions, type CurrentUser } from "@/utils/permissions"
 
-export default function ProjectsTable({
-  currentUser,
-}: {
-  currentUser: CurrentUser
-}) {
+export default function ProjectsTable() {
   const { data } = useSuspenseQuery(GET_PROJECTS)
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
   const { t } = useT("table")
-  const canCreate = adminOnlyPermissions.canCreate(currentUser)
+  const { isAdmin: canCreate } = usePermissions()
 
   const projects = data?.projects || []
-  const columns = useMemo(() => getColumns(currentUser), [currentUser])
+  const columns = useMemo(() => getColumns(), [])
 
   const { paginatedData, totalCount } = useProcessedData({
     data: projects,
