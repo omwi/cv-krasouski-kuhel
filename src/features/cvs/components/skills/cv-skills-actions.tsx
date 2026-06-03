@@ -31,7 +31,7 @@ export default function CvSkillsActions({
   return (
     <div
       className={cn(
-        "flex flex-row justify-between gap-4 sm:justify-end",
+        "flex flex-row flex-wrap justify-between gap-4 sm:justify-end",
         !hasPermissions && "hidden"
       )}
     >
