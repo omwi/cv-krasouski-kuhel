@@ -7,20 +7,17 @@ import { useT } from "next-i18next/client"
 import { Button } from "@/components/ui/button"
 import UpdateProject from "@/features/projects/components/actions/update-project"
 import { TableProjects } from "@/features/projects/components/table/projects-table-columns"
-import { adminOnlyPermissions, CurrentUser } from "@/utils/permissions"
+import { usePermissions } from "@/hooks/use-permissions"
 
 type ProjectActionsWrapperProps = {
-  currentUser: CurrentUser
   project: TableProjects
 }
 
-export function ProjectActionsWrapper({
-  currentUser,
-  project,
-}: ProjectActionsWrapperProps) {
+export function ProjectActionsWrapper({ project }: ProjectActionsWrapperProps) {
   const { t } = useT("buttons")
   const router = useRouter()
-  const canCreate = adminOnlyPermissions.canCreate(currentUser)
+
+  const { isAdmin: canCreate } = usePermissions()
 
   if (!canCreate) return null
 

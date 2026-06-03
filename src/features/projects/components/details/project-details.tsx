@@ -4,17 +4,12 @@ import { Badge } from "@/components/ui/badge"
 import { ProjectActionsWrapper } from "@/features/projects/components/actions/update-project-wrapper"
 import { GetProjectQuery } from "@/types/__generated__/graphql"
 import { parseUtcToLocal, toHumanDate } from "@/utils/date"
-import { CurrentUser } from "@/utils/permissions"
 
 type ProjectDetailsProps = {
-  currentUser: CurrentUser
   project: NonNullable<GetProjectQuery["project"]>
 }
 
-export default async function ProjectDetails({
-  currentUser,
-  project,
-}: ProjectDetailsProps) {
+export default async function ProjectDetails({ project }: ProjectDetailsProps) {
   const { t, lng } = await getT("project-details")
 
   const startDate = parseUtcToLocal(project.start_date || undefined)
@@ -79,7 +74,7 @@ export default async function ProjectDetails({
             <p>{t("no-environment")}</p>
           )}
 
-          <ProjectActionsWrapper currentUser={currentUser} project={project} />
+          <ProjectActionsWrapper project={project} />
         </div>
       </div>
     </section>

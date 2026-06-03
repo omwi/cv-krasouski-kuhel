@@ -2,10 +2,8 @@ import { TableColumnConfig } from "@/components/shared/data-table/data-table"
 import { Badge } from "@/components/ui/badge"
 import CvProjectsRowActions from "@/features/cvs/components/projects/table/cv-projects-row-actions"
 import { CvProject, CvUserId } from "@/types/graphql-types"
-import type { CurrentUser } from "@/utils/permissions"
 
 export const getColumns = (
-  currentUser: CurrentUser,
   cvUserId: CvUserId
 ): TableColumnConfig<CvProject>[] => [
   {
@@ -45,11 +43,7 @@ export const getColumns = (
     sortable: false,
     searchable: false,
     cell: ({ row }) => (
-      <CvProjectsRowActions
-        project={row}
-        currentUser={currentUser}
-        cvUserId={cvUserId}
-      />
+      <CvProjectsRowActions project={row} cvUserId={cvUserId} />
     ),
   },
 ]

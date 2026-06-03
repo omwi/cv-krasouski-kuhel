@@ -65,13 +65,13 @@
   --popover: var(--background);
   --popover-foreground: var(--foreground);
   --primary: #c63031;
-  --primary-foreground: #fffff;
+  --primary-foreground: var(--background);
   --secondary: var(--background);
   --secondary-foreground: rgb(0 0 0 / 60%);
   --muted: rgb(0 0 0 / 12%);
   --muted-foreground: rgb(0 0 0 / 26%);
-  --badge: rgb(0 0 0 / 80%);
-  --badge-foreground: var(--foreground);
+  --badge: var(--secondary-foreground);
+  --badge-foreground: var(--background);
   --combobox: #ffff;
   --combobox-hover: rgb(0 0 0 / 4%);
   --accent: oklch(97% 0 0deg);
@@ -178,6 +178,13 @@
     overflow: hidden;
 
     @apply font-sans;
+  }
+
+  input {
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 1000px var(--background) inset !important;
+      -webkit-text-fill-color: var(--foreground) !important;
+    }
   }
 
   ::-webkit-scrollbar {

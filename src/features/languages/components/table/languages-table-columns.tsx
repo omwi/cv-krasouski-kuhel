@@ -1,13 +1,10 @@
 import { TableColumnConfig } from "@/components/shared/data-table/data-table"
 import LanguagesRowActions from "@/features/languages/components/table/languages-row-actions"
 import { GetLanguagesQuery } from "@/types/__generated__/graphql"
-import type { CurrentUser } from "@/utils/permissions"
 
 export type TableLanguages = GetLanguagesQuery["languages"][0]
 
-export const getColumns = (
-  currentUser: CurrentUser
-): TableColumnConfig<TableLanguages>[] => [
+export const getColumns = (): TableColumnConfig<TableLanguages>[] => [
   {
     id: "name",
     titleKey: "languages-table.columns.name",
@@ -32,8 +29,6 @@ export const getColumns = (
     isSrOnly: true,
     sortable: false,
     searchable: false,
-    cell: ({ row }) => (
-      <LanguagesRowActions language={row} currentUser={currentUser} />
-    ),
+    cell: ({ row }) => <LanguagesRowActions language={row} />,
   },
 ]

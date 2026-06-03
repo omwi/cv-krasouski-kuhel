@@ -10,24 +10,20 @@ import { Button } from "@/components/ui/button"
 import CreateDepartment from "@/features/departments/components/actions/create-department"
 import { getColumns } from "@/features/departments/components/table/departments-table-columns"
 import { GET_DEPARTMENTS } from "@/graphql/departments/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import { adminOnlyPermissions, type CurrentUser } from "@/utils/permissions"
 
-export default function DepartmentsTable({
-  currentUser,
-}: {
-  currentUser: CurrentUser
-}) {
+export default function DepartmentsTable() {
   const { data } = useSuspenseQuery(GET_DEPARTMENTS)
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
   const { t } = useT("table")
-  const canCreate = adminOnlyPermissions.canCreate(currentUser)
+  const { isAdmin: canCreate } = usePermissions()
 
   const departments = data?.departments || []
-  const columns = useMemo(() => getColumns(currentUser), [currentUser])
+  const columns = useMemo(() => getColumns(), [])
 
   const { paginatedData, totalCount } = useProcessedData({
     data: departments,

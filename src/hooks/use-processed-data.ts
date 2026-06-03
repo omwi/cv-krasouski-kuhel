@@ -63,11 +63,10 @@ export function useProcessedData<TData>({
     }
 
     if (hoistPredicate) {
-      const hoistIndex = processed.findIndex(hoistPredicate)
-      if (hoistIndex > 0) {
-        const [hoistedItem] = processed.splice(hoistIndex, 1)
-        processed.unshift(hoistedItem)
-      }
+      processed = [
+        ...processed.filter(hoistPredicate),
+        ...processed.filter((row) => !hoistPredicate(row)),
+      ]
     }
 
     const totalCount = processed.length

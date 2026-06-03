@@ -5,10 +5,9 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { useAuthContext } from "@/features/auth/components/auth-provider"
 import { UPDATE_PROFILE, UPDATE_USER } from "@/graphql/users/mutations"
 import { GET_USER } from "@/graphql/users/queries"
-import { userPermissions } from "@/utils/permissions"
+import { usePermissions } from "@/hooks/use-permissions"
 
 const ProfileUpdateSchema = z.object({
   firstName: z.string(),
@@ -21,7 +20,6 @@ type ProfileUpdateInput = z.infer<typeof ProfileUpdateSchema>
 
 export function useProfileUpdateForm(userId: string) {
   const { t } = useT("user-profile")
-  const { userId: currentUserId, role: currentUserRole } = useAuthContext()
 
   const { data } = useSuspenseQuery(GET_USER, { variables: { userId } })
   const { user } = data
@@ -29,6 +27,8 @@ export function useProfileUpdateForm(userId: string) {
   const [updateProfile, { loading: isUpdatingProfile }] =
     useMutation(UPDATE_PROFILE)
   const [updateUser, { loading: isUpdatingUser }] = useMutation(UPDATE_USER)
+
+  const { canUpdateUser } = usePermissions()
 
   const {
     register,
@@ -69,11 +69,7 @@ export function useProfileUpdateForm(userId: string) {
     })
   }
   const onSubmit = async (values: ProfileUpdateInput) => {
-    const currentUser = currentUserId
-      ? { id: currentUserId, role: currentUserRole || undefined }
-      : null
-
-    if (!currentUser || !userPermissions.canUpdate(currentUser, userId)) {
+    if (!canUpdateUser(userId)) {
       console.error("Don't have permissions to update this user")
       return
     }
