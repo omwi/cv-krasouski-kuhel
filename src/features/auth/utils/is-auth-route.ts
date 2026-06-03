@@ -6,7 +6,7 @@ const AUTH_ROUTES = [
   paths.auth.signup.get(),
   paths.auth.forgotPassword.get(),
   paths.verification.get(),
-  paths.auth.resetPassword.get(),
+  "/reset-password",
 ]
 
 export function isAuthRoute(pathname: string): boolean {
