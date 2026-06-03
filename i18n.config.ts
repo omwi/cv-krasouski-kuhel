@@ -22,6 +22,7 @@ const i18nConfig: I18nConfig = {
     "project-details",
     "cv-actions",
     "cv-project-actions",
+    "cv-preview",
     "input",
     "delete",
     "table",

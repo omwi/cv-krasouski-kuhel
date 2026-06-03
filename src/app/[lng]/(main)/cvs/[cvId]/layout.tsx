@@ -6,7 +6,7 @@ type Props = {
   params: Promise<{ cvId: string }>
 }
 
-export default async function ProfileLayout({ children, params }: Props) {
+export default async function CvLayout({ children, params }: Props) {
   const { cvId } = await params
 
   const links: TabLink[] = [
@@ -17,9 +17,9 @@ export default async function ProfileLayout({ children, params }: Props) {
   ]
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col gap-4">
       <TabNav links={links} i18nNamespace="nav" />
-      {children}
+      <div className="h-full overflow-y-auto">{children}</div>
     </div>
   )
 }

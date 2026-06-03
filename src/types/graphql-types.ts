@@ -1,6 +1,7 @@
 import {
   BaseCvFragment,
   CvProjectFragment,
+  GetCvQuery,
   GetCvSkillsQuery,
   GetLanguagesQuery,
   GetUserLanguagesQuery,
@@ -30,3 +31,9 @@ export type CvSkill = GetCvSkillsQuery["cv"]["skills"][number]
 
 export type Project = ProjectFragment
 export type CvProject = CvProjectFragment
+
+export type CvPreviewData = {
+  cv: GetCvQuery["cv"]
+  skills: CvSkill[]
+  projects: CvProject[]
+}

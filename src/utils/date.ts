@@ -17,6 +17,29 @@ export function toHumanDate(date: Date, locale: Intl.LocalesArgument): string {
   return formatter.format(date).replaceAll(",", "")
 }
 
+const rangeFormatters = new Map<string, Intl.DateTimeFormat>()
+
+export function toHumanRange(
+  locale: string,
+  tillNow: string,
+  startDate: Date,
+  endDate?: Date
+) {
+  let formatter = rangeFormatters.get(locale)
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, {
+      month: "numeric",
+      year: "numeric",
+    })
+    rangeFormatters.set(locale, formatter)
+  }
+
+  if (!endDate) {
+    return formatter.format(startDate) + " – " + tillNow
+  }
+  return formatter.format(startDate) + " – " + formatter.format(endDate)
+}
+
 export function parseUtcToLocal(dateStr?: string) {
   if (!dateStr) return undefined
   const d = new Date(dateStr)

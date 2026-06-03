@@ -8,6 +8,7 @@ const crumbI18Keys: Record<string, string | undefined> = {
   positions: "positions",
   settings: "settings",
   profile: "profile",
+  preview: "preview",
 }
 
 export function getCrumbI18Key(part: string): string {

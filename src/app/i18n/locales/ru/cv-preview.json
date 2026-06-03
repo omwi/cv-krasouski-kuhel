@@ -1,0 +1,19 @@
+{
+  "education": "Образование",
+  "language-proficiency": "Уровень владения языком",
+  "domains": "Домены",
+  "projects": "Проекты",
+  "period": "Период",
+  "project-roles": "Проектные роли",
+  "professional-skills": "Профессиональные навыки",
+  "responsibilities": "Обязанности",
+  "environment": "Окружение",
+  "table": {
+    "skills": "Навыки",
+    "exp-in-years": "Опыт в годах",
+    "last-used": "Последнее использование"
+  },
+  "export": {
+    "error": "Не удалось экспортировать CV. Пожалуйста, попробуйте еще раз."
+  }
+}
