@@ -27,12 +27,10 @@ export function usePermissions() {
     return isAdmin || currentUserId === cvUserId
   }
 
-  const canCreateProject = () => isAdmin
-  const canUpdateProject = () => isAdmin
-  const canDeleteProject = () => isAdmin
-
   return {
     currentUserId,
+    isAdmin,
+
     canCreateUser,
     canUpdateUser,
     canDeleteUser,
@@ -40,9 +38,5 @@ export function usePermissions() {
     canCreateCv,
     canUpdateCv,
     canDeleteCv,
-
-    canCreateProject,
-    canUpdateProject,
-    canDeleteProject,
   }
 }

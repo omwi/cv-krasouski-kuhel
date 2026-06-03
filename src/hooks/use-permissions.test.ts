@@ -10,8 +10,6 @@ vi.mock("@/features/auth/components/auth-provider", () => ({
 
 const mockedUseAuthContext = vi.mocked(useAuthContext)
 
-type AuthContextType = ReturnType<typeof useAuthContext>
-
 const admin = {
   userId: "1",
   role: "Admin",
@@ -35,6 +33,12 @@ describe("usePermissions", () => {
   describe("admin user", () => {
     beforeEach(() => {
       mockedUseAuthContext.mockReturnValue(admin)
+    })
+
+    it("should return correct isAdmin", () => {
+      const { result } = renderHook(() => usePermissions())
+
+      expect(result.current.isAdmin).toBe(true)
     })
 
     it("should allow creating users", () => {
@@ -77,19 +81,17 @@ describe("usePermissions", () => {
       expect(result.current.canDeleteCv(admin.userId)).toBe(true)
       expect(result.current.canDeleteCv(employee.userId)).toBe(true)
     })
-
-    it("should allow all project actions", () => {
-      const { result } = renderHook(() => usePermissions())
-
-      expect(result.current.canCreateProject()).toBe(true)
-      expect(result.current.canUpdateProject()).toBe(true)
-      expect(result.current.canDeleteProject()).toBe(true)
-    })
   })
 
   describe("employee user", () => {
     beforeEach(() => {
       mockedUseAuthContext.mockReturnValue(employee)
+    })
+
+    it("should return correct isAdmin", () => {
+      const { result } = renderHook(() => usePermissions())
+
+      expect(result.current.isAdmin).toBe(false)
     })
 
     it("should not allow creating users", () => {
@@ -135,19 +137,17 @@ describe("usePermissions", () => {
       expect(result.current.canDeleteCv(employee.userId)).toBe(true)
       expect(result.current.canDeleteCv(admin.userId)).toBe(false)
     })
-
-    it("should not allow project actions", () => {
-      const { result } = renderHook(() => usePermissions())
-
-      expect(result.current.canCreateProject()).toBe(false)
-      expect(result.current.canUpdateProject()).toBe(false)
-      expect(result.current.canDeleteProject()).toBe(false)
-    })
   })
 
   describe("guest user", () => {
     beforeEach(() => {
       mockedUseAuthContext.mockReturnValue(guest)
+    })
+
+    it("should return correct isAdmin", () => {
+      const { result } = renderHook(() => usePermissions())
+
+      expect(result.current.isAdmin).toBe(false)
     })
 
     it("should not allow users actions", () => {
@@ -168,14 +168,6 @@ describe("usePermissions", () => {
       expect(result.current.canCreateCv(employee.userId)).toBe(false)
       expect(result.current.canUpdateCv(employee.userId)).toBe(false)
       expect(result.current.canDeleteCv(employee.userId)).toBe(false)
-    })
-
-    it("should not allow project actions", () => {
-      const { result } = renderHook(() => usePermissions())
-
-      expect(result.current.canCreateProject()).toBe(false)
-      expect(result.current.canUpdateProject()).toBe(false)
-      expect(result.current.canDeleteProject()).toBe(false)
     })
   })
 })
