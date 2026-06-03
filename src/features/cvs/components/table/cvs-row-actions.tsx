@@ -10,6 +10,7 @@ export default function CvsRowActions({ cv }: { cv: Cv }) {
       entity={cv}
       entityType="cvs"
       entityId={cv.id}
+      ownerId={cv.user?.id}
       viewLink={paths.cvs.details.get(cv.id)}
       renderEditModal={(props) => <UpdateCv cv={props.entity} {...props} />}
       renderDeleteModal={(props) => <DeleteCv cv={props.entity} {...props} />}
