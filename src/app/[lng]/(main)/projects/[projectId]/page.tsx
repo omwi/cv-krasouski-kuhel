@@ -5,7 +5,6 @@ import { getT } from "next-i18next/server"
 import { getClient, PreloadQuery } from "@/apollo-client"
 import ProjectDetails from "@/features/projects/components/details/project-details"
 import { GET_PROJECT } from "@/graphql/projects/queries"
-import { getCurrentUser } from "@/utils/get-current-user"
 
 type Props = {
   params: Promise<{ projectId: string }>
@@ -50,18 +49,14 @@ export default async function ProjectPage({
   params: Promise<{ projectId: string }>
 }) {
   const { projectId } = await params
-  const [currentUser, project] = await Promise.all([
-    getCurrentUser(),
-    getProject(projectId),
-  ])
-
+  const project = await getProject(projectId)
   if (!project) {
     notFound()
   }
 
   return (
     <PreloadQuery query={GET_PROJECT} variables={{ projectId }}>
-      <ProjectDetails currentUser={currentUser} project={project} />
+      <ProjectDetails project={project} />
     </PreloadQuery>
   )
 }

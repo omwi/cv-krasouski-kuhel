@@ -10,29 +10,27 @@ import { Button } from "@/components/ui/button"
 import CreateUser from "@/features/users/components/actions/create-user"
 import { getColumns } from "@/features/users/components/user-table/users-table-columns"
 import { GET_USERS_LIST } from "@/graphql/users/queries"
+import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { GetUsersListQuery } from "@/types/__generated__/graphql"
-import { CurrentUser, userPermissions } from "@/utils/permissions"
 
 export type TableUser = GetUsersListQuery["users"][0]
 
-export default function UsersTable({
-  currentUser,
-}: {
-  currentUser: CurrentUser
-}) {
+export default function UsersTable() {
   const { data } = useSuspenseQuery(GET_USERS_LIST)
-  const columns = useMemo(() => getColumns(currentUser), [currentUser])
+  const columns = useMemo(() => getColumns(), [])
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "firstName",
   })
   const { t } = useT("table")
 
-  const hasCreatePermission = userPermissions.canCreate(currentUser)
+  const { currentUserId, canCreateUser } = usePermissions()
+
+  const hasCreatePermission = canCreateUser()
   const hoistPredicate = useCallback(
-    (u: TableUser) => u.id === currentUser?.id,
-    [currentUser?.id]
+    (u: TableUser) => u.id === currentUserId,
+    [currentUserId]
   )
 
   const { paginatedData, totalCount } = useProcessedData({
@@ -53,7 +51,7 @@ export default function UsersTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         hasCreatePermission && (
-          <CreateUser currentUser={currentUser}>
+          <CreateUser>
             <Button variant="outline-primary">
               <Plus />
               {t("user-table.create")}

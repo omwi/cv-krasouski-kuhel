@@ -16,15 +16,8 @@ import { GET_CV_PROJECTS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
-import { CurrentUser } from "@/utils/permissions"
 
-export default function CvProjectsTable({
-  currentUser,
-  cvId,
-}: {
-  currentUser: CurrentUser
-  cvId: string
-}) {
+export default function CvProjectsTable({ cvId }: { cvId: string }) {
   const { t } = useT("table")
 
   const { data } = useSuspenseQuery(GET_CV_PROJECTS, { variables: { cvId } })
@@ -34,10 +27,7 @@ export default function CvProjectsTable({
     defaultSortBy: "name",
   })
 
-  const columns = useMemo(
-    () => getColumns(currentUser, data.cv),
-    [currentUser, data.cv]
-  )
+  const columns = useMemo(() => getColumns(data.cv), [data.cv])
 
   const { paginatedData, totalCount } = useProcessedData({
     data: projects,

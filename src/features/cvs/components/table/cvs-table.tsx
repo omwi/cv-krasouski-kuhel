@@ -12,14 +12,11 @@ import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { Cv } from "@/types/graphql-types"
-import { CurrentUser } from "@/utils/permissions"
 
 export default function CvsTable({
-  currentUser,
   cvs,
   userId,
 }: {
-  currentUser: CurrentUser
   cvs: Cv[]
   userId?: string
 }) {
@@ -28,7 +25,7 @@ export default function CvsTable({
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
-  const columns = useMemo(() => getColumns(currentUser), [currentUser])
+  const columns = useMemo(() => getColumns(), [])
   const { paginatedData, totalCount } = useProcessedData({
     data: cvs,
     params,
@@ -49,7 +46,7 @@ export default function CvsTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         hasCreatePermission && (
-          <CreateCv currentUser={currentUser} userId={userId}>
+          <CreateCv userId={userId}>
             <Button variant="outline-primary">
               <Plus />
               {t("cvs-table.create")}

@@ -13,11 +13,10 @@ import DepartmentSelect from "@/features/departments/components/department-selec
 import PositionSelect from "@/features/positions/components/position-select"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import { useUpdateUserForm } from "@/features/users/hooks/profile/use-update-user-form"
-import type { CurrentUser } from "@/utils/permissions"
+import { usePermissions } from "@/hooks/use-permissions"
 
 type Props = {
   user: TableUser
-  currentUser: CurrentUser
   children?: ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
@@ -25,7 +24,6 @@ type Props = {
 
 export default function UpdateUser({
   user,
-  currentUser,
   children,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
@@ -36,7 +34,7 @@ export default function UpdateUser({
   const open = controlledOpen ?? internalOpen
   const setOpen = controlledOnOpenChange ?? setInternalOpen
 
-  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
+  const { isAdmin } = usePermissions()
 
   const {
     register,

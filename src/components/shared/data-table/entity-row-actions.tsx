@@ -11,14 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import {
-  adminOnlyPermissions,
-  cvPermissions,
-  isAdmin,
-  projectPermissions,
-  userPermissions,
-  type CurrentUser,
-} from "@/utils/permissions"
+import { usePermissions } from "@/hooks/use-permissions"
 
 export type EntityType =
   | "user"
@@ -33,9 +26,7 @@ export interface EntityRowActionsProps<T> {
   entity: T
   entityType: EntityType
   entityId: string
-  currentUser: CurrentUser
-  isOwner?: boolean
-  isMe?: boolean
+  ownerId?: string
   viewLink?: string
   renderEditModal?: (props: {
     entity: T
@@ -53,8 +44,7 @@ export function EntityRowActions<T>({
   entity,
   entityType,
   entityId,
-  currentUser,
-  isOwner = false,
+  ownerId,
   viewLink,
   renderEditModal,
   renderDeleteModal,
@@ -65,45 +55,48 @@ export function EntityRowActions<T>({
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
 
-  if (!currentUser) return null
+  const {
+    currentUserId,
+    isAdmin,
+    canUpdateUser,
+    canDeleteUser,
+    canUpdateCv,
+    canDeleteCv,
+  } = usePermissions()
+
+  if (!currentUserId) return null
 
   let canView: boolean
   let canEdit: boolean
   let canDelete: boolean
-  let isDeleteDisabled = false
-
-  const isUserAdmin = isAdmin(currentUser)
 
   switch (entityType) {
     case "user":
-      canView = userPermissions.canView(currentUser)
-      canEdit = userPermissions.canUpdate(currentUser, entityId)
-      canDelete = isUserAdmin
-      isDeleteDisabled = !userPermissions.canDelete(currentUser, entityId)
+      canView = true
+      canEdit = canUpdateUser(entityId)
+      canDelete = canDeleteUser(entityId)
       break
     case "cvs":
-      canView = cvPermissions.canView(currentUser)
-      canEdit = cvPermissions.canUpdate(currentUser, isOwner)
-      canDelete = cvPermissions.canDelete(currentUser, isOwner)
+      canView = true
+      canEdit = canUpdateCv(ownerId)
+      canDelete = canDeleteCv(ownerId)
       break
     case "projects":
-      canView = projectPermissions.canView(currentUser)
-      canEdit = projectPermissions.canUpdate(currentUser)
-      canDelete = projectPermissions.canDelete(currentUser)
+      canView = true
+      canEdit = isAdmin
+      canDelete = isAdmin
       break
     case "positions":
     case "departments":
     case "skills":
     case "languages":
       canView = false
-      canEdit = adminOnlyPermissions.canUpdate(currentUser)
-      canDelete = adminOnlyPermissions.canDelete(currentUser)
+      canEdit = isAdmin
+      canDelete = isAdmin
       break
     default:
-      canView = false
-      canEdit = adminOnlyPermissions.canUpdate(currentUser)
-      canDelete = adminOnlyPermissions.canDelete(currentUser)
-      break
+      const _: never = entityType
+      return _
   }
 
   const showViewAction = canView && !!viewLink
@@ -189,7 +182,6 @@ export function EntityRowActions<T>({
               <Button
                 variant="ghost"
                 className="w-full min-w-0 justify-start rounded-none text-foreground"
-                disabled={isDeleteDisabled}
                 onClick={() => {
                   setPopoverOpen(false)
                   setDeleteOpen(true)

@@ -12,17 +12,17 @@ import { FloatingInput } from "@/components/ui/floating-label-input"
 import DepartmentSelect from "@/features/departments/components/department-select"
 import PositionSelect from "@/features/positions/components/position-select"
 import { useCreateUserForm } from "@/features/users/hooks/profile/use-create-user-form"
-import type { CurrentUser } from "@/utils/permissions"
+import { usePermissions } from "@/hooks/use-permissions"
 
 type Props = {
-  currentUser: CurrentUser
   children: ReactNode
 }
 
-export default function CreateUser({ currentUser, children }: Props) {
+export default function CreateUser({ children }: Props) {
   const { t } = useT(["user-actions", "input", "buttons"])
   const [open, setOpen] = useState(false)
-  const isAdmin = currentUser?.role?.toLowerCase() === "admin"
+
+  const { isAdmin } = usePermissions()
 
   const {
     register,
