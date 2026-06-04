@@ -146,7 +146,7 @@ describe("CvPreview Component", () => {
         description: "CV Description",
         education: null,
         user: null,
-        languages: null,
+        languages: null as unknown as CvPreviewData["cv"]["languages"],
       },
       skills: [
         {
@@ -262,7 +262,7 @@ describe("CvPreview Component", () => {
         languages: [],
       },
       skills: [],
-      projects: undefined as unknown as CvProject[],
+      projects: undefined as unknown as CvPreviewData["projects"],
     }
 
     await expect(
