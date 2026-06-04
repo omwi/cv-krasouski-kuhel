@@ -4,11 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { z } from "zod"
 
 import { UPDATE_CV } from "@/graphql/cvs/mutations"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Cv } from "@/types/graphql-types"
+
+import { getCvFormSchema } from "./cv-form-schema"
 
 export function useUpdateCvForm(
   cv: Cv,
@@ -19,13 +20,7 @@ export function useUpdateCvForm(
   const { canUpdateCv } = usePermissions()
 
   const { reset, handleSubmit, register, control, formState } = useForm({
-    resolver: zodResolver(
-      z.object({
-        name: z.string().min(1, t("errors.required")),
-        education: z.string(),
-        description: z.string().min(1, t("errors.required")),
-      })
-    ),
+    resolver: zodResolver(getCvFormSchema(t)),
     mode: "onSubmit",
     defaultValues: {
       name: cv.name,
