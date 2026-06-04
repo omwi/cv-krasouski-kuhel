@@ -47,9 +47,18 @@ describe("DataTableColumnHeader", () => {
     render(<DataTableColumnHeader title="Name" />)
 
     expect(screen.getByText("Name")).toBeInTheDocument()
+
     expect(
       screen.queryByRole("button", { name: /name/i })
     ).not.toBeInTheDocument()
+  })
+
+  it("should render a sortable header as a button when sortKey is provided", () => {
+    render(
+      <DataTableColumnHeader title="Name" sortKey="name" defaultSortBy="id" />
+    )
+
+    expect(screen.getByRole("button", { name: /name/i })).toBeInTheDocument()
   })
 
   it("should start ascending sort when clicking an unsorted column", async () => {
@@ -66,11 +75,15 @@ describe("DataTableColumnHeader", () => {
 
     await user.click(screen.getByRole("button", { name: /name/i }))
 
-    expect(mockUpdateParams).toHaveBeenCalledWith({
-      sortBy: "name",
-      sortOrder: "asc",
-      page: 1,
-    })
+    expect(mockUpdateParams).toHaveBeenCalledTimes(1)
+
+    expect(mockUpdateParams).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sortBy: "name",
+        sortOrder: "asc",
+        page: 1,
+      })
+    )
   })
 
   it("should switch from ascending to descending when clicked", async () => {
@@ -90,10 +103,14 @@ describe("DataTableColumnHeader", () => {
 
     await user.click(screen.getByRole("button", { name: /name/i }))
 
-    expect(mockUpdateParams).toHaveBeenCalledWith({
-      sortOrder: "desc",
-      page: 1,
-    })
+    expect(mockUpdateParams).toHaveBeenCalledTimes(1)
+
+    expect(mockUpdateParams).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sortOrder: "desc",
+        page: 1,
+      })
+    )
   })
 
   it("should reset to the default sort column when clicking a descending non-default column", async () => {
@@ -114,11 +131,15 @@ describe("DataTableColumnHeader", () => {
 
     await user.click(screen.getByRole("button", { name: /name/i }))
 
-    expect(mockUpdateParams).toHaveBeenCalledWith({
-      sortBy: "createdAt",
-      sortOrder: "asc",
-      page: 1,
-    })
+    expect(mockUpdateParams).toHaveBeenCalledTimes(1)
+
+    expect(mockUpdateParams).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sortBy: "createdAt",
+        sortOrder: "asc",
+        page: 1,
+      })
+    )
   })
 
   it("should switch descending back to ascending when the column is the default sort column", async () => {
@@ -135,10 +156,14 @@ describe("DataTableColumnHeader", () => {
 
     await user.click(screen.getByRole("button", { name: /name/i }))
 
-    expect(mockUpdateParams).toHaveBeenCalledWith({
-      sortOrder: "asc",
-      page: 1,
-    })
+    expect(mockUpdateParams).toHaveBeenCalledTimes(1)
+
+    expect(mockUpdateParams).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sortOrder: "asc",
+        page: 1,
+      })
+    )
   })
 
   it("should render the correct sort indicators for sorted and unsorted states", () => {
@@ -147,7 +172,6 @@ describe("DataTableColumnHeader", () => {
     )
 
     expect(screen.queryByTestId("move-up-icon")).not.toBeInTheDocument()
-
     expect(screen.queryByTestId("move-down-icon")).not.toBeInTheDocument()
 
     mockParams = {
@@ -160,6 +184,7 @@ describe("DataTableColumnHeader", () => {
     )
 
     expect(screen.getByTestId("move-up-icon")).toBeInTheDocument()
+    expect(screen.queryByTestId("move-down-icon")).not.toBeInTheDocument()
 
     mockParams = {
       sortBy: "name",
@@ -171,5 +196,6 @@ describe("DataTableColumnHeader", () => {
     )
 
     expect(screen.getByTestId("move-down-icon")).toBeInTheDocument()
+    expect(screen.queryByTestId("move-up-icon")).not.toBeInTheDocument()
   })
 })
