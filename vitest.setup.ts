@@ -55,24 +55,3 @@ vi.mock("@/components/shared/select/role-select")
 vi.mock("@/hooks/use-permissions", () => ({
   usePermissions: vi.fn(),
 }))
-
-vi.mock("next-i18next/client", () => ({
-  useT: () => ({
-    t: (key: string, options?: { date?: string | number | null }) => {
-      if (options?.date) {
-        return `${key}:${options.date}`
-      }
-      return key
-    },
-    i18n: {
-      language: "en",
-    },
-  }),
-}))
-
-vi.mock("sonner", () => ({
-  toast: Object.assign(vi.fn(), {
-    success: vi.fn(),
-    error: vi.fn(),
-  }),
-}))
