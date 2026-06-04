@@ -1,5 +1,4 @@
 import { startTransition, useActionState } from "react"
-import { useRouter } from "next/navigation"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -8,7 +7,6 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 import { API_ENDPOINTS } from "@/config/api-endpoints"
-import { paths } from "@/config/paths"
 
 export const getForgotPasswordSchema = (t: TFunction) =>
   z.object({
@@ -30,8 +28,7 @@ const initialState: ActionState = {
 }
 
 export function useForgotPasswordForm() {
-  const router = useRouter()
-  const { t } = useT("input")
+  const { t } = useT(["input", "auth"])
 
   const {
     register,
@@ -59,9 +56,7 @@ export function useForgotPasswordForm() {
         return { error: errorMessage, success: false }
       }
 
-      toast.success(t("toast.forgot-password"))
-      router.push(paths.auth.login.get())
-
+      toast.success(t("toast.forgot-password", { ns: "auth" }))
       return { error: null, success: true }
     } catch (err: unknown) {
       const errorMessage =
