@@ -30,6 +30,7 @@ export default function SharedSkillsActions({
 
   return (
     <div
+      data-testid="user-skills-actions"
       className={cn(
         "flex flex-row justify-between gap-4 sm:justify-end",
         !hasPermissions && "hidden"

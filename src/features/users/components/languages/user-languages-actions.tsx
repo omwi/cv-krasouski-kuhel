@@ -29,6 +29,7 @@ export default function UserLanguagesActions({
 
   return (
     <div
+      data-testid="user-languages-actions"
       className={cn(
         "flex flex-row flex-wrap justify-between gap-4 sm:justify-end",
         !hasPermissions && "hidden"
