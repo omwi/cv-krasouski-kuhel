@@ -18,6 +18,9 @@ vi.mock("next/navigation", () => ({
   useSearchParams() {
     return new URLSearchParams()
   },
+  useParams() {
+    return {}
+  },
 }))
 
 vi.mock("next-i18next/client", () => ({
@@ -39,4 +42,14 @@ vi.mock("sonner", () => ({
     success: vi.fn(),
     error: vi.fn(),
   }),
+}))
+
+vi.mock("@/components/shared/dialog/form-dialog")
+vi.mock("@/components/shared/dialog/delete-dialog")
+vi.mock("@/features/departments/components/department-select")
+vi.mock("@/features/positions/components/position-select")
+vi.mock("@/components/shared/select/role-select")
+
+vi.mock("@/hooks/use-permissions", () => ({
+  usePermissions: vi.fn(),
 }))
