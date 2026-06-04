@@ -4,6 +4,8 @@ import { vi } from "vitest"
 
 import { RoleSelect } from "./role-select"
 
+vi.unmock("./role-select")
+
 const floatingSelectMock = vi.fn()
 
 vi.mock("@/components/ui/floating-select", () => ({

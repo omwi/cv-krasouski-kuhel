@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { FormDialog, FormDialogProps } from "./form-dialog"
 
+vi.unmock("./form-dialog")
+
 describe("FormDialog", () => {
   const mockOnOpenChange = vi.fn()
   const mockOnSubmit = vi.fn((e?: React.BaseSyntheticEvent) => {

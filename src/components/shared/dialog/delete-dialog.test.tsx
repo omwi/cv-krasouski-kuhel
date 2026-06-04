@@ -5,6 +5,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { DeleteDialog } from "./delete-dialog"
 
+vi.unmock("./delete-dialog")
+
 vi.mock("sonner", () => ({
   toast: {
     success: vi.fn(),
