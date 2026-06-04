@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import { UserRole } from "@/types/__generated__/graphql"
 
-import { useUpdateUserForm } from "../use-update-user-form"
+import { useUpdateUserForm } from "./use-update-user-form"
 
 const mockMutateUser = vi.fn().mockResolvedValue({})
 const mockMutateProfile = vi.fn().mockResolvedValue({})

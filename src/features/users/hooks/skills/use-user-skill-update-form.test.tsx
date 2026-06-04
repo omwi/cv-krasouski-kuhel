@@ -10,49 +10,48 @@ import { Controller } from "react-hook-form"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { usePermissions } from "@/hooks/use-permissions"
-import { UserLanguage } from "@/types/graphql-types"
+import { UserSkill } from "@/types/graphql-types"
 
-import { useUserLanguageUpdateForm } from "../use-user-language-update-form"
+import { useUserSkillUpdateForm } from "./use-user-skill-update-form"
 
 const mockMutation = vi.fn().mockResolvedValue({})
 vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockMutation, { loading: false }]),
 }))
 
-const mockUserLanguage: UserLanguage = {
-  __typename: "LanguageProficiency",
-  name: "English",
-  proficiency: "B2",
+const mockUserSkill: UserSkill = {
+  __typename: "SkillMastery",
+  name: "React",
+  categoryId: "frontend",
+  mastery: "Advanced",
 }
 
-const mockAllowPermissions = () =>
-  vi.mocked(usePermissions).mockReturnValue({
-    canUpdateUser: () => true,
-  } as unknown as ReturnType<typeof usePermissions>)
-
-describe("useUserLanguageUpdateForm", () => {
+describe("useUserSkillUpdateForm", () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockAllowPermissions()
+    mockMutation.mockResolvedValue({})
+    vi.mocked(usePermissions).mockReturnValue({
+      canUpdateUser: () => true,
+    } as unknown as ReturnType<typeof usePermissions>)
   })
 
   it("should initialize default form values and submit successfully", async () => {
     const { result } = renderHook(() =>
-      useUserLanguageUpdateForm("123", mockUserLanguage)
+      useUserSkillUpdateForm("123", mockUserSkill)
     )
 
-    // Verify initial values match the existing language
+    // Verify initial values
     expect(result.current.control).toBeDefined()
     expect(result.current.isSubmitReady).toBe(false)
     expect(result.current.open).toBe(false)
 
-    // Open dialog
+    // Trigger open state
     act(() => {
       result.current.setOpen(true)
     })
     expect(result.current.open).toBe(true)
 
-    // Trigger form submit (pre-filled from mockUserLanguage)
+    // Trigger form submit
     await act(async () => {
       await result.current.onSubmit()
     })
@@ -61,76 +60,75 @@ describe("useUserLanguageUpdateForm", () => {
     expect(mockMutation).toHaveBeenCalled()
   })
 
-  it("should handle submission error", async () => {
-    const networkError = new Error("Network error")
-    mockMutation.mockRejectedValueOnce(networkError)
+  it("should handle error during submission", async () => {
+    const error = new Error("Failed to update")
+    mockMutation.mockRejectedValueOnce(error)
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {})
 
     const { result } = renderHook(() =>
-      useUserLanguageUpdateForm("123", mockUserLanguage)
+      useUserSkillUpdateForm("123", mockUserSkill)
     )
 
     await act(async () => {
       await result.current.onSubmit()
     })
 
-    expect(consoleSpy).toHaveBeenCalledWith(networkError)
+    expect(consoleSpy).toHaveBeenCalledWith(error)
     consoleSpy.mockRestore()
   })
 
-  it("should return early if user does not have update permissions", async () => {
+  it("should return early if user lacks permissions", async () => {
     vi.mocked(usePermissions).mockReturnValue({
       canUpdateUser: () => false,
     } as unknown as ReturnType<typeof usePermissions>)
 
     const { result } = renderHook(() =>
-      useUserLanguageUpdateForm("456", mockUserLanguage)
+      useUserSkillUpdateForm("123", mockUserSkill)
     )
 
     await act(async () => {
       await result.current.onSubmit()
     })
 
-    // Verify mutation was blocked by permission check
     expect(mockMutation).not.toHaveBeenCalled()
   })
 
   it("should update isSubmitReady when form becomes dirty and valid", async () => {
-    const UpdateLanguageTestComponent = () => {
-      const { control, isSubmitReady } = useUserLanguageUpdateForm(
+    const UpdateSkillTestComponent = () => {
+      const { control, isSubmitReady } = useUserSkillUpdateForm(
         "123",
-        mockUserLanguage
+        mockUserSkill
       )
       return (
-        <form data-testid="update-language-form">
+        <form data-testid="skill-update-form">
           <Controller
             control={control}
-            name="proficiency"
+            name="mastery"
             render={({ field }) => (
-              <input data-testid="update-lang-proficiency-input" {...field} />
+              <input data-testid="skill-mastery-input" {...field} />
             )}
           />
-          <span data-testid="update-lang-ready-status">
+          <span data-testid="skill-update-ready-status">
             {String(isSubmitReady)}
           </span>
         </form>
       )
     }
 
-    render(<UpdateLanguageTestComponent />)
+    render(<UpdateSkillTestComponent />)
 
     // Initially not dirty
-    expect(screen.getByTestId("update-lang-ready-status").textContent).toBe(
+    expect(screen.getByTestId("skill-update-ready-status").textContent).toBe(
       "false"
     )
 
-    // Make form dirty and valid (change from default "B2" to "C1")
-    fireEvent.change(screen.getByTestId("update-lang-proficiency-input"), {
-      target: { value: "C1" },
+    // Make form dirty and valid
+    fireEvent.change(screen.getByTestId("skill-mastery-input"), {
+      target: { value: "Beginner" },
     })
 
     await waitFor(() => {
-      expect(screen.getByTestId("update-lang-ready-status").textContent).toBe(
+      expect(screen.getByTestId("skill-update-ready-status").textContent).toBe(
         "true"
       )
     })

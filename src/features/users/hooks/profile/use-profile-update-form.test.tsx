@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { usePermissions } from "@/hooks/use-permissions"
 
-import { useProfileUpdateForm } from "../use-profile-update-form"
+import { useProfileUpdateForm } from "./use-profile-update-form"
 
 const mockMutate = vi.fn().mockResolvedValue({})
 

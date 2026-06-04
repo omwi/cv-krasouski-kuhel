@@ -11,7 +11,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { usePermissions } from "@/hooks/use-permissions"
 
-import { useUserLanguageAddForm } from "../use-user-language-add-form"
+import { useUserLanguageAddForm } from "./use-user-language-add-form"
 
 const mockMutation = vi.fn().mockResolvedValue({})
 vi.mock("@apollo/client/react", () => ({

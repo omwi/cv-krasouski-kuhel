@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest"
 
 import { TableUser } from "@/features/users/components/user-table/users-table"
 
-import { getColumns } from "../users-table-columns"
+import { getColumns } from "./users-table-columns"
 
 // Minimal mock for UserRowActions — tested separately
 vi.mock("@/features/users/components/user-table/user-row-actions", () => ({

@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { fileToBase64 } from "@/utils/file"
 
-import { useAvatarUpload } from "../use-avatar-upload"
+import { useAvatarUpload } from "./use-avatar-upload"
 
 vi.mock("@/utils/file", () => ({
   fileToBase64: vi.fn().mockResolvedValue("base64-data"),

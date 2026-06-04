@@ -13,7 +13,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { usePermissions } from "@/hooks/use-permissions"
 
-import { useUserSkillAddForm } from "../use-user-skill-add-form"
+import { useUserSkillAddForm } from "./use-user-skill-add-form"
 
 const mockMutation = vi.fn().mockResolvedValue({})
 

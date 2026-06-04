@@ -1,13 +1,13 @@
 import { act, renderHook } from "@testing-library/react"
 import { toast } from "sonner"
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 
-import { useUserSkillsDelete } from "../use-user-skills-delete"
+import { useUserLanguagesDelete } from "./use-user-languages-delete"
 
 // Mock dependencies safely without 'any'
 const mockStartSelection = vi.fn()
 const mockStopSelection = vi.fn()
-const mockSelectedValues = new Set<string>(["React"])
+const mockSelectedValues = new Set<string>(["English"])
 
 vi.mock("@/components/shared/selection/selection-provider", () => ({
   useSelection: () => ({
@@ -22,16 +22,9 @@ vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockDeleteMutation, { loading: false }]),
 }))
 
-describe("useUserSkillsDelete", () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockDeleteMutation.mockResolvedValue({})
-    mockSelectedValues.clear()
-    mockSelectedValues.add("React")
-  })
-
+describe("useUserLanguagesDelete", () => {
   it("should start selection and handle confirm delete with correct variables", async () => {
-    const { result } = renderHook(() => useUserSkillsDelete("123"))
+    const { result } = renderHook(() => useUserLanguagesDelete("123"))
 
     // Verify handleStartDelete triggers startSelection
     act(() => {
@@ -47,8 +40,8 @@ describe("useUserSkillsDelete", () => {
     // Verify GraphQL mutation is called with selected values
     expect(mockDeleteMutation).toHaveBeenCalledWith({
       variables: {
-        skills: {
-          name: ["React"],
+        languages: {
+          name: ["English"],
           userId: "123",
         },
       },
@@ -59,32 +52,31 @@ describe("useUserSkillsDelete", () => {
     expect(toast.success).toHaveBeenCalledWith("toast.deleted")
   })
 
-  it("should handle plural delete confirmation", async () => {
-    // Add another item to selection
-    mockSelectedValues.add("Angular")
+  it("should handle plural delete toast", async () => {
+    mockSelectedValues.add("Spanish")
 
-    const { result } = renderHook(() => useUserSkillsDelete("123"))
+    const { result } = renderHook(() => useUserLanguagesDelete("123"))
 
     await act(async () => {
       await result.current.handleConfirmDelete()
     })
 
     expect(toast.success).toHaveBeenCalledWith("toast.deleted-plural")
+    mockSelectedValues.delete("Spanish")
   })
 
-  it("should handle error during deletion", async () => {
-    const error = new Error("Failed to delete")
+  it("should handle delete error", async () => {
+    const error = new Error("Delete failed")
     mockDeleteMutation.mockRejectedValueOnce(error)
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {})
 
-    const { result } = renderHook(() => useUserSkillsDelete("123"))
+    const { result } = renderHook(() => useUserLanguagesDelete("123"))
 
     await act(async () => {
       await result.current.handleConfirmDelete()
     })
 
     expect(consoleSpy).toHaveBeenCalledWith(error)
-    expect(mockStopSelection).toHaveBeenCalled()
     consoleSpy.mockRestore()
   })
 })

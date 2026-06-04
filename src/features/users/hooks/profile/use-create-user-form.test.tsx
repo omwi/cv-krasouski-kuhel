@@ -8,7 +8,7 @@ import { USER_FIELDS_FRAGMENT } from "@/graphql/users/fragments"
 import { CREATE_USER } from "@/graphql/users/mutations"
 import { UserRole } from "@/types/__generated__/graphql"
 
-import { useCreateUserForm } from "../use-create-user-form"
+import { useCreateUserForm } from "./use-create-user-form"
 
 const mockMutateUser = vi.fn().mockResolvedValue({})
 
