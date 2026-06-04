@@ -1,5 +1,6 @@
-import { useT } from "next-i18next/client"
+"use client"
 
+import SharedSkillsCategory from "@/components/shared/skills/shared-skills-category"
 import UserSKillItem from "@/features/users/components/skills/user-skill-item"
 import { UserSkill } from "@/types/graphql-types"
 
@@ -14,16 +15,11 @@ export default function UserSKillsCategory({
   skills,
   userId,
 }: Props) {
-  const { t } = useT("skills")
-
   return (
-    <div className="flex flex-col gap-2">
-      <p>{t(`category.${category}`)}</p>
-      <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3">
-        {skills.map((skill) => (
-          <UserSKillItem key={skill.name} skill={skill} userId={userId} />
-        ))}
-      </div>
-    </div>
+    <SharedSkillsCategory category={category}>
+      {skills.map((skill) => (
+        <UserSKillItem key={skill.name} skill={skill} userId={userId} />
+      ))}
+    </SharedSkillsCategory>
   )
 }

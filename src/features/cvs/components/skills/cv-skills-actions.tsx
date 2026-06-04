@@ -1,14 +1,9 @@
-import { Plus } from "lucide-react"
-import { useT } from "next-i18next/client"
+"use client"
 
-import SelectForDeletionButton from "@/components/shared/selection/select-for-deletion-button"
-import SelectionButtons from "@/components/shared/selection/selection-buttons"
-import { useSelection } from "@/components/shared/selection/selection-provider"
-import { Button } from "@/components/ui/button"
+import SharedSkillsActions from "@/components/shared/skills/shared-skills-actions"
 import CvSkillAddDialog from "@/features/cvs/components/skills/cv-skill-add-dialog"
 import { useCvSkillsDelete } from "@/features/cvs/hooks/skills/use-cv-skill-delete"
 import { usePermissions } from "@/hooks/use-permissions"
-import { cn } from "@/lib/utils"
 import { CvUserId } from "@/types/graphql-types"
 
 export default function CvSkillsActions({
@@ -18,49 +13,22 @@ export default function CvSkillsActions({
   cvUserId: CvUserId
   hasSkills: boolean
 }) {
-  const { t } = useT("buttons")
-
   const { canUpdateCv } = usePermissions()
   const hasPermissions = canUpdateCv(cvUserId.user?.id)
-
-  const { isSelecting } = useSelection()
 
   const { handleStartDelete, handleCancelDelete, handleConfirmDelete } =
     useCvSkillsDelete(cvUserId)
 
   return (
-    <div
-      className={cn(
-        "flex flex-row flex-wrap justify-between gap-4 sm:justify-end",
-        !hasPermissions && "hidden"
+    <SharedSkillsActions
+      hasSkills={hasSkills}
+      hasPermissions={hasPermissions}
+      handleStartDelete={handleStartDelete}
+      handleCancelDelete={handleCancelDelete}
+      handleConfirmDelete={handleConfirmDelete}
+      renderAddDialog={(children) => (
+        <CvSkillAddDialog cvUserId={cvUserId}>{children}</CvSkillAddDialog>
       )}
-    >
-      {!isSelecting ? (
-        <>
-          <CvSkillAddDialog cvUserId={cvUserId}>
-            <Button
-              variant={"ghost"}
-              disabled={!hasPermissions}
-              className="gap-4"
-            >
-              <Plus className="size-6" />
-              <span>{t("add-skill")}</span>
-            </Button>
-          </CvSkillAddDialog>
-
-          <SelectForDeletionButton
-            label={t("remove-skills")}
-            onClick={handleStartDelete}
-            disabled={!hasPermissions || !hasSkills}
-            hidden={!hasSkills}
-          />
-        </>
-      ) : (
-        <SelectionButtons
-          handleCancelDelete={handleCancelDelete}
-          handleConfirmDelete={handleConfirmDelete}
-        />
-      )}
-    </div>
+    />
   )
 }
