@@ -26,10 +26,6 @@ vi.mock("@apollo/client/react", () => ({
   })),
 }))
 
-vi.mock("@/hooks/use-permissions", () => ({
-  usePermissions: vi.fn(),
-}))
-
 vi.mock("@/components/shared/selection/selection-provider", () => ({
   useSelection: vi.fn(),
 }))
@@ -87,43 +83,6 @@ vi.mock("@/features/skills/components/skill-mastery-select", () => ({
       <option value="Novice">Novice</option>
       <option value="Advanced">Advanced</option>
     </select>
-  ),
-}))
-
-vi.mock("@/components/shared/dialog/form-dialog", () => ({
-  FormDialog: ({
-    children,
-    title,
-    submitLabel,
-    onSubmit,
-    trigger,
-    open,
-  }: {
-    children?: React.ReactNode
-    title?: string
-    submitLabel?: string
-    onSubmit: () => void
-    trigger?: React.ReactNode
-    open?: boolean
-  }) => (
-    <div>
-      <div data-testid="dialog-trigger">{trigger}</div>
-      {open && (
-        <form
-          data-testid="form-dialog"
-          onSubmit={(e) => {
-            e.preventDefault()
-            onSubmit()
-          }}
-        >
-          <h2 data-testid="dialog-title">{title}</h2>
-          <button type="submit" data-testid="dialog-submit">
-            {submitLabel}
-          </button>
-          {children}
-        </form>
-      )}
-    </div>
   ),
 }))
 

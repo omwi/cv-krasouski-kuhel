@@ -13,10 +13,6 @@ import { usePermissions } from "@/hooks/use-permissions"
 
 import { useUserLanguageAddForm } from "../use-user-language-add-form"
 
-vi.mock("@/hooks/use-permissions", () => ({
-  usePermissions: vi.fn(),
-}))
-
 const mockMutation = vi.fn().mockResolvedValue({})
 vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockMutation, { loading: false }]),

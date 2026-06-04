@@ -14,10 +14,6 @@ import { UserLanguage } from "@/types/graphql-types"
 
 import { useUserLanguageUpdateForm } from "../use-user-language-update-form"
 
-vi.mock("@/hooks/use-permissions", () => ({
-  usePermissions: vi.fn(),
-}))
-
 const mockMutation = vi.fn().mockResolvedValue({})
 vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockMutation, { loading: false }]),

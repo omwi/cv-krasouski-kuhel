@@ -7,10 +7,6 @@ import { usePermissions } from "@/hooks/use-permissions"
 
 import { useProfileUpdateForm } from "../use-profile-update-form"
 
-vi.mock("@/hooks/use-permissions", () => ({
-  usePermissions: vi.fn(),
-}))
-
 const mockMutate = vi.fn().mockResolvedValue({})
 
 // Direct mock of @apollo/client/react to bypass suspense issues and run synchronously

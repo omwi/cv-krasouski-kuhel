@@ -17,60 +17,12 @@ vi.mock("@apollo/client/react", () => ({
   useSuspenseQuery: vi.fn(),
 }))
 
-vi.mock("@/hooks/use-permissions", () => ({
-  usePermissions: vi.fn(),
-}))
-
 vi.mock("@/features/users/hooks/profile/use-avatar-upload", () => ({
   useAvatarUpload: vi.fn(),
 }))
 
 vi.mock("@/features/users/hooks/profile/use-profile-update-form", () => ({
   useProfileUpdateForm: vi.fn(),
-}))
-
-vi.mock("@/features/departments/components/department-select", () => ({
-  default: ({
-    disabled,
-    value,
-    onValueChange,
-  }: {
-    disabled?: boolean
-    value?: string
-    onValueChange?: (val: string) => void
-  }) => (
-    <select
-      data-testid="dept-select"
-      disabled={disabled}
-      value={value || "none"}
-      onChange={(e) => onValueChange?.(e.target.value)}
-    >
-      <option value="none">None</option>
-      <option value="dept-1">Dept 1</option>
-    </select>
-  ),
-}))
-
-vi.mock("@/features/positions/components/position-select", () => ({
-  default: ({
-    disabled,
-    value,
-    onValueChange,
-  }: {
-    disabled?: boolean
-    value?: string
-    onValueChange?: (val: string) => void
-  }) => (
-    <select
-      data-testid="pos-select"
-      disabled={disabled}
-      value={value || "none"}
-      onChange={(e) => onValueChange?.(e.target.value)}
-    >
-      <option value="none">None</option>
-      <option value="pos-1">Pos 1</option>
-    </select>
-  ),
 }))
 
 vi.mock("@/components/ui/avatar", () => ({

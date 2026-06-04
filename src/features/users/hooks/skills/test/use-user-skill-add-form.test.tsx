@@ -15,12 +15,6 @@ import { usePermissions } from "@/hooks/use-permissions"
 
 import { useUserSkillAddForm } from "../use-user-skill-add-form"
 
-vi.mock("@/hooks/use-permissions", () => ({
-  usePermissions: vi.fn(() => ({
-    canUpdateUser: () => true,
-  })),
-}))
-
 const mockMutation = vi.fn().mockResolvedValue({})
 
 vi.mock("@apollo/client/react", () => ({

@@ -14,12 +14,6 @@ import { UserSkill } from "@/types/graphql-types"
 
 import { useUserSkillUpdateForm } from "../use-user-skill-update-form"
 
-vi.mock("@/hooks/use-permissions", () => ({
-  usePermissions: vi.fn(() => ({
-    canUpdateUser: () => true,
-  })),
-}))
-
 const mockMutation = vi.fn().mockResolvedValue({})
 vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockMutation, { loading: false }]),
