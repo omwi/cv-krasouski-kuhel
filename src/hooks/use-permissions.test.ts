@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { useAuthContext } from "@/features/auth/components/auth-provider"
 import { usePermissions } from "@/hooks/use-permissions"
 
+vi.unmock("@/hooks/use-permissions")
+
 vi.mock("@/features/auth/components/auth-provider", () => ({
   useAuthContext: vi.fn(),
 }))
