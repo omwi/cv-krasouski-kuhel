@@ -46,7 +46,6 @@ const signupAction = async (
       toast.error(errorMessage)
       return { error: errorMessage, success: false }
     }
-
     window.location.href = paths.verification.get()
 
     return { error: null, success: true }

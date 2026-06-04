@@ -2,14 +2,11 @@
 
 import { useEffect, useRef } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { useT } from "next-i18next/client"
 
 import ActiveIndicator from "@/components/layout/tab-nav/active-indicator"
-import { paths } from "@/config/paths"
 import { useActiveIndicator } from "@/hooks/use-active-indicator"
 import { cn } from "@/lib/utils"
-import { isEqualPath } from "@/utils/url"
 
 export type TabLink = {
   href: string
@@ -28,7 +25,6 @@ export default function TabNav({
   className,
 }: TabHeaderProps) {
   const { t } = useT(i18nNamespace)
-  const pathname = usePathname()
   const navRef = useRef<HTMLElement>(null)
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([])
 
@@ -53,15 +49,11 @@ export default function TabNav({
     }
   }, [activeIndex])
 
-  if (isEqualPath(pathname, paths.auth.forgotPassword.get().split("?")[0])) {
-    return null
-  }
-
   return (
     <nav
       ref={navRef}
       className={cn(
-        "relative flex w-full [scrollbar-width:none] flex-row flex-nowrap items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+        "relative flex w-full scrollbar-none flex-row flex-nowrap items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         className
       )}
     >
