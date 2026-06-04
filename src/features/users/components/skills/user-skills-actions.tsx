@@ -29,6 +29,7 @@ export default function UserSkillsActions({
 
   return (
     <div
+      data-testid="user-skills-actions"
       className={cn(
         "flex flex-row flex-wrap justify-between gap-4 sm:justify-end",
         !hasPermissions && "hidden"
