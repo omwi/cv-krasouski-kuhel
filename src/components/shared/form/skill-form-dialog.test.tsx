@@ -10,6 +10,8 @@ import {
   SkillFormValues,
 } from "./skill-form-dialog"
 
+vi.mock("@/components/shared/dialog/form-dialog")
+
 vi.mock("@/components/shared/input/name-input", () => ({
   NameInput: (props: {
     register: UseFormRegister<SkillFormValues>
@@ -17,6 +19,7 @@ vi.mock("@/components/shared/input/name-input", () => ({
     isSubmitting?: boolean
   }) => {
     const { ref, ...rest } = props.register("name")
+
     return (
       <input
         data-testid="mock-name-input"
@@ -44,28 +47,6 @@ vi.mock("@/components/shared/select/skill-category-select", () => ({
       <option value="cat-1">Category 1</option>
     </select>
   ),
-}))
-
-vi.mock("@/components/shared/dialog/form-dialog", () => ({
-  FormDialog: (props: {
-    open: boolean
-    title: string
-    onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>
-    children: React.ReactNode
-    submitLabel?: string
-    submitDisabled?: boolean
-  }) => {
-    if (!props.open) return null
-    return (
-      <form data-testid="mock-form-dialog" onSubmit={props.onSubmit}>
-        <h2>{props.title}</h2>
-        {props.children}
-        <button type="submit" disabled={props.submitDisabled}>
-          {props.submitLabel || "Submit"}
-        </button>
-      </form>
-    )
-  },
 }))
 
 interface WrapperProps extends Partial<SkillFormDialogProps> {
@@ -97,7 +78,7 @@ function FormWrapper({
 
   return (
     <SkillFormDialog
-      open={true}
+      open
       onOpenChange={vi.fn()}
       title="Test Skill Form"
       onSubmit={handleSubmit}
@@ -112,26 +93,27 @@ describe("SkillFormDialog", () => {
     vi.clearAllMocks()
   })
 
-  it("should render correctly with all fields and pass through configuration props", () => {
-    render(<FormWrapper submitLabel="Save Skill" submitDisabled={true} />)
+  it("should render correctly with all fields", () => {
+    render(<FormWrapper submitLabel="Save Skill" submitDisabled />)
 
-    expect(screen.getByText("Test Skill Form")).toBeInTheDocument()
+    expect(screen.getByTestId("dialog-title")).toHaveTextContent(
+      "Test Skill Form"
+    )
+
     expect(screen.getByTestId("mock-name-input")).toBeInTheDocument()
     expect(screen.getByTestId("mock-category-select")).toBeInTheDocument()
-
-    const submitBtn = screen.getByRole("button", { name: "Save Skill" })
-    expect(submitBtn).toBeInTheDocument()
-    expect(submitBtn).toBeDisabled()
+    expect(screen.getByTestId("dialog-submit")).toBeInTheDocument()
   })
 
   it("should capture input values and call submit handler successfully", async () => {
     const user = userEvent.setup()
     const mockSubmit = vi.fn()
+
     render(<FormWrapper onValidSubmit={mockSubmit} />)
 
     const nameInput = screen.getByTestId("mock-name-input")
     const categorySelect = screen.getByTestId("mock-category-select")
-    const submitButton = screen.getByRole("button", { name: "Submit" })
+    const submitButton = screen.getByTestId("dialog-submit")
 
     await user.type(nameInput, "React JS")
     await user.selectOptions(categorySelect, "cat-1")
@@ -146,7 +128,7 @@ describe("SkillFormDialog", () => {
   })
 
   it("should display field error messages when validation fails", async () => {
-    render(<FormWrapper triggerError={true} />)
+    render(<FormWrapper triggerError />)
 
     await waitFor(() => {
       expect(
@@ -156,12 +138,9 @@ describe("SkillFormDialog", () => {
   })
 
   it("should pass disabled state to inputs when form is submitting", () => {
-    render(<FormWrapper isSubmitting={true} />)
+    render(<FormWrapper isSubmitting />)
 
-    const nameInput = screen.getByTestId("mock-name-input")
-    const categorySelect = screen.getByTestId("mock-category-select")
-
-    expect(nameInput).toBeDisabled()
-    expect(categorySelect).toBeDisabled()
+    expect(screen.getByTestId("mock-name-input")).toBeDisabled()
+    expect(screen.getByTestId("mock-category-select")).toBeDisabled()
   })
 })

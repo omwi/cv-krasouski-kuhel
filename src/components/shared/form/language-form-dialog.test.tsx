@@ -6,19 +6,7 @@ import { describe, expect, it, vi } from "vitest"
 
 import { LanguageFormDialog, LanguagesFormValues } from "./language-form-dialog"
 
-vi.mock("@/components/shared/dialog/form-dialog", () => ({
-  FormDialog: ({
-    children,
-    title,
-  }: PropsWithChildren<{
-    title: string
-  }>) => (
-    <div>
-      <h1>{title}</h1>
-      {children}
-    </div>
-  ),
-}))
+vi.mock("@/components/shared/dialog/form-dialog")
 
 vi.mock("@/components/shared/input/name-input", () => ({
   NameInput: () => <div data-testid="name-input" />,
@@ -91,11 +79,9 @@ describe("LanguageFormDialog", () => {
   it("should render all form fields and dialog content", () => {
     render(<TestHarness />)
 
-    expect(
-      screen.getByRole("heading", {
-        name: "Language Dialog",
-      })
-    ).toBeInTheDocument()
+    expect(screen.getByTestId("dialog-title")).toHaveTextContent(
+      "Language Dialog"
+    )
 
     expect(screen.getByTestId("name-input")).toBeInTheDocument()
     expect(screen.getByTestId("native-name")).toBeInTheDocument()

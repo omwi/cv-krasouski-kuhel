@@ -10,19 +10,7 @@ import { ProjectFormDialog } from "./project-form-dialog"
 
 const environmentSelectMock = vi.fn()
 
-vi.mock("@/components/shared/dialog/form-dialog", () => ({
-  FormDialog: ({
-    children,
-    title,
-  }: PropsWithChildren<{
-    title: string
-  }>) => (
-    <div>
-      <h1>{title}</h1>
-      {children}
-    </div>
-  ),
-}))
+vi.mock("@/components/shared/dialog/form-dialog")
 
 vi.mock("@/components/shared/input/name-input", () => ({
   NameInput: () => <div data-testid="name-input" />,
@@ -141,11 +129,9 @@ describe("ProjectFormDialog", () => {
   it("should render the form fields and dialog content", () => {
     render(<TestHarness />)
 
-    expect(
-      screen.getByRole("heading", {
-        name: "Project Dialog",
-      })
-    ).toBeInTheDocument()
+    expect(screen.getByTestId("dialog-title")).toHaveTextContent(
+      "Project Dialog"
+    )
 
     expect(screen.getByTestId("name-input")).toBeInTheDocument()
     expect(screen.getByTestId("date-range-picker")).toBeInTheDocument()

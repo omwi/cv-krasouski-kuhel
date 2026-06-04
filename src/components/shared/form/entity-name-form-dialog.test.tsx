@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react"
 import { render, screen } from "@testing-library/react"
 import { useForm } from "react-hook-form"
-import { describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { EntityNameFormDialog } from "./entity-name-form-dialog"
 
@@ -10,33 +10,8 @@ type TestFormValues = {
 }
 
 const nameInputMock = vi.fn()
-const formDialogMock = vi.fn()
 
-vi.mock("@/components/shared/dialog/form-dialog", () => ({
-  FormDialog: ({
-    children,
-    title,
-    isSubmitting,
-    submitDisabled,
-  }: PropsWithChildren<{
-    title: string
-    isSubmitting?: boolean
-    submitDisabled?: boolean
-  }>) => {
-    formDialogMock({
-      title,
-      isSubmitting,
-      submitDisabled,
-    })
-
-    return (
-      <div>
-        <h1>{title}</h1>
-        {children}
-      </div>
-    )
-  },
-}))
+vi.mock("@/components/shared/dialog/form-dialog")
 
 vi.mock("@/components/shared/input/name-input", () => ({
   NameInput: ({ isSubmitting }: { isSubmitting?: boolean }) => {
@@ -79,14 +54,20 @@ function TestHarness({
 }
 
 describe("EntityNameFormDialog", () => {
-  it("should render dialog and name input", () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it("should render the dialog title", () => {
     render(<TestHarness />)
 
-    expect(
-      screen.getByRole("heading", {
-        name: "Entity Dialog",
-      })
-    ).toBeInTheDocument()
+    expect(screen.getByTestId("dialog-title")).toHaveTextContent(
+      "Entity Dialog"
+    )
+  })
+
+  it("should render the name input", () => {
+    render(<TestHarness />)
 
     expect(screen.getByTestId("name-input")).toBeInTheDocument()
   })
@@ -99,13 +80,11 @@ describe("EntityNameFormDialog", () => {
     })
   })
 
-  it("should forward dialog props to FormDialog", () => {
-    render(<TestHarness isSubmitting submitDisabled />)
+  it("should pass non-submitting state to NameInput by default", () => {
+    render(<TestHarness />)
 
-    expect(formDialogMock).toHaveBeenLastCalledWith({
-      title: "Entity Dialog",
-      isSubmitting: true,
-      submitDisabled: true,
+    expect(nameInputMock).toHaveBeenLastCalledWith({
+      isSubmitting: false,
     })
   })
 })
