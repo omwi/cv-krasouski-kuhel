@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import { Mastery } from "@/types/__generated__/graphql"
-
-import { getColors } from "./skill-colors"
+import { getColors } from "@/utils/skill-colors"
 
 describe("skill-colors utils", () => {
   describe("getColors", () => {

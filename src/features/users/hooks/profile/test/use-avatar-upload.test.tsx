@@ -35,7 +35,7 @@ const mocks = vi.hoisted(() => ({
 }))
 
 vi.mock("@apollo/client/react", () => ({
-  useMutation: vi.fn((mutation, options) => {
+  useMutation: vi.fn((_mutation, options) => {
     if (options?.update) {
       mocks.updates.push(options.update)
     }
@@ -168,41 +168,52 @@ describe("useAvatarUpload", () => {
     consoleSpy.mockRestore()
   })
 
+  const verifyCacheModifications = (
+    mockCache: { modify: ReturnType<typeof vi.fn> },
+    expectedAvatarValue: string | null
+  ) => {
+    expect(mockCache.modify).toHaveBeenCalled()
+    const modifyArgs = mockCache.modify.mock.calls[0][0] as unknown as {
+      id: string
+      fields: Record<string, (ref: { __ref?: string } | null) => unknown>
+    }
+    expect(modifyArgs.id).toBe("User:123")
+
+    const nestedProfileRef = { __ref: "Profile:456" }
+    modifyArgs.fields.profile(nestedProfileRef)
+
+    expect(mockCache.modify).toHaveBeenCalledTimes(2)
+    const nestedModifyArgs = mockCache.modify.mock.calls[1][0] as unknown as {
+      id: string
+      fields: Record<string, () => unknown>
+    }
+    expect(nestedModifyArgs.id).toBe("Profile:456")
+    expect(nestedModifyArgs.fields.avatar()).toBe(expectedAvatarValue)
+
+    expect(modifyArgs.fields.profile(null)).toBe(null)
+  }
+
+  const createMockCache = () => ({
+    identify: vi.fn((obj) => {
+      if (obj.__ref) return obj.__ref
+      return `${obj.__typename}:${obj.id}`
+    }),
+    modify: vi.fn(),
+  })
+
   it("should update cache on upload", () => {
     renderHook(() => useAvatarUpload("123"))
     // The first update function captured is for upload
     const uploadUpdate = mocks.updates[0]
 
-    const mockCache = {
-      identify: vi.fn((obj) => {
-        if (obj.__ref) return obj.__ref
-        return `${obj.__typename}:${obj.id}`
-      }),
-      modify: vi.fn(),
-    }
+    const mockCache = createMockCache()
 
     // Call it with valid data
     uploadUpdate(mockCache as unknown as MockCache, {
       data: { uploadAvatar: "new-avatar-url" },
     })
 
-    expect(mockCache.modify).toHaveBeenCalled()
-
-    // Test the internal profile modifier
-    const modifyArgs = mockCache.modify.mock.calls[0][0]
-    expect(modifyArgs.id).toBe("User:123")
-
-    // simulate nested cache modifier
-    const nestedProfileRef = { __ref: "Profile:456" }
-    modifyArgs.fields.profile(nestedProfileRef)
-
-    expect(mockCache.modify).toHaveBeenCalledTimes(2)
-    const nestedModifyArgs = mockCache.modify.mock.calls[1][0]
-    expect(nestedModifyArgs.id).toBe("Profile:456")
-    expect(nestedModifyArgs.fields.avatar()).toBe("new-avatar-url")
-
-    // Cover the missing branch: existingProfileRef is falsy
-    expect(modifyArgs.fields.profile(null)).toBe(null)
+    verifyCacheModifications(mockCache, "new-avatar-url")
 
     // Call it without data to cover early return
     mockCache.modify.mockClear()
@@ -215,30 +226,10 @@ describe("useAvatarUpload", () => {
     // The second update function captured is for delete
     const deleteUpdate = mocks.updates[1]
 
-    const mockCache = {
-      identify: vi.fn((obj) => {
-        if (obj.__ref) return obj.__ref
-        return `${obj.__typename}:${obj.id}`
-      }),
-      modify: vi.fn(),
-    }
+    const mockCache = createMockCache()
 
     deleteUpdate(mockCache as unknown as MockCache)
 
-    expect(mockCache.modify).toHaveBeenCalled()
-
-    const modifyArgs = mockCache.modify.mock.calls[0][0]
-    expect(modifyArgs.id).toBe("User:123")
-
-    const nestedProfileRef = { __ref: "Profile:456" }
-    modifyArgs.fields.profile(nestedProfileRef)
-
-    expect(mockCache.modify).toHaveBeenCalledTimes(2)
-    const nestedModifyArgs = mockCache.modify.mock.calls[1][0]
-    expect(nestedModifyArgs.id).toBe("Profile:456")
-    expect(nestedModifyArgs.fields.avatar()).toBe(null)
-
-    // Cover the missing branch: existingProfileRef is falsy
-    expect(modifyArgs.fields.profile(null)).toBe(null)
+    verifyCacheModifications(mockCache, null)
   })
 })

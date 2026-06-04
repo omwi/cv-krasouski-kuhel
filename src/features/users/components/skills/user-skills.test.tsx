@@ -11,7 +11,7 @@ import { useUserSkillsDelete } from "@/features/users/hooks/skills/use-user-skil
 import { usePermissions } from "@/hooks/use-permissions"
 import { UserSkill } from "@/types/graphql-types"
 
-import UserSKills from "../user-skills"
+import UserSKills from "./user-skills"
 
 vi.mock("@apollo/client/react", () => ({
   useSuspenseQuery: vi.fn(),
@@ -127,6 +127,18 @@ let mockDeleteActions: ReturnType<typeof useUserSkillsDelete>
 let mockSelectionState: ReturnType<typeof useSelection>
 let activeUpdateSkillName: string | null = null
 
+const createMockSkillForm = () => ({
+  isSubmitReady: true,
+  onSubmit: vi.fn((e?: { preventDefault?: (() => void) | undefined }) => {
+    if (e?.preventDefault) e.preventDefault()
+    return Promise.resolve()
+  }),
+  open: false,
+  setOpen: vi.fn() as Dispatch<SetStateAction<boolean>>,
+  reset: vi.fn(),
+  loading: false,
+})
+
 const TestComponent = () => {
   const { control: addControl } = useForm({
     defaultValues: {
@@ -193,29 +205,9 @@ describe("UserSkills Integration Test", () => {
     }
     vi.mocked(useUserSkillsDelete).mockReturnValue(mockDeleteActions)
 
-    mockAddForm = {
-      isSubmitReady: true,
-      onSubmit: vi.fn((e) => {
-        e?.preventDefault()
-        return Promise.resolve()
-      }),
-      open: false,
-      setOpen: vi.fn(),
-      reset: vi.fn(),
-      loading: false,
-    }
+    mockAddForm = createMockSkillForm()
 
-    mockUpdateForm = {
-      isSubmitReady: true,
-      onSubmit: vi.fn((e) => {
-        e?.preventDefault()
-        return Promise.resolve()
-      }),
-      open: false,
-      setOpen: vi.fn(),
-      reset: vi.fn(),
-      loading: false,
-    }
+    mockUpdateForm = createMockSkillForm()
 
     activeUpdateSkillName = null
   })

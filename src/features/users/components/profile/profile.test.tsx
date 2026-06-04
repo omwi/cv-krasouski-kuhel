@@ -7,10 +7,10 @@ import { useAvatarUpload } from "@/features/users/hooks/profile/use-avatar-uploa
 import { useProfileUpdateForm } from "@/features/users/hooks/profile/use-profile-update-form"
 import { usePermissions } from "@/hooks/use-permissions"
 
-import AvatarUpload from "../avatar-upload"
-import { ProfileSkeleton } from "../profile-skeleton"
-import ProfileTextInfo from "../profile-text-info"
-import ProfileUpdateForm from "../profile-update-form"
+import AvatarUpload from "./avatar-upload"
+import { ProfileSkeleton } from "./profile-skeleton"
+import ProfileTextInfo from "./profile-text-info"
+import ProfileUpdateForm from "./profile-update-form"
 
 // Mock dependencies
 vi.mock("@apollo/client/react", () => ({
@@ -147,6 +147,18 @@ describe("Profile Components Tests", () => {
   describe("AvatarUpload", () => {
     let mockUploadHook: ReturnType<typeof useAvatarUpload>
 
+    const mockUserWithAvatar = {
+      data: {
+        user: {
+          email: "jane@example.com",
+          profile: {
+            full_name: "Jane Doe",
+            avatar: "http://example.com/avatar.png",
+          },
+        },
+      },
+    } as unknown as ReturnType<typeof useSuspenseQuery>
+
     beforeEach(() => {
       mockUploadHook = {
         isLoading: false,
@@ -164,17 +176,7 @@ describe("Profile Components Tests", () => {
     })
 
     it("should render avatar image and show active delete button if avatar exists and user has permissions", () => {
-      vi.mocked(useSuspenseQuery).mockReturnValue({
-        data: {
-          user: {
-            email: "jane@example.com",
-            profile: {
-              full_name: "Jane Doe",
-              avatar: "http://example.com/avatar.png",
-            },
-          },
-        },
-      } as unknown as ReturnType<typeof useSuspenseQuery>)
+      vi.mocked(useSuspenseQuery).mockReturnValue(mockUserWithAvatar)
 
       render(<AvatarUpload userId="123" />)
 
@@ -218,17 +220,7 @@ describe("Profile Components Tests", () => {
         canUpdateUser: () => false,
       } as unknown as ReturnType<typeof usePermissions>)
 
-      vi.mocked(useSuspenseQuery).mockReturnValue({
-        data: {
-          user: {
-            email: "jane@example.com",
-            profile: {
-              full_name: "Jane Doe",
-              avatar: "http://example.com/avatar.png",
-            },
-          },
-        },
-      } as unknown as ReturnType<typeof useSuspenseQuery>)
+      vi.mocked(useSuspenseQuery).mockReturnValue(mockUserWithAvatar)
 
       render(<AvatarUpload userId="123" />)
 

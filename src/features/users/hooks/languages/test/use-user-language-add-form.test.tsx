@@ -18,12 +18,32 @@ vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockMutation, { loading: false }]),
 }))
 
+const mockAllowPermissions = () =>
+  vi.mocked(usePermissions).mockReturnValue({
+    canUpdateUser: () => true,
+  } as unknown as ReturnType<typeof usePermissions>)
+
+const fillLanguageForm = async (
+  form: Pick<ReturnType<typeof useUserLanguageAddForm>, "reset" | "setOpen">,
+  values: { languageName: string; proficiency: string; open?: boolean }
+) => {
+  if (values.open) {
+    act(() => {
+      form.setOpen(true)
+    })
+  }
+  act(() => {
+    form.reset({
+      languageName: values.languageName,
+      proficiency: values.proficiency,
+    })
+  })
+}
+
 describe("useUserLanguageAddForm", () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(usePermissions).mockReturnValue({
-      canUpdateUser: () => true,
-    } as unknown as ReturnType<typeof usePermissions>)
+    mockAllowPermissions()
   })
 
   it("should initialize default form values and submit successfully", async () => {
@@ -34,18 +54,11 @@ describe("useUserLanguageAddForm", () => {
     expect(result.current.isSubmitReady).toBe(false)
     expect(result.current.open).toBe(false)
 
-    // Trigger open state
-    act(() => {
-      result.current.setOpen(true)
-    })
-    expect(result.current.open).toBe(true)
-
-    // Set valid form values so zod validation passes
-    act(() => {
-      result.current.reset({
-        languageName: "Spanish",
-        proficiency: "C1",
-      })
+    // Trigger open state and fill form
+    await fillLanguageForm(result.current, {
+      languageName: "Spanish",
+      proficiency: "C1",
+      open: true,
     })
 
     // Trigger form submit
@@ -65,6 +78,7 @@ describe("useUserLanguageAddForm", () => {
         },
       })
     )
+    expect(result.current.open).toBe(false)
   })
 
   it("should handle submission error", async () => {
@@ -74,11 +88,9 @@ describe("useUserLanguageAddForm", () => {
 
     const { result } = renderHook(() => useUserLanguageAddForm("123"))
 
-    act(() => {
-      result.current.reset({
-        languageName: "French",
-        proficiency: "A2",
-      })
+    await fillLanguageForm(result.current, {
+      languageName: "French",
+      proficiency: "A2",
     })
 
     await act(async () => {
@@ -94,13 +106,11 @@ describe("useUserLanguageAddForm", () => {
       canUpdateUser: () => false,
     } as unknown as ReturnType<typeof usePermissions>)
 
-    const { result } = renderHook(() => useUserLanguageAddForm("123"))
+    const { result } = renderHook(() => useUserLanguageAddForm("456"))
 
-    act(() => {
-      result.current.reset({
-        languageName: "German",
-        proficiency: "B1",
-      })
+    await fillLanguageForm(result.current, {
+      languageName: "German",
+      proficiency: "B1",
     })
 
     await act(async () => {
@@ -111,38 +121,50 @@ describe("useUserLanguageAddForm", () => {
   })
 
   it("should update isSubmitReady when form becomes dirty and valid", async () => {
-    const TestComponent = () => {
+    const AddLanguageTestComponent = () => {
       const { control, isSubmitReady } = useUserLanguageAddForm("123")
       return (
-        <form>
+        <form data-testid="add-language-form">
           <Controller
             control={control}
             name="languageName"
-            render={({ field }) => <input data-testid="lang" {...field} />}
+            render={({ field }) => (
+              <input data-testid="add-lang-name-input" {...field} />
+            )}
           />
           <Controller
             control={control}
             name="proficiency"
-            render={({ field }) => <input data-testid="prof" {...field} />}
+            render={({ field }) => (
+              <input data-testid="add-lang-proficiency-input" {...field} />
+            )}
           />
-          <span data-testid="ready">{String(isSubmitReady)}</span>
+          <span data-testid="add-lang-ready-status">
+            {String(isSubmitReady)}
+          </span>
         </form>
       )
     }
 
-    render(<TestComponent />)
+    render(<AddLanguageTestComponent />)
 
     // Initially not dirty
-    expect(screen.getByTestId("ready").textContent).toBe("false")
+    expect(screen.getByTestId("add-lang-ready-status").textContent).toBe(
+      "false"
+    )
 
     // Make form dirty and valid
-    fireEvent.change(screen.getByTestId("lang"), {
+    fireEvent.change(screen.getByTestId("add-lang-name-input"), {
       target: { value: "Spanish" },
     })
-    fireEvent.change(screen.getByTestId("prof"), { target: { value: "C1" } })
+    fireEvent.change(screen.getByTestId("add-lang-proficiency-input"), {
+      target: { value: "C1" },
+    })
 
     await waitFor(() => {
-      expect(screen.getByTestId("ready").textContent).toBe("true")
+      expect(screen.getByTestId("add-lang-ready-status").textContent).toBe(
+        "true"
+      )
     })
   })
 })

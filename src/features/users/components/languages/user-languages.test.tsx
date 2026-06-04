@@ -11,7 +11,7 @@ import { useUserLanguagesDelete } from "@/features/users/hooks/languages/use-use
 import { usePermissions } from "@/hooks/use-permissions"
 import { UserLanguage } from "@/types/graphql-types"
 
-import UserLanguages from "../user-languages"
+import UserLanguages from "./user-languages"
 
 vi.mock("@apollo/client/react", () => ({
   useSuspenseQuery: vi.fn(),
@@ -121,6 +121,18 @@ let mockDeleteActions: ReturnType<typeof useUserLanguagesDelete>
 let mockSelectionState: ReturnType<typeof useSelection>
 let activeUpdateLanguageName: string | null = null
 
+const createMockLanguageForm = () => ({
+  isSubmitReady: true,
+  onSubmit: vi.fn((e?: { preventDefault?: (() => void) | undefined }) => {
+    if (e?.preventDefault) e.preventDefault()
+    return Promise.resolve()
+  }),
+  open: false,
+  setOpen: vi.fn() as Dispatch<SetStateAction<boolean>>,
+  reset: vi.fn(),
+  loading: false,
+})
+
 const TestComponent = () => {
   const { control: addControl } = useForm({
     defaultValues: {
@@ -190,29 +202,9 @@ describe("UserLanguages Integration Test", () => {
     }
     vi.mocked(useUserLanguagesDelete).mockReturnValue(mockDeleteActions)
 
-    mockAddForm = {
-      isSubmitReady: true,
-      onSubmit: vi.fn((e) => {
-        e?.preventDefault()
-        return Promise.resolve()
-      }),
-      open: false,
-      setOpen: vi.fn(),
-      reset: vi.fn(),
-      loading: false,
-    }
+    mockAddForm = createMockLanguageForm()
 
-    mockUpdateForm = {
-      isSubmitReady: true,
-      onSubmit: vi.fn((e) => {
-        e?.preventDefault()
-        return Promise.resolve()
-      }),
-      open: false,
-      setOpen: vi.fn(),
-      reset: vi.fn(),
-      loading: false,
-    }
+    mockUpdateForm = createMockLanguageForm()
 
     activeUpdateLanguageName = null
   })

@@ -29,13 +29,33 @@ vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockMutation, { loading: false }]),
 }))
 
+const fillAndSubmitForm = async (
+  form: Pick<
+    ReturnType<typeof useUserSkillAddForm>,
+    "setOpen" | "reset" | "onSubmit"
+  >,
+  values: { mastery: string; skillId: string; open?: boolean }
+) => {
+  if (values.open) {
+    act(() => {
+      form.setOpen(true)
+    })
+  }
+  act(() => {
+    form.reset({ mastery: values.mastery, skillId: values.skillId })
+  })
+  await act(async () => {
+    await form.onSubmit()
+  })
+}
+
 describe("useUserSkillAddForm", () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockMutation.mockResolvedValue({})
     vi.mocked(usePermissions).mockReturnValue({
       canUpdateUser: () => true,
     } as unknown as ReturnType<typeof usePermissions>)
+    mockMutation.mockResolvedValue({})
   })
 
   it("should initialize default form values", () => {
@@ -59,14 +79,14 @@ describe("useUserSkillAddForm", () => {
     vi.mocked(usePermissions).mockReturnValue({
       canUpdateUser: () => false,
     } as unknown as ReturnType<typeof usePermissions>)
-    const { result } = renderHook(() => useUserSkillAddForm("123"))
+    // Should not allow submit if user has no edit permissions
+    const { result } = renderHook(() =>
+      useUserSkillAddForm("unauthorized-user-id")
+    )
 
-    act(() => {
-      result.current.reset({ mastery: "Novice", skillId: "skill-1" })
-    })
-
-    await act(async () => {
-      await result.current.onSubmit()
+    await fillAndSubmitForm(result.current, {
+      mastery: "Novice",
+      skillId: "skill-1",
     })
 
     expect(mockMutation).not.toHaveBeenCalled()
@@ -76,12 +96,9 @@ describe("useUserSkillAddForm", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {})
     const { result } = renderHook(() => useUserSkillAddForm("123"))
 
-    act(() => {
-      result.current.reset({ mastery: "Novice", skillId: "non-existent" })
-    })
-
-    await act(async () => {
-      await result.current.onSubmit()
+    await fillAndSubmitForm(result.current, {
+      mastery: "Novice",
+      skillId: "non-existent",
     })
 
     expect(consoleSpy).toHaveBeenCalledWith(
@@ -94,15 +111,10 @@ describe("useUserSkillAddForm", () => {
   it("should submit successfully when skill is found", async () => {
     const { result } = renderHook(() => useUserSkillAddForm("123"))
 
-    act(() => {
-      result.current.setOpen(true)
-    })
-    act(() => {
-      result.current.reset({ mastery: "Novice", skillId: "skill-1" })
-    })
-
-    await act(async () => {
-      await result.current.onSubmit()
+    await fillAndSubmitForm(result.current, {
+      mastery: "Novice",
+      skillId: "skill-1",
+      open: true,
     })
 
     expect(mockMutation).toHaveBeenCalledWith({
@@ -122,12 +134,9 @@ describe("useUserSkillAddForm", () => {
   it("should submit successfully even if category is missing", async () => {
     const { result } = renderHook(() => useUserSkillAddForm("123"))
 
-    act(() => {
-      result.current.reset({ mastery: "Advanced", skillId: "skill-2" })
-    })
-
-    await act(async () => {
-      await result.current.onSubmit()
+    await fillAndSubmitForm(result.current, {
+      mastery: "Advanced",
+      skillId: "skill-2",
     })
 
     expect(mockMutation).toHaveBeenCalledWith({
@@ -150,15 +159,10 @@ describe("useUserSkillAddForm", () => {
 
     const { result } = renderHook(() => useUserSkillAddForm("123"))
 
-    act(() => {
-      result.current.setOpen(true)
-    })
-    act(() => {
-      result.current.reset({ mastery: "Novice", skillId: "skill-1" })
-    })
-
-    await act(async () => {
-      await result.current.onSubmit()
+    await fillAndSubmitForm(result.current, {
+      mastery: "Novice",
+      skillId: "skill-1",
+      open: true,
     })
 
     expect(consoleSpy).toHaveBeenCalledWith(error)
@@ -167,32 +171,34 @@ describe("useUserSkillAddForm", () => {
   })
 
   it("should update isSubmitReady when form becomes dirty and valid", async () => {
-    const TestComponent = () => {
+    const AddSkillTestComponent = () => {
       const { control, isSubmitReady } = useUserSkillAddForm("123")
       return (
-        <form>
+        <form data-testid="skill-add-form">
           <Controller
             control={control}
             name="skillId"
-            render={({ field }) => <input data-testid="skillId" {...field} />}
+            render={({ field }) => (
+              <input data-testid="skill-id-input" {...field} />
+            )}
           />
-          <span data-testid="ready">{String(isSubmitReady)}</span>
+          <span data-testid="skill-ready-status">{String(isSubmitReady)}</span>
         </form>
       )
     }
 
-    render(<TestComponent />)
+    render(<AddSkillTestComponent />)
 
     // Initially not dirty
-    expect(screen.getByTestId("ready").textContent).toBe("false")
+    expect(screen.getByTestId("skill-ready-status").textContent).toBe("false")
 
     // Make form dirty and valid
-    fireEvent.change(screen.getByTestId("skillId"), {
+    fireEvent.change(screen.getByTestId("skill-id-input"), {
       target: { value: "skill-1" },
     })
 
     await waitFor(() => {
-      expect(screen.getByTestId("ready").textContent).toBe("true")
+      expect(screen.getByTestId("skill-ready-status").textContent).toBe("true")
     })
   })
 

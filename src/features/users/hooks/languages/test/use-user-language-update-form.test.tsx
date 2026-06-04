@@ -25,12 +25,15 @@ const mockUserLanguage: UserLanguage = {
   proficiency: "B2",
 }
 
+const mockAllowPermissions = () =>
+  vi.mocked(usePermissions).mockReturnValue({
+    canUpdateUser: () => true,
+  } as unknown as ReturnType<typeof usePermissions>)
+
 describe("useUserLanguageUpdateForm", () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(usePermissions).mockReturnValue({
-      canUpdateUser: () => true,
-    } as unknown as ReturnType<typeof usePermissions>)
+    mockAllowPermissions()
   })
 
   it("should initialize default form values and submit successfully", async () => {
@@ -38,18 +41,18 @@ describe("useUserLanguageUpdateForm", () => {
       useUserLanguageUpdateForm("123", mockUserLanguage)
     )
 
-    // Verify initial values
+    // Verify initial values match the existing language
     expect(result.current.control).toBeDefined()
     expect(result.current.isSubmitReady).toBe(false)
     expect(result.current.open).toBe(false)
 
-    // Trigger open state
+    // Open dialog
     act(() => {
       result.current.setOpen(true)
     })
     expect(result.current.open).toBe(true)
 
-    // Trigger form submit
+    // Trigger form submit (pre-filled from mockUserLanguage)
     await act(async () => {
       await result.current.onSubmit()
     })
@@ -59,8 +62,8 @@ describe("useUserLanguageUpdateForm", () => {
   })
 
   it("should handle submission error", async () => {
-    const error = new Error("Network error")
-    mockMutation.mockRejectedValueOnce(error)
+    const networkError = new Error("Network error")
+    mockMutation.mockRejectedValueOnce(networkError)
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {})
 
     const { result } = renderHook(() =>
@@ -71,7 +74,7 @@ describe("useUserLanguageUpdateForm", () => {
       await result.current.onSubmit()
     })
 
-    expect(consoleSpy).toHaveBeenCalledWith(error)
+    expect(consoleSpy).toHaveBeenCalledWith(networkError)
     consoleSpy.mockRestore()
   })
 
@@ -81,45 +84,55 @@ describe("useUserLanguageUpdateForm", () => {
     } as unknown as ReturnType<typeof usePermissions>)
 
     const { result } = renderHook(() =>
-      useUserLanguageUpdateForm("123", mockUserLanguage)
+      useUserLanguageUpdateForm("456", mockUserLanguage)
     )
 
     await act(async () => {
       await result.current.onSubmit()
     })
 
-    // Verify useMutation was NOT called
+    // Verify mutation was blocked by permission check
     expect(mockMutation).not.toHaveBeenCalled()
   })
 
   it("should update isSubmitReady when form becomes dirty and valid", async () => {
-    const TestComponent = () => {
+    const UpdateLanguageTestComponent = () => {
       const { control, isSubmitReady } = useUserLanguageUpdateForm(
         "123",
         mockUserLanguage
       )
       return (
-        <form>
+        <form data-testid="update-language-form">
           <Controller
             control={control}
             name="proficiency"
-            render={({ field }) => <input data-testid="prof" {...field} />}
+            render={({ field }) => (
+              <input data-testid="update-lang-proficiency-input" {...field} />
+            )}
           />
-          <span data-testid="ready">{String(isSubmitReady)}</span>
+          <span data-testid="update-lang-ready-status">
+            {String(isSubmitReady)}
+          </span>
         </form>
       )
     }
 
-    render(<TestComponent />)
+    render(<UpdateLanguageTestComponent />)
 
     // Initially not dirty
-    expect(screen.getByTestId("ready").textContent).toBe("false")
+    expect(screen.getByTestId("update-lang-ready-status").textContent).toBe(
+      "false"
+    )
 
     // Make form dirty and valid (change from default "B2" to "C1")
-    fireEvent.change(screen.getByTestId("prof"), { target: { value: "C1" } })
+    fireEvent.change(screen.getByTestId("update-lang-proficiency-input"), {
+      target: { value: "C1" },
+    })
 
     await waitFor(() => {
-      expect(screen.getByTestId("ready").textContent).toBe("true")
+      expect(screen.getByTestId("update-lang-ready-status").textContent).toBe(
+        "true"
+      )
     })
   })
 })

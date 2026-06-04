@@ -5,7 +5,7 @@ import {
   parseUtcToLocal,
   toHumanDate,
   toHumanRange,
-} from "./date"
+} from "@/utils/date"
 
 describe("date utils", () => {
   describe("toHumanDate", () => {

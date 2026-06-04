@@ -36,6 +36,14 @@ vi.mock("@apollo/client/react", () => ({
   useMutation: vi.fn(() => [mockMutate, { loading: false }]),
 }))
 
+const submitProfileForm = async (
+  form: Pick<ReturnType<typeof useProfileUpdateForm>, "onSubmit">
+) => {
+  await act(async () => {
+    await form.onSubmit()
+  })
+}
+
 describe("useProfileUpdateForm", () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -57,9 +65,7 @@ describe("useProfileUpdateForm", () => {
   it("should submit changes successfully", async () => {
     const { result } = renderHook(() => useProfileUpdateForm("123"))
 
-    await act(async () => {
-      await result.current.onSubmit()
-    })
+    await submitProfileForm(result.current)
 
     expect(mockMutate).toHaveBeenCalledTimes(2) // updateProfile and updateUser
     expect(toast.success).toHaveBeenCalledWith("update-profile.success")
@@ -70,9 +76,7 @@ describe("useProfileUpdateForm", () => {
 
     const { result } = renderHook(() => useProfileUpdateForm("123"))
 
-    await act(async () => {
-      await result.current.onSubmit()
-    })
+    await submitProfileForm(result.current)
 
     expect(mockMutate).toHaveBeenCalledTimes(2)
     // Both promises reject, meaning Promise.allSettled completes, but statuses are "rejected"
@@ -89,9 +93,7 @@ describe("useProfileUpdateForm", () => {
 
     const { result } = renderHook(() => useProfileUpdateForm("123"))
 
-    await act(async () => {
-      await result.current.onSubmit()
-    })
+    await submitProfileForm(result.current)
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error))
     // toast.error is called in the catch block
@@ -107,9 +109,7 @@ describe("useProfileUpdateForm", () => {
 
     const { result } = renderHook(() => useProfileUpdateForm("123"))
 
-    await act(async () => {
-      await result.current.onSubmit()
-    })
+    await submitProfileForm(result.current)
 
     expect(consoleSpy).toHaveBeenCalledWith(
       "Don't have permissions to update this user"

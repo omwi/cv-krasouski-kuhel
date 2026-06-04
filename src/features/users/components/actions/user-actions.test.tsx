@@ -3,14 +3,16 @@ import { fireEvent, render, screen } from "@testing-library/react"
 import { useForm } from "react-hook-form"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import DepartmentSelect from "@/features/departments/components/department-select"
+import PositionSelect from "@/features/positions/components/position-select"
 import { TableUser } from "@/features/users/components/user-table/users-table"
 import { useCreateUserForm } from "@/features/users/hooks/profile/use-create-user-form"
 import { useUpdateUserForm } from "@/features/users/hooks/profile/use-update-user-form"
 import { usePermissions } from "@/hooks/use-permissions"
 
-import CreateUser from "../create-user"
-import DeleteUser from "../delete-user"
-import UpdateUser from "../update-user"
+import CreateUser from "./create-user"
+import DeleteUser from "./delete-user"
+import UpdateUser from "./update-user"
 
 vi.mock("@/features/users/hooks/profile/use-create-user-form", () => ({
   useCreateUserForm: vi.fn(),
@@ -47,6 +49,30 @@ const mockUser = {
     full_name: "Jane Doe",
   },
 } as unknown as TableUser
+
+const emptyProfile = {
+  __typename: "Profile",
+  id: "profile-123",
+  avatar: null,
+  first_name: "",
+  last_name: "",
+  full_name: "",
+} as const
+
+const fillSelectsAndSubmit = () => {
+  const deptSelect = screen.getByTestId("dept-select")
+  fireEvent.change(deptSelect, { target: { value: "dept-1" } })
+  fireEvent.change(deptSelect, { target: { value: "none" } })
+
+  const posSelect = screen.getByTestId("pos-select")
+  fireEvent.change(posSelect, { target: { value: "pos-1" } })
+  fireEvent.change(posSelect, { target: { value: "none" } })
+
+  const roleSelect = screen.getByTestId("role-select")
+  fireEvent.change(roleSelect, { target: { value: "Admin" } })
+
+  fireEvent.submit(screen.getByTestId("form-dialog"))
+}
 
 describe("Users Actions Integration Tests", () => {
   beforeEach(() => {
@@ -110,20 +136,8 @@ describe("Users Actions Integration Tests", () => {
       // Click trigger to open
       fireEvent.click(screen.getByTestId("trigger-btn"))
 
-      // Test select handlers
-      const deptSelect = screen.getByTestId("dept-select")
-      fireEvent.change(deptSelect, { target: { value: "dept-1" } })
-      fireEvent.change(deptSelect, { target: { value: "none" } })
-
-      const posSelect = screen.getByTestId("pos-select")
-      fireEvent.change(posSelect, { target: { value: "pos-1" } })
-      fireEvent.change(posSelect, { target: { value: "none" } })
-
-      const roleSelect = screen.getByTestId("role-select")
-      fireEvent.change(roleSelect, { target: { value: "Admin" } })
-
-      // Submit form
-      fireEvent.submit(screen.getByTestId("form-dialog"))
+      // Fill selects and submit
+      fillSelectsAndSubmit()
       expect(mockSubmit).toHaveBeenCalled()
     })
 
@@ -240,18 +254,8 @@ describe("Users Actions Integration Tests", () => {
 
       expect(screen.getByTestId("trigger-update")).toBeInTheDocument()
 
-      const deptSelect = screen.getByTestId("dept-select")
-      fireEvent.change(deptSelect, { target: { value: "dept-1" } })
-      fireEvent.change(deptSelect, { target: { value: "none" } })
-
-      const posSelect = screen.getByTestId("pos-select")
-      fireEvent.change(posSelect, { target: { value: "pos-1" } })
-      fireEvent.change(posSelect, { target: { value: "none" } })
-
-      const roleSelect = screen.getByTestId("role-select")
-      fireEvent.change(roleSelect, { target: { value: "Admin" } })
-
-      fireEvent.submit(screen.getByTestId("form-dialog"))
+      // Fill selects and submit
+      fillSelectsAndSubmit()
       expect(mockSubmit).toHaveBeenCalled()
     })
 
@@ -343,14 +347,7 @@ describe("Users Actions Integration Tests", () => {
     it("should fallback to email if profile first/last names are empty", () => {
       const emptyProfileUser = {
         ...mockUser,
-        profile: {
-          __typename: "Profile",
-          id: "profile-123",
-          avatar: null,
-          first_name: "",
-          last_name: "",
-          full_name: "",
-        },
+        profile: emptyProfile,
       } as unknown as TableUser
       render(<DeleteUser user={emptyProfileUser} open={true} />)
       expect(screen.getByTestId("delete-entity")).toHaveTextContent(
@@ -362,14 +359,7 @@ describe("Users Actions Integration Tests", () => {
       const emptyUser = {
         ...mockUser,
         email: "",
-        profile: {
-          __typename: "Profile",
-          id: "profile-123",
-          avatar: null,
-          first_name: "",
-          last_name: "",
-          full_name: "",
-        },
+        profile: emptyProfile,
       } as unknown as TableUser
       render(<DeleteUser user={emptyUser} open={true} />)
       expect(screen.getByTestId("delete-entity")).toHaveTextContent("")
@@ -409,6 +399,45 @@ describe("Users Actions Integration Tests", () => {
       })
       expect(mockCache.evict).toHaveBeenCalledWith({ id: "User:user-123" })
       expect(mockCache.gc).toHaveBeenCalled()
+    })
+  })
+
+  describe("Mock Components Coverage Direct Test", () => {
+    it("should cover fallback branches and change event handlers of mocked select components", () => {
+      const mockChange = vi.fn()
+
+      // Render DepartmentSelect with undefined value to hit fallback ?? "none"
+      const { rerender } = render(
+        <DepartmentSelect value={undefined} onValueChange={mockChange} />
+      )
+      const deptSelect = screen.getByTestId("dept-select")
+      expect(deptSelect).toHaveValue("none")
+
+      // Trigger onChange
+      fireEvent.change(deptSelect, { target: { value: "dept-1" } })
+      expect(mockChange).toHaveBeenCalledWith("dept-1")
+
+      // Omit onValueChange to cover optional call branch
+      rerender(<DepartmentSelect value={undefined} onValueChange={undefined} />)
+      fireEvent.change(screen.getByTestId("dept-select"), {
+        target: { value: "dept-1" },
+      })
+
+      // Repeat for PositionSelect
+      const mockPosChange = vi.fn()
+      rerender(
+        <PositionSelect value={undefined} onValueChange={mockPosChange} />
+      )
+      const posSelect = screen.getByTestId("pos-select")
+      expect(posSelect).toHaveValue("none")
+
+      fireEvent.change(posSelect, { target: { value: "pos-1" } })
+      expect(mockPosChange).toHaveBeenCalledWith("pos-1")
+
+      rerender(<PositionSelect value={undefined} onValueChange={undefined} />)
+      fireEvent.change(screen.getByTestId("pos-select"), {
+        target: { value: "pos-1" },
+      })
     })
   })
 })

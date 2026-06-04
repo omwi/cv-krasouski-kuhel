@@ -94,35 +94,43 @@ describe("useUserSkillUpdateForm", () => {
   })
 
   it("should update isSubmitReady when form becomes dirty and valid", async () => {
-    const TestComponent = () => {
+    const UpdateSkillTestComponent = () => {
       const { control, isSubmitReady } = useUserSkillUpdateForm(
         "123",
         mockUserSkill
       )
       return (
-        <form>
+        <form data-testid="skill-update-form">
           <Controller
             control={control}
             name="mastery"
-            render={({ field }) => <input data-testid="mastery" {...field} />}
+            render={({ field }) => (
+              <input data-testid="skill-mastery-input" {...field} />
+            )}
           />
-          <span data-testid="ready">{String(isSubmitReady)}</span>
+          <span data-testid="skill-update-ready-status">
+            {String(isSubmitReady)}
+          </span>
         </form>
       )
     }
 
-    render(<TestComponent />)
+    render(<UpdateSkillTestComponent />)
 
     // Initially not dirty
-    expect(screen.getByTestId("ready").textContent).toBe("false")
+    expect(screen.getByTestId("skill-update-ready-status").textContent).toBe(
+      "false"
+    )
 
     // Make form dirty and valid
-    fireEvent.change(screen.getByTestId("mastery"), {
+    fireEvent.change(screen.getByTestId("skill-mastery-input"), {
       target: { value: "Beginner" },
     })
 
     await waitFor(() => {
-      expect(screen.getByTestId("ready").textContent).toBe("true")
+      expect(screen.getByTestId("skill-update-ready-status").textContent).toBe(
+        "true"
+      )
     })
   })
 })
