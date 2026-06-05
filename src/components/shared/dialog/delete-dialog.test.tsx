@@ -121,4 +121,16 @@ describe("DeleteDialog", () => {
 
     consoleSpy.mockRestore()
   })
+
+  it("should not show success toast when successMessage is empty", async () => {
+    const user = userEvent.setup()
+
+    render(<DeleteDialog {...defaultProps} />)
+
+    await user.click(screen.getByRole("button", { name: /delete/i }))
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith("delete.success")
+    })
+  })
 })

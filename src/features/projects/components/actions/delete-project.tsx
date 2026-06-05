@@ -22,12 +22,10 @@ export default function DeleteProject({ project, open, onOpenChange }: Props) {
     DeleteProjectMutationVariables
   >(DELETE_PROJECT, {
     update(cache) {
-      if (project) {
-        cache.evict({
-          id: cache.identify({ __typename: "Project", id: project.id }),
-        })
-        cache.gc()
-      }
+      cache.evict({
+        id: cache.identify({ __typename: "Project", id: project.id }),
+      })
+      cache.gc()
     },
   })
 

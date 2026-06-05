@@ -41,16 +41,12 @@ export function DeleteDialog({
     setLoading(true)
     try {
       await onConfirm()
-      if (successMessage) {
-        toast.success(successMessage)
-      }
+      toast.success(successMessage)
       onOpenChange(false)
     } catch (error) {
       console.error(error)
       const finalErrorMsg =
-        error instanceof Error
-          ? error.message
-          : errorMessage || "An error occurred"
+        error instanceof Error ? error.message : errorMessage
       toast.error(finalErrorMsg)
     } finally {
       setLoading(false)
