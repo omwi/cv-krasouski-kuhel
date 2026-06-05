@@ -24,7 +24,10 @@ export default async function ProjectDetails({ project }: ProjectDetailsProps) {
         <span className="text-xs font-semibold tracking-wider text-secondary-foreground uppercase">
           {t("project-detail")}
         </span>
-        <h1 className="text-3xl font-bold text-foreground">
+        <h1
+          className="text-3xl font-bold text-foreground"
+          data-testid="project-name"
+        >
           {project.name || "-"}
         </h1>
       </div>

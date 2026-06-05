@@ -42,6 +42,7 @@ export default function UsersTable() {
 
   return (
     <DataTable
+      data-testid="users-table"
       columns={columns}
       data={paginatedData}
       totalCount={totalCount}
@@ -52,7 +53,7 @@ export default function UsersTable() {
       actions={
         hasCreatePermission && (
           <CreateUser>
-            <Button variant="outline-primary">
+            <Button variant="outline-primary" data-testid="create-user-btn">
               <Plus />
               {t("user-table.create")}
             </Button>

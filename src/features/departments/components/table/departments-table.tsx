@@ -33,6 +33,7 @@ export default function DepartmentsTable() {
 
   return (
     <DataTable
+      data-testid="departments-table"
       columns={columns}
       data={paginatedData}
       totalCount={totalCount}
@@ -42,7 +43,10 @@ export default function DepartmentsTable() {
       actions={
         canCreate && (
           <CreateDepartment>
-            <Button variant="outline-primary">
+            <Button
+              variant="outline-primary"
+              data-testid="create-department-btn"
+            >
               <Plus />
               {t("departments-table.create")}
             </Button>

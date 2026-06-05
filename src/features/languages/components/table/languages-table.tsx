@@ -33,6 +33,7 @@ export default function LanguagesTable() {
 
   return (
     <DataTable
+      data-testid="languages-table"
       columns={columns}
       data={paginatedData}
       totalCount={totalCount}
@@ -42,7 +43,7 @@ export default function LanguagesTable() {
       actions={
         canCreate && (
           <CreateLanguage>
-            <Button variant="outline-primary">
+            <Button variant="outline-primary" data-testid="create-language-btn">
               <Plus />
               {t("languages-table.create")}
             </Button>
