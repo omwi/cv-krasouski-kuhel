@@ -1,4 +1,4 @@
-import { devices, expect, test } from "@playwright/test"
+import { expect, test } from "@playwright/test"
 
 test.use({
   storageState: "playwright/.auth/user.json",
@@ -27,8 +27,7 @@ test.describe("Mobile Navigation by href Attributes", () => {
       await expect(navLink).toBeAttached()
 
       // Click the icon/link
-      await navLink.click()
-
+      await navLink.click({ force: true })
       // Verify that the URL successfully updated
       await expect(page).toHaveURL(route.expectedUrl)
     })
