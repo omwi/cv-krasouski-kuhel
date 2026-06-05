@@ -4,21 +4,17 @@ import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { z } from "zod"
 
 import { SKILL_MASTERIES } from "@/config/const"
+import {
+  AddSkillFormInput as AddCvSkillInput,
+  skillAddSchema as cvSkillAddSchema,
+} from "@/features/skills/hooks/skill-schema"
 import { ADD_CV_SKILL } from "@/graphql/cvs/mutations"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
 import { CvUserId } from "@/types/graphql-types"
-
-const formSchema = z.object({
-  mastery: z.string().min(1),
-  skillId: z.string().min(1),
-})
-
-type AddCvSkillInput = z.infer<typeof formSchema>
 
 export function useCvSkillAddForm({ id: cvId, user }: CvUserId) {
   const { t } = useT("skills")
@@ -33,7 +29,7 @@ export function useCvSkillAddForm({ id: cvId, user }: CvUserId) {
     reset,
     formState: { isDirty, isValid },
   } = useForm<AddCvSkillInput>({
-    resolver: standardSchemaResolver(formSchema),
+    resolver: standardSchemaResolver(cvSkillAddSchema),
     defaultValues: {
       mastery: SKILL_MASTERIES[0],
       skillId: "",

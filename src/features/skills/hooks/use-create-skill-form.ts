@@ -3,24 +3,16 @@
 import { useEffect } from "react"
 import { useMutation } from "@apollo/client/react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import * as z from "zod"
 
 import { SkillFormValues } from "@/components/shared/form/skill-form-dialog"
 import { SKILL_FIELDS_FRAGMENT } from "@/graphql/skills/fragments"
 import { CREATE_SKILL } from "@/graphql/skills/mutations"
 import { appendUniqueRef } from "@/utils/cache"
 
-const getCreateSkillSchema = (t: TFunction) =>
-  z.object({
-    name: z.string().min(1, {
-      message: t("errors.name", { ns: "input" }),
-    }),
-    categoryId: z.string().optional(),
-  })
+import { getSkillCatalogSchema } from "./skill-schema"
 
 export function useCreateSkillForm(
   open: boolean,
@@ -48,7 +40,7 @@ export function useCreateSkillForm(
   })
 
   const form = useForm<SkillFormValues>({
-    resolver: zodResolver(getCreateSkillSchema(t)),
+    resolver: zodResolver(getSkillCatalogSchema(t)),
     defaultValues: {
       name: "",
       categoryId: "none",

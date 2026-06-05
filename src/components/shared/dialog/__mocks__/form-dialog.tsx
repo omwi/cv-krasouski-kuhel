@@ -8,6 +8,8 @@ export const FormDialog = ({
   trigger,
   open,
   onOpenChange,
+  submitDisabled,
+  isSubmitting,
 }: {
   children?: React.ReactNode
   title?: string
@@ -16,6 +18,8 @@ export const FormDialog = ({
   trigger?: React.ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  submitDisabled?: boolean
+  isSubmitting?: boolean
 }) => (
   <div>
     {trigger && (
@@ -32,7 +36,11 @@ export const FormDialog = ({
         }}
       >
         {title && <h2 data-testid="dialog-title">{title}</h2>}
-        <button type="submit" data-testid="dialog-submit">
+        <button
+          type="submit"
+          data-testid="dialog-submit"
+          disabled={submitDisabled || isSubmitting}
+        >
           {submitLabel}
         </button>
         {children}

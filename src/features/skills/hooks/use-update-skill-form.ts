@@ -3,23 +3,15 @@
 import { useEffect } from "react"
 import { useMutation } from "@apollo/client/react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import * as z from "zod"
 
 import { SkillFormValues } from "@/components/shared/form/skill-form-dialog"
 import { TableSkill } from "@/features/skills/components/table/skills-table-columns"
 import { UPDATE_SKILL } from "@/graphql/skills/mutations"
 
-const getUpdateSkillSchema = (t: TFunction) =>
-  z.object({
-    name: z.string().min(1, {
-      message: t("errors.name", { ns: "input" }),
-    }),
-    categoryId: z.string().optional(),
-  })
+import { getSkillCatalogSchema } from "./skill-schema"
 
 export function useUpdateSkillForm(
   skill: TableSkill,
@@ -31,7 +23,7 @@ export function useUpdateSkillForm(
   const [mutateUpdate, { loading }] = useMutation(UPDATE_SKILL)
 
   const form = useForm<SkillFormValues>({
-    resolver: zodResolver(getUpdateSkillSchema(t)),
+    resolver: zodResolver(getSkillCatalogSchema(t)),
     defaultValues: {
       name: skill.name,
       categoryId: skill.category?.id || "none",

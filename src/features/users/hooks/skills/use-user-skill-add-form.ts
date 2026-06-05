@@ -4,20 +4,16 @@ import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { useT } from "next-i18next/client"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { z } from "zod"
 
 import { SKILL_MASTERIES } from "@/config/const"
+import {
+  AddSkillFormInput as AddUserSkillInput,
+  skillAddSchema,
+} from "@/features/skills/hooks/skill-schema"
 import { GET_SKILLS } from "@/graphql/skills/queries"
 import { ADD_USER_SKILL } from "@/graphql/users/mutations"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Mastery } from "@/types/__generated__/graphql"
-
-const formSchema = z.object({
-  mastery: z.string().min(1),
-  skillId: z.string().min(1),
-})
-
-type AddUserSkillInput = z.infer<typeof formSchema>
 
 export function useUserSkillAddForm(userId: string) {
   const { t } = useT("skills")
@@ -32,7 +28,7 @@ export function useUserSkillAddForm(userId: string) {
     reset,
     formState: { isDirty, isValid },
   } = useForm<AddUserSkillInput>({
-    resolver: standardSchemaResolver(formSchema),
+    resolver: standardSchemaResolver(skillAddSchema),
     defaultValues: {
       mastery: SKILL_MASTERIES[0],
       skillId: "",
