@@ -8,23 +8,21 @@ import { DELETE_DEPARTMENT } from "@/graphql/departments/mutations"
 
 export type Props = {
   department: TableDepartment
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 export default function DeleteDepartment({
   department,
-  open = false,
-  onOpenChange = () => {},
+  open,
+  onOpenChange,
 }: Props) {
   const [mutateDelete] = useMutation(DELETE_DEPARTMENT, {
     update(cache) {
-      if (department) {
-        cache.evict({
-          id: cache.identify({ __typename: "Department", id: department.id }),
-        })
-        cache.gc()
-      }
+      cache.evict({
+        id: cache.identify({ __typename: "Department", id: department.id }),
+      })
+      cache.gc()
     },
   })
 

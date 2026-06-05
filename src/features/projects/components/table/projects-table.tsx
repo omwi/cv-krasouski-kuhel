@@ -22,7 +22,7 @@ export default function ProjectsTable() {
   const { t } = useT("table")
   const { isAdmin: canCreate } = usePermissions()
 
-  const projects = data?.projects || []
+  const projects = data.projects
   const columns = useMemo(() => getColumns(), [])
 
   const { paginatedData, totalCount } = useProcessedData({

@@ -201,4 +201,31 @@ describe("FormDateRangePicker", () => {
 
     expect(endDisabledDate?.(new Date("2024-01-09"))).toBe(true)
   })
+
+  it("should allow selecting today as a valid start date", () => {
+    render(<TestHarness />)
+
+    expect(startDisabledDate).toBeDefined()
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    expect(startDisabledDate?.(today)).toBe(false)
+  })
+
+  it("should not disable any end dates when start date is not selected", () => {
+    render(
+      <TestHarness
+        defaultValues={{
+          start_date: "",
+          end_date: null,
+        }}
+      />
+    )
+
+    expect(endDisabledDate).toBeDefined()
+
+    expect(endDisabledDate?.(new Date("1900-01-01"))).toBe(false)
+    expect(endDisabledDate?.(new Date("2100-01-01"))).toBe(false)
+  })
 })

@@ -30,9 +30,11 @@ export function useUpdateProjectForm(
     defaultValues: getNormalizedValues(initialData),
   })
 
+  const { reset } = form
+
   useEffect(() => {
-    form.reset(getNormalizedValues(initialData))
-  }, [initialData, form])
+    reset(getNormalizedValues(initialData))
+  }, [reset, initialData])
 
   const onSubmit = form.handleSubmit(async (data) => {
     if (!form.formState.isDirty) {

@@ -23,7 +23,7 @@ export default function PositionsTable() {
 
   const { isAdmin: canCreate } = usePermissions()
 
-  const positions = data?.positions || []
+  const positions = data.positions
 
   const columns = useMemo(() => getColumns(), [])
 

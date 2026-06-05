@@ -23,7 +23,7 @@ export default function SkillsTable() {
 
   const { isAdmin: canCreate } = usePermissions()
 
-  const skills = data?.skills || []
+  const skills = data.skills
 
   const columns = useMemo(() => getColumns(), [])
 

@@ -89,4 +89,32 @@ describe("FormDialog", () => {
     expect(submitButton).toBeDisabled()
     expect(cancelButton).not.toBeDisabled()
   })
+
+  it("should not render trigger when not provided", () => {
+    render(<FormDialog {...defaultProps} trigger={undefined} />)
+
+    expect(screen.queryByTestId("trigger-btn")).not.toBeInTheDocument()
+  })
+
+  it("should call onOpenChange(false) when cancel is clicked", async () => {
+    const user = userEvent.setup()
+
+    render(<FormDialog {...defaultProps} />)
+
+    const cancelButton = screen.getByRole("button", { name: "cancel" })
+    await user.click(cancelButton)
+
+    expect(mockOnOpenChange).toHaveBeenCalled()
+  })
+
+  it("should call onOpenChange(false) when cancel is clicked", async () => {
+    const user = userEvent.setup()
+
+    render(<FormDialog {...defaultProps} />)
+
+    const cancelButton = screen.getByRole("button", { name: "cancel" })
+    await user.click(cancelButton)
+
+    expect(mockOnOpenChange).toHaveBeenCalled()
+  })
 })

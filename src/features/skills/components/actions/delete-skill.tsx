@@ -8,15 +8,11 @@ import { DELETE_SKILL } from "@/graphql/skills/mutations"
 
 type Props = {
   skill: TableSkill
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-export default function DeleteSkill({
-  skill,
-  open = false,
-  onOpenChange = () => {},
-}: Props) {
+export default function DeleteSkill({ skill, open, onOpenChange }: Props) {
   const [mutateDelete] = useMutation(DELETE_SKILL, {
     update(cache) {
       cache.evict({ id: cache.identify({ __typename: "Skill", id: skill.id }) })

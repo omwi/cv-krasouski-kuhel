@@ -12,26 +12,20 @@ import {
 
 export type Props = {
   project: TableProjects
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-export default function DeleteProject({
-  project,
-  open = false,
-  onOpenChange = () => {},
-}: Props) {
+export default function DeleteProject({ project, open, onOpenChange }: Props) {
   const [mutateDelete] = useMutation<
     DeleteProjectMutation,
     DeleteProjectMutationVariables
   >(DELETE_PROJECT, {
     update(cache) {
-      if (project) {
-        cache.evict({
-          id: cache.identify({ __typename: "Project", id: project.id }),
-        })
-        cache.gc()
-      }
+      cache.evict({
+        id: cache.identify({ __typename: "Project", id: project.id }),
+      })
+      cache.gc()
     },
   })
 
