@@ -77,6 +77,7 @@ export default function ProfileUpdateForm({ userId }: { userId: string }) {
       </div>
       <Button
         disabled={!isReadyForUpdate || !hasUpdatePermission}
+        data-testid="profile-update-button"
         className={cn("md:w-1/2 md:self-end", !hasUpdatePermission && "hidden")}
       >
         {t("update", { ns: "buttons" })}

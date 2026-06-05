@@ -15,6 +15,7 @@ export type FloatingSelectProps = {
   id?: string
   label: string
   children: ReactNode
+  "data-testid"?: string
 } & Omit<
   React.ComponentProps<typeof Select>,
   "open" | "onOpenChange" | "defaultOpen"
@@ -25,6 +26,7 @@ export function FloatingSelect({
   label,
   value,
   children,
+  "data-testid": dataTestId,
   ...props
 }: FloatingSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
@@ -37,6 +39,7 @@ export function FloatingSelect({
         <SelectTrigger
           id={resolvedId}
           data-empty={!value}
+          data-testid={dataTestId}
           className="peer h-12 w-full border border-input bg-transparent px-3 text-left text-base text-secondary-foreground transition-colors outline-none select-none hover:border-foreground focus-visible:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=open]:border-primary"
         >
           <SelectValue placeholder=" " />
