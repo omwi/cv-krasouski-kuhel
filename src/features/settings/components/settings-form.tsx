@@ -107,7 +107,7 @@ export default function SettingsForm({ initialLang }: { initialLang: string }) {
         </SelectItem>
         {supportedLanguages.map((lng) => (
           <SelectItem key={lng} value={lng}>
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2" data-testid={lng}>
               <Globe size={16} />
               {t(`language.${lng}`)}
             </span>
