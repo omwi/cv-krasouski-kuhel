@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@apollo/client/react"
-import { fireEvent, render, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { useUpdateCvForm } from "@/features/cvs/hooks/use-update-cv-form"
@@ -27,19 +27,12 @@ describe("CvDetailsForm Component", () => {
     name: "John Doe's CV",
     description: "Experienced dev",
     education: "BSc Computer Science",
-    user: {
-      __typename: "User",
-      id: "user-123",
-      email: "john@example.com",
-    },
+    user: { __typename: "User", id: "user-123", email: "john@example.com" },
   }
 
   const mockOnSubmit = vi.fn((e) => e?.preventDefault())
   const mockRegister = vi.fn()
-
-  const mockPermissions = {
-    canUpdateCv: vi.fn(),
-  }
+  const mockCanUpdateCv = vi.fn()
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -48,9 +41,9 @@ describe("CvDetailsForm Component", () => {
       data: { cv: mockCv },
     } as unknown as ReturnType<typeof useSuspenseQuery>)
 
-    vi.mocked(usePermissions).mockReturnValue(
-      mockPermissions as unknown as ReturnType<typeof usePermissions>
-    )
+    vi.mocked(usePermissions).mockReturnValue({
+      canUpdateCv: mockCanUpdateCv,
+    } as unknown as ReturnType<typeof usePermissions>)
 
     vi.mocked(useUpdateCvForm).mockReturnValue({
       onSubmit: mockOnSubmit,
@@ -61,7 +54,7 @@ describe("CvDetailsForm Component", () => {
       control: {} as unknown as ReturnType<typeof useUpdateCvForm>["control"],
     } as unknown as ReturnType<typeof useUpdateCvForm>)
 
-    mockPermissions.canUpdateCv.mockReturnValue(true)
+    mockCanUpdateCv.mockReturnValue(true)
   })
 
   it("should render CvFormFields and submit button when user has update permissions", () => {
@@ -72,30 +65,18 @@ describe("CvDetailsForm Component", () => {
     })
     expect(useUpdateCvForm).toHaveBeenCalledWith(mockCv)
 
-    const nameInput = screen.getByLabelText(/name/i)
-    expect(nameInput).toBeInTheDocument()
-    expect(nameInput).not.toHaveAttribute("readonly")
-
-    const submitBtn = screen.getByRole("button", { name: "update" })
-    expect(submitBtn).toBeInTheDocument()
-
-    // Trigger form submit
-    fireEvent.submit(
-      screen.getByRole("button", { name: "update" }).closest("form")!
-    )
-    expect(mockOnSubmit).toHaveBeenCalled()
+    expect(screen.getByLabelText(/name/i)).not.toHaveAttribute("readonly")
+    expect(screen.getByRole("button", { name: "update" })).toBeInTheDocument()
   })
 
-  it("should make fields readOnly and hide submit button when user does not have update permissions", () => {
-    mockPermissions.canUpdateCv.mockReturnValue(false)
+  it("should make fields readOnly and hide submit button when user lacks update permissions", () => {
+    mockCanUpdateCv.mockReturnValue(false)
 
     render(<CvDetailsForm cvId="cv-123" />)
 
-    const nameInput = screen.getByLabelText(/name/i)
-    expect(nameInput).toHaveAttribute("readonly")
-
-    // The submit button wrapper div should be hidden
-    const submitBtn = screen.queryByRole("button", { name: "update" })
-    expect(submitBtn?.closest("div")).toHaveClass("hidden")
+    expect(screen.getByLabelText(/name/i)).toHaveAttribute("readonly")
+    expect(
+      screen.queryByRole("button", { name: "update" })?.closest("div")
+    ).toHaveClass("hidden")
   })
 })

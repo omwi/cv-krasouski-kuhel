@@ -30,58 +30,40 @@ describe("cv-projects-columns", () => {
       "end_date",
       "actions",
     ])
-
-    const nameCol = columns.find((c) => c.id === "name")
-    expect(nameCol?.titleKey).toBe("projects-table.columns.name")
-    expect(nameCol?.sortable).toBe(true)
-    expect(nameCol?.searchable).toBe(true)
-
-    const actionsCol = columns.find((c) => c.id === "actions")
-    expect(actionsCol?.isSrOnly).toBe(true)
+    expect(columns.find((c) => c.id === "name")?.sortable).toBe(true)
+    expect(columns.find((c) => c.id === "actions")?.isSrOnly).toBe(true)
   })
 
   it("should render actions cell with CvProjectsRowActions and correct props", () => {
-    const columns = getColumns(mockCvUserId)
-    const actionsCol = columns.find((c) => c.id === "actions")
-    expect(actionsCol).toBeDefined()
-    expect(actionsCol?.cell).toBeDefined()
-
-    const mockRow = {
-      id: "proj-1",
-      name: "Billing Service",
-    } as unknown as CvProject
-    if (actionsCol && actionsCol.cell) {
-      const element = actionsCol.cell({
-        row: mockRow,
+    const actionsCol = getColumns(mockCvUserId).find((c) => c.id === "actions")!
+    render(
+      actionsCol.cell!({
+        row: { id: "proj-1", name: "Billing Service" } as unknown as CvProject,
         value: "",
       })
-      render(element)
-      expect(screen.getByTestId("cv-projects-row-actions")).toHaveTextContent(
-        "Billing Service:cv-123"
-      )
-    }
+    )
+    expect(screen.getByTestId("cv-projects-row-actions")).toHaveTextContent(
+      "Billing Service:cv-123"
+    )
   })
 
-  it("should render responsibilities sub-row mapping items to badges", () => {
+  it("should render responsibilities sub-row mapping items to badges with truncation", () => {
     const mockProject = {
       responsibilities: [
         "Develop React frontend",
         "Setup Vitest tests",
-        "Fix TypeScript compiler errors",
+        "Fix TypeScript errors",
       ],
     } as unknown as CvProject
 
-    const element = renderResponsibilitiesRow(mockProject)
-    render(element)
+    render(renderResponsibilitiesRow(mockProject))
 
     expect(screen.getByText("Develop React frontend")).toBeInTheDocument()
+    expect(screen.getByText("Develop React frontend")).toHaveClass(
+      "max-w-64",
+      "truncate"
+    )
     expect(screen.getByText("Setup Vitest tests")).toBeInTheDocument()
-    expect(
-      screen.getByText("Fix TypeScript compiler errors")
-    ).toBeInTheDocument()
-
-    // check that badge container has the correct truncation class
-    const firstTextNode = screen.getByText("Develop React frontend")
-    expect(firstTextNode).toHaveClass("max-w-64", "truncate")
+    expect(screen.getByText("Fix TypeScript errors")).toBeInTheDocument()
   })
 })

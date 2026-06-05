@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { EntityRowActions } from "@/components/shared/data-table/entity-row-actions"
@@ -10,27 +10,23 @@ import CvProjectsRowActions from "./cv-projects-row-actions"
 
 vi.mock("@/components/shared/data-table/entity-row-actions", () => ({
   EntityRowActions: vi.fn(({ renderEditModal, renderDeleteModal, entity }) => (
-    <div data-testid="entity-row-actions">
-      <div data-testid="edit-modal">
-        {renderEditModal({ entity, open: true, onOpenChange: vi.fn() })}
-      </div>
-      <div data-testid="delete-modal">
-        {renderDeleteModal({ entity, open: true, onOpenChange: vi.fn() })}
-      </div>
-    </div>
+    <>
+      {renderEditModal?.({ entity, open: true, onOpenChange: vi.fn() })}
+      {renderDeleteModal?.({ entity, open: true, onOpenChange: vi.fn() })}
+    </>
   )),
 }))
 
 vi.mock("@/features/cvs/components/projects/actions/update-cv-project", () => ({
-  default: vi.fn(() => <div data-testid="update-cv-project" />),
+  default: vi.fn(() => <span />),
 }))
 
 vi.mock("@/features/cvs/components/projects/actions/remove-cv-project", () => ({
-  default: vi.fn(() => <div data-testid="remove-cv-project" />),
+  default: vi.fn(() => <span />),
 }))
 
 describe("CvProjectsRowActions Component", () => {
-  it("should configure EntityRowActions correctly", () => {
+  it("should configure EntityRowActions and pass correct props to Update/Remove dialogs", () => {
     const mockProject = {
       __typename: "CvProject",
       id: "proj-123",
@@ -46,7 +42,6 @@ describe("CvProjectsRowActions Component", () => {
       <CvProjectsRowActions project={mockProject} cvUserId={mockCvUserId} />
     )
 
-    expect(EntityRowActions).toHaveBeenCalled()
     expect(vi.mocked(EntityRowActions).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         entity: mockProject,
@@ -56,8 +51,6 @@ describe("CvProjectsRowActions Component", () => {
       })
     )
 
-    expect(screen.getByTestId("update-cv-project")).toBeInTheDocument()
-    expect(UpdateCvProject).toHaveBeenCalled()
     expect(vi.mocked(UpdateCvProject).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         cvProject: mockProject,
@@ -65,8 +58,6 @@ describe("CvProjectsRowActions Component", () => {
       })
     )
 
-    expect(screen.getByTestId("remove-cv-project")).toBeInTheDocument()
-    expect(RemoveCvProject).toHaveBeenCalled()
     expect(vi.mocked(RemoveCvProject).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         cvProject: mockProject,

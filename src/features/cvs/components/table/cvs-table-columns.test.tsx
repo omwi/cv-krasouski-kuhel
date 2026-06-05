@@ -29,62 +29,38 @@ describe("cvs-table-columns", () => {
     expect(nameCol?.searchable).toBe(true)
   })
 
-  it("should render description column cell correctly", () => {
-    const columns = getColumns()
-    const descCol = columns.find((c) => c.id === "description")
-    expect(descCol).toBeDefined()
-    expect(descCol?.cell).toBeDefined()
-
-    const mockRow = {
-      description: "Brief description of the candidate",
-    } as unknown as Cv
-    if (descCol && descCol.cell) {
-      const element = descCol.cell({
-        row: mockRow,
+  it("should render description column cell with truncation", () => {
+    const descCol = getColumns().find((c) => c.id === "description")!
+    render(
+      descCol.cell!({
+        row: { description: "Brief description" } as Cv,
         value: "",
       })
-      render(element)
-      const div = screen.getByText("Brief description of the candidate")
-      expect(div).toBeInTheDocument()
-      expect(div).toHaveClass("max-w-64", "truncate")
-    }
+    )
+    expect(screen.getByText("Brief description")).toHaveClass(
+      "max-w-64",
+      "truncate"
+    )
   })
 
-  it("should accessor employee column correctly", () => {
-    const columns = getColumns()
-    const empCol = columns.find((c) => c.id === "employee")
-    expect(empCol).toBeDefined()
-    expect(empCol?.accessorFn).toBeDefined()
-
-    if (empCol && empCol.accessorFn) {
-      // With user
-      const mockRowWithUser = {
-        user: { id: "u-1", email: "user@example.com" },
-      } as unknown as Cv
-      expect(empCol.accessorFn(mockRowWithUser)).toBe("user@example.com")
-
-      // Without user
-      const mockRowWithoutUser = { user: null } as unknown as Cv
-      expect(empCol.accessorFn(mockRowWithoutUser)).toBe("")
-    }
+  it("should accessor employee column returning email or empty string", () => {
+    const empCol = getColumns().find((c) => c.id === "employee")!
+    expect(
+      empCol.accessorFn!({ user: { email: "user@example.com" } } as Cv)
+    ).toBe("user@example.com")
+    expect(empCol.accessorFn!({ user: null } as Cv)).toBe("")
   })
 
-  it("should render actions column cell correctly", () => {
-    const columns = getColumns()
-    const actionsCol = columns.find((c) => c.id === "actions")
-    expect(actionsCol).toBeDefined()
-    expect(actionsCol?.cell).toBeDefined()
-
-    const mockRow = { id: "cv-1", name: "Candidate CV" } as unknown as Cv
-    if (actionsCol && actionsCol.cell) {
-      const element = actionsCol.cell({
-        row: mockRow,
+  it("should render actions column cell with CvsRowActions", () => {
+    const actionsCol = getColumns().find((c) => c.id === "actions")!
+    render(
+      actionsCol.cell!({
+        row: { id: "cv-1", name: "Candidate CV" } as Cv,
         value: "",
       })
-      render(element)
-      expect(screen.getByTestId("cvs-row-actions")).toHaveTextContent(
-        "Candidate CV"
-      )
-    }
+    )
+    expect(screen.getByTestId("cvs-row-actions")).toHaveTextContent(
+      "Candidate CV"
+    )
   })
 })

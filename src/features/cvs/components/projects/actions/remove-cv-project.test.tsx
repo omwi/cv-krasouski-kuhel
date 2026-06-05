@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { DeleteDialog } from "@/components/shared/dialog/delete-dialog"
@@ -12,15 +12,7 @@ vi.mock("@/features/cvs/hooks/projects/use-remove-cv-project", () => ({
 }))
 
 vi.mock("@/components/shared/dialog/delete-dialog", () => ({
-  DeleteDialog: vi.fn(({ entityName, onConfirm, open }) =>
-    open ? (
-      <div data-testid="delete-dialog" data-entity-name={entityName}>
-        <button data-testid="confirm-btn" onClick={onConfirm}>
-          Confirm
-        </button>
-      </div>
-    ) : null
-  ),
+  DeleteDialog: vi.fn(() => <span />),
 }))
 
 describe("RemoveCvProject", () => {
@@ -37,13 +29,12 @@ describe("RemoveCvProject", () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-
     vi.mocked(useRemoveCvProject).mockReturnValue({
       handleDelete: mockHandleDelete,
     })
   })
 
-  it("should render DeleteDialog with project name and confirm call handleDelete", () => {
+  it("should pass correct props to DeleteDialog and wire up onConfirm", () => {
     render(
       <RemoveCvProject
         cvProject={mockCvProject}
@@ -54,8 +45,9 @@ describe("RemoveCvProject", () => {
     )
 
     expect(useRemoveCvProject).toHaveBeenCalledWith(mockCvProject, mockCvUserId)
-    expect(DeleteDialog).toHaveBeenCalled()
-    expect(vi.mocked(DeleteDialog).mock.calls[0][0]).toEqual(
+
+    const props = vi.mocked(DeleteDialog).mock.calls[0][0]
+    expect(props).toEqual(
       expect.objectContaining({
         open: true,
         i18nKey: "cv-project-actions",
@@ -64,14 +56,8 @@ describe("RemoveCvProject", () => {
       })
     )
 
-    expect(screen.getByTestId("delete-dialog")).toBeInTheDocument()
-    expect(screen.getByTestId("delete-dialog")).toHaveAttribute(
-      "data-entity-name",
-      "Legacy Migration"
-    )
-
-    // Confirm click
-    screen.getByTestId("confirm-btn").click()
+    // Invoke callback directly
+    props.onConfirm?.()
     expect(mockHandleDelete).toHaveBeenCalled()
   })
 })

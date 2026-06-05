@@ -17,15 +17,7 @@ vi.mock("@/features/cvs/hooks/skills/use-add-cv-skill-form", () => ({
 }))
 
 vi.mock("@/components/shared/skills/skill-add-dialog", () => ({
-  SkillAddDialog: vi.fn(({ children, excludedSkillNames, open }) => (
-    <div
-      data-testid="skill-add-dialog"
-      data-excluded={excludedSkillNames.join(",")}
-      data-open={open}
-    >
-      {children}
-    </div>
-  )),
+  SkillAddDialog: vi.fn(({ children }) => <>{children}</>),
 }))
 
 describe("CvSkillAddDialog", () => {
@@ -77,18 +69,11 @@ describe("CvSkillAddDialog", () => {
       expect.objectContaining({ variables: { cvId: "cv-123" } })
     )
 
-    expect(SkillAddDialog).toHaveBeenCalled()
     expect(vi.mocked(SkillAddDialog).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         open: true,
         excludedSkillNames: ["React", "GraphQL"],
       })
-    )
-
-    expect(screen.getByTestId("skill-add-dialog")).toBeInTheDocument()
-    expect(screen.getByTestId("skill-add-dialog")).toHaveAttribute(
-      "data-excluded",
-      "React,GraphQL"
     )
     expect(screen.getByTestId("trigger")).toBeInTheDocument()
   })
@@ -108,8 +93,10 @@ describe("CvSkillAddDialog", () => {
       </CvSkillAddDialog>
     )
 
-    expect(
-      vi.mocked(SkillAddDialog).mock.calls[0][0].excludedSkillNames
-    ).toEqual([])
+    expect(vi.mocked(SkillAddDialog).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        excludedSkillNames: [],
+      })
+    )
   })
 })

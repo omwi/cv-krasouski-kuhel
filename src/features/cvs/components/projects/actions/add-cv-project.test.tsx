@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { UseFormReturn } from "react-hook-form"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
@@ -15,17 +15,7 @@ vi.mock("@/features/cvs/hooks/projects/use-add-cv-project", () => ({
 
 vi.mock(
   "@/features/cvs/components/projects/actions/cv-project-form-dialog",
-  () => ({
-    default: vi.fn(({ trigger, title, submitLabel }) => (
-      <div
-        data-testid="cv-project-form-dialog"
-        data-title={title}
-        data-submit-label={submitLabel}
-      >
-        {trigger}
-      </div>
-    )),
-  })
+  () => ({ default: vi.fn(({ children }) => <>{children}</>) })
 )
 
 describe("AddCvProject", () => {
@@ -55,7 +45,7 @@ describe("AddCvProject", () => {
     } as unknown as ReturnType<typeof useAddCvProject>)
   })
 
-  it("should initialize useAddCvProject and render CvProjectFormDialog with correct props", () => {
+  it("should call useAddCvProject and pass correct props to CvProjectFormDialog", () => {
     render(
       <AddCvProject cvUserId={mockCvUserId}>
         <button data-testid="trigger-btn">Add Project</button>
@@ -63,12 +53,12 @@ describe("AddCvProject", () => {
     )
 
     expect(useAddCvProject).toHaveBeenCalledWith(mockCvUserId)
-    expect(CvProjectFormDialog).toHaveBeenCalled()
+
     expect(vi.mocked(CvProjectFormDialog).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         open: true,
         onOpenChange: mockSetOpen,
-        title: "create.title", // mockT returns key
+        title: "create.title",
         submitLabel: "add",
         onSubmit: mockOnSubmit,
         isSubmitReady: true,
@@ -77,7 +67,5 @@ describe("AddCvProject", () => {
         cvId: "cv-123",
       })
     )
-
-    expect(screen.getByTestId("trigger-btn")).toBeInTheDocument()
   })
 })

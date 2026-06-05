@@ -1,12 +1,15 @@
 import { useSuspenseQuery } from "@apollo/client/react"
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import { DataTable } from "@/components/shared/data-table/data-table"
+import AddCvProject from "@/features/cvs/components/projects/actions/add-cv-project"
 import { GET_CV_PROJECTS } from "@/graphql/cvs/queries"
 import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 
+import { mockTableUrlStateReturn } from "../../cv-test-helpers"
 import CvProjectsTable from "./cv-projects-table"
 
 vi.mock("@apollo/client/react", () => ({
@@ -14,36 +17,13 @@ vi.mock("@apollo/client/react", () => ({
 }))
 
 vi.mock("@/components/shared/data-table/data-table", () => ({
-  DataTable: vi.fn(
-    ({
-      actions,
-      totalText,
-      searchValue,
-      onSearchChangeAction,
-      renderSubRow,
-    }) => (
-      <div data-testid="data-table">
-        <span data-testid="total-text">{totalText}</span>
-        <span data-testid="search-value">{searchValue}</span>
-        <button
-          data-testid="search-btn"
-          onClick={() => onSearchChangeAction("new-search")}
-        />
-        <div data-testid="table-actions">{actions}</div>
-        <div data-testid="subrow-rendered">
-          {renderSubRow ? "has-subrow" : "no-subrow"}
-        </div>
-      </div>
-    )
-  ),
+  DataTable: vi.fn(({ actions }: { actions?: React.ReactNode }) => (
+    <>{actions}</>
+  )),
 }))
 
 vi.mock("@/features/cvs/components/projects/actions/add-cv-project", () => ({
-  default: vi.fn(({ children, cvUserId }) => (
-    <div data-testid="add-cv-project-trigger" data-user-id={cvUserId.user?.id}>
-      {children}
-    </div>
-  )),
+  default: vi.fn(({ children }) => <>{children}</>),
 }))
 
 vi.mock("@/hooks/use-table-url-state", () => ({
@@ -83,16 +63,11 @@ describe("CvProjectsTable", () => {
       data: { cv: mockCvData },
     } as unknown as ReturnType<typeof useSuspenseQuery>)
 
-    vi.mocked(useTableUrlState).mockReturnValue({
-      params: {
-        search: "test-query",
-        sortBy: "name",
-        sortOrder: "asc",
-        page: 1,
-        perPage: 10,
-      },
-      updateParams: mockUpdateParams,
-    })
+    vi.mocked(useTableUrlState).mockReturnValue(
+      mockTableUrlStateReturn(mockUpdateParams) as ReturnType<
+        typeof useTableUrlState
+      >
+    )
 
     vi.mocked(useProcessedData).mockReturnValue({
       paginatedData: mockCvData.projects,
@@ -104,7 +79,7 @@ describe("CvProjectsTable", () => {
     } as unknown as ReturnType<typeof usePermissions>)
   })
 
-  it("should render DataTable with project columns and add button if update permission is granted", () => {
+  it("should query GET_CV_PROJECTS and pass correct props to DataTable", () => {
     mockCanUpdateCv.mockReturnValue(true)
 
     render(<CvProjectsTable cvId="cv-123" />)
@@ -113,34 +88,28 @@ describe("CvProjectsTable", () => {
       variables: { cvId: "cv-123" },
     })
 
-    expect(screen.getByTestId("data-table")).toBeInTheDocument()
-    expect(screen.getByTestId("total-text")).toHaveTextContent("total")
-    expect(screen.getByTestId("search-value")).toHaveTextContent("test-query")
-    expect(screen.getByTestId("subrow-rendered")).toHaveTextContent(
-      "has-subrow"
-    )
+    const props = vi.mocked(DataTable).mock.calls[0][0]
+    expect(props.totalText).toContain("total")
+    expect(props.searchValue).toBe("test-query")
+    expect(props.renderSubRow).toBeDefined()
 
-    // Search callback
-    screen.getByTestId("search-btn").click()
+    props.onSearchChangeAction?.("new-search")
     expect(mockUpdateParams).toHaveBeenCalledWith({ search: "new-search" })
 
-    // Add projects action button rendering
-    expect(screen.getByTestId("add-cv-project-trigger")).toBeInTheDocument()
-    expect(screen.getByTestId("add-cv-project-trigger")).toHaveAttribute(
-      "data-user-id",
-      "user-456"
+    // Add button is rendered (actions slot)
+    expect(vi.mocked(AddCvProject).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        cvUserId: expect.objectContaining({ user: { id: "user-456" } }),
+      })
     )
-    expect(screen.getByText("projects-table.create")).toBeInTheDocument()
   })
 
-  it("should hide add button if update permission is denied", () => {
+  it("should not render AddCvProject if update permission is denied", () => {
     mockCanUpdateCv.mockReturnValue(false)
 
     render(<CvProjectsTable cvId="cv-123" />)
 
-    expect(
-      screen.queryByTestId("add-cv-project-trigger")
-    ).not.toBeInTheDocument()
+    expect(AddCvProject).not.toHaveBeenCalled()
   })
 
   it("should fallback to empty array if cv projects is null", () => {
@@ -148,20 +117,14 @@ describe("CvProjectsTable", () => {
 
     vi.mocked(useSuspenseQuery).mockReturnValue({
       data: {
-        cv: {
-          id: "cv-123",
-          user: { id: "user-456" },
-          projects: null,
-        },
+        cv: { id: "cv-123", user: { id: "user-456" }, projects: null },
       },
     } as unknown as ReturnType<typeof useSuspenseQuery>)
 
     render(<CvProjectsTable cvId="cv-123" />)
 
     expect(useProcessedData).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: [],
-      })
+      expect.objectContaining({ data: [] })
     )
   })
 })

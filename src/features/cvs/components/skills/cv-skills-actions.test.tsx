@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import SharedSkillsActions from "@/components/shared/skills/shared-skills-actions"
+import CvSkillAddDialog from "@/features/cvs/components/skills/cv-skill-add-dialog"
 import { useCvSkillsDelete } from "@/features/cvs/hooks/skills/use-cv-skill-delete"
 import { usePermissions } from "@/hooks/use-permissions"
 import { CvUserId } from "@/types/graphql-types"
@@ -17,39 +18,17 @@ vi.mock("@/features/cvs/hooks/skills/use-cv-skill-delete", () => ({
 }))
 
 vi.mock("@/components/shared/skills/shared-skills-actions", () => ({
-  default: vi.fn(
-    ({
-      hasSkills,
-      hasPermissions,
-      handleStartDelete,
-      handleCancelDelete,
-      handleConfirmDelete,
-      renderAddDialog,
-    }) => (
-      <div
-        data-testid="shared-skills-actions"
-        data-has-skills={hasSkills}
-        data-has-permissions={hasPermissions}
-      >
-        <button data-testid="start-del" onClick={handleStartDelete} />
-        <button data-testid="cancel-del" onClick={handleCancelDelete} />
-        <button data-testid="confirm-del" onClick={handleConfirmDelete} />
-        <div data-testid="add-dialog-container">
-          {renderAddDialog
-            ? renderAddDialog(<button data-testid="inner-trigger" />)
-            : null}
-        </div>
-      </div>
-    )
-  ),
+  default: vi.fn(({ renderAddDialog }) => (
+    <>
+      {renderAddDialog
+        ? renderAddDialog(<button data-testid="inner-trigger" />)
+        : null}
+    </>
+  )),
 }))
 
 vi.mock("@/features/cvs/components/skills/cv-skill-add-dialog", () => ({
-  default: vi.fn(({ children, cvUserId }) => (
-    <div data-testid="cv-skill-add-dialog" data-cv-id={cvUserId.id}>
-      {children}
-    </div>
-  )),
+  default: vi.fn(({ children }) => <>{children}</>),
 }))
 
 describe("CvSkillsActions", () => {
@@ -85,32 +64,30 @@ describe("CvSkillsActions", () => {
     expect(mockCanUpdateCv).toHaveBeenCalledWith("user-456")
     expect(useCvSkillsDelete).toHaveBeenCalledWith(mockCvUserId)
 
-    expect(SharedSkillsActions).toHaveBeenCalled()
     expect(vi.mocked(SharedSkillsActions).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         hasSkills: true,
         hasPermissions: true,
-        handleStartDelete: mockDeleteHandlers.handleStartDelete,
-        handleCancelDelete: mockDeleteHandlers.handleCancelDelete,
-        handleConfirmDelete: mockDeleteHandlers.handleConfirmDelete,
       })
     )
 
-    // Trigger buttons check
-    screen.getByTestId("start-del").click()
+    // Invoke callbacks directly from mock calls
+    const props = vi.mocked(SharedSkillsActions).mock.calls[0][0]
+
+    props.handleStartDelete()
     expect(mockDeleteHandlers.handleStartDelete).toHaveBeenCalled()
 
-    screen.getByTestId("cancel-del").click()
+    props.handleCancelDelete()
     expect(mockDeleteHandlers.handleCancelDelete).toHaveBeenCalled()
 
-    screen.getByTestId("confirm-del").click()
+    props.handleConfirmDelete()
     expect(mockDeleteHandlers.handleConfirmDelete).toHaveBeenCalled()
 
     // Add dialog check
-    expect(screen.getByTestId("cv-skill-add-dialog")).toBeInTheDocument()
-    expect(screen.getByTestId("cv-skill-add-dialog")).toHaveAttribute(
-      "data-cv-id",
-      "cv-123"
+    expect(vi.mocked(CvSkillAddDialog).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        cvUserId: mockCvUserId,
+      })
     )
     expect(screen.getByTestId("inner-trigger")).toBeInTheDocument()
   })
@@ -120,9 +97,10 @@ describe("CvSkillsActions", () => {
 
     render(<CvSkillsActions cvUserId={mockCvUserId} hasSkills={true} />)
 
-    expect(screen.getByTestId("shared-skills-actions")).toHaveAttribute(
-      "data-has-permissions",
-      "false"
+    expect(vi.mocked(SharedSkillsActions).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        hasPermissions: false,
+      })
     )
   })
 })

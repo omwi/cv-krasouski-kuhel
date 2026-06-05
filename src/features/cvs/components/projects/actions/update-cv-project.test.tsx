@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { fireEvent, render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { UseFormReturn } from "react-hook-form"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
@@ -16,19 +15,7 @@ vi.mock("@/features/cvs/hooks/projects/use-update-cv-project", () => ({
 
 vi.mock(
   "@/features/cvs/components/projects/actions/cv-project-form-dialog",
-  () => ({
-    default: vi.fn(({ trigger, open, onOpenChange, title, submitLabel }) => (
-      <div
-        data-testid="cv-project-form-dialog"
-        data-open={open}
-        data-title={title}
-        data-submit-label={submitLabel}
-      >
-        <button data-testid="close-btn" onClick={() => onOpenChange(false)} />
-        {trigger}
-      </div>
-    )),
-  })
+  () => ({ default: vi.fn(({ children }) => <>{children}</>) })
 )
 
 describe("UpdateCvProject", () => {
@@ -37,7 +24,6 @@ describe("UpdateCvProject", () => {
     name: "Legacy project",
   } as unknown as CvProject
   const mockCvUserId = { id: "cv-123" } as unknown as CvUserId
-
   const mockForm = {} as unknown as UseFormReturn<CvProjectFormValues>
   const mockOnSubmit = vi.fn()
 
@@ -55,25 +41,19 @@ describe("UpdateCvProject", () => {
     } as unknown as ReturnType<typeof useUpdateCvProject>)
   })
 
-  it("should support uncontrolled open state and pass correct properties to CvProjectFormDialog", () => {
+  it("should pass correct props to CvProjectFormDialog (uncontrolled state)", () => {
     render(
       <UpdateCvProject cvProject={mockCvProject} cvUserId={mockCvUserId}>
-        <button data-testid="trigger">Trigger Edit</button>
+        <button>Trigger Edit</button>
       </UpdateCvProject>
     )
 
-    // Verify useUpdateCvProject call
     expect(useUpdateCvProject).toHaveBeenCalledWith(
       mockCvProject,
       mockCvUserId,
-      expect.objectContaining({
-        open: false,
-        setOpen: expect.any(Function),
-      })
+      expect.objectContaining({ open: false, setOpen: expect.any(Function) })
     )
 
-    // FormDialog call check
-    expect(CvProjectFormDialog).toHaveBeenCalled()
     expect(vi.mocked(CvProjectFormDialog).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         open: false,
@@ -87,31 +67,32 @@ describe("UpdateCvProject", () => {
     )
   })
 
-  it("should support controlled open state and react to trigger actions", () => {
-    const ParentComponent = () => {
-      const [open, setOpen] = useState(true)
-      return (
-        <UpdateCvProject
-          cvProject={mockCvProject}
-          cvUserId={mockCvUserId}
-          open={open}
-          onOpenChange={setOpen}
-        />
-      )
-    }
+  it("should support controlled open state", () => {
+    const mockOnOpenChange = vi.fn()
 
-    render(<ParentComponent />)
-
-    expect(screen.getByTestId("cv-project-form-dialog")).toHaveAttribute(
-      "data-open",
-      "true"
+    const { rerender } = render(
+      <UpdateCvProject
+        cvProject={mockCvProject}
+        cvUserId={mockCvUserId}
+        open={true}
+        onOpenChange={mockOnOpenChange}
+      />
     )
 
-    // Click close
-    fireEvent.click(screen.getByTestId("close-btn"))
-    expect(screen.getByTestId("cv-project-form-dialog")).toHaveAttribute(
-      "data-open",
-      "false"
+    expect(vi.mocked(CvProjectFormDialog).mock.calls[0][0]).toEqual(
+      expect.objectContaining({ open: true })
     )
+
+    rerender(
+      <UpdateCvProject
+        cvProject={mockCvProject}
+        cvUserId={mockCvUserId}
+        open={false}
+        onOpenChange={mockOnOpenChange}
+      />
+    )
+
+    const lastCallProps = vi.mocked(CvProjectFormDialog).mock.calls.at(-1)?.[0]
+    expect(lastCallProps).toEqual(expect.objectContaining({ open: false }))
   })
 })

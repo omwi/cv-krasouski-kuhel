@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import SharedSkillItem from "@/components/shared/skills/shared-skill-item"
+import CvSkillUpdateDialog from "@/features/cvs/components/skills/cv-skill-update-dialog"
 import { usePermissions } from "@/hooks/use-permissions"
 import { CvSkill, CvUserId } from "@/types/graphql-types"
 
@@ -12,28 +13,17 @@ vi.mock("@/hooks/use-permissions", () => ({
 }))
 
 vi.mock("@/components/shared/skills/shared-skill-item", () => ({
-  default: vi.fn(({ skill, disabled, renderDialog }) => (
-    <div data-testid="shared-skill-item" data-disabled={disabled}>
-      <span>{skill.name}</span>
-      <div data-testid="dialog-container">
-        {renderDialog
-          ? renderDialog(<button data-testid="inner-trigger" />)
-          : null}
-      </div>
-    </div>
+  default: vi.fn(({ renderDialog }) => (
+    <>
+      {renderDialog
+        ? renderDialog(<button data-testid="inner-trigger" />)
+        : null}
+    </>
   )),
 }))
 
 vi.mock("@/features/cvs/components/skills/cv-skill-update-dialog", () => ({
-  default: vi.fn(({ children, cvUserId, cvSkill }) => (
-    <div
-      data-testid="cv-skill-update-dialog"
-      data-cv-id={cvUserId.id}
-      data-skill-name={cvSkill.name}
-    >
-      {children}
-    </div>
-  )),
+  default: vi.fn(({ children }) => <>{children}</>),
 }))
 
 describe("CvSKillItem", () => {
@@ -64,7 +54,6 @@ describe("CvSKillItem", () => {
     render(<CvSKillItem skill={mockSkill} cvUserId={mockCvUserId} />)
 
     expect(mockCanUpdateCv).toHaveBeenCalledWith("user-456")
-    expect(SharedSkillItem).toHaveBeenCalled()
     expect(vi.mocked(SharedSkillItem).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         skill: mockSkill,
@@ -72,21 +61,12 @@ describe("CvSKillItem", () => {
       })
     )
 
-    expect(screen.getByTestId("shared-skill-item")).toBeInTheDocument()
-    expect(screen.getByTestId("shared-skill-item")).toHaveAttribute(
-      "data-disabled",
-      "false"
-    )
-
-    // Verify dialog rendering
-    expect(screen.getByTestId("cv-skill-update-dialog")).toBeInTheDocument()
-    expect(screen.getByTestId("cv-skill-update-dialog")).toHaveAttribute(
-      "data-cv-id",
-      "cv-123"
-    )
-    expect(screen.getByTestId("cv-skill-update-dialog")).toHaveAttribute(
-      "data-skill-name",
-      "TypeScript"
+    // Verify dialog rendering and props
+    expect(vi.mocked(CvSkillUpdateDialog).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        cvUserId: mockCvUserId,
+        cvSkill: mockSkill,
+      })
     )
     expect(screen.getByTestId("inner-trigger")).toBeInTheDocument()
   })
@@ -96,9 +76,10 @@ describe("CvSKillItem", () => {
 
     render(<CvSKillItem skill={mockSkill} cvUserId={mockCvUserId} />)
 
-    expect(screen.getByTestId("shared-skill-item")).toHaveAttribute(
-      "data-disabled",
-      "true"
+    expect(vi.mocked(SharedSkillItem).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        disabled: true,
+      })
     )
   })
 })

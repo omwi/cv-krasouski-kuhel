@@ -12,15 +12,7 @@ vi.mock("@/features/cvs/hooks/skills/use-update-cv-skill-form", () => ({
 }))
 
 vi.mock("@/components/shared/skills/skill-update-dialog", () => ({
-  SkillUpdateDialog: vi.fn(({ children, skill, open }) => (
-    <div
-      data-testid="skill-update-dialog"
-      data-skill={skill?.name}
-      data-open={open}
-    >
-      {children}
-    </div>
-  )),
+  SkillUpdateDialog: vi.fn(({ children }) => <>{children}</>),
 }))
 
 describe("CvSkillUpdateDialog", () => {
@@ -62,18 +54,11 @@ describe("CvSkillUpdateDialog", () => {
     )
 
     expect(useCvSkillUpdateForm).toHaveBeenCalledWith(mockCvUserId, mockCvSkill)
-    expect(SkillUpdateDialog).toHaveBeenCalled()
     expect(vi.mocked(SkillUpdateDialog).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         open: true,
         skill: mockCvSkill,
       })
-    )
-
-    expect(screen.getByTestId("skill-update-dialog")).toBeInTheDocument()
-    expect(screen.getByTestId("skill-update-dialog")).toHaveAttribute(
-      "data-skill",
-      "React"
     )
     expect(screen.getByTestId("trigger")).toBeInTheDocument()
   })

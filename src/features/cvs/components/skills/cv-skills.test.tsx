@@ -1,7 +1,8 @@
 import { useSuspenseQuery } from "@apollo/client/react"
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import CvSkillsActions from "@/features/cvs/components/skills/cv-skills-actions"
 import CvSKillsCategory from "@/features/cvs/components/skills/cv-skills-category"
 import { GET_CV_SKILLS } from "@/graphql/cvs/queries"
 
@@ -12,19 +13,11 @@ vi.mock("@apollo/client/react", () => ({
 }))
 
 vi.mock("@/features/cvs/components/skills/cv-skills-category", () => ({
-  default: vi.fn(({ category }) => (
-    <div data-testid="cv-skills-category">{category}</div>
-  )),
+  default: vi.fn(() => <span />),
 }))
 
 vi.mock("@/features/cvs/components/skills/cv-skills-actions", () => ({
-  default: vi.fn(({ hasSkills, cvUserId }) => (
-    <div
-      data-testid="cv-skills-actions"
-      data-has-skills={hasSkills}
-      data-cv={cvUserId?.id}
-    />
-  )),
+  default: vi.fn(() => <span />),
 }))
 
 describe("CvSKills", () => {
@@ -55,11 +48,6 @@ describe("CvSKills", () => {
     })
 
     // Grouping checks: should have frontend, backend, other categories
-    expect(screen.getAllByTestId("cv-skills-category")).toHaveLength(3)
-    expect(screen.getByText("frontend")).toBeInTheDocument()
-    expect(screen.getByText("backend")).toBeInTheDocument()
-    expect(screen.getByText("other")).toBeInTheDocument()
-
     expect(CvSKillsCategory).toHaveBeenCalledTimes(3)
 
     // Verify first call (frontend)
@@ -79,14 +67,11 @@ describe("CvSKills", () => {
     )
 
     // Actions check
-    expect(screen.getByTestId("cv-skills-actions")).toBeInTheDocument()
-    expect(screen.getByTestId("cv-skills-actions")).toHaveAttribute(
-      "data-has-skills",
-      "true"
-    )
-    expect(screen.getByTestId("cv-skills-actions")).toHaveAttribute(
-      "data-cv",
-      "cv-123"
+    expect(vi.mocked(CvSkillsActions).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        hasSkills: true,
+        cvUserId: mockCv,
+      })
     )
   })
 
@@ -103,9 +88,10 @@ describe("CvSKills", () => {
 
     render(<CvSKills cvId="cv-123" />)
 
-    expect(screen.getByTestId("cv-skills-actions")).toHaveAttribute(
-      "data-has-skills",
-      "false"
+    expect(vi.mocked(CvSkillsActions).mock.calls[0][0]).toEqual(
+      expect.objectContaining({
+        hasSkills: false,
+      })
     )
   })
 })

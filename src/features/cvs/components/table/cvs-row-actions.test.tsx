@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { EntityRowActions } from "@/components/shared/data-table/entity-row-actions"
@@ -10,43 +10,34 @@ import CvsRowActions from "./cvs-row-actions"
 
 vi.mock("@/components/shared/data-table/entity-row-actions", () => ({
   EntityRowActions: vi.fn(({ renderEditModal, renderDeleteModal, entity }) => (
-    <div data-testid="entity-row-actions">
-      <div data-testid="edit-modal">
-        {renderEditModal({ entity, open: true, onOpenChange: vi.fn() })}
-      </div>
-      <div data-testid="delete-modal">
-        {renderDeleteModal({ entity, open: true, onOpenChange: vi.fn() })}
-      </div>
-    </div>
+    <>
+      {renderEditModal?.({ entity, open: true, onOpenChange: vi.fn() })}
+      {renderDeleteModal?.({ entity, open: true, onOpenChange: vi.fn() })}
+    </>
   )),
 }))
 
 vi.mock("@/features/cvs/components/actions/update-cv", () => ({
-  default: vi.fn(() => <div data-testid="update-cv" />),
+  default: vi.fn(() => <span />),
 }))
 
 vi.mock("@/features/cvs/components/actions/delete-cv", () => ({
-  default: vi.fn(() => <div data-testid="delete-cv" />),
+  default: vi.fn(() => <span />),
 }))
 
 describe("CvsRowActions Component", () => {
-  it("should configure EntityRowActions correctly", () => {
+  it("should configure EntityRowActions and pass correct props to Update/Delete dialogs", () => {
     const mockCv = {
       __typename: "Cv",
       id: "cv-123",
       name: "John Doe CV",
       description: "My CV",
       education: "University",
-      user: {
-        __typename: "User",
-        id: "user-456",
-        email: "john@example.com",
-      },
+      user: { __typename: "User", id: "user-456", email: "john@example.com" },
     } as unknown as Cv
 
     render(<CvsRowActions cv={mockCv} />)
 
-    expect(EntityRowActions).toHaveBeenCalled()
     expect(vi.mocked(EntityRowActions).mock.calls[0][0]).toEqual(
       expect.objectContaining({
         entity: mockCv,
@@ -57,14 +48,10 @@ describe("CvsRowActions Component", () => {
       })
     )
 
-    expect(screen.getByTestId("update-cv")).toBeInTheDocument()
-    expect(UpdateCv).toHaveBeenCalled()
     expect(vi.mocked(UpdateCv).mock.calls[0][0]).toEqual(
       expect.objectContaining({ cv: mockCv })
     )
 
-    expect(screen.getByTestId("delete-cv")).toBeInTheDocument()
-    expect(DeleteCv).toHaveBeenCalled()
     expect(vi.mocked(DeleteCv).mock.calls[0][0]).toEqual(
       expect.objectContaining({ cv: mockCv })
     )

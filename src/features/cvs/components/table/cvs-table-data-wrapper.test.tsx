@@ -1,9 +1,9 @@
 import { useSuspenseQuery } from "@apollo/client/react"
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import CvsTable from "@/features/cvs/components/table/cvs-table"
 import { GET_CVS } from "@/graphql/cvs/queries"
-import { Cv } from "@/types/graphql-types"
 
 import CvsTableDataWrapper from "./cvs-table-data-wrapper"
 
@@ -12,13 +12,7 @@ vi.mock("@apollo/client/react", () => ({
 }))
 
 vi.mock("@/features/cvs/components/table/cvs-table", () => ({
-  default: vi.fn(({ cvs }) => (
-    <div data-testid="cvs-table">
-      {cvs.map((cv: Cv) => (
-        <span key={cv.id}>{cv.name}</span>
-      ))}
-    </div>
-  )),
+  default: vi.fn(() => <span />),
 }))
 
 describe("CvsTableDataWrapper", () => {
@@ -39,8 +33,8 @@ describe("CvsTableDataWrapper", () => {
     render(<CvsTableDataWrapper />)
 
     expect(useSuspenseQuery).toHaveBeenCalledWith(GET_CVS)
-    expect(screen.getByTestId("cvs-table")).toBeInTheDocument()
-    expect(screen.getByText("Alpha CV")).toBeInTheDocument()
-    expect(screen.getByText("Beta CV")).toBeInTheDocument()
+    expect(vi.mocked(CvsTable).mock.calls[0][0]).toEqual(
+      expect.objectContaining({ cvs: mockCvs })
+    )
   })
 })
