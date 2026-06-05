@@ -130,6 +130,7 @@ export function EntityRowActions<T>({
     return (
       <Button
         asChild
+        data-testid="row-direct-view"
         variant="ghost"
         className="size-9 min-w-0"
         aria-label={defaultLabels.viewAriaLabel}
@@ -163,6 +164,7 @@ export function EntityRowActions<T>({
             {showViewAction && (
               <Button
                 asChild
+                data-testid="row-action-view"
                 variant="ghost"
                 className="w-full min-w-0 justify-start rounded-none text-foreground"
               >

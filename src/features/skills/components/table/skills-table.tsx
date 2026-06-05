@@ -35,6 +35,7 @@ export default function SkillsTable() {
 
   return (
     <DataTable
+      data-testid="skills-table"
       columns={columns}
       data={paginatedData}
       totalCount={totalCount}
@@ -45,7 +46,7 @@ export default function SkillsTable() {
       actions={
         canCreate && (
           <CreateSkill>
-            <Button variant="outline-primary">
+            <Button variant="outline-primary" data-testid="create-skill-btn">
               <Plus />
               {t("skills-table.create")}
             </Button>
