@@ -19,7 +19,11 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
 
   if (loading) {
     return (
-      <Button variant="ghost" className={cn(className, buttonClasses)}>
+      <Button
+        data-testid="nav-avatar"
+        variant="ghost"
+        className={cn(className, buttonClasses)}
+      >
         <Skeleton className="size-10 shrink-0 rounded-full" />
         <Skeleton className="h-5 w-26" />
       </Button>
@@ -35,6 +39,7 @@ export default function NavAvatar({ className, variant, ...props }: Props) {
       {...props}
       variant={variant ?? "ghost"}
       className={cn(className, buttonClasses)}
+      data-testid="nav-avatar"
     >
       <Avatar>
         <AvatarImage src={user.avatarSrc ?? ""} />
