@@ -22,7 +22,7 @@ export default function DepartmentsTable() {
   const { t } = useT("table")
   const { isAdmin: canCreate } = usePermissions()
 
-  const departments = data?.departments || []
+  const departments = data.departments
   const columns = useMemo(() => getColumns(), [])
 
   const { paginatedData, totalCount } = useProcessedData({

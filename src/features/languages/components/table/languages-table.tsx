@@ -22,7 +22,7 @@ export default function LanguagesTable() {
   const { t } = useT("table")
   const { isAdmin: canCreate } = usePermissions()
 
-  const languages = data?.languages || []
+  const languages = data.languages
   const columns = useMemo(() => getColumns(), [])
 
   const { paginatedData, totalCount } = useProcessedData({

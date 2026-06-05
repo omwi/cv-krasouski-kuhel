@@ -12,14 +12,14 @@ import {
 
 export type Props = {
   language: TableLanguages
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 export default function DeleteLanguage({
   language,
-  open = false,
-  onOpenChange = () => {},
+  open,
+  onOpenChange,
 }: Props) {
   const [mutateDelete] = useMutation<
     DeleteLanguageMutation,

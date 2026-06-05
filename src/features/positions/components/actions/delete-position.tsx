@@ -8,14 +8,14 @@ import { DELETE_POSITION } from "@/graphql/positions/mutations"
 
 type Props = {
   position: TablePosition
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 export default function DeletePosition({
   position,
-  open = false,
-  onOpenChange = () => {},
+  open,
+  onOpenChange,
 }: Props) {
   const [mutateDelete] = useMutation(DELETE_POSITION, {
     update(cache) {
