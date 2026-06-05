@@ -71,7 +71,14 @@ vi.mock("@/components/ui/floating-select", () => ({
     children: React.ReactNode
     disabled?: boolean
   }) => {
-    const items = React.Children.toArray(children) as React.ReactElement[]
+    type SelectItemProps = {
+      value: string
+      children?: React.ReactNode
+    }
+
+    const items = React.Children.toArray(
+      children
+    ) as React.ReactElement<SelectItemProps>[]
 
     return (
       <div data-testid={id} data-value={value}>
