@@ -4,13 +4,14 @@ test.use({
   storageState: "playwright/.auth/user.json",
 })
 
-test.describe("Мобильная навигация по атрибутам href", () => {
+test.describe("Mobile Navigation by href Attributes", () => {
   test.beforeEach(async ({ page }) => {
+    // Set mobile viewport dimensions before each test
     await page.setViewportSize({ width: 400, height: 720 })
     await page.goto("/users")
   })
 
-  // Карта навигации: ищем по точному href, проверяем переход по expectedUrl
+  // Navigation map: look for precise href values, then verify redirection via expectedUrl
   const mobileRoutes = [
     { href: "/users", expectedUrl: /.*\/users/ },
     { href: "/skills", expectedUrl: /.*\/skills/ },
@@ -18,25 +19,25 @@ test.describe("Мобильная навигация по атрибутам hre
   ]
 
   for (const route of mobileRoutes) {
-    test(`Мобильный переход по ссылке ${route.href}`, async ({ page }) => {
-      // Находим ссылку внутри <nav> по её атрибуту href
+    test(`Mobile navigation using link ${route.href}`, async ({ page }) => {
+      // Find the link inside the <nav> tag using its href attribute
       const navLink = page.locator(`nav a[href="${route.href}"]`)
 
-      // Проверяем, что сама ссылка (иконка в ней) присутствует в DOM-дереве
+      // Verify that the link element (or its nested icon) is attached to the DOM tree
       await expect(navLink).toBeAttached()
 
-      // Нажимаем на иконку/ссылку
+      // Click the icon/link
       await navLink.click()
 
-      // Проверяем, что успешно перешли по URL
+      // Verify that the URL successfully updated
       await expect(page).toHaveURL(route.expectedUrl)
     })
   }
 
-  test("Проверка, что десктопные разделы скрыты на мобилке", async ({
+  test("Verify that desktop-only sections are hidden on mobile layouts", async ({
     page,
   }) => {
-    // Ссылки, которые на мобилке имеют класс hidden md:flex
+    // Routes that use classes like 'hidden md:flex' to stay hidden on mobile viewports
     const desktopOnlyRoutes = [
       "/cvs",
       "/positions",
@@ -46,7 +47,8 @@ test.describe("Мобильная навигация по атрибутам hre
 
     for (const href of desktopOnlyRoutes) {
       const hiddenLink = page.locator(`nav a[href="${href}"]`)
-      // Железно проверяем, что на мобилке их не видно
+
+      // Strict assertion to ensure they are not visible on mobile viewports
       await expect(hiddenLink).toBeHidden()
     }
   })

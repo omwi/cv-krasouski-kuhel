@@ -1,16 +1,16 @@
 import { expect, test } from "@playwright/test"
 
-// Загружаем готовую сессию авторизованного пользователя
+// Load the pre-authenticated user session state
 test.use({ storageState: "playwright/.auth/user.json" })
 
-test.describe("Боковая панель навигации (Sidebar)", () => {
-  // Перед каждым тестом ставим десктопное разрешение, чтобы видеть все пункты меню
+test.describe("Navigation Sidebar", () => {
+  // Set a desktop viewport before each test to ensure all menu items are visible
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
-    await page.goto("/users") // Начинаем с базовой страницы
+    await page.goto("/users") // Start from the default base page
   })
 
-  // Описываем карту навигации: какой текст ищем внутри тега nav и какой URL ожидаем
+  // Define the navigation map: what text to search for inside the <nav> tag and the expected URL
   const navLinks = [
     { text: "Employees", expectedUrl: /.*\/users/ },
     { text: "Skills", expectedUrl: /.*\/skills/ },
@@ -21,17 +21,17 @@ test.describe("Боковая панель навигации (Sidebar)", () => 
     { text: "Departments", expectedUrl: /.*\/departments/ },
   ]
 
-  // Запускаем динамические тесты в цикле
+  // Run dynamic tests in a loop
   for (const link of navLinks) {
-    test(`Переход в раздел ${link.text}`, async ({ page }) => {
-      // Ищем ссылку строго внутри тега <nav>, ориентируясь на текст во вложенном <span>
+    test(`Navigate to ${link.text} section`, async ({ page }) => {
+      // Find the link strictly inside the <nav> tag, matching the text within it
       const menuButton = page.locator("nav a").filter({ hasText: link.text })
 
-      // Проверяем, что кнопка видна на экране, и кликаем по ней
+      // Verify that the button is visible on the screen, then click it
       await expect(menuButton).toBeVisible()
       await menuButton.click()
 
-      // Проверяем, что URL изменился на правильный
+      // Verify that the URL changed to the correct path
       await expect(page).toHaveURL(link.expectedUrl)
     })
   }

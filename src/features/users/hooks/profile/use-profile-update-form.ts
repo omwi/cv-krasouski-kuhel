@@ -24,9 +24,13 @@ export function useProfileUpdateForm(userId: string) {
   const { data } = useSuspenseQuery(GET_USER, { variables: { userId } })
   const { user } = data
 
-  const [updateProfile, { loading: isUpdatingProfile }] =
-    useMutation(UPDATE_PROFILE)
-  const [updateUser, { loading: isUpdatingUser }] = useMutation(UPDATE_USER)
+  const [updateProfile, { loading: isUpdatingProfile }] = useMutation(
+    UPDATE_PROFILE,
+    { refetchQueries: [GET_USER] }
+  )
+  const [updateUser, { loading: isUpdatingUser }] = useMutation(UPDATE_USER, {
+    refetchQueries: [GET_USER],
+  })
 
   const { canUpdateUser } = usePermissions()
 

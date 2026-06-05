@@ -1,51 +1,51 @@
 import { expect, test } from "@playwright/test"
 
-test.describe("Страница авторизации", () => {
-  // Перед каждым тестом открываем страницу логина
+test.describe("Authorization Page", () => {
+  // Open the login page before each test
   test.beforeEach(async ({ page }) => {
     await page.goto("auth/login")
   })
 
-  test("Успешный вход по email и паролю", async ({ page }) => {
-    // 1. Открываем страницу логина
-    // 2. Ищем инпут email по атрибуту name="email" и вводим данные
+  test("Successful login with email and password", async ({ page }) => {
+    // 1. Open the login page (handled by beforeEach)
+    // 2. Find the email input by the name="email" attribute and enter data
     await page.fill('input[name="email"]', "admin@test.com")
 
-    // 3. Ищем инпут пароля по атрибуту name="password" и вводим пароль
+    // 3. Find the password input by the name="password" attribute and enter password
     await page.fill('input[name="password"]', "12345678")
 
-    // 4. Кликаем по кнопке, которая содержит точный текст "ВОЙТИ"
-    // text=ВОЙТИ ищет кнопку без учета регистра, но у вас там капс, так что в самый раз
+    // 4. Click the button that contains the exact text "LOG IN"
     await page.click('button[type="submit"]:has-text("LOG IN")')
 
-    // 5. Проверяем, что нас перенаправило внутрь системы
-    await expect(page).toHaveURL("/users") // замените на ваш внутренний URL
+    // 5. Verify that we are redirected inside the system
+    await expect(page).toHaveURL("/users") // replace with your actual internal URL
   })
 
-  test("Ошибка при вводе неверного пароля (Sonner Toast)", async ({ page }) => {
-    // 1. Вводим данные (используем надежные name из прошлой верстки)
+  test("Error when entering an incorrect password (Sonner Toast)", async ({
+    page,
+  }) => {
+    // 1. Enter credentials (using reliable name attributes from the layout)
     await page.fill('input[name="email"]', "admin@test.com")
     await page.fill('input[name="password"]', "IncorretPassword123")
 
-    // 2. Кликаем «ВОЙТИ»
+    // 2. Click "LOG IN"
     await page.click('button[type="submit"]:has-text("LOG IN")')
 
-    // 3. Ищем тост от библиотеки Sonner
-    // 3. Ищем тост от библиотеки Sonner
+    // 3. Find the toast notification from the Sonner library
     const toast = page.locator("[data-sonner-toast]")
 
-    // 4. Проверяем, что тост появился на экране и содержит нужный текст
+    // 4. Verify that the toast appears on the screen and is visible
     await expect(toast).toBeVisible()
 
-    // Или более точечно по атрибуту заголовка внутри тоста:
+    // Or more precisely by the title attribute inside the toast:
     await expect(page.locator("[data-sonner-toast] [data-title]")).toHaveText(
       "User not found or invalid password\n"
     )
 
-    // Проверяем тип тоста (error)
+    // Verify the toast type (error)
     await expect(toast).toHaveAttribute("data-type", "error")
 
-    // 5. Проверяем, что мы НЕ ушли со страницы логина
+    // 5. Verify that we DID NOT leave the login page
     await expect(page).not.toHaveURL("/users")
   })
 })

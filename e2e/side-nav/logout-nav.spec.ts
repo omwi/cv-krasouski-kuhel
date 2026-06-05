@@ -2,25 +2,24 @@ import { expect, test } from "@playwright/test"
 
 test.use({ storageState: "playwright/.auth/user.json" })
 
-test("Успешный логаут из системы", async ({ page }) => {
-  // 1. Заходим на главную страницу
+test("Successful logout from the system", async ({ page }) => {
+  // 1. Navigate to the main protected page
   await page.goto("/users")
 
-  // 2. Открываем меню пользователя
+  // 2. Open the user profile dropdown menu
   await page.getByTestId("nav-avatar").click()
-  // 3. Находим кнопку или ссылку выхода (Log out / Выйти)
-  // Часто это бывает либо ссылка <a>, либо кнопка <button>, поэтому ищем по тексту
-  const logoutButton = page
-    .locator("button, a")
-    .filter({ hasText: /Logout|Выйти/i })
+
+  // 3. Find the logout button or link
+  // Usually this is either an <a> link or a <button>, so we look for the text
+  const logoutButton = page.locator("button, a").filter({ hasText: /Logout/i })
   await logoutButton.click()
 
-  // 4. Проверяем, что нас перенаправило на страницу входа
+  // 4. Verify that we are redirected to the login page
   await expect(page).toHaveURL(/.*\/auth\/login/)
 
-  // 5. ПРОВЕРКА ЗАЩИТЫ: Пробуем снова зайти на защищенную страницу /users
+  // 5. SECURITY CHECK: Attempt to navigate back to the protected /users page
   await page.goto("/users")
 
-  // Система должна отказать в доступе и вернуть обратно на логин
+  // The system should deny access and kick us back to the login page
   await expect(page).toHaveURL(/.*\/auth\/login/)
 })
