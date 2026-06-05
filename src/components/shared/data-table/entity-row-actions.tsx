@@ -146,6 +146,7 @@ export function EntityRowActions<T>({
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
         <PopoverTrigger asChild>
           <Button
+            data-testid="row-actions-trigger"
             variant="ghost"
             className="size-9 min-w-0 p-0"
             aria-label={defaultLabels.ariaLabel}
@@ -171,6 +172,7 @@ export function EntityRowActions<T>({
             {showEditAction && (
               <Button
                 variant="ghost"
+                data-testid="row-action-edit"
                 className="w-full min-w-0 justify-start rounded-none text-foreground"
                 onClick={() => {
                   setPopoverOpen(false)
@@ -183,6 +185,7 @@ export function EntityRowActions<T>({
             {showDeleteAction && (
               <Button
                 variant="ghost"
+                data-testid="row-action-delete"
                 className="w-full min-w-0 justify-start rounded-none text-foreground"
                 onClick={() => {
                   setPopoverOpen(false)
