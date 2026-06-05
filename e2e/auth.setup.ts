@@ -1,5 +1,4 @@
 import fs from "fs"
-import path from "path"
 import { expect, test as setup } from "@playwright/test"
 
 // Paths where session files will be saved
