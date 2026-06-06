@@ -35,6 +35,7 @@ export default function PositionsTable() {
 
   return (
     <DataTable
+      data-testid="positions-table"
       columns={columns}
       data={paginatedData}
       totalCount={totalCount}
@@ -45,7 +46,7 @@ export default function PositionsTable() {
       actions={
         canCreate && (
           <CreatePosition>
-            <Button variant="outline-primary">
+            <Button variant="outline-primary" data-testid="create-position-btn">
               <Plus />
               {t("positions-table.create")}
             </Button>

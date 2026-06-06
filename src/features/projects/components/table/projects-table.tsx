@@ -33,6 +33,7 @@ export default function ProjectsTable() {
 
   return (
     <DataTable
+      data-testid="projects-table"
       columns={columns}
       data={paginatedData}
       totalCount={totalCount}
@@ -42,7 +43,7 @@ export default function ProjectsTable() {
       actions={
         canCreate && (
           <CreateProject>
-            <Button variant="outline-primary">
+            <Button variant="outline-primary" data-testid="create-project-btn">
               <Plus />
               {t("projects-table.create")}
             </Button>

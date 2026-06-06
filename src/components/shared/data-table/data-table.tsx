@@ -47,7 +47,7 @@ export type DataTableProps<TData, TValue> = {
   onSearchChangeAction?: (value: string) => void
   actions?: React.ReactNode
   renderSubRow?: (row: TData) => React.ReactNode
-}
+} & React.ComponentProps<typeof Table>
 
 function SubRowWrapper<TData>({
   render,
@@ -71,6 +71,7 @@ export function DataTable<TData, TValue>({
   onSearchChangeAction,
   actions,
   renderSubRow,
+  ...props
 }: DataTableProps<TData, TValue>) {
   const mappedColumns = useMemo(() => {
     if (!columns || columns.length === 0) return []
@@ -112,7 +113,7 @@ export function DataTable<TData, TValue>({
         </div>
       )}
       <div className="flex-1 overflow-auto">
-        <Table>
+        <Table {...props}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
