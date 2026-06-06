@@ -42,6 +42,7 @@ export default function UserLanguagesActions({
               variant={"ghost"}
               disabled={!hasPermissions}
               className="gap-4"
+              data-testid="add-language-button"
             >
               <Plus className="size-6" />
               <span>{t("add-language")}</span>
@@ -53,6 +54,7 @@ export default function UserLanguagesActions({
             onClick={handleStartDelete}
             disabled={!hasPermissions || !hasLanguages}
             hidden={!hasLanguages}
+            data-testid="remove-languages-button"
           />
         </>
       ) : (

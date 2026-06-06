@@ -64,6 +64,7 @@ export default function UserSkillUpdateDialog({
             <LanguageProficiencySelect
               value={field.value}
               onValueChange={field.onChange}
+              data-testid="language-proficiency-select"
             />
           )}
         />
