@@ -1,12 +1,24 @@
-import { expect, test } from "@playwright/test"
+import { BrowserContext, expect, test } from "@playwright/test"
+
+async function getUserIdFromCookies(context: BrowserContext): Promise<string> {
+  const cookies = await context.cookies()
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
 
 test.describe("User Languages page - employee", () => {
   test.use({ storageState: "playwright/.auth/user.json" })
 
   test.describe("Own Profile Languages", () => {
-    test.beforeEach(async ({ page }) => {
-      // 630 is the standard employee's user ID
-      await page.goto("/users/630/languages")
+    test.beforeEach(async ({ page, context }) => {
+      const userId = await getUserIdFromCookies(context)
+      await page.goto(`/users/${userId}/languages`)
       await expect(page.getByTestId("add-language-button")).toBeVisible()
     })
 
@@ -109,9 +121,11 @@ test.describe("User Languages page - employee", () => {
   test.describe("Other Profile Languages", () => {
     test("Should restrict employee from modifying another user's languages", async ({
       page,
+      context,
     }) => {
-      // Navigate to a different user profile (e.g., admin user ID 629)
-      await page.goto("/users/629/languages")
+      const userId = await getUserIdFromCookies(context)
+      const otherUserId = userId === "630" ? "629" : "630"
+      await page.goto(`/users/${otherUserId}/languages`)
 
       // Verify that the languages modification panel / buttons are hidden
       await expect(page.getByTestId("user-languages-actions")).toBeHidden()

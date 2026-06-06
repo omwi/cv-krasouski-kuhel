@@ -1,10 +1,23 @@
-import { expect, test } from "@playwright/test"
+import { BrowserContext, expect, test } from "@playwright/test"
+
+async function getUserIdFromCookies(context: BrowserContext): Promise<string> {
+  const cookies = await context.cookies()
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
 
 test.describe("Individual Profile Editing Page", () => {
   test.use({ storageState: "playwright/.auth/user.json" })
 
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/users/624")
+  test.beforeEach(async ({ page, context }) => {
+    const userId = await getUserIdFromCookies(context)
+    await page.goto(`/users/${userId}`)
   })
 
   test("Should delete existing avatar, fill text mutations, upload new avatar, and save changes", async ({
@@ -46,7 +59,7 @@ test.describe("Individual Profile Editing Page", () => {
 
     // Open Position dropdown via data-testid and select option
     await positionDropdown.click()
-    await page.locator('role=option[name="QA Engineer"]').click()
+    await page.locator('role=option[name="Software Engineer"]').click()
 
     // -------------------------------------------------------------
     // 3. Download image from network and upload it as a file asset
@@ -80,9 +93,12 @@ test.describe("Individual Profile Editing Page", () => {
 
   test("Should restrict standard users from editing another employee profile", async ({
     page,
+    context,
   }) => {
-    // Navigate to a completely different user profile id (e.g., /users/1)
-    await page.goto("/users/1")
+    const userId = await getUserIdFromCookies(context)
+    const otherUserId = userId === "630" ? "629" : "630"
+    // Navigate to a completely different user profile id (e.g., admin profile)
+    await page.goto(`/users/${otherUserId}`)
 
     const firstNameInput = page.locator('input[name="firstName"]')
     const lastNameInput = page.locator('input[name="lastName"]')

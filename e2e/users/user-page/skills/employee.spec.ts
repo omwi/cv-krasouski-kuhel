@@ -1,12 +1,24 @@
-import { expect, test } from "@playwright/test"
+import { BrowserContext, expect, test } from "@playwright/test"
+
+async function getUserIdFromCookies(context: BrowserContext): Promise<string> {
+  const cookies = await context.cookies()
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
 
 test.describe("User Skills page - employee", () => {
   test.use({ storageState: "playwright/.auth/user.json" })
 
   test.describe("Own Profile Skills", () => {
-    test.beforeEach(async ({ page }) => {
-      // 630 is the standard employee's user ID
-      await page.goto("/users/630/skills")
+    test.beforeEach(async ({ page, context }) => {
+      const userId = await getUserIdFromCookies(context)
+      await page.goto(`/users/${userId}/skills`)
       await expect(page.getByTestId("add-skill-button")).toBeVisible()
     })
 
@@ -109,9 +121,11 @@ test.describe("User Skills page - employee", () => {
   test.describe("Other Profile Skills", () => {
     test("Should restrict employee from modifying another user's skills", async ({
       page,
+      context,
     }) => {
-      // Navigate to a different user profile (e.g., admin user ID 629)
-      await page.goto("/users/629/skills")
+      const userId = await getUserIdFromCookies(context)
+      const otherUserId = userId === "630" ? "629" : "630"
+      await page.goto(`/users/${otherUserId}/skills`)
 
       // Verify that the skills modification panel / buttons are hidden
       await expect(page.getByTestId("user-skills-actions")).toBeHidden()

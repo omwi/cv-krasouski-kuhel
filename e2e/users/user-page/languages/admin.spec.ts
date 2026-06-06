@@ -1,13 +1,26 @@
-import { expect, test } from "@playwright/test"
+import { BrowserContext, expect, test } from "@playwright/test"
+
+async function getUserIdFromCookies(context: BrowserContext): Promise<string> {
+  const cookies = await context.cookies()
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
 
 test.describe("User Languages page - admin", () => {
   test.use({ storageState: "playwright/.auth/admin.json" })
 
   test("Admin should be able to add, edit, and delete languages on an employee's profile", async ({
     page,
+    context,
   }) => {
-    // 629 is the admin's user ID
-    await page.goto("/users/629/languages")
+    const userId = await getUserIdFromCookies(context)
+    await page.goto(`/users/${userId}/languages`)
     await expect(page.getByTestId("add-language-button")).toBeVisible()
 
     // 1. Initial State Check

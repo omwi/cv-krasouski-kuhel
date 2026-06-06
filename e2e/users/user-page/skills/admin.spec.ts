@@ -1,13 +1,26 @@
-import { expect, test } from "@playwright/test"
+import { BrowserContext, expect, test } from "@playwright/test"
+
+async function getUserIdFromCookies(context: BrowserContext): Promise<string> {
+  const cookies = await context.cookies()
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
 
 test.describe("User Skills page - admin", () => {
   test.use({ storageState: "playwright/.auth/admin.json" })
 
   test("Admin should be able to add, edit, and delete skills on an employee's profile", async ({
     page,
+    context,
   }) => {
-    // 630 is the standard employee's user ID
-    await page.goto("/users/630/skills")
+    const userId = await getUserIdFromCookies(context)
+    await page.goto(`/users/${userId}/skills`)
     await expect(page.getByTestId("add-skill-button")).toBeVisible()
 
     // 1. Initial State Check
@@ -31,16 +44,16 @@ test.describe("User Skills page - admin", () => {
     // Click the combobox to open the popover
     await page.getByTestId("skill-select").click()
 
-    // Get last available option
-    const lastOption = page.locator("role=option").last()
-    await expect(lastOption).toBeVisible()
-    const targetSkill = (await lastOption.textContent())?.trim()
+    // Get first available option
+    const firstOption = page.locator("role=option").first()
+    await expect(firstOption).toBeVisible()
+    const targetSkill = (await firstOption.textContent())?.trim()
     if (!targetSkill) {
       throw new Error("No available skills to add in Combobox")
     }
 
     // Select that skill
-    await lastOption.click()
+    await firstOption.click()
 
     // Choose mastery "Novice"
     await page.getByTestId("skill-mastery-select").click()

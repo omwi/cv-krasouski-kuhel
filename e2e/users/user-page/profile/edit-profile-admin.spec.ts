@@ -1,4 +1,30 @@
-import { expect, test } from "@playwright/test"
+import fs from "fs"
+import { BrowserContext, expect, test } from "@playwright/test"
+
+async function getUserIdFromCookies(context: BrowserContext): Promise<string> {
+  const cookies = await context.cookies()
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
+
+function getUserIdFromStorageState(filePath: string): string {
+  const data = JSON.parse(fs.readFileSync(filePath, "utf-8"))
+  const cookies = data.cookies as Array<{ name: string; value: string }>
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found in storage state")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
 
 test.describe("Profile Editing Permissions", () => {
   // =========================================================================
@@ -6,8 +32,9 @@ test.describe("Profile Editing Permissions", () => {
   // =========================================================================
   test.describe("User Self-Editing", () => {
     test.use({ storageState: "playwright/.auth/user.json" })
-    test.beforeEach(async ({ page }) => {
-      await page.goto("/users/624")
+    test.beforeEach(async ({ page, context }) => {
+      const userId = await getUserIdFromCookies(context)
+      await page.goto(`/users/${userId}`)
     })
 
     test("Should allow user to modify their own profile parameters and avatar", async ({
@@ -39,7 +66,7 @@ test.describe("Profile Editing Permissions", () => {
       await page.locator('role=option[name="Quality Assurance"]').click()
 
       await positionDropdown.click()
-      await page.locator('role=option[name="QA Engineer"]').click()
+      await page.locator('role=option[name="Software Engineer"]').click()
 
       // 3. Upload file from buffer
       const imageUrl = "https://picsum.photos/200/300.jpg"
@@ -66,15 +93,16 @@ test.describe("Profile Editing Permissions", () => {
   })
 
   // =========================================================================
-  // СЦЕНАРИЙ 2: Администратор редактирует чужой профиль (пользователя 624)
+  // СЦЕНАРИЙ 2: Администратор редактирует чужой профиль (пользователя 630)
   // =========================================================================
   test.describe("Admin Editing Someone Else's Profile", () => {
     // Говорим Playwright взять сессию глобального администратора для этого блока тестов
     test.use({ storageState: "playwright/.auth/admin.json" })
 
     test.beforeEach(async ({ page }) => {
-      // Администратор заходит на страницу того же самого пользователя 624
-      await page.goto("/users/624")
+      // Администратор заходит на страницу того же самого пользователя 630 (employee)
+      const employeeId = getUserIdFromStorageState("playwright/.auth/user.json")
+      await page.goto(`/users/${employeeId}`)
     })
 
     test("Should allow admin to modify employee parameters, update avatar and save changes", async ({
