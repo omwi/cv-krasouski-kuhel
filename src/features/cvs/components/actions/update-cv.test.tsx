@@ -47,7 +47,11 @@ describe("UpdateCv Component", () => {
     // Click trigger to open the mock form dialog
     fireEvent.click(screen.getByTestId("dialog-trigger"))
 
-    expect(useUpdateCvForm).toHaveBeenCalledWith(mockCv, expect.any(Object))
+    expect(useUpdateCvForm).toHaveBeenCalledWith(
+      mockCv,
+      expect.any(Object),
+      undefined
+    )
     expect(screen.getByTestId("form-dialog")).toBeInTheDocument()
 
     // Check title and submit button
@@ -56,6 +60,20 @@ describe("UpdateCv Component", () => {
     // Submit dialog
     fireEvent.submit(screen.getByTestId("form-dialog"))
     expect(mockOnSubmit).toHaveBeenCalled()
+  })
+
+  it("should pass userId to useUpdateCvForm when provided", () => {
+    render(
+      <UpdateCv cv={mockCv} userId="user-456" open={true}>
+        <button data-testid="trigger">Edit CV</button>
+      </UpdateCv>
+    )
+
+    expect(useUpdateCvForm).toHaveBeenCalledWith(
+      mockCv,
+      expect.any(Object),
+      "user-456"
+    )
   })
 
   it("should respect controlled open and onOpenChange props", () => {
