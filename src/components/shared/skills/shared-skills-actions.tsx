@@ -43,6 +43,7 @@ export default function SharedSkillsActions({
               variant={"ghost"}
               disabled={!hasPermissions}
               className="gap-4"
+              data-testid="add-skill-button"
             >
               <Plus className="size-6" />
               <span>{t("add-skill")}</span>
@@ -54,6 +55,7 @@ export default function SharedSkillsActions({
             onClick={handleStartDelete}
             disabled={!hasPermissions || !hasSkills}
             hidden={!hasSkills}
+            data-testid="remove-skills-button"
           />
         </>
       ) : (

@@ -10,6 +10,7 @@ type Props = {
   onClick: () => void
   disabled?: boolean
   hidden?: boolean
+  "data-testid"?: string
 }
 
 export default function SelectForDeletionButton({
@@ -17,6 +18,7 @@ export default function SelectForDeletionButton({
   onClick,
   disabled,
   hidden,
+  "data-testid": dataTestId,
 }: Props) {
   return (
     <Button
@@ -24,6 +26,7 @@ export default function SelectForDeletionButton({
       disabled={disabled}
       className={cn("gap-4", hidden && "hidden")}
       onClick={onClick}
+      data-testid={dataTestId}
     >
       <Trash className="size-6" />
       <span>{label}</span>
