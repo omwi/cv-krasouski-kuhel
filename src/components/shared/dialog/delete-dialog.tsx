@@ -64,11 +64,21 @@ export function DeleteDialog({
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button type="button" variant="outline" disabled={loading}>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={loading}
+              data-testid="delete-dialog-cancel-button"
+            >
               {t("cancel", { ns: "buttons" })}
             </Button>
           </DialogClose>
-          <Button type="button" disabled={loading} onClick={handleDelete}>
+          <Button
+            type="button"
+            disabled={loading}
+            onClick={handleDelete}
+            data-testid="delete-dialog-confirm-button"
+          >
             {t("delete", { ns: "buttons" })}
           </Button>
         </DialogFooter>

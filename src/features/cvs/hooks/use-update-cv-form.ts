@@ -13,7 +13,8 @@ import { getCvFormSchema } from "./cv-form-schema"
 
 export function useUpdateCvForm(
   cv: Cv,
-  dialog?: { open: boolean; setOpen: (open: boolean) => void }
+  dialog?: { open: boolean; setOpen: (open: boolean) => void },
+  userId?: string
 ) {
   const { t } = useT(["input, 'cv-actions"])
 
@@ -43,7 +44,7 @@ export function useUpdateCvForm(
   const [updateCv, { loading: isUpdating }] = useMutation(UPDATE_CV)
 
   const onSubmit = handleSubmit(async (values) => {
-    if (!canUpdateCv(cv.user?.id)) return
+    if (!canUpdateCv(cv.user?.id || userId)) return
     try {
       await updateCv({
         variables: {
