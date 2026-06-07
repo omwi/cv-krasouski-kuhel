@@ -1,8 +1,10 @@
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { useT } from "next-i18next/client"
+import { toast } from "sonner"
 
 import Loading from "@/app/[lng]/verify-email/loading"
 import { Button } from "@/components/ui/button"
@@ -22,6 +24,16 @@ export default function VerificationForm() {
   const { setValue, watch, handleSubmit, errors, isPending } =
     useVerificationForm()
   const { loading } = useGetMeQuery()
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("signup_success") === "true"
+    ) {
+      toast.success(t("toast.verify-email", { ns: "auth" }))
+      sessionStorage.removeItem("signup_success")
+    }
+  }, [t])
 
   if (loading) {
     return <Loading />

@@ -1,4 +1,4 @@
-import { startTransition, useActionState } from "react"
+import { startTransition, useActionState, useEffect } from "react"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import type { TFunction } from "i18next"
 import { useT } from "next-i18next/client"
@@ -46,7 +46,6 @@ const signupAction = async (
       toast.error(errorMessage)
       return { error: errorMessage, success: false }
     }
-    window.location.href = paths.verification.get()
 
     return { error: null, success: true }
   } catch (err: unknown) {
@@ -72,6 +71,15 @@ export function useSignupForm() {
     signupAction,
     initialState
   )
+
+  useEffect(() => {
+    if (state.success) {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("signup_success", "true")
+      }
+      window.location.href = paths.verification.get()
+    }
+  }, [state.success])
 
   const onSubmitAction = (data: SignupInput) => {
     startTransition(() => {
