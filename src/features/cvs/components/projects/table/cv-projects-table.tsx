@@ -50,7 +50,10 @@ export default function CvProjectsTable({ cvId }: { cvId: string }) {
       actions={
         hasUpdatePermissions && (
           <AddCvProject cvUserId={data.cv}>
-            <Button variant="outline-primary">
+            <Button
+              variant="outline-primary"
+              data-testid="add-cv-project-button"
+            >
               <Plus />
               {t("projects-table.create")}
             </Button>

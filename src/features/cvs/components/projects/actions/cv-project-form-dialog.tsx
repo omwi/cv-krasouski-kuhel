@@ -67,6 +67,7 @@ export default function CvProjectFormDialog({
               name="projectId"
               render={({ field }) => (
                 <ProjectSelect
+                  data-testid="project-select"
                   value={field.value}
                   onValueChange={field.onChange}
                   disabled={isUpdate}
