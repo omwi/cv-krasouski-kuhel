@@ -21,6 +21,7 @@ export default function ExportButton({
       disabled={loading}
       onClick={onClick}
       className="flex flex-row gap-2 print:hidden"
+      data-testid="export-pdf-button"
     >
       {loading ? (
         <Loader2 className="size-5 animate-spin text-primary" />
