@@ -15,25 +15,14 @@ vi.mock("react", async () => {
   return {
     ...actual,
     startTransition: vi.fn((cb: () => void) => cb()),
-    useActionState: vi.fn((action) => {
-      mockFormAction.mockImplementation((data) =>
-        action(
-          {
-            error: null,
-            success: false,
-          },
-          data
-        )
-      )
+    useActionState: vi.fn((action, initial) => {
+      const [state, setState] = actual.useState(initial)
+      mockFormAction.mockImplementation(async (data) => {
+        const result = await action(state, data)
+        setState(result)
+      })
 
-      return [
-        {
-          error: null,
-          success: false,
-        },
-        mockFormAction,
-        false,
-      ]
+      return [state, mockFormAction, false]
     }),
   }
 })
@@ -86,8 +75,8 @@ describe("getSignupSchema", () => {
 describe("useSignupForm", () => {
   beforeEach(() => {
     vi.clearAllMocks()
-
     global.fetch = vi.fn()
+    sessionStorage.clear()
 
     Object.defineProperty(window, "location", {
       configurable: true,
@@ -123,7 +112,7 @@ describe("useSignupForm", () => {
     })
 
     expect(window.location.href).toBe(paths.verification.get())
-
+    expect(sessionStorage.getItem("signup_success")).toBe("true")
     expect(toast.error).not.toHaveBeenCalled()
   })
 
