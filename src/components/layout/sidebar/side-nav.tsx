@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useSyncExternalStore } from "react"
 import {
   BriefcaseBusiness,
   Building,
@@ -17,6 +17,7 @@ import ActionsPopover from "@/components/layout/sidebar/actions-popover"
 import NavAvatar from "@/components/layout/sidebar/nav-avatar"
 import NavLink from "@/components/layout/sidebar/nav-link"
 import IconButton from "@/components/shared/icon-button"
+import { SIDEBAR_IS_COLLAPSED_KEY } from "@/config/const"
 import { paths } from "@/config/paths"
 import { cn } from "@/lib/utils"
 
@@ -68,11 +69,33 @@ const navLinks: readonly NavLink[] = [
   },
 ] as const
 
+const subscribe = (callback: () => void) => {
+  window.addEventListener("storage", callback)
+  return () => window.removeEventListener("storage", callback)
+}
+
+const getSnapshot = () => {
+  const stored = localStorage.getItem(SIDEBAR_IS_COLLAPSED_KEY)
+  return stored === "true"
+}
+
+const getServerSnapshot = () => false
+
 export default function SideNav() {
   const { t } = useT("nav")
 
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const toggleSidebar = () => setIsCollapsed((prev) => !prev)
+  const isCollapsed = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot
+  )
+
+  const toggleSidebar = () => {
+    const nextState = !isCollapsed
+    localStorage.setItem(SIDEBAR_IS_COLLAPSED_KEY, String(nextState))
+
+    window.dispatchEvent(new Event("storage"))
+  }
 
   return (
     <aside
