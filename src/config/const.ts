@@ -22,3 +22,5 @@ export const LANGUAGE_PROFICIENCIES: Proficiency[] = [
   "C1",
   "C2",
 ] as const
+
+export const SIDEBAR_IS_COLLAPSED_KEY = "is_sidebar_collapsed"
