@@ -22,6 +22,7 @@ export default function UserLanguageItem({
         variant={"ghost"}
         disabled={!canUpdateUser(userId)}
         className="flex flex-row justify-start gap-16 px-4"
+        data-testid={`language-item-${language.name}`}
       >
         <p>{language.proficiency}</p>
         <p>{language.name}</p>
@@ -35,6 +36,7 @@ export default function UserLanguageItem({
         "flex flex-row justify-start gap-16 px-4",
         isSelected(language.name) && "text-foreground"
       )}
+      data-testid={`language-item-${language.name}`}
     >
       <p>{language.proficiency}</p>
       <p>{language.name}</p>

@@ -19,7 +19,7 @@ const formSchema = z.object({
 type AddUserLanguageInput = z.infer<typeof formSchema>
 
 export function useUserLanguageAddForm(userId: string) {
-  const { t } = useT("skills")
+  const { t } = useT("languages")
 
   const [open, setOpen] = useState(false)
 

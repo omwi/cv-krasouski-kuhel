@@ -45,6 +45,7 @@ export default function SharedSkillItem({
         variant="ghost"
         disabled={disabled}
         className="flex flex-row justify-start gap-4 px-4"
+        data-testid={`skill-item-${skill.name}`}
       >
         {content}
       </Button>
@@ -56,6 +57,7 @@ export default function SharedSkillItem({
       variant={isSelected(skill.name) ? "outline" : "ghost"}
       className="flex flex-row justify-start gap-4 px-4"
       onClick={() => toggle(skill.name)}
+      data-testid={`skill-item-${skill.name}`}
     >
       {content}
     </Button>

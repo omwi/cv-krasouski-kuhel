@@ -46,6 +46,7 @@ export default function UserLanguageAddDialog({ children, userId }: Props) {
               value={field.value}
               onValueChange={field.onChange}
               userLanguages={userLanguages}
+              data-testid="language-select"
             />
           )}
         />
@@ -58,6 +59,7 @@ export default function UserLanguageAddDialog({ children, userId }: Props) {
             <LanguageProficiencySelect
               value={field.value}
               onValueChange={field.onChange}
+              data-testid="language-proficiency-select"
             />
           )}
         />

@@ -20,13 +20,18 @@ export default function SelectionButtons({
 
   return (
     <>
-      <Button variant={"outline"} onClick={handleCancelDelete}>
+      <Button
+        variant={"outline"}
+        onClick={handleCancelDelete}
+        data-testid="cancel-delete-button"
+      >
         {t("cancel")}
       </Button>
       <Button
         onClick={handleConfirmDelete}
         disabled={!hasSelection}
         className="flex flex-row gap-4"
+        data-testid="confirm-delete-button"
       >
         <span>{t("delete")}</span>
         {hasSelection && (

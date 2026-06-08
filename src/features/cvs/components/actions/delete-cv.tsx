@@ -4,14 +4,16 @@ import { Cv } from "@/types/graphql-types"
 
 export default function DeleteCv({
   cv,
+  userId,
   open,
   onOpenChange,
 }: {
   cv: Cv
+  userId?: string
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const { handleDelete } = useDeleteCv(cv)
+  const { handleDelete } = useDeleteCv(cv, userId)
 
   return (
     <DeleteDialog

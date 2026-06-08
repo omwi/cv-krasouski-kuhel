@@ -5,7 +5,7 @@ import { usePermissions } from "@/hooks/use-permissions"
 import { Cv } from "@/types/graphql-types"
 import { removeRefById } from "@/utils/cache"
 
-export function useDeleteCv(cv: Cv) {
+export function useDeleteCv(cv: Cv, userId?: string) {
   const [deleteCv] = useMutation(DELETE_CV, {
     update(cache) {
       cache.modify({
@@ -37,7 +37,7 @@ export function useDeleteCv(cv: Cv) {
   const { canDeleteCv } = usePermissions()
 
   const handleDelete = async () => {
-    if (!canDeleteCv(cv.user?.id)) return
+    if (!canDeleteCv(cv.user?.id || userId)) return
     await deleteCv({ variables: { cv: { cvId: cv.id } } })
   }
 

@@ -67,6 +67,7 @@ export function SkillUpdateDialog<TFieldValues extends FieldValues>({
             <SkillMasterySelect
               value={field.value}
               onValueChange={field.onChange}
+              data-testid="skill-mastery-select"
             />
           )}
         />

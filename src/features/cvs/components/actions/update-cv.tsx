@@ -9,11 +9,13 @@ import { Cv } from "@/types/graphql-types"
 export default function UpdateCv({
   children,
   cv,
+  userId,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: {
   children?: React.ReactNode
   cv: Cv
+  userId?: string
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
@@ -24,7 +26,7 @@ export default function UpdateCv({
   const setOpen = controlledOnOpenChange ?? setInternalOpen
 
   const { onSubmit, register, isSubmitting, isSubmitReady, errors } =
-    useUpdateCvForm(cv, { open, setOpen })
+    useUpdateCvForm(cv, { open, setOpen }, userId)
 
   return (
     <FormDialog

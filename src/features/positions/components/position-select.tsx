@@ -15,7 +15,12 @@ export default function PositionSelect({ value, ...props }: Props) {
   const positions = data?.positions ?? []
 
   return (
-    <FloatingSelect label={t("position")} value={value || "none"} {...props}>
+    <FloatingSelect
+      data-testid="select-position-trigger"
+      label={t("position")}
+      value={value || "none"}
+      {...props}
+    >
       <SelectItem value="none">{t("no-position", { ns: "common" })}</SelectItem>
       {positions.map((position) => (
         <SelectItem key={position.id} value={position.id}>

@@ -65,11 +65,20 @@ export function FormDialog({
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline" disabled={isSubmitting}>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isSubmitting}
+                data-testid="dialog-cancel-button"
+              >
                 {cancelLabel ?? t("cancel")}
               </Button>
             </DialogClose>
-            <Button type="submit" disabled={submitDisabled || isSubmitting}>
+            <Button
+              type="submit"
+              disabled={submitDisabled || isSubmitting}
+              data-testid="dialog-submit-button"
+            >
               {submitLabel ?? t("confirm")}
             </Button>
           </DialogFooter>

@@ -28,6 +28,7 @@ type BaseComboboxProps = {
   required?: boolean
   searchPlaceholder?: string
   emptyText?: string
+  "data-testid"?: string
 }
 
 export type SingleComboboxProps = BaseComboboxProps & {
@@ -56,6 +57,7 @@ export function Combobox(props: ComboboxProps) {
     emptyText = t("no-options"),
     mode = "multi",
     required,
+    "data-testid": dataTestId,
   } = props
 
   const [open, setOpen] = useState(false)
@@ -127,6 +129,7 @@ export function Combobox(props: ComboboxProps) {
           <div
             id={comboboxId}
             role="combobox"
+            data-testid={dataTestId}
             aria-expanded={open}
             aria-controls={listboxId}
             aria-haspopup="listbox"
@@ -203,6 +206,7 @@ export function Combobox(props: ComboboxProps) {
               onChange={(e) => setSearch(e.target.value)}
               className="flex h-11 w-full border-0 bg-transparent px-0 py-3 text-sm outline-none placeholder:text-muted-foreground hover:border-0 focus-visible:border-0 focus-visible:ring-0"
               onKeyDown={(e) => e.stopPropagation()}
+              data-testid="combobox-search-input"
             />
           </div>
           <div

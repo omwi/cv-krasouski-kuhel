@@ -15,7 +15,12 @@ export default function DepartmentSelect({ value, ...props }: Props) {
   const departments = data?.departments ?? []
 
   return (
-    <FloatingSelect label={t("department")} value={value || "none"} {...props}>
+    <FloatingSelect
+      data-testid="select-department-trigger"
+      label={t("department")}
+      value={value || "none"}
+      {...props}
+    >
       <SelectItem value="none">
         {t("no-department", { ns: "common" })}
       </SelectItem>

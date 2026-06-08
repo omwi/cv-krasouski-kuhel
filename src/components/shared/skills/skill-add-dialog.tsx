@@ -51,6 +51,7 @@ export function SkillAddDialog<TFieldValues extends FieldValues>({
               value={field.value}
               onValueChange={field.onChange}
               excludedNames={excludedSkillNames}
+              data-testid="skill-select"
             />
           )}
         />
@@ -63,6 +64,7 @@ export function SkillAddDialog<TFieldValues extends FieldValues>({
             <SkillMasterySelect
               value={field.value}
               onValueChange={field.onChange}
+              data-testid="skill-mastery-select"
             />
           )}
         />

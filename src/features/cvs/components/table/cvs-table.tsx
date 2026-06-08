@@ -32,7 +32,7 @@ export default function CvsTable({
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
-  const columns = useMemo(() => getColumns(), [])
+  const columns = useMemo(() => getColumns(userId), [userId])
   const { paginatedData, totalCount } = useProcessedData({
     data: cvs,
     params,
@@ -42,6 +42,7 @@ export default function CvsTable({
 
   return (
     <DataTable
+      data-testid="cvs-table"
       columns={columns}
       data={paginatedData}
       totalCount={totalCount}
@@ -52,7 +53,7 @@ export default function CvsTable({
       actions={
         hasCreatePermission && (
           <CreateCv userId={userId}>
-            <Button variant="outline-primary">
+            <Button data-testid="create-cv-button" variant="outline-primary">
               <Plus />
               {t("cvs-table.create")}
             </Button>

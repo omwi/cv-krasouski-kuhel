@@ -1,0 +1,116 @@
+import { BrowserContext, expect, test } from "@playwright/test"
+
+async function getUserIdFromCookies(context: BrowserContext): Promise<string> {
+  const cookies = await context.cookies()
+  const tokenCookie = cookies.find((c) => c.name === "access_token")
+  if (!tokenCookie) {
+    throw new Error("access_token cookie not found")
+  }
+  const payloadBase64 = tokenCookie.value.split(".")[1]
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf-8")
+  const payload = JSON.parse(payloadJson) as { sub: number | string }
+  return String(payload.sub)
+}
+
+test.describe("User Languages page - admin", () => {
+  test.use({ storageState: "playwright/.auth/admin.json" })
+
+  test("Admin should be able to add, edit, and delete languages on an employee's profile", async ({
+    page,
+    context,
+  }) => {
+    const userId = await getUserIdFromCookies(context)
+    await page.goto(`/users/${userId}/languages`)
+    await expect(page.getByTestId("add-language-button")).toBeVisible()
+
+    // 1. Initial State Check
+    const addBtn = page.getByTestId("add-language-button")
+    await expect(addBtn).toBeVisible()
+
+    const removeBtn = page.getByTestId("remove-languages-button")
+    const langCards = page.locator('[data-testid^="language-item-"]')
+    const initialLangCount = await langCards.count()
+
+    if (initialLangCount === 0) {
+      await expect(removeBtn).toBeHidden()
+    } else {
+      await expect(removeBtn).toBeVisible()
+    }
+
+    // 2. Add a new language
+    await addBtn.click()
+    await expect(page.getByRole("dialog")).toBeVisible()
+
+    // Click the combobox to open the popover
+    await page.getByTestId("language-select").click()
+
+    // Get first available option
+    const firstOption = page.locator("role=option").first()
+    await expect(firstOption).toBeVisible()
+    const targetLang = (await firstOption.textContent())?.trim()
+    if (!targetLang) {
+      throw new Error("No available languages to add in Combobox")
+    }
+
+    // Select that language
+    await firstOption.click()
+
+    // Choose proficiency "A1"
+    await page.getByTestId("language-proficiency-select").click()
+    await page.locator('role=option[name="A1"]').click()
+
+    // Submit
+    await page.getByTestId("dialog-submit-button").click()
+
+    // Wait for success toast
+    const successToast = page
+      .locator("[data-sonner-toast] [data-title]")
+      .filter({ hasText: "Language was added" })
+    await expect(successToast).toBeVisible()
+    await expect(page.getByRole("dialog")).toBeHidden()
+
+    // 3. Edit the language
+    const addedLangCard = page.getByTestId(`language-item-${targetLang}`)
+    await expect(addedLangCard).toBeVisible()
+    await addedLangCard.click()
+
+    // Verify update dialog is visible
+    await expect(page.getByRole("dialog")).toBeVisible()
+
+    // Change proficiency to "B2"
+    await page.getByTestId("language-proficiency-select").click()
+    await page.locator('role=option[name="B2"]').click()
+
+    // Submit
+    await page.getByTestId("dialog-submit-button").click()
+
+    // Wait for success toast
+    const updateToast = page
+      .locator("[data-sonner-toast] [data-title]")
+      .filter({ hasText: "Language was updated" })
+    await expect(updateToast).toBeVisible()
+    await expect(page.getByRole("dialog")).toBeHidden()
+
+    // 4. Select languages and delete
+    const removeBtnNow = page.getByTestId("remove-languages-button")
+    await expect(removeBtnNow).toBeVisible()
+    await removeBtnNow.click()
+
+    // In selection mode, click the added language to select it
+    await addedLangCard.click()
+
+    // Click delete button in selection mode
+    const confirmDeleteBtn = page.getByTestId("confirm-delete-button")
+    await expect(confirmDeleteBtn).toBeEnabled()
+    await confirmDeleteBtn.click()
+
+    // Wait for success toast
+    const deleteToast = page
+      .locator("[data-sonner-toast] [data-title]")
+      .filter({ hasText: "Language was removed" })
+    await expect(deleteToast).toBeVisible()
+
+    // Verify language is gone
+    await expect(addedLangCard).toBeHidden()
+  })
+})
