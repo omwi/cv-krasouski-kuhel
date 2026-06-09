@@ -1,6 +1,7 @@
 import { TableColumnConfig } from "@/components/shared/data-table/data-table"
 import { Badge } from "@/components/ui/badge"
 import CvProjectsRowActions from "@/features/cvs/components/projects/table/cv-projects-row-actions"
+import { DateCell } from "@/features/projects/components/table/projects-table-columns"
 import { CvProject, CvUserId } from "@/types/graphql-types"
 
 export const getColumns = (
@@ -29,12 +30,14 @@ export const getColumns = (
     titleKey: "projects-table.columns.start-date",
     sortable: true,
     searchable: false,
+    cell: ({ value }) => <DateCell dateStr={value as string} />,
   },
   {
     id: "end_date",
     titleKey: "projects-table.columns.end-date",
     sortable: true,
     searchable: false,
+    cell: ({ value }) => <DateCell dateStr={value as string} isEndDate />,
   },
   {
     id: "actions",
