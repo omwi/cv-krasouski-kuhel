@@ -7,7 +7,7 @@ import { parseUtcToLocal, toHumanDate } from "@/utils/date"
 
 export type TableProjects = GetProjectsQuery["projects"][0]
 
-const DateCell = ({
+export const DateCell = ({
   dateStr,
   isEndDate,
 }: {

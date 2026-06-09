@@ -15,15 +15,15 @@ import { Cv } from "@/types/graphql-types"
 
 export default function CvsTable({
   cvs,
-  userId,
+  ownerId,
 }: {
   cvs: Cv[]
-  userId?: string
+  ownerId?: string
 }) {
   const { t } = useT("table")
 
   const { currentUserId, canCreateCv } = usePermissions()
-  const hasCreatePermission = canCreateCv(userId)
+  const hasCreatePermission = canCreateCv(ownerId)
   const hoistPredicate = useCallback(
     (cv: Cv) => cv.user !== null && cv.user.id === currentUserId,
     [currentUserId]
@@ -32,7 +32,13 @@ export default function CvsTable({
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
-  const columns = useMemo(() => getColumns(userId), [userId])
+  const columns = useMemo(() => {
+    let res = getColumns(ownerId)
+    if (ownerId) {
+      res = res.filter((col) => col.id !== "employee")
+    }
+    return res
+  }, [ownerId])
   const { paginatedData, totalCount } = useProcessedData({
     data: cvs,
     params,
@@ -52,7 +58,7 @@ export default function CvsTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         hasCreatePermission && (
-          <CreateCv userId={userId}>
+          <CreateCv userId={ownerId}>
             <Button data-testid="create-cv-button" variant="outline-primary">
               <Plus />
               {t("cvs-table.create")}

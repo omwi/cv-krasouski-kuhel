@@ -7,6 +7,7 @@ import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { Cv } from "@/types/graphql-types"
+import { User } from "@/types/user"
 
 import { mockTableUrlStateReturn } from "../cv-test-helpers"
 import CvsTable from "./cvs-table"
@@ -65,7 +66,7 @@ describe("CvsTable", () => {
   it("should pass correct props to DataTable and show create button if permission granted", () => {
     mockCanCreateCv.mockReturnValue(true)
 
-    render(<CvsTable cvs={mockCvs} userId="user-target" />)
+    render(<CvsTable cvs={mockCvs} ownerId="user-1" />)
 
     const props = vi.mocked(DataTable).mock.calls[0][0]
     expect(props.totalText).toContain("total")
@@ -77,14 +78,14 @@ describe("CvsTable", () => {
 
     // Create button is rendered (actions slot is rendered by mock)
     expect(vi.mocked(CreateCv).mock.calls[0][0]).toEqual(
-      expect.objectContaining({ userId: "user-target" })
+      expect.objectContaining({ userId: "user-1" })
     )
   })
 
   it("should not render CreateCv if permission is denied", () => {
     mockCanCreateCv.mockReturnValue(false)
 
-    render(<CvsTable cvs={mockCvs} userId="user-target" />)
+    render(<CvsTable cvs={mockCvs} user={null} />)
 
     expect(CreateCv).not.toHaveBeenCalled()
   })
