@@ -1,12 +1,8 @@
 import { TableColumnConfig } from "@/components/shared/data-table/data-table"
 import CvsRowActions from "@/features/cvs/components/table/cvs-row-actions"
 import { Cv } from "@/types/graphql-types"
-import { User } from "@/types/user"
 
-export const getColumns = (
-  user?: User | null,
-  ownerId?: string
-): TableColumnConfig<Cv>[] => [
+export const getColumns = (ownerId?: string): TableColumnConfig<Cv>[] => [
   {
     id: "name",
     titleKey: "cvs-table.columns.name",
@@ -30,7 +26,7 @@ export const getColumns = (
   },
   {
     id: "employee",
-    accessorFn: (row) => row.user?.email ?? user?.email ?? "",
+    accessorFn: (row) => row.user?.email ?? "",
     titleKey: "cvs-table.columns.employee",
     sortable: true,
     searchable: false,

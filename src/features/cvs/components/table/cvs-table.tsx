@@ -12,15 +12,12 @@ import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { Cv } from "@/types/graphql-types"
-import { User } from "@/types/user"
 
 export default function CvsTable({
   cvs,
-  user,
   ownerId,
 }: {
   cvs: Cv[]
-  user?: User | null
   ownerId?: string
 }) {
   const { t } = useT("table")
@@ -35,7 +32,13 @@ export default function CvsTable({
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
-  const columns = useMemo(() => getColumns(user, ownerId), [user, ownerId])
+  const columns = useMemo(() => {
+    let res = getColumns(ownerId)
+    if (ownerId) {
+      res = res.filter((col) => col.id !== "employee")
+    }
+    return res
+  }, [ownerId])
   const { paginatedData, totalCount } = useProcessedData({
     data: cvs,
     params,
