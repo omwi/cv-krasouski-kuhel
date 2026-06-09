@@ -35,7 +35,7 @@ export default function CvsTable({
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
-  const columns = useMemo(() => getColumns(user), [user])
+  const columns = useMemo(() => getColumns(user, ownerId), [user, ownerId])
   const { paginatedData, totalCount } = useProcessedData({
     data: cvs,
     params,
