@@ -13,5 +13,5 @@ export default function UserCvsTableDataWrapper({
 }) {
   const { data } = useSuspenseQuery(GET_USER_CVS, { variables: { userId } })
   const { user } = useGetMeQuery()
-  return <CvsTable cvs={data.user.cvs ?? []} user={user} />
+  return <CvsTable cvs={data.user.cvs ?? []} user={user} ownerId={userId} />
 }

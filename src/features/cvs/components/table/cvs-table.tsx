@@ -17,14 +17,16 @@ import { User } from "@/types/user"
 export default function CvsTable({
   cvs,
   user,
+  ownerId,
 }: {
   cvs: Cv[]
   user?: User | null
+  ownerId?: string
 }) {
   const { t } = useT("table")
 
   const { currentUserId, canCreateCv } = usePermissions()
-  const hasCreatePermission = canCreateCv(user?.id)
+  const hasCreatePermission = canCreateCv(ownerId)
   const hoistPredicate = useCallback(
     (cv: Cv) => cv.user !== null && cv.user.id === currentUserId,
     [currentUserId]
@@ -53,7 +55,7 @@ export default function CvsTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         hasCreatePermission && (
-          <CreateCv userId={user?.id}>
+          <CreateCv userId={ownerId}>
             <Button data-testid="create-cv-button" variant="outline-primary">
               <Plus />
               {t("cvs-table.create")}

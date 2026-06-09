@@ -3,7 +3,10 @@ import CvsRowActions from "@/features/cvs/components/table/cvs-row-actions"
 import { Cv } from "@/types/graphql-types"
 import { User } from "@/types/user"
 
-export const getColumns = (user?: User | null): TableColumnConfig<Cv>[] => [
+export const getColumns = (
+  user?: User | null,
+  ownerId?: string
+): TableColumnConfig<Cv>[] => [
   {
     id: "name",
     titleKey: "cvs-table.columns.name",
@@ -38,6 +41,6 @@ export const getColumns = (user?: User | null): TableColumnConfig<Cv>[] => [
     isSrOnly: true,
     sortable: false,
     searchable: false,
-    cell: ({ row }) => <CvsRowActions cv={row} userId={user?.id} />,
+    cell: ({ row }) => <CvsRowActions cv={row} userId={ownerId} />,
   },
 ]

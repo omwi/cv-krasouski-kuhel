@@ -66,7 +66,7 @@ describe("CvsTable", () => {
   it("should pass correct props to DataTable and show create button if permission granted", () => {
     mockCanCreateCv.mockReturnValue(true)
 
-    render(<CvsTable cvs={mockCvs} user={{ id: "user-target" } as User} />)
+    render(<CvsTable cvs={mockCvs} ownerId="user-1" />)
 
     const props = vi.mocked(DataTable).mock.calls[0][0]
     expect(props.totalText).toContain("total")
@@ -78,7 +78,7 @@ describe("CvsTable", () => {
 
     // Create button is rendered (actions slot is rendered by mock)
     expect(vi.mocked(CreateCv).mock.calls[0][0]).toEqual(
-      expect.objectContaining({ userId: "user-target" })
+      expect.objectContaining({ userId: "user-1" })
     )
   })
 
