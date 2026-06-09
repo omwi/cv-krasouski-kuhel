@@ -12,18 +12,19 @@ import { usePermissions } from "@/hooks/use-permissions"
 import { useProcessedData } from "@/hooks/use-processed-data"
 import { useTableUrlState } from "@/hooks/use-table-url-state"
 import { Cv } from "@/types/graphql-types"
+import { User } from "@/types/user"
 
 export default function CvsTable({
   cvs,
-  userId,
+  user,
 }: {
   cvs: Cv[]
-  userId?: string
+  user?: User | null
 }) {
   const { t } = useT("table")
 
   const { currentUserId, canCreateCv } = usePermissions()
-  const hasCreatePermission = canCreateCv(userId)
+  const hasCreatePermission = canCreateCv(user?.id)
   const hoistPredicate = useCallback(
     (cv: Cv) => cv.user !== null && cv.user.id === currentUserId,
     [currentUserId]
@@ -32,7 +33,7 @@ export default function CvsTable({
   const { params, updateParams } = useTableUrlState({
     defaultSortBy: "name",
   })
-  const columns = useMemo(() => getColumns(userId), [userId])
+  const columns = useMemo(() => getColumns(user), [user])
   const { paginatedData, totalCount } = useProcessedData({
     data: cvs,
     params,
@@ -52,7 +53,7 @@ export default function CvsTable({
       onSearchChangeAction={(value) => updateParams({ search: value })}
       actions={
         hasCreatePermission && (
-          <CreateCv userId={userId}>
+          <CreateCv userId={user?.id}>
             <Button data-testid="create-cv-button" variant="outline-primary">
               <Plus />
               {t("cvs-table.create")}
